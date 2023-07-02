@@ -10,14 +10,14 @@ const SortOptionMenuBlock = styled.div`
   padding-bottom: 1rem;
 `;
 
-const SortOptionMenu = () => {
+const SortOptionMenu = ({ onSelectSortType }) => {
   return (
     <>
       <SortOptionMenuBlock>
-        <button>최신순</button>
-        <button>오래된순</button>
-        <button>높은조회수</button>
-        <button>낮은조회수</button>
+        <button onClick={() => onSelectSortType('newest')}>최신순</button>
+        <button onClick={() => onSelectSortType('oldest')}>오래된순</button>
+        <button onClick={() => onSelectSortType('highview')}>높은조회수</button>
+        <button onClick={() => onSelectSortType('lowview')}>낮은조회수</button>
       </SortOptionMenuBlock>
     </>
   );

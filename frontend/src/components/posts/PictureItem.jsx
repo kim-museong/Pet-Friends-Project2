@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const PictureItemBlock = styled.div`
   display: flex;
@@ -7,10 +7,18 @@ const PictureItemBlock = styled.div`
   width: 150px;
   height: 200px;
   margin: 15px;
+  // ↓ 나중에 수정
+  ${({ imgurl }) =>
+    imgurl &&
+    css`
+      background-image: url('${imgurl}');
+      background-size: cover;
+      background-position: center;
+    `}
 `;
 
-const PictureItem = () => {
-  return <PictureItemBlock>test</PictureItemBlock>;
+const PictureItem = ({ post }) => {
+  return <PictureItemBlock imgurl={post && post.imgUrl}></PictureItemBlock>;
 };
 
 export default PictureItem;

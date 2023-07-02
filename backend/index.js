@@ -3,23 +3,25 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
-const session = require('express-session');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const { sequelize } = require('./models'); // sequelize
+const session = require('express-session');
 
 //////////////////////////////////////////////
 ////////////////// init //////////////////////
 //////////////////////////////////////////////
-dotenv.config();
 const app = express();
+
+// port set
+app.set('port', process.env.PORT || 8001);
+
+// .env
+dotenv.config();
 
 // passport
 const passportConfig = require('./passport');
 passportConfig();
-
-// port set
-app.set('port', process.env.PORT || 8001);
 
 // sequelize
 sequelize
@@ -35,11 +37,11 @@ app.use(morgan('dev')); // 배포시 dev 수정 해야함
 app.use(express.static(path.join(__dirname, 'public'))); // static 경로 설정
 app.use('/img', express.static(path.join(__dirname, 'uploads'))); // '/'로 접근시 public으로, '/img'로 접근시 uploads로
 
-app.use(express.static('public', { maxAge: '1d', immutable: true })); //뒤로가기 했을 때 캐시 제어 후 바뀐 데이터 가져오는 코드
-app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store');
-  next();
-});
+// app.use(express.static('public', { maxAge: '1d', immutable: true })); //뒤로가기 했을 때 캐시 제어 후 바뀐 데이터 가져오는 코드
+// app.use((req, res, next) => {
+//   res.set('Cache-Control', 'no-store');
+//   next();
+// });
 
 // body-parser 설정
 app.use(express.json());
@@ -81,7 +83,7 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  res.json('server error');
 });
 
 // port listen
