@@ -20,7 +20,7 @@ const LoginFormBox = styled.div`
   border-radius: 10px;
   padding: 20px 10px;
   text-align: center;
-  background: ${({ light }) => (light === 'true' ? 'rgb(40,40,40)' : 'white')};
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : 'white')};
 
   .login {
     display: block;
@@ -42,7 +42,11 @@ const LoginFormBox = styled.div`
 const FindBox = styled.div`
   margin-top: 20px;
   font-size: 12px;
-  color: ${({ light }) => (light === 'true' ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+  color: ${({ theme }) => (theme === true ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+
+  a {
+    color: ${({ theme }) => (theme === true ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+  }
 
   a:hover {
     text-decoration: underline;
@@ -55,12 +59,13 @@ const FindBox = styled.div`
   }
 `;
 
-const LoginForm = ({ user, onLogout, light }) => {
+const LoginForm = ({ user, onLogout, theme }) => {
+  console.log(typeof theme);
   return (
     <>
       {user ? (
         <>
-          <LoginFormBox light={String(light)}>
+          <LoginFormBox theme={theme}>
             <Profile>
               <MdAccountCircle />
               <UserInfo>{user.userId} 님</UserInfo>
@@ -70,12 +75,12 @@ const LoginForm = ({ user, onLogout, light }) => {
           </LoginFormBox>
         </>
       ) : (
-        <LoginFormBox light={String(light)}>
+        <LoginFormBox theme={String(theme)}>
           <p>사이트를 더 편리하게 이용하세요.</p>
           <Link to="/auth/login" className="login">
             로그인
           </Link>
-          <FindBox light={String(light)}>
+          <FindBox theme={String(theme)}>
             <Link to="/findID">아이디 찾기</Link>
             <Link to="/findPASSWORD">비밀번호 찾기</Link>
             <Link to="/auth/register">회원가입</Link>

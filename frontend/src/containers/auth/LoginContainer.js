@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { check } from '../../modules/user';
 import Login from '../../components/auth/Login';
 
-const LoginContainer = ({ light }) => {
+const LoginContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -142,7 +142,6 @@ const LoginContainer = ({ light }) => {
       error={error}
       isChecked={isChecked}
       onSaveUserId={onSaveUserId}
-      light={light}
       showPwd={showPwd}
       onShowPwd={onShowPwd}
       iconClick={iconClick}

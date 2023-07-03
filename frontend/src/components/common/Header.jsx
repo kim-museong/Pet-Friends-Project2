@@ -8,8 +8,8 @@ import ThemeContainer from '../../containers/common/ThemeContainer';
 const HeaderBlock = styled.div`
   position: fixed;
   width: 100%;
-  background: ${({ light }) => (light === 'true' ? 'rgb(30, 30, 30)' : 'white')};
-  box-shadow: 0 0 3px 1px ${({ light }) => (light === 'true' ? 'white' : 'black')};
+  background: ${({ theme }) => (theme === true ? 'rgb(30, 30, 30)' : 'white')};
+  box-shadow: 0 0 3px 1px ${({ theme }) => (theme === true ? 'white' : 'black')};
 `;
 
 const Wrapper = styled(Responsive)`
@@ -54,11 +54,12 @@ const Profile = styled.div`
   cursor: pointer;
 `;
 
-const Header = ({ user, onLogout, light }) => {
+const Header = ({ user, onLogout, theme }) => {
+  console.log(typeof theme);
   const location = useLocation();
   return (
     <>
-      <HeaderBlock light={String(light)}>
+      <HeaderBlock theme={theme}>
         <Wrapper>
           <Link to="/" className="logo">
             REACTERS

@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react';
 import Theme from '../../components/common/Theme';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { changeTheme } from '../../modules/theme';
+import { useSelector } from '../../../node_modules/react-redux/es/exports';
 
 const ThemeContainer = () => {
-  const { light } = useSelector(({ theme }) => ({
-    light: theme.theme,
-  }));
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
 
   const onClick = useCallback(() => {
     dispatch(changeTheme());
@@ -15,7 +14,7 @@ const ThemeContainer = () => {
 
   return (
     <>
-      <Theme light={light} onClick={onClick} />
+      <Theme onClick={onClick} theme={theme} />
     </>
   );
 };
