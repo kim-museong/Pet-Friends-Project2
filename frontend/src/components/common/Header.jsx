@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import Responsive from './Responsive';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import Button from './Button';
+import { MdAccountCircle } from 'react-icons/md';
+import ThemeContainer from '../../containers/common/ThemeContainer';
 
 const HeaderBlock = styled.div`
   position: fixed;
   width: 100%;
-  background-color: #00ffe1;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  background: ${({ light }) => (light === 'true' ? 'rgb(30, 30, 30)' : 'white')};
+  box-shadow: 0 0 3px 1px ${({ light }) => (light === 'true' ? 'white' : 'black')};
 `;
 
 const Wrapper = styled(Responsive)`
@@ -14,6 +17,19 @@ const Wrapper = styled(Responsive)`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .logo {
+    font-size: 1.125rem;
+    font-weight: bold;
+    letter=spacing: 2px;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+
+    & svg {
+      color: rgb(255, 140, 0);
+    }
+  }
 `;
 
 const MenuList = styled.div`
@@ -27,35 +43,56 @@ const Spacer = styled.div`
   height: 4rem;
 `;
 
-const StyledLink = styled(Link)`
-  border: none;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 0.25rem 1rem;
-  color: black;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  &:hover {
-    color: #33a96e;
-  }
+const UserInfo = styled.div`
+  font-weight: 800;
+  margin-right: 1rem;
 `;
 
-const Header = () => {
+const Profile = styled.div`
+  font-size: 32px;
+  margin: 9px 10px 0 0;
+  cursor: pointer;
+`;
+
+const Header = ({ user, onLogout, light }) => {
+  const location = useLocation();
   return (
     <>
-      <HeaderBlock>
+      <HeaderBlock light={String(light)}>
         <Wrapper>
-          <h1>헤더</h1>
+          <Link to="/" className="logo">
+            REACTERS
+          </Link>
           <MenuList>
-            <StyledLink to="/">홈</StyledLink>
-            <StyledLink to="/notice">공지사항</StyledLink>
-            <StyledLink to="/information">정보글</StyledLink>
-            <StyledLink to="/picture">사진</StyledLink>
-            <StyledLink to="/community">커뮤니티</StyledLink>
+            <Link to="/">홈</Link>
+            <Link to="/notice">공지사항</Link>
+            <Link to="/information">정보글</Link>
+            <Link to="/picture">사진</Link>
+            <Link to="/community">커뮤니티</Link>
             {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
           </MenuList>
-          <button>로그인,회원가입 자리</button>
+          <div className="right">
+            <ThemeContainer />
+
+            {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
+            {location.pathname !== '/' && (
+              <>
+                {user ? (
+                  <>
+                    <Profile>
+                      <MdAccountCircle />
+                    </Profile>
+                    <UserInfo>{user.userId} 님</UserInfo>
+                    <Button onClick={onLogout}>로그아웃</Button>
+                  </>
+                ) : (
+                  <>
+                    <Button to="/auth/login">로그인</Button>
+                  </>
+                )}
+              </>
+            )}
+          </div>
         </Wrapper>
       </HeaderBlock>
       <Spacer />

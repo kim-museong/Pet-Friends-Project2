@@ -9,19 +9,36 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import rootReducer from './modules';
 import { rootSaga } from './modules/index';
+import { HelmetProvider } from 'react-helmet-async';
+import { check, tempSetUser } from './modules/user';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: rootReducer,
   middleware: [sagaMiddleware],
 });
+
+function loadUser() {
+  try {
+    const user = localStorage.getItem('user');
+    if (!user) return;
+    store.dispatch(tempSetUser(JSON.parse(user)));
+    store.dispatch(check());
+  } catch (e) {
+    console.log('localStorage is not working');
+  }
+}
+
 sagaMiddleware.run(rootSaga);
+loadUser();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </BrowserRouter>
   </Provider>,
 );

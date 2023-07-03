@@ -2,6 +2,7 @@ const { Post, User, Board, Content } = require('../models');
 
 // read pictures
 exports.readPicture = (req, res, next) => {
+  console.log('-----------------------------------------------------------');
   const { sortType, limit } = req.query;
   const { boardName } = req.params;
   let column = 'createdAt';
