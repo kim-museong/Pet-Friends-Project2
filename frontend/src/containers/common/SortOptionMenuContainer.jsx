@@ -4,14 +4,13 @@ import { useDispatch, useSelector } from '../../../node_modules/react-redux/es/e
 import { selectSortType } from '../../modules/sort';
 
 const SortOptionMenuContainer = () => {
-  const sortType = useSelector((state) => state.sort.sortType);
   const dispatch = useDispatch();
   const onSelectSortType = useCallback((sortType) => dispatch(selectSortType(sortType)), [dispatch]);
 
   useEffect(() => {
-    // 최신순 선택
+    // 초기값 : 최신순
     onSelectSortType('newest');
-  }, []);
+  }, [onSelectSortType]);
 
   return <SortOptionMenu onSelectSortType={onSelectSortType}></SortOptionMenu>;
 };

@@ -14,7 +14,7 @@ export const selectSortType = createAction(SELECT_SORT_TYPE, (sortType) => sortT
 
 // init
 const initialState = {
-  sortType: 'date',
+  sortType: 'newest',
 };
 
 // reducer

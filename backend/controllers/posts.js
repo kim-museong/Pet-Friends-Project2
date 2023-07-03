@@ -2,7 +2,33 @@ const { Post, User, Board, Content } = require('../models');
 
 // read pictures
 exports.readPicture = (req, res, next) => {
-  const limit = 4; // 클라이언트에서 요청한 값으로 대체
+  const { sortType, limit } = req.query;
+  const { boardName } = req.params;
+  let column = 'createdAt';
+  let order = 'DESC';
+  switch (sortType) {
+    case 'newest':
+      column = 'createdAt';
+      order = 'DESC';
+      break;
+    case 'oldest':
+      column = 'createdAt';
+      order = 'ASC';
+      break;
+    case 'highestViews':
+      column = 'view';
+      order = 'DESC';
+      break;
+    case 'lowestViews':
+      column = 'view';
+      order = 'ASC';
+      break;
+    default:
+      column = 'createdAt';
+      order = 'DESC';
+      break;
+  }
+
   Post.findAll({
     include: [
       {
@@ -12,7 +38,7 @@ exports.readPicture = (req, res, next) => {
       {
         model: Board,
         attributes: ['name'],
-        where: { name: 'picture' },
+        where: { name: boardName },
       },
       {
         model: Content,
@@ -23,8 +49,8 @@ exports.readPicture = (req, res, next) => {
       //   attributes: ["UserId", "PostId"],
       // },
     ],
-    order: [['createdAt', 'DESC']],
-    limit,
+    order: [[column, order]],
+    limit: parseInt(limit),
   })
     .then((data) => {
       const pictures = data.map((item) => item.dataValues);

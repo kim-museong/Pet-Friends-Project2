@@ -12,7 +12,11 @@ const GET_POSTS_SUCCESS = 'posts/GET_POSTS_SUCCESS';
 const GET_POSTS_FAILURE = 'posts/GET_POSTS_FAILURE';
 
 // action creator
-export const getPostsAsync = createAction(GET_POSTS);
+export const getPostsAsync = createAction(GET_POSTS, ({ sortType, boardName, limit }) => ({
+  sortType,
+  boardName,
+  limit,
+}));
 
 // define saga
 const getPostsSaga = createRequestSaga(GET_POSTS, postsAPI.getPosts);

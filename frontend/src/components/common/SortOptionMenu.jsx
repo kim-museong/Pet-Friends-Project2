@@ -16,8 +16,8 @@ const SortOptionMenu = ({ onSelectSortType }) => {
       <SortOptionMenuBlock>
         <button onClick={() => onSelectSortType('newest')}>최신순</button>
         <button onClick={() => onSelectSortType('oldest')}>오래된순</button>
-        <button onClick={() => onSelectSortType('highview')}>높은조회수</button>
-        <button onClick={() => onSelectSortType('lowview')}>낮은조회수</button>
+        <button onClick={() => onSelectSortType('highestViews')}>높은조회수</button>
+        <button onClick={() => onSelectSortType('lowestViews')}>낮은조회수</button>
       </SortOptionMenuBlock>
     </>
   );

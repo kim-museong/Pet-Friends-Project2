@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const testRouter = require('./test');
+const boardRouter = require('./board');
+
+router.use('/board', boardRouter);
 
 ///////////////////////////////
 // 캐시를 위한 미들웨어 설정 //
@@ -37,7 +39,5 @@ const testRouter = require('./test');
 ///////////////////////////////
 ///////////////////////////////
 ///////////////////////////////
-
-router.use('/test', testRouter);
 
 module.exports = router;
