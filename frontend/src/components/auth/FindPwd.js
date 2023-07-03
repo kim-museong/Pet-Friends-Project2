@@ -14,7 +14,7 @@ const FindMethod = styled.div`
     cursor: pointer;
     margin: 10px;
     padding: 10px;
-    color: ${({ light }) => (light ? 'white' : 'rgb(50, 50, 50)')};
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50, 50, 50)')};
     font-size: 14px;
 
     &:hover {
@@ -46,7 +46,7 @@ const ResultBox = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  background: ${({ light }) => (light ? 'rgb(50,50,50)' : 'white')};
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(50,50,50)' : 'white')};
   border-radius: 5px;
   button {
     width: 60%;
@@ -75,7 +75,7 @@ const ChangePwdBox = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  background: ${({ light }) => (light ? 'rgb(50,50,50)' : 'white')};
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(50,50,50)' : 'white')};
   border-radius: 5px;
   button {
     width: 60%;
@@ -103,7 +103,7 @@ const FindPwd = ({
   form,
   init,
   email,
-  light,
+  theme,
   onChange,
   findPhone,
   findEmail,
@@ -122,7 +122,7 @@ const FindPwd = ({
           <Link to="/">Logo</Link>
           <h1>비밀번호 찾기</h1>
         </div>
-        <FindMethod light={light} email={String(email)}>
+        <FindMethod theme={String(theme)} email={String(email)}>
           <div className="method email" onClick={selectEmail}>
             <MdMailOutline />
             <div>이메일</div>
@@ -153,7 +153,7 @@ const FindPwd = ({
                 {email ? <button onClick={findEmail}> 확인</button> : <button onClick={findPhone}> 확인</button>}
               </div>
               {isConfirm && (
-                <ChangePwdBox light={light}>
+                <ChangePwdBox theme={String(theme)}>
                   <div>비밀번호 재설정</div>
                   <form onSubmit={onSubmitPwd}>
                     <div>
@@ -181,7 +181,7 @@ const FindPwd = ({
                 </ChangePwdBox>
               )}
               {isResult && (
-                <ResultBox light={light}>
+                <ResultBox theme={String(theme)}>
                   <div>
                     <div>{valid ? (isConfirm ? '성공' : '오류!') : '인증번호가 전송되었습니다.'}</div>
 
@@ -214,7 +214,7 @@ const FindPwd = ({
             </div>
           </FindInputBox>
         </FindMethod>
-        <Footer light={light}>
+        <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>
           <Link to="/findID">아이디 찾기</Link>
         </Footer>

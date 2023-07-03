@@ -6,7 +6,7 @@ const FindId = ({
   isNickname,
   findId,
   init,
-  light,
+  theme,
   onChange,
   findNickname,
   findEmail,
@@ -23,7 +23,7 @@ const FindId = ({
           <Link to="/">Logo</Link>
           <h1>아이디 찾기</h1>
         </div>
-        <FindMethod light={light} isNickname={String(isNickname)}>
+        <FindMethod theme={String(theme)} isNickname={String(isNickname)}>
           <div className="method nick" onClick={selectnick}>
             <MdAccountCircle />
             <div>닉네임</div>
@@ -57,7 +57,7 @@ const FindId = ({
                 {isNickname ? <button onClick={findNickname}>확인</button> : <button onClick={findEmail}>확인</button>}
               </div>
               {isResult && (
-                <ResultBox light={light}>
+                <ResultBox theme={String(theme)}>
                   <div>
                     <div>{valid ? '오류!' : '아이디'}</div>
                     <div>{result}</div>
@@ -68,8 +68,8 @@ const FindId = ({
             </div>
           </FindInputBox>
         </FindMethod>
-        <Footer light={light}>
-          <Link to="/login">로그인</Link>
+        <Footer theme={String(theme)}>
+          <Link to="/auth/login">로그인</Link>
           <Link to="/findPASSWORD">비밀번호 찾기</Link>
         </Footer>
       </FindIdBox>

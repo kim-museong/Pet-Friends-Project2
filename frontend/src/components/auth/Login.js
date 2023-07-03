@@ -25,12 +25,14 @@ const AuthFormBlock = styled.div`
 `;
 
 const ButtonWidthMarginTop = styled(Button)`
-  height: 54px;
+  height: 60px;
+  font-size: 25px;
 `;
 
 const SaveUserIdBox = styled.div`
-  font-size: 12px;
-  margin-top: 10px !important;
+  font-size: 18px;
+  margin: 10px 0 0 10px !important;
+
   display: flex;
   align-items: center;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -43,19 +45,19 @@ const SaveUserIdBox = styled.div`
     border: 1px solid rgb(186, 186, 186);
     border-radius: 4px;
     cursor: pointer;
-    height: 16px;
+    height: 25px;
     outline: 0;
-    width: 16px;
+    width: 25px;
   }
   input[type='checkbox']::after {
     border: solid #fff;
-    border-width: 0 2px 2px 0;
+    border-width: 0 4px 4px 0;
     content: '';
     display: none;
     height: 40%;
-    left: 40%;
+    left: 34%;
     position: relative;
-    top: 20%;
+    top: 15%;
     transform: rotate(45deg);
     width: 15%;
   }
@@ -68,13 +70,8 @@ const SaveUserIdBox = styled.div`
   }
 
   div {
-    margin: 0 0 1px 2px;
+    margin-left: 7px;
   }
-`;
-
-const SocialBox = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const InputStyle = styled(StyledInput)`
@@ -82,7 +79,7 @@ const InputStyle = styled(StyledInput)`
 `;
 
 const LoginBox = styled.div`
-  width: 360px;
+  width: 25%;
   margin: 20px auto 0;
   border-radius: 10px;
   padding: 20px;
@@ -90,9 +87,9 @@ const LoginBox = styled.div`
 
 const ErrorBox = styled.div`
   height: 30px;
-  font-size: 12px;
+  font-size: 20px;
   color: red;
-  margin: 15px auto 5px !important;
+  margin: 35px auto 20px !important;
 
   div {
     text-align: left;
@@ -127,7 +124,7 @@ const Login = ({
         <LoginBox>
           <form onSubmit={onSubmit}>
             <InputStyle light={light}>
-              <div onClick={() => iconClick('username')}>
+              <div className="icon" onClick={() => iconClick('username')}>
                 <MdPerson />
               </div>
               <input
@@ -141,7 +138,7 @@ const Login = ({
             </InputStyle>
 
             <InputStyle light={light}>
-              <div onClick={() => iconClick('password')}>
+              <div className="icon" onClick={() => iconClick('password')}>
                 <MdLock />
               </div>
               <input

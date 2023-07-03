@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const buttonStyle = css`
   border: none;
-  border-radius: 4px;
   font-size: 1rem;
   font-weight: bold;
   padding: 0.25rem 1rem;
@@ -49,11 +48,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Button = (props) => {
-  return props.to ? (
-    <StyledLink {...props} cyan={props.cyan ? 1 : 0} />
-  ) : (
-    <StyledButton {...props} />
-  );
+  return props.to ? <StyledLink {...props} cyan={props.cyan ? 1 : 0} /> : <StyledButton {...props} />;
 };
 
 export default Button;

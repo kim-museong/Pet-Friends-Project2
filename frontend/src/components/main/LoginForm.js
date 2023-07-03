@@ -17,19 +17,24 @@ const Profile = styled.div`
 
 const LoginFormBox = styled.div`
   border: 1px solid rgb(186, 186, 186);
+  margin-top: 2rem;
   border-radius: 10px;
-  padding: 20px 10px;
+  padding: 20px;
   text-align: center;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : 'white')};
 
+  p {
+    padding-top: 20px;
+    font-size: 20px;
+  }
+
   .login {
     display: block;
-    width: 90%;
+    width: 80%;
     background: rgb(255, 140, 0);
     color: white;
-    padding: 10px 0;
-    margin: 0 auto;
-    border-radius: 5px;
+    padding: 15px 10px;
+    margin: 20px auto 10px;
     font-weight: bold;
     font-size: 20px;
 
@@ -41,11 +46,11 @@ const LoginFormBox = styled.div`
 
 const FindBox = styled.div`
   margin-top: 20px;
-  font-size: 12px;
-  color: ${({ theme }) => (theme === true ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+  font-size: 20px;
+  color: ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
 
   a {
-    color: ${({ theme }) => (theme === true ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+    color: ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
   }
 
   a:hover {
@@ -53,19 +58,18 @@ const FindBox = styled.div`
   }
 
   a + a:before {
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
     content: '|';
   }
 `;
 
 const LoginForm = ({ user, onLogout, theme }) => {
-  console.log(typeof theme);
   return (
     <>
       {user ? (
         <>
-          <LoginFormBox theme={theme}>
+          <LoginFormBox theme={String(theme)}>
             <Profile>
               <MdAccountCircle />
               <UserInfo>{user.userId} 님</UserInfo>
@@ -81,8 +85,8 @@ const LoginForm = ({ user, onLogout, theme }) => {
             로그인
           </Link>
           <FindBox theme={String(theme)}>
-            <Link to="/findID">아이디 찾기</Link>
-            <Link to="/findPASSWORD">비밀번호 찾기</Link>
+            <Link to="/auth/credentials">아이디 찾기</Link>
+            <Link to="/auth/credentials">비밀번호 찾기</Link>
             <Link to="/auth/register">회원가입</Link>
           </FindBox>
         </LoginFormBox>

@@ -6,10 +6,10 @@ import FindId from '../../components/auth/FindId';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-const FindIdContainer = ({ light }) => {
+const FindIdContainer = () => {
   const [isNickname, setNickname] = useState(true);
   const [email, setEmail] = useState(false);
-
+  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const { findId, init } = useSelector(({ find }) => ({
     findId: find.findId,
@@ -142,7 +142,7 @@ const FindIdContainer = ({ light }) => {
         findId={findId}
         init={init}
         isNickname={isNickname}
-        light={light}
+        theme={theme}
         onChange={onChange}
         findNickname={findNickname}
         findEmail={findEmail}

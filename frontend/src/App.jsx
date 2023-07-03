@@ -15,11 +15,12 @@ import RecoverCredentialsPage from './pages/auth/RecoverCredentialsPage';
 import { createGlobalStyle } from 'styled-components';
 import { useSelector } from 'react-redux';
 import './App.css';
+import Setting from './components/common/Setting';
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background: ${({ theme }) => (theme ? 'rgb(35, 35, 35)' : 'white')};
-    color: ${({ theme }) => (theme ? 'white' : 'black')};
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(35, 35, 35)' : 'white')};
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   }
 
 `;
@@ -29,7 +30,8 @@ const App = () => {
   console.log(typeof theme);
   return (
     <>
-      <GlobalStyle theme={theme} />
+      <GlobalStyle theme={String(theme)} />
+      <Setting />
       <Routes>
         {/* 메인페이지 */}
         <Route path="/" element={<MainPage />}></Route>

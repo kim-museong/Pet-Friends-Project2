@@ -86,23 +86,19 @@ export const FindMethod = styled.div`
   }
 
   .nick {
-    border: 1px solid
-      ${({ isNickname }) => (isNickname === 'true' ? 'rgb(255, 140, 0)' : '')};
+    border: 1px solid ${({ isNickname }) => (isNickname === 'true' ? 'rgb(255, 140, 0)' : '')};
     svg {
       font-size: 50px;
-      color: ${({ isNickname }) =>
-        isNickname === 'true' ? 'rgb(255, 140, 0)' : ''};
+      color: ${({ isNickname }) => (isNickname === 'true' ? 'rgb(255, 140, 0)' : '')};
     }
   }
 
   .email {
-    border: 1px solid
-      ${({ isNickname }) => (isNickname === 'true' ? '' : 'rgb(255, 140, 0)')};
+    border: 1px solid ${({ isNickname }) => (isNickname === 'true' ? '' : 'rgb(255, 140, 0)')};
 
     svg {
       font-size: 50px;
-      color: ${({ isNickname }) =>
-        isNickname === 'true' ? '' : 'rgb(255, 140, 0)'};
+      color: ${({ isNickname }) => (isNickname === 'true' ? '' : 'rgb(255, 140, 0)')};
     }
   }
 `;
@@ -110,18 +106,19 @@ export const FindMethod = styled.div`
 export const Footer = styled.div`
   display: flex;
   justify-content: center;
-  color: ${({ light }) => (light ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
-  a {
-    font-size: 14px;
+  margin-top: 10px;
 
+  a {
+    font-size: 20px;
+    color: ${({ light }) => (light ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
     &:hover {
       text-decoration: underline;
     }
   }
 
   a + a:before {
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
     content: '|';
   }
 `;
@@ -156,16 +153,17 @@ export const StyledInput = styled.div`
   margin: 0 auto;
   display: flex;
   border: 1px solid ${palette.gray[5]};
-  border-radius: 4px;
   font-size: 26px;
-  padding: 5px 0px 5px 10px;
+  padding: 5px;
   background: ${({ light }) => (light ? 'rgb(40,40,40)' : '')};
+
   input {
     width: 100%;
     border: none;
     outline: none;
     background: inherit;
-    margin-right: 10px;
+    font-size: 22px;
+    padding: 5px 15px 0;
     color: ${({ light }) => (light ? 'white' : 'black')};
   }
 
@@ -174,13 +172,23 @@ export const StyledInput = styled.div`
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: white;
+    -webkit-text-fill-color: color: ${({ light }) => (light ? 'white' : 'black')};
   }
 
   svg {
-    margin-top: 5px;
-    margin-right: 10px;
     color: rgb(255, 140, 0);
+    font-size: 40px;
+    margin: 10px 10px 0 0 ;
+  }
+
+  .icon{
+    margin-left: 10px;
+    
+    svg {
+      color: rgb(255, 140, 0);
+      font-size: 40px;
+      margin-right:0px;
+    }
   }
 
   & + & {

@@ -4,7 +4,7 @@ import LoginFormContainer from '../containers/main/LoginFormContainer';
 import HeaderContainer from '../containers/common/HeaderContainer';
 
 const ContainBox = styled.div`
-  width: 70%;
+  width: 80%;
   margin: 50px auto;
 `;
 
