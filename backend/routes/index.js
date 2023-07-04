@@ -3,9 +3,11 @@ const router = express.Router();
 
 const authRouter = require('./auth');
 const boardRouter = require('./board');
+const postsRouter = require('./posts');
 
 router.use('/auth', authRouter);
 router.use('/board', boardRouter);
+router.use('/posts', postsRouter);
 
 ///////////////////////////////
 // 캐시를 위한 미들웨어 설정 //

@@ -7,6 +7,7 @@ import loading from './loading';
 import user, { userSaga } from './user';
 import find, { emailSage } from './find';
 import theme from './theme';
+import post, { postSaga } from './post';
 
 const rootReducer = combineReducers({
   posts,
@@ -16,10 +17,11 @@ const rootReducer = combineReducers({
   user,
   find,
   theme,
+  post,
 });
 
 export function* rootSaga() {
-  yield all([postsSaga(), authSaga(), userSaga(), emailSage()]);
+  yield all([postsSaga(), authSaga(), userSaga(), emailSage(), postSaga()]);
 }
 
 export default rootReducer;

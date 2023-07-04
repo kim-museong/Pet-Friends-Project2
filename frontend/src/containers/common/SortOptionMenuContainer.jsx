@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import SortOptionMenu from '../../components/common/SortOptionMenu';
-import { useDispatch, useSelector } from '../../../node_modules/react-redux/es/exports';
+import { useDispatch } from 'react-redux';
 import { selectSortType } from '../../modules/sort';
 
 const SortOptionMenuContainer = () => {

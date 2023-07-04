@@ -15,6 +15,7 @@ import RecoverCredentialsPage from './pages/auth/RecoverCredentialsPage';
 import { createGlobalStyle } from 'styled-components';
 import './App.css';
 import { useSelector } from '../node_modules/react-redux/es/exports';
+import WritePage from './pages/WritePage';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -57,6 +58,9 @@ const App = () => {
         <Route path="/information" element={<InformationPage />}></Route>
         <Route path="/picture" element={<PicturePage />}></Route>
         <Route path="/community" element={<CommunityPage />}></Route>
+
+        {/* 글쓰기(편집기) 페이지 */}
+        <Route path="/:boardName/write" element={<WritePage />}></Route>
 
         {/* 게시글 상세 정보 */}
         <Route path="/notice/:postId" element={<PostDetailPage />}></Route>

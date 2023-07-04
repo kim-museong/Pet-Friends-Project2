@@ -38,6 +38,7 @@ const posts = handleActions(
     }),
     [GET_POSTS_FAILURE]: (state, { payload: error }) => ({
       ...state,
+      // error handle 필요함
     }),
   },
   initialState,

@@ -11,10 +11,10 @@ const PictureListBlock = styled(Responsive)`
   flex-wrap: wrap;
   justify-content: center;
 `;
-const PictureList = ({ posts }) => {
+const PictureList = ({ posts, loading }) => {
   return (
     <PictureListBlock>
-      {posts && posts.map((post) => <PictureItem key={post.id} post={post}></PictureItem>)}
+      {posts && posts.map((post) => <PictureItem key={post.id} post={post} loading={loading}></PictureItem>)}
     </PictureListBlock>
   );
 };
