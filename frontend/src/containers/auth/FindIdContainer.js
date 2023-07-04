@@ -6,10 +6,10 @@ import FindId from '../../components/auth/FindId';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-const FindIdContainer = ({ light }) => {
-  const [isNickname, setNickname] = useState(true);
+const FindIdContainer = () => {
+  const [isnickname, setNickname] = useState(true);
   const [email, setEmail] = useState(false);
-
+  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const { findId, init } = useSelector(({ find }) => ({
     findId: find.findId,
@@ -73,8 +73,18 @@ const FindIdContainer = ({ light }) => {
 
   //이메일 전송 함수
   const findEmail = async () => {
-    const { email } = findId;
+    const { email, userId } = findId;
     try {
+      if (userId === '') {
+        dispatch(
+          isAlert({
+            result: '아이디를 입력해주세요.',
+            isResult: true,
+            valid: true,
+          }),
+        );
+        return;
+      }
       if (email === '') {
         dispatch(
           isAlert({
@@ -141,8 +151,8 @@ const FindIdContainer = ({ light }) => {
         type="findId"
         findId={findId}
         init={init}
-        isNickname={isNickname}
-        light={light}
+        isnickname={isnickname}
+        theme={theme}
         onChange={onChange}
         findNickname={findNickname}
         findEmail={findEmail}

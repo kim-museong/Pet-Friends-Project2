@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { check } from '../../modules/user';
 import Login from '../../components/auth/Login';
 
-const LoginContainer = ({ light }) => {
+const LoginContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -14,6 +14,8 @@ const LoginContainer = ({ light }) => {
     authError: auth.authError,
     user: user.user,
   }));
+  const theme = useSelector((state) => state.theme.theme);
+
   const COOKIE_NAME = 'savedUserId';
   const inputRefs = {
     username: useRef(null),
@@ -72,12 +74,14 @@ const LoginContainer = ({ light }) => {
     const { checked } = e.target;
     setIsChecked(checked);
   };
+
   //아이콘 누름에 따라 포커스
   const iconClick = (name) => {
     if (inputRefs[name].current) {
       inputRefs[name].current.focus();
     }
   };
+
   //체크박스 클릭 이벤트
   const checkBoxSelect = () => {
     checkBoxRef.current.checked = !checkBoxRef.current.checked;
@@ -142,13 +146,13 @@ const LoginContainer = ({ light }) => {
       error={error}
       isChecked={isChecked}
       onSaveUserId={onSaveUserId}
-      light={light}
       showPwd={showPwd}
       onShowPwd={onShowPwd}
       iconClick={iconClick}
       checkBoxSelect={checkBoxSelect}
       inputRefs={inputRefs}
       checkBoxRef={checkBoxRef}
+      theme={theme}
     />
   );
 };

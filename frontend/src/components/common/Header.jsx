@@ -3,22 +3,27 @@ import Responsive from './Responsive';
 import { Link, useLocation } from 'react-router-dom';
 import Button from './Button';
 import { MdAccountCircle } from 'react-icons/md';
-import ThemeContainer from '../../containers/common/ThemeContainer';
 
 const HeaderBlock = styled.div`
   position: fixed;
   width: 100%;
-  background: ${({ light }) => (light === 'true' ? 'rgb(30, 30, 30)' : 'white')};
-  box-shadow: 0 0 3px 1px ${({ light }) => (light === 'true' ? 'white' : 'black')};
+  font-size: 18px;
+  padding: 5px 0;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
+  box-shadow: 0 0 2px 1px ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+  border-radius: 0;
+  a {
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50,50,50)')};
+  }
 `;
 
 const Wrapper = styled(Responsive)`
-  height: 4rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   .logo {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
     font-weight: bold;
     letter=spacing: 2px;
   }
@@ -54,11 +59,11 @@ const Profile = styled.div`
   cursor: pointer;
 `;
 
-const Header = ({ user, onLogout, light }) => {
+const Header = ({ user, onLogout, theme }) => {
   const location = useLocation();
   return (
     <>
-      <HeaderBlock light={String(light)}>
+      <HeaderBlock theme={String(theme)}>
         <Wrapper>
           <Link to="/" className="logo">
             REACTERS
@@ -72,8 +77,6 @@ const Header = ({ user, onLogout, light }) => {
             {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
           </MenuList>
           <div className="right">
-            <ThemeContainer />
-
             {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
             {location.pathname !== '/' && (
               <>

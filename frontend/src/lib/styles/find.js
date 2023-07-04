@@ -20,50 +20,46 @@ export const FindIdBox = styled.div`
 
 export const FindInputBox = styled.div`
   border: 1px solid rgb(255, 140, 0);
-  border-radius: 5px;
-  width: 50%;
+  width: 450px;
   margin: 5% auto;
   padding: 50px;
   position: relative;
 
-  div:first-child{
+  div:first-child {
     margin-bottom: 20px;
   }
 
   input {
-    width: 80%;
-    padding:10px; 20px;
-    border-radius: 5px;
-    border:1px solid rgb(186,186,186);
-    outline:none;
-    margin-top:10px;
+    width: 100%;
+    padding: 14px 20px 10px;
+    border: 1px solid rgb(186, 186, 186);
+    outline: none;
+    margin-top: 10px;
+    font-size: 18px;
 
-    &:focus{
+    &:focus {
       border: 1px solid rgb(255, 140, 0);
     }
-
-    
   }
 
   button {
     display: inline-block;
-    width: 80%;
+    width: 100%;
     background: rgb(255, 140, 0);
-    border:none;
-    border-radius: 5px;
+    border: none;
     padding: 10px 20px;
     color: white;
     font-weight: bold;
+    font-size: 18px;
 
-    &:hover{
-      background: rgb(186,186,186);
+    &:hover {
+      background: rgb(186, 186, 186);
     }
   }
 
   input + button {
     margin-top: 30px;
   }
-
 `;
 
 export const FindMethod = styled.div`
@@ -72,13 +68,13 @@ export const FindMethod = styled.div`
 
   .method {
     display: inline-block;
-    width: 20%;
-    border-radius: 5px;
+    width: 180px;
     cursor: pointer;
     margin: 10px;
     padding: 10px;
-    color: ${({ light }) => (light ? 'white' : 'rgb(50, 50, 50)')};
-    font-size: 14px;
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50, 50, 50)')};
+    font-size: 18px;
+    font-weight: bold;
 
     &:hover {
       border: 1px solid rgb(255, 140, 0);
@@ -86,23 +82,18 @@ export const FindMethod = styled.div`
   }
 
   .nick {
-    border: 1px solid
-      ${({ isNickname }) => (isNickname === 'true' ? 'rgb(255, 140, 0)' : '')};
+    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? 'rgb(255, 140, 0)' : '')};
+    color: ${({ isnickname }) => (isnickname === 'true' ? 'rgb(255, 140, 0)' : '')};
     svg {
       font-size: 50px;
-      color: ${({ isNickname }) =>
-        isNickname === 'true' ? 'rgb(255, 140, 0)' : ''};
     }
   }
 
   .email {
-    border: 1px solid
-      ${({ isNickname }) => (isNickname === 'true' ? '' : 'rgb(255, 140, 0)')};
-
+    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? '' : 'rgb(255, 140, 0)')};
+    color: ${({ isnickname }) => (isnickname === 'true' ? '' : 'rgb(255, 140, 0)')};
     svg {
       font-size: 50px;
-      color: ${({ isNickname }) =>
-        isNickname === 'true' ? '' : 'rgb(255, 140, 0)'};
     }
   }
 `;
@@ -110,18 +101,18 @@ export const FindMethod = styled.div`
 export const Footer = styled.div`
   display: flex;
   justify-content: center;
-  color: ${({ light }) => (light ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
-  a {
-    font-size: 14px;
+  margin-top: 10px;
 
+  a {
+    color: ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
     &:hover {
       text-decoration: underline;
     }
   }
 
   a + a:before {
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
     content: '|';
   }
 `;
@@ -132,14 +123,15 @@ export const ResultBox = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  background: ${({ light }) => (light ? 'rgb(50,50,50)' : 'white')};
-  border-radius: 5px;
+  font-size: 18px;
+  color: red;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(50,50,50)' : 'white')};
   button {
     width: 80%;
   }
 
   div:first-child {
-    margin-top: 50px;
+    margin-top: 60px;
   }
 
   div + div {
@@ -147,7 +139,7 @@ export const ResultBox = styled.div`
   }
 
   div + button {
-    margin-top: 30px;
+    margin-top: 5%;
   }
 `;
 
@@ -156,31 +148,41 @@ export const StyledInput = styled.div`
   margin: 0 auto;
   display: flex;
   border: 1px solid ${palette.gray[5]};
-  border-radius: 4px;
   font-size: 26px;
-  padding: 5px 0px 5px 10px;
-  background: ${({ light }) => (light ? 'rgb(40,40,40)' : '')};
+  padding: 5px;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : '')};
+
   input {
     width: 100%;
     border: none;
     outline: none;
     background: inherit;
-    margin-right: 10px;
-    color: ${({ light }) => (light ? 'white' : 'black')};
+    font-size: 22px;
+    padding: 5px 15px 0;
+    border-radius: 0;
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   }
 
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: white;
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : 'white')}inset;
+    box-shadow: 0 0 0 1000px ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : 'white')} inset;
+    -webkit-text-fill-color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')} !important;
   }
 
   svg {
-    margin-top: 5px;
-    margin-right: 10px;
     color: rgb(255, 140, 0);
+    font-size: 40px;
+    margin: 10px 10px 0 0;
+  }
+
+  .icon {
+    margin-left: 10px;
+
+    svg {
+      color: rgb(255, 140, 0);
+      font-size: 40px;
+      margin-right: 0px;
+    }
   }
 
   & + & {

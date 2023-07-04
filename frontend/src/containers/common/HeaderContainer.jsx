@@ -3,7 +3,8 @@ import { logout } from '../../modules/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 const HeaderContainer = () => {
-  const { user, light } = useSelector(({ user, theme }) => ({ user: user.user, light: theme.theme }));
+  const user = useSelector((state) => state.user.user);
+  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(logout());
@@ -11,7 +12,7 @@ const HeaderContainer = () => {
       alert('로그아웃 되었습니다.');
     }, 100);
   };
-  return <Header user={user} onLogout={onLogout} light={light}></Header>;
+  return <Header user={user} onLogout={onLogout} theme={theme}></Header>;
 };
 
 export default HeaderContainer;

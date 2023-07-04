@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeError, changeField, initializeForm, register } from '../../modules/auth';
 import { check } from '../../modules/user';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Register from '../../components/auth/Register';
 import axios from 'axios';
 
-const RegisterContainer = ({ light }) => {
+const RegisterContainer = () => {
   const dispatch = useDispatch();
   const { form, auth, authError, user, error } = useSelector(({ auth, user }) => ({
     form: auth.register,
@@ -15,7 +15,7 @@ const RegisterContainer = ({ light }) => {
     user: user.user,
     error: auth.register.error,
   }));
-
+  const theme = useSelector((state) => state.theme.theme);
   const errorKeyMap = {
     username: 'errorUserId',
     password: 'errorPwd',
@@ -31,6 +31,21 @@ const RegisterContainer = ({ light }) => {
     email: '이메일: 이메일를 입력해주세요.',
     passwordMismatch: '비밀번호: 비밀번호가 틀립니다.',
     invalidEmail: '이메일: 이메일 형식에 맞게 입력해주세요.',
+  };
+
+  const inputRefs = {
+    username: useRef(null),
+    password: useRef(null),
+    passwordConfirm: useRef(null),
+    nickname: useRef(null),
+    email: useRef(null),
+  };
+
+  //아이콘 누름에 따라 포커스
+  const iconClick = (name) => {
+    if (inputRefs[name].current) {
+      inputRefs[name].current.focus();
+    }
   };
 
   const onSubmit = async (e) => {
@@ -199,7 +214,18 @@ const RegisterContainer = ({ light }) => {
     }
   }, [navigate, user]);
 
-  return <Register type="register" form={form} onChange={onChange} error={error} onSubmit={onSubmit} light={light} />;
+  return (
+    <Register
+      type="register"
+      form={form}
+      onChange={onChange}
+      error={error}
+      onSubmit={onSubmit}
+      theme={theme}
+      iconClick={iconClick}
+      inputRefs={inputRefs}
+    />
+  );
 };
 
 export default RegisterContainer;

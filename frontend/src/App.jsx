@@ -13,29 +13,25 @@ import PostDetailPage from './pages/PostDetailPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import RecoverCredentialsPage from './pages/auth/RecoverCredentialsPage';
 import { createGlobalStyle } from 'styled-components';
+import { useSelector } from 'react-redux';
 import './App.css';
-import { useSelector } from '../node_modules/react-redux/es/exports';
+import Setting from './components/common/Setting';
 import WritePage from './pages/WritePage';
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background: ${({ light }) => (light === 'true' ? 'rgb(35, 35, 35)' : 'white')};
-    color: ${({ light }) => (light === 'true' ? 'white' : 'black')};
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(35, 35, 35)' : 'white')};
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   }
 
-  a{
-    color: ${({ light }) => (light === 'true' ? 'white' : 'black')};
-  }
 `;
 
 const App = () => {
-  const { light } = useSelector(({ theme }) => ({
-    light: theme.theme,
-  }));
-
+  const theme = useSelector((state) => state.theme.theme);
   return (
     <>
-      <GlobalStyle light={String(light)} />
+      <GlobalStyle theme={String(theme)} />
+      <Setting />
       <Routes>
         {/* 메인페이지 */}
         <Route path="/" element={<MainPage />}></Route>

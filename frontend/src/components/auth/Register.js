@@ -27,7 +27,7 @@ const ButtonWidthMarginTop = styled(Button)`
 `;
 
 const RegisterBox = styled.div`
-  width: 500px;
+  width: 600px;
   margin: 0px auto;
   border-radius: 10px;
   padding: 10px;
@@ -49,7 +49,7 @@ const ErrorBox = styled.div`
   }
 `;
 
-const Register = ({ form, onChange, onSubmit, error, light }) => {
+const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs }) => {
   const [showPwd, setShowPwd] = useState(false);
   const [showPwdCf, setShowPwdCf] = useState(false);
 
@@ -69,11 +69,12 @@ const Register = ({ form, onChange, onSubmit, error, light }) => {
         <Link to="/">LOGO</Link>
         <form onSubmit={onSubmit}>
           <RegisterBox>
-            <StyledInput light={light} className={errorUserId && 'errorUserId'}>
-              <div>
+            <StyledInput theme={String(theme)} className={errorUserId && 'errorUserId'}>
+              <div className="icon" onClick={() => iconClick('username')}>
                 <MdPerson />
               </div>
               <input
+                ref={inputRefs.username}
                 autoComplete="username"
                 name="username"
                 value={form.username}
@@ -81,11 +82,12 @@ const Register = ({ form, onChange, onSubmit, error, light }) => {
                 placeholder="아이디"
               />
             </StyledInput>
-            <StyledInput light={light} className={errorPwd && 'errorPwd'}>
-              <div>
+            <StyledInput theme={String(theme)} className={errorPwd && 'errorPwd'}>
+              <div className="icon" onClick={() => iconClick('password')}>
                 <MdLock />
               </div>
               <input
+                ref={inputRefs.password}
                 autoComplete="new-password"
                 name="password"
                 value={form.password}
@@ -95,11 +97,12 @@ const Register = ({ form, onChange, onSubmit, error, light }) => {
               />
               <ShowPwdBox onClick={onShowPwd}>{showPwd ? <MdVisibility /> : <MdVisibilityOff />}</ShowPwdBox>
             </StyledInput>
-            <StyledInput light={light} className={errorPwdCf && 'errorPwdCf'}>
-              <div>
+            <StyledInput theme={String(theme)} className={errorPwdCf && 'errorPwdCf'}>
+              <div className="icon" onClick={() => iconClick('passwordConfirm')}>
                 <MdLock />
               </div>
               <input
+                ref={inputRefs.passwordConfirm}
                 autoComplete="new-password"
                 name="passwordConfirm"
                 value={form.passwordConfirm}
@@ -115,11 +118,12 @@ const Register = ({ form, onChange, onSubmit, error, light }) => {
             <div>{errorPwd && `*${errorPwd}`}</div>
           </ErrorBox>
           <RegisterBox>
-            <StyledInput light={light} className={errorNickname && 'errorNickname'}>
-              <div>
+            <StyledInput theme={String(theme)} className={errorNickname && 'errorNickname'}>
+              <div className="icon" onClick={() => iconClick('nickname')}>
                 <MdPerson />
               </div>
               <input
+                ref={inputRefs.nickname}
                 autoComplete="nickname"
                 name="nickname"
                 value={form.nickname}
@@ -128,11 +132,18 @@ const Register = ({ form, onChange, onSubmit, error, light }) => {
               />
             </StyledInput>
 
-            <StyledInput light={light} className={errorEmail && 'errorEmail'}>
-              <div>
+            <StyledInput theme={String(theme)} className={errorEmail && 'errorEmail'}>
+              <div className="icon" onClick={() => iconClick('email')}>
                 <MdEmail />
               </div>
-              <input autoComplete="email" name="email" value={form.email} onChange={onChange} placeholder="이메일" />
+              <input
+                ref={inputRefs.email}
+                autoComplete="email"
+                name="email"
+                value={form.email}
+                onChange={onChange}
+                placeholder="이메일"
+              />
             </StyledInput>
           </RegisterBox>
           <ErrorBox>

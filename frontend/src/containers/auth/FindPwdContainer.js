@@ -4,11 +4,11 @@ import FindPwd from '../../components/auth/FindPwd';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeInput, checkEmail, initializeForm, isAlert } from '../../modules/find';
 
-const FindPwdContainer = ({ light }) => {
+const FindPwdContainer = () => {
   const [email, setEmail] = useState(true);
   const [phone, setPhone] = useState(false);
   const [certificationNum, setCertificationNum] = useState('');
-
+  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const { form, isemail, emailError, init } = useSelector(({ find }) => ({
     form: find.emailCheck,
@@ -194,7 +194,7 @@ const FindPwdContainer = ({ light }) => {
         form={form}
         init={init}
         email={email}
-        light={light}
+        theme={theme}
         onChange={onChange}
         findPhone={findPhone}
         findEmail={findEmail}

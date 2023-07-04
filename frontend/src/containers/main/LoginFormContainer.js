@@ -3,8 +3,8 @@ import { logout } from '../../modules/user';
 import LoginForm from '../../components/main/LoginForm';
 
 const LoginFormContainer = () => {
-  const { user, light } = useSelector(({ user, theme }) => ({ user: user.user, light: theme.theme }));
-  console.log(light);
+  const user = useSelector((state) => state.user.user);
+  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(logout());
@@ -13,7 +13,7 @@ const LoginFormContainer = () => {
     }, 100);
   };
 
-  return <LoginForm user={user} onLogout={onLogout} light={light} />;
+  return <LoginForm user={user} onLogout={onLogout} theme={theme} />;
 };
 
 export default LoginFormContainer;

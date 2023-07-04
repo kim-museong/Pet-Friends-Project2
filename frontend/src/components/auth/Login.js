@@ -13,6 +13,7 @@ const AuthFormBlock = styled.div`
   .logo {
     font-size: 50px;
     margin-bottom: 50px;
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   }
 
   form {
@@ -25,15 +26,17 @@ const AuthFormBlock = styled.div`
 `;
 
 const ButtonWidthMarginTop = styled(Button)`
-  height: 54px;
+  width: 100%;
+  height: 60px;
+  font-size: 25px;
 `;
 
 const SaveUserIdBox = styled.div`
-  font-size: 12px;
-  margin-top: 10px !important;
+  margin: 15px 0 0 10px !important;
+
   display: flex;
   align-items: center;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-hightheme-color: rgba(0, 0, 0, 0);
 
   input[type='checkbox'] {
     -webkit-appearance: none;
@@ -43,19 +46,19 @@ const SaveUserIdBox = styled.div`
     border: 1px solid rgb(186, 186, 186);
     border-radius: 4px;
     cursor: pointer;
-    height: 16px;
+    height: 25px;
     outline: 0;
-    width: 16px;
+    width: 25px;
   }
   input[type='checkbox']::after {
     border: solid #fff;
-    border-width: 0 2px 2px 0;
+    border-width: 0 4px 4px 0;
     content: '';
     display: none;
     height: 40%;
-    left: 40%;
+    left: 34%;
     position: relative;
-    top: 20%;
+    top: 15%;
     transform: rotate(45deg);
     width: 15%;
   }
@@ -68,13 +71,8 @@ const SaveUserIdBox = styled.div`
   }
 
   div {
-    margin: 0 0 1px 2px;
+    margin-left: 7px;
   }
-`;
-
-const SocialBox = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const InputStyle = styled(StyledInput)`
@@ -82,7 +80,7 @@ const InputStyle = styled(StyledInput)`
 `;
 
 const LoginBox = styled.div`
-  width: 360px;
+  width: 450px;
   margin: 20px auto 0;
   border-radius: 10px;
   padding: 20px;
@@ -90,9 +88,9 @@ const LoginBox = styled.div`
 
 const ErrorBox = styled.div`
   height: 30px;
-  font-size: 12px;
+  font-size: 20px;
   color: red;
-  margin: 15px auto 5px !important;
+  margin: 35px auto 20px !important;
 
   div {
     text-align: left;
@@ -110,7 +108,7 @@ const Login = ({
   onSubmit,
   isChecked,
   onSaveUserId,
-  light,
+  theme,
   showPwd,
   onShowPwd,
   iconClick,
@@ -120,14 +118,14 @@ const Login = ({
 }) => {
   return (
     <>
-      <AuthFormBlock>
+      <AuthFormBlock theme={String(theme)}>
         <Link to="/" className="logo">
           Logo
         </Link>
         <LoginBox>
           <form onSubmit={onSubmit}>
-            <InputStyle light={light}>
-              <div onClick={() => iconClick('username')}>
+            <InputStyle theme={String(theme)}>
+              <div className="icon" onClick={() => iconClick('username')}>
                 <MdPerson />
               </div>
               <input
@@ -140,8 +138,8 @@ const Login = ({
               />
             </InputStyle>
 
-            <InputStyle light={light}>
-              <div onClick={() => iconClick('password')}>
+            <InputStyle theme={String(theme)}>
+              <div className="icon" onClick={() => iconClick('password')}>
                 <MdLock />
               </div>
               <input
@@ -163,15 +161,13 @@ const Login = ({
 
             <ErrorBox>{error && error}</ErrorBox>
 
-            <ButtonWidthMarginTop cyan fullWidth>
-              로그인
-            </ButtonWidthMarginTop>
+            <ButtonWidthMarginTop>로그인</ButtonWidthMarginTop>
           </form>
         </LoginBox>
       </AuthFormBlock>
-      <Footer light={light}>
-        <Link to="/findId">아이디찾기</Link>
-        <Link to="/findPASSWORD">비밀번호찾기</Link>
+      <Footer theme={String(theme)}>
+        <Link to="/auth/credentials?type=findId">아이디찾기</Link>
+        <Link to="/auth/credentials?type=findPwd">비밀번호 찾기</Link>
         <Link to="/auth/register">회원가입</Link>
       </Footer>
       <LoginBox></LoginBox>
