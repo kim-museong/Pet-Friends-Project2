@@ -15,7 +15,7 @@ const Postlist = styled.li`
   align-items: end;
   height: 50px;
   border: 1px solid rgb(186, 186, 186);
-  padding: 5px 10px;
+  padding: 5px 20px;
   margin-top: 20px;
 
   svg {

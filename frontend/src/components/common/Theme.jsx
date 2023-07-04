@@ -38,8 +38,8 @@ const ChangeMode = styled.div`
 const Theme = ({ theme, onClick }) => {
   return (
     <>
-      <ChangeMode theme={theme}>
-        <button onClick={onClick} />
+      <ChangeMode theme={theme} onClick={onClick}>
+        <button />
         <MdDarkMode />
         <MdSunny />
       </ChangeMode>
