@@ -216,7 +216,7 @@ const FindPwd = ({
         </FindMethod>
         <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>
-          <Link to="/findID">아이디 찾기</Link>
+          <Link to="/auth/credentials?type=findId">아이디 찾기</Link>
         </Footer>
       </FindIdBox>
     </>

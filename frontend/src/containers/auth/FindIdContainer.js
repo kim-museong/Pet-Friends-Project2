@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const FindIdContainer = () => {
-  const [isNickname, setNickname] = useState(true);
+  const [isnickname, setNickname] = useState(true);
   const [email, setEmail] = useState(false);
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
@@ -73,8 +73,18 @@ const FindIdContainer = () => {
 
   //이메일 전송 함수
   const findEmail = async () => {
-    const { email } = findId;
+    const { email, userId } = findId;
     try {
+      if (userId === '') {
+        dispatch(
+          isAlert({
+            result: '아이디를 입력해주세요.',
+            isResult: true,
+            valid: true,
+          }),
+        );
+        return;
+      }
       if (email === '') {
         dispatch(
           isAlert({
@@ -141,7 +151,7 @@ const FindIdContainer = () => {
         type="findId"
         findId={findId}
         init={init}
-        isNickname={isNickname}
+        isnickname={isnickname}
         theme={theme}
         onChange={onChange}
         findNickname={findNickname}

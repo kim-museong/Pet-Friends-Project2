@@ -17,12 +17,12 @@ const SetBox = styled.div`
   svg {
     font-size: 35px;
     margin: 12px 0 0 12px;
-    color: ${({ theme, showSetting }) =>
+    color: ${({ theme, showsetting }) =>
       theme === 'true'
-        ? showSetting === 'true'
+        ? showsetting === 'true'
           ? 'rgb(255, 140, 0)'
           : 'white'
-        : showSetting === 'true'
+        : showsetting === 'true'
         ? 'rgb(255, 140, 0)'
         : 'rgb(50,50,50)'};
   }
@@ -48,7 +48,7 @@ const ShowBox = styled.div`
 `;
 
 const Setting = () => {
-  const [showSetting, setShowSetting] = useState(false);
+  const [showsetting, setShowSetting] = useState(false);
   const theme = useSelector((state) => state.theme.theme);
 
   const onClick = () => {
@@ -56,14 +56,16 @@ const Setting = () => {
   };
 
   return (
-    <SetBox theme={String(theme)} showSetting={String(showSetting)}>
-      {showSetting && (
+    <>
+      {showsetting && (
         <ShowBox theme={String(theme)}>
           <ThemeContainer />
         </ShowBox>
       )}
-      <MdSettings onClick={onClick} />
-    </SetBox>
+      <SetBox theme={String(theme)} showsetting={String(showsetting)} onClick={onClick}>
+        <MdSettings />
+      </SetBox>
+    </>
   );
 };
 

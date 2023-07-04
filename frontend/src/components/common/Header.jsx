@@ -7,22 +7,23 @@ import { MdAccountCircle } from 'react-icons/md';
 const HeaderBlock = styled.div`
   position: fixed;
   width: 100%;
-  font-size: 20px;
-  padding: 10px 0;
+  font-size: 18px;
+  padding: 5px 0;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
-  box-shadow: 0 0 3px 1px ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+  box-shadow: 0 0 2px 1px ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+  border-radius: 0;
   a {
     color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50,50,50)')};
   }
 `;
 
 const Wrapper = styled(Responsive)`
-  height: 4rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   .logo {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     letter=spacing: 2px;
   }

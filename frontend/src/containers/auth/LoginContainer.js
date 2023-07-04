@@ -14,6 +14,8 @@ const LoginContainer = () => {
     authError: auth.authError,
     user: user.user,
   }));
+  const theme = useSelector((state) => state.theme.theme);
+
   const COOKIE_NAME = 'savedUserId';
   const inputRefs = {
     username: useRef(null),
@@ -72,12 +74,14 @@ const LoginContainer = () => {
     const { checked } = e.target;
     setIsChecked(checked);
   };
+
   //아이콘 누름에 따라 포커스
   const iconClick = (name) => {
     if (inputRefs[name].current) {
       inputRefs[name].current.focus();
     }
   };
+
   //체크박스 클릭 이벤트
   const checkBoxSelect = () => {
     checkBoxRef.current.checked = !checkBoxRef.current.checked;
@@ -148,6 +152,7 @@ const LoginContainer = () => {
       checkBoxSelect={checkBoxSelect}
       inputRefs={inputRefs}
       checkBoxRef={checkBoxRef}
+      theme={theme}
     />
   );
 };

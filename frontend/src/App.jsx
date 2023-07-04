@@ -27,7 +27,6 @@ const GlobalStyle = createGlobalStyle`
 
 const App = () => {
   const theme = useSelector((state) => state.theme.theme);
-  console.log(typeof theme);
   return (
     <>
       <GlobalStyle theme={String(theme)} />

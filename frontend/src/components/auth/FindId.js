@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FindIdBox, FindInputBox, FindMethod, ResultBox, Footer } from '../../lib/styles/find';
 
 const FindId = ({
-  isNickname,
+  isnickname,
   findId,
   init,
   theme,
@@ -23,7 +23,7 @@ const FindId = ({
           <Link to="/">Logo</Link>
           <h1>아이디 찾기</h1>
         </div>
-        <FindMethod theme={String(theme)} isNickname={String(isNickname)}>
+        <FindMethod theme={String(theme)} isnickname={String(isnickname)}>
           <div className="method nick" onClick={selectnick}>
             <MdAccountCircle />
             <div>닉네임</div>
@@ -35,8 +35,7 @@ const FindId = ({
           <FindInputBox>
             <div>
               <div>
-                <div>{isNickname ? '닉네임' : '이메일'}</div>
-                {isNickname ? (
+                {isnickname ? (
                   ''
                 ) : (
                   <input
@@ -49,12 +48,12 @@ const FindId = ({
                 )}
                 <input
                   autoComplete="nickname"
-                  name={isNickname ? 'nickname' : 'email'}
+                  name={isnickname ? 'nickname' : 'email'}
                   onChange={onChange}
-                  value={isNickname ? nickname : email}
-                  placeholder={`${isNickname ? '닉네임' : '이메일'}을 입력해주세요.`}
+                  value={isnickname ? nickname : email}
+                  placeholder={`${isnickname ? '닉네임' : '이메일'}을 입력해주세요.`}
                 />
-                {isNickname ? <button onClick={findNickname}>확인</button> : <button onClick={findEmail}>확인</button>}
+                {isnickname ? <button onClick={findNickname}>확인</button> : <button onClick={findEmail}>확인</button>}
               </div>
               {isResult && (
                 <ResultBox theme={String(theme)}>
@@ -70,7 +69,7 @@ const FindId = ({
         </FindMethod>
         <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>
-          <Link to="/findPASSWORD">비밀번호 찾기</Link>
+          <Link to="/auth/credentials?type=findPwd">비밀번호 찾기</Link>
         </Footer>
       </FindIdBox>
     </>

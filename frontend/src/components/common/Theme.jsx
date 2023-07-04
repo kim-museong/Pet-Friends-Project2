@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const ChangeMode = styled.div`
   width: 105px;
-  height: 47px;
+  height: 46px;
   border: 2px solid ${({ theme }) => (theme === true ? 'white' : 'rgb(186,186,186)')};
   border-radius: 30px;
   display: flex;
@@ -25,7 +25,7 @@ const ChangeMode = styled.div`
     transform: translateY(-50%);
     transition: all 0.2s ease-in-out;
     top: 50%;
-    left: ${({ theme }) => (theme === true ? '62px' : '3px')};
+    left: ${({ theme }) => (theme === true ? '60px' : '1px')};
   }
 
   & svg {

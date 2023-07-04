@@ -13,6 +13,7 @@ const AuthFormBlock = styled.div`
   .logo {
     font-size: 50px;
     margin-bottom: 50px;
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   }
 
   form {
@@ -25,17 +26,17 @@ const AuthFormBlock = styled.div`
 `;
 
 const ButtonWidthMarginTop = styled(Button)`
+  width: 100%;
   height: 60px;
   font-size: 25px;
 `;
 
 const SaveUserIdBox = styled.div`
-  font-size: 18px;
-  margin: 10px 0 0 10px !important;
+  margin: 15px 0 0 10px !important;
 
   display: flex;
   align-items: center;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-hightheme-color: rgba(0, 0, 0, 0);
 
   input[type='checkbox'] {
     -webkit-appearance: none;
@@ -79,7 +80,7 @@ const InputStyle = styled(StyledInput)`
 `;
 
 const LoginBox = styled.div`
-  width: 25%;
+  width: 450px;
   margin: 20px auto 0;
   border-radius: 10px;
   padding: 20px;
@@ -107,7 +108,7 @@ const Login = ({
   onSubmit,
   isChecked,
   onSaveUserId,
-  light,
+  theme,
   showPwd,
   onShowPwd,
   iconClick,
@@ -117,13 +118,13 @@ const Login = ({
 }) => {
   return (
     <>
-      <AuthFormBlock>
+      <AuthFormBlock theme={String(theme)}>
         <Link to="/" className="logo">
           Logo
         </Link>
         <LoginBox>
           <form onSubmit={onSubmit}>
-            <InputStyle light={light}>
+            <InputStyle theme={String(theme)}>
               <div className="icon" onClick={() => iconClick('username')}>
                 <MdPerson />
               </div>
@@ -137,7 +138,7 @@ const Login = ({
               />
             </InputStyle>
 
-            <InputStyle light={light}>
+            <InputStyle theme={String(theme)}>
               <div className="icon" onClick={() => iconClick('password')}>
                 <MdLock />
               </div>
@@ -160,15 +161,13 @@ const Login = ({
 
             <ErrorBox>{error && error}</ErrorBox>
 
-            <ButtonWidthMarginTop cyan fullWidth>
-              로그인
-            </ButtonWidthMarginTop>
+            <ButtonWidthMarginTop>로그인</ButtonWidthMarginTop>
           </form>
         </LoginBox>
       </AuthFormBlock>
-      <Footer light={light}>
-        <Link to="/findId">아이디찾기</Link>
-        <Link to="/findPASSWORD">비밀번호찾기</Link>
+      <Footer theme={String(theme)}>
+        <Link to="/auth/credentials?type=findId">아이디찾기</Link>
+        <Link to="/auth/credentials?type=findPwd">비밀번호 찾기</Link>
         <Link to="/auth/register">회원가입</Link>
       </Footer>
       <LoginBox></LoginBox>
