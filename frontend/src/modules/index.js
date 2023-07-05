@@ -8,6 +8,7 @@ import user, { userSaga } from './user';
 import find, { emailSage } from './find';
 import theme from './theme';
 import post, { postSaga } from './post';
+import write from './write';
 import main, { mainSaga } from './main';
 
 const rootReducer = combineReducers({
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   find,
   theme,
   post,
+  write,
   main,
 });
 
