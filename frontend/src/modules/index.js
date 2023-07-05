@@ -8,6 +8,7 @@ import user, { userSaga } from './user';
 import find, { emailSage } from './find';
 import theme from './theme';
 import post, { postSaga } from './post';
+import write from './write';
 
 const rootReducer = combineReducers({
   posts,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   find,
   theme,
   post,
+  write,
 });
 
 export function* rootSaga() {

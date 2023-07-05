@@ -135,3 +135,7 @@ exports.readPost = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.afterUploadImage = (req, res) => {
+  res.json({ url: `/img/${req.files[0].filename}` });
+};

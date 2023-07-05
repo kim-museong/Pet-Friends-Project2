@@ -25,7 +25,7 @@ const PostDetailPage = () => {
         </>
       ) : (
         <>
-          <PostContainer />
+          <PostContainer postId={postId} />
           <TagContainer />
           <ActionButtonContainer />
           <SubmitCommentContainer />
