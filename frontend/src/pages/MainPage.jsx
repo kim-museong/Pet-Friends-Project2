@@ -4,6 +4,8 @@ import LoginFormContainer from '../containers/main/LoginFormContainer';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import AutoPlayMethods from '../containers/main/eventContainer';
 import PopularpostContainer from '../containers/main/PopularpostContainer';
+import MeunlistsContainer from '../containers/main/MeunlistsContainer';
+import ShopBoxContainer from '../containers/main/ShopBoxContainer';
 import PopularCardContainer from '../containers/main/PopularCardContainer';
 
 const ContainBox = styled.div`
@@ -14,13 +16,17 @@ const ContainBox = styled.div`
 `;
 
 const MainBox = styled.div`
-  width: 65%;
+  width: 70%;
   display: inline-block;
 `;
 
 const SideBox = styled.div`
-  width: 34%;
   display: inline-block;
+`;
+
+const ShopBox = styled.div`
+  width: 77.5%;
+  margin: 20px auto;
 `;
 
 const MainPage = () => {
@@ -28,13 +34,29 @@ const MainPage = () => {
     <>
       <HeaderContainer />
       <ContainBox>
+        {/*--------------- 메인 -------------- */}
         <MainBox>
           <AutoPlayMethods />
-          <PopularpostContainer />
-          <PopularCardContainer />
+          <MeunlistsContainer />
         </MainBox>
+        {/* -------------- 사이드 ------------- */}
         <SideBox>
           <LoginFormContainer />
+          <PopularpostContainer />
+        </SideBox>
+      </ContainBox>
+      <ShopBox>
+        <ShopBoxContainer />
+      </ShopBox>
+      <ContainBox>
+        {/*--------------- 메인 -------------- */}
+        <MainBox>
+          <PopularCardContainer />
+        </MainBox>
+        {/* -------------- 사이드 ------------- */}
+        <SideBox>
+          <LoginFormContainer />
+          <PopularpostContainer />
         </SideBox>
       </ContainBox>
     </>

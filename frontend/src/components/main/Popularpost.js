@@ -1,40 +1,51 @@
 import styled from 'styled-components';
 import { MdOutlineLocalFireDepartment, MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { PiDog } from 'react-icons/pi';
 
 const PopularpostBox = styled.div`
-  width: 50%;
+  width: 350px;
   border: 1px solid rgb(186, 186, 186);
-  padding: 20px 30px;
+  padding: 20px;
   margin-right: 20px;
   overflow: hidden;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(45, 45, 45)' : '')};
 `;
 
 const Postlist = styled.li`
   display: flex;
-  align-items: end;
+  align-items: center;
+  width: 100%;
   height: 50px;
   border: 1px solid rgb(186, 186, 186);
   padding: 5px 10px;
   margin-top: 20px;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(20,20,20)' : '')};
+  font-size: 14px;
 
   svg {
     color: red;
-    font-size: 30px;
+    font-size: 20px;
     margin-right: 10px;
+  }
+
+  .postView {
   }
 
   div:nth-child(2) {
     margin-right: 10px;
   }
 
-  div:nth-child(3) {
-    font-size: 14px;
-    color: rgb(100, 100, 100);
+  .title {
+    display: inline-block;
+    width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   & + & {
-    margin-top: 10px;
+    margin-top: 5px;
   }
 `;
 
@@ -51,10 +62,16 @@ const ListBox = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+    margin-bottom: 10px;
 
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  h2 {
+    margin-left: 40px;
+    color: rgb(255, 140, 0);
   }
 
   svg {
@@ -62,27 +79,37 @@ const ListBox = styled.div`
   }
 `;
 
-const Popularpost = ({ posts, theme }) => {
+const MiniBox = styled.div`
+  position: absolute;
+
+  svg {
+    font-size: 35px;
+    color: rgb(255, 140, 0);
+  }
+`;
+
+const Popularpost = ({ pupularPosts, theme }) => {
   return (
     <>
-      <PopularpostBox>
+      <PopularpostBox theme={String(theme)}>
         <ListBox theme={String(theme)}>
-          <h3>인기 게시물</h3>
+          <MiniBox>
+            <PiDog />
+          </MiniBox>
+          <h2>인기 게시물</h2>
           <Link to="/community" className="add-list">
             더보기
             <MdChevronRight />
           </Link>
         </ListBox>
 
-        <ol start={1}>
-          {posts?.map((post) => (
-            <Postlist key={post.id}>
+        <ol>
+          {pupularPosts?.map((post) => (
+            <Postlist key={post.id} theme={String(theme)}>
               <MdOutlineLocalFireDepartment />
-              <div>
-                <div>{post.title}</div>
-                <div>
-                  {post.User.nickname}({post.User.userId.slice(0, -3) + '***'})
-                </div>
+              <div className="postView">{post.view}</div>
+              <div className="postInfo">
+                <span className="title">{post.title}</span>
               </div>
             </Postlist>
           ))}
