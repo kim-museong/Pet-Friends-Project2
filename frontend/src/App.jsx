@@ -56,7 +56,8 @@ const App = () => {
         <Route path="/community" element={<CommunityPage />}></Route>
 
         {/* 글쓰기(편집기) 페이지 */}
-        <Route path="/:boardName/write" element={<WritePage />}></Route>
+        <Route path="/editor/post" element={<WritePage />}></Route>
+        <Route path="/editor/picture" element={<WritePage />}></Route>
 
         {/* 게시글 상세 정보 */}
         <Route path="/notice/:postId" element={<PostDetailPage />}></Route>

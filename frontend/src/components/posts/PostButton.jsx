@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '../common/Button';
 
-const PostButton = () => {
+const PostButton = ({ boardName }) => {
   return (
-    <Link to={`/community/write`}>
-      <button>글쓰기</button>
+    <Link to="/editor/post" state={{ boardName }}>
+      <Button>글쓰기</Button>
     </Link>
   );
 };

@@ -9,6 +9,9 @@ import { takeLatest } from 'redux-saga/effects';
 // define action type
 const CHANGE_INPUT = 'write/CHANGE_INPUT';
 const INIT_INPUT = 'write/INIT_INPUT';
+// CREATE_POST, PICTURE | SUCCESS, FAILURE
+// UPDATE_POST, PICTURE
+// DELETE_POST, PICTURE
 
 // action creator
 export const changeInput = createAction(CHANGE_INPUT, (key, value) => ({ key, value }));
