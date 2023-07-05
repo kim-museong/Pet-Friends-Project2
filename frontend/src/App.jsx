@@ -20,7 +20,7 @@ import WritePage from './pages/WritePage';
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background: ${({ theme }) => (theme === 'true' ? 'rgb(35, 35, 35)' : 'white')};
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
     color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   }
 

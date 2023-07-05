@@ -12,6 +12,7 @@ const HeaderBlock = styled.div`
   background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
   box-shadow: 0 0 2px 1px ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   border-radius: 0;
+  z-index: 5;
   a {
     color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50,50,50)')};
   }

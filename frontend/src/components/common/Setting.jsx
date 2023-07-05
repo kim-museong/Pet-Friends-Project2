@@ -37,11 +37,12 @@ const ShowBox = styled.div`
   width: 150px;
   height: 100px;
   border: 1px solid rgb(186, 186, 186);
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   box-shadow: -1px 1px 4px rgb(186, 186, 186);
   position: fixed;
   right: 3%;
   bottom: 11%;
-
+  z-index: 3;
   div {
     margin: 26px auto;
   }

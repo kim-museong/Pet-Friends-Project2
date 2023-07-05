@@ -8,6 +8,7 @@ import user, { userSaga } from './user';
 import find, { emailSage } from './find';
 import theme from './theme';
 import post, { postSaga } from './post';
+import main, { mainSaga } from './main';
 
 const rootReducer = combineReducers({
   posts,
@@ -18,10 +19,11 @@ const rootReducer = combineReducers({
   find,
   theme,
   post,
+  main,
 });
 
 export function* rootSaga() {
-  yield all([postsSaga(), authSaga(), userSaga(), emailSage(), postSaga()]);
+  yield all([postsSaga(), authSaga(), userSaga(), emailSage(), postSaga(), mainSaga()]);
 }
 
 export default rootReducer;

@@ -4,6 +4,7 @@ const { Post, User, Board, Content, Comment, Like } = require('../models');
 exports.readPictureList = (req, res, next) => {
   const { sortType, limit } = req.query;
   const { boardName } = req.params;
+  console.log(sortType, limit, boardName);
   let column = 'createdAt';
   let order = 'DESC';
   switch (sortType) {
