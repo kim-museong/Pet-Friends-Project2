@@ -40,24 +40,16 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const AlertModal = ({
-  visible,
-  title,
-  description,
-  confirmText = '확인',
-  cancelText = '취소',
-  onConfirm = null,
-  onCancel = null,
-}) => {
+const AlertModal = ({ visible, modalData }) => {
   if (!visible) return null;
   return (
     <Fullscreen>
       <AlertModalBlock>
-        <h2>{title}</h2>
-        <p>{description}</p>
+        <h2>{modalData.title}</h2>
+        <p>{modalData.description}</p>
         <div className="buttons">
-          <StyledButton onClick={onConfirm}>{confirmText}</StyledButton>
-          {onCancel && <StyledButton onClick={onCancel}>{cancelText}</StyledButton>}
+          <StyledButton onClick={modalData.onConfirm}>{modalData.confirmText}</StyledButton>
+          {modalData.onCancel && <StyledButton onClick={modalData.onCancel}>{modalData.cancelText}</StyledButton>}
         </div>
       </AlertModalBlock>
     </Fullscreen>
