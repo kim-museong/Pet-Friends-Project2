@@ -7,10 +7,11 @@ import PopularpostContainer from '../containers/main/PopularpostContainer';
 import MeunlistsContainer from '../containers/main/MeunlistsContainer';
 import ShopBoxContainer from '../containers/main/ShopBoxContainer';
 import PopularCardContainer from '../containers/main/PopularCardContainer';
+import AttendanceConainer from '../containers/main/AttendanceConainer';
 
 const ContainBox = styled.div`
-  width: 80%;
-  margin: 50px auto;
+  width: 75%;
+  margin: 50px auto 20px;
   display: flex;
   justify-content: space-evenly;
 `;
@@ -25,8 +26,8 @@ const SideBox = styled.div`
 `;
 
 const ShopBox = styled.div`
-  width: 77.5%;
-  margin: 20px auto;
+  width: 85%;
+  margin: 0 auto;
 `;
 
 const MainPage = () => {
@@ -37,7 +38,10 @@ const MainPage = () => {
         {/*--------------- 메인 -------------- */}
         <MainBox>
           <AutoPlayMethods />
-          <MeunlistsContainer />
+          <div style={{ position: 'relative' }}>
+            <MeunlistsContainer />
+            <AttendanceConainer />
+          </div>
         </MainBox>
         {/* -------------- 사이드 ------------- */}
         <SideBox>

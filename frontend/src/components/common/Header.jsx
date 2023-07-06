@@ -79,7 +79,7 @@ const Header = ({ user, onLogout, theme }) => {
           </MenuList>
           <div className="right">
             {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
-            {location.pathname !== '/' && (
+            {location.pathname !== '/' && location.pathname !== '/petShop' && (
               <>
                 {user ? (
                   <>
