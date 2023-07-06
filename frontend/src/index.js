@@ -11,6 +11,7 @@ import rootReducer from './modules';
 import { rootSaga } from './modules/index';
 import { HelmetProvider } from 'react-helmet-async';
 import { check, tempSetUser } from './modules/user';
+import ScrollToTop from './lib/ScrollToTop';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -36,6 +37,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
+      <ScrollToTop />
       <HelmetProvider>
         <App />
       </HelmetProvider>

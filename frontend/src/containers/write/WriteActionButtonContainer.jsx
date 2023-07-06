@@ -13,27 +13,23 @@ const WriteActionButtonContainer = ({ boardName }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (post) {
-      navigate(-1);
-    }
-  }, [navigate, post]);
-
-  useEffect(() => {
-    if (postError) {
-    }
-  }, [navigate, postError]);
-
   const onSubmit = () => {
-    // 제목, 본문 null 체크
-    // 본문내용 필터링
     dispatch(createPost({ boardName, title, content }));
+    // 본문내용 필터링
   };
   const onCancel = () => {
-    // 제목, 본문 !null 체크
     navigate(-1);
   };
-  return <WriteActionButton onSubmit={onSubmit} onCancel={onCancel} />;
+  return (
+    <WriteActionButton
+      title={title}
+      content={content}
+      post={post}
+      postError={postError}
+      onSubmit={onSubmit}
+      onCancel={onCancel}
+    />
+  );
 };
 
 export default WriteActionButtonContainer;

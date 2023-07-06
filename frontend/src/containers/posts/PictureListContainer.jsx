@@ -46,7 +46,7 @@ const PictureListContainer = () => {
       const { clientHeight, scrollTop, scrollHeight } = document.documentElement;
       if (clientHeight + scrollTop + 1 >= scrollHeight) {
         // 필요한 만큼의 데이터만 추가로 요청함
-        if (posts.length + column.current > limit.current) {
+        if (posts?.length + column.current > limit.current) {
           limit.current += column.current;
         }
         console.log(`사진 ${column.current}개를 추가로 불러옵니다`);
