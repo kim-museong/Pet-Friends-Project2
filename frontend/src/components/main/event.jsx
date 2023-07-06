@@ -2,6 +2,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
+import palette from '../../lib/styles/palette';
 
 const CarouselBox = styled.div`
   margin-right: 20px;
@@ -9,7 +10,6 @@ const CarouselBox = styled.div`
   h3 {
     width: 100%;
     height: 300px;
-    background: rgba(256, 90, 0);
 
     border-radius: 0;
   }
@@ -23,6 +23,7 @@ const CarouselBox = styled.div`
   }
 
   .attend {
+    background: ${palette.mainColor};
     background-image: url('../../../images/attend.png');
     background-repeat: no-repeat;
     background-size: contain;
