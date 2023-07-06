@@ -137,6 +137,41 @@ exports.readPost = async (req, res, next) => {
   }
 };
 
+// create post
+exports.createPost = async (req, res, next) => {
+  const { boardName } = req.params;
+  const { title, content, imgUrl } = req.body;
+
+  try {
+    // boardName으로 boardId 찾아서 저장
+    const boardId = await Board.findOne({ where: { name: boardName } });
+
+    // DB posts 테이블에 post 저장
+    const post = await Post.create({
+      title,
+      BoardId: boardId.id,
+      UserId: req.user.id,
+      imgUrl,
+    });
+
+    // DB contents 테이블에 content 저장
+    const contentHTML = await Content.create({
+      content,
+      PostId: post.id,
+    });
+
+    // post 객체에 boardName과 content 정보를 추가
+    post.dataValues.boardName = boardId.dataValues.name;
+    post.dataValues.content = contentHTML.dataValues.content;
+
+    return res.status(200).json(post);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+// after upload image
 exports.afterUploadImage = (req, res) => {
   res.json({ url: `/img/${req.files[0].filename}` });
 };
