@@ -73,7 +73,7 @@ exports.check = async (req, res, next) => {
   try {
     const foundUser = await User.findOne({
       where: { id: user.id },
-      attributes: ['userId', 'nickname', 'email', 'rank'], // 가져오고 싶은 컬럼 이름을 배열로 지정합니다.
+      attributes: ['id', 'userId', 'nickname', 'email', 'rank'], // 가져오고 싶은 컬럼 이름을 배열로 지정합니다.
     });
 
     if (foundUser) {

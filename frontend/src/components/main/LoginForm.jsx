@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Button from '../../components/common/Button';
 import { Link } from 'react-router-dom';
 import { MdLogout } from 'react-icons/md';
+import palette from '../../lib/styles/palette';
 
 const UserInfo = styled.div`
   font-weight: 800;
@@ -31,7 +32,7 @@ const LoginFormBox = styled.div`
   .login {
     display: block;
     width: 100%;
-    background: rgb(255, 140, 0);
+    background: ${palette.mainColor};
     color: white;
     padding: 15px 10px;
     margin: 20px auto 10px;
@@ -68,7 +69,7 @@ const IsLoginFormBox = styled.div`
   .login {
     display: block;
     width: 100%;
-    background: rgb(255, 140, 0);
+    background: ${palette.mainColor};
     color: white;
     padding: 15px 10px;
     margin: 20px auto 10px;

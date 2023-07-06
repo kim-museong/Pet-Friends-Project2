@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { MdMailOutline, MdOutlineSmartphone } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { FindIdBox, Footer, FindInputBox } from '../../lib/styles/find';
+import palette from '../../lib/styles/palette';
 
 const FindMethod = styled.div`
   width: 90%;
@@ -23,19 +24,19 @@ const FindMethod = styled.div`
   }
 
   .nick {
-    border: 1px solid ${({ email }) => (email === 'true' ? '' : 'rgb(255, 140, 0)')};
+    border: 1px solid ${({ email }) => (email === 'true' ? '' : `${palette.mainColor}`)};
     svg {
       font-size: 50px;
-      color: ${({ email }) => (email === 'true' ? '' : 'rgb(255, 140, 0)')};
+      color: ${({ email }) => (email === 'true' ? '' : `${palette.mainColor}`)};
     }
   }
 
   .email {
-    border: 1px solid ${({ email }) => (email === 'true' ? 'rgb(255, 140, 0)' : '')};
+    border: 1px solid ${({ email }) => (email === 'true' ? `${palette.mainColor}` : '')};
 
     svg {
       font-size: 50px;
-      color: ${({ email }) => (email === 'true' ? 'rgb(255, 140, 0)' : '')};
+      color: ${({ email }) => (email === 'true' ? `${palette.mainColor}` : '')};
     }
   }
 `;
