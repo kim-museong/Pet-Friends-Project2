@@ -51,6 +51,16 @@ class User extends Sequelize.Model {
           type: Sequelize.STRING(5), // 추후 ENUM으로 변경
           allowNull: true,
         },
+        isAttendance: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
+        attendanceNumber: {
+          type: Sequelize.INTEGER, // 추후 ENUM으로 변경
+          allowNull: false,
+          defaultValue: 0,
+        },
       },
       {
         sequelize,
@@ -70,6 +80,7 @@ class User extends Sequelize.Model {
     db.User.hasMany(db.Like);
     db.User.hasMany(db.Comment);
     db.User.hasMany(db.Post);
+    db.User.hasMany(db.Attendance);
     db.User.belongsToMany(db.User, {
       foreignKey: 'followingId',
       as: 'Followers',

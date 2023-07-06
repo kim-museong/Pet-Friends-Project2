@@ -19,7 +19,7 @@ export const FindIdBox = styled.div`
 `;
 
 export const FindInputBox = styled.div`
-  border: 1px solid rgb(255, 140, 0);
+  border: 1px solid ${palette.mainColor};
   width: 450px;
   margin: 5% auto;
   padding: 50px;
@@ -38,14 +38,14 @@ export const FindInputBox = styled.div`
     font-size: 18px;
 
     &:focus {
-      border: 1px solid rgb(255, 140, 0);
+      border: 1px solid ${palette.mainColor};
     }
   }
 
   button {
     display: inline-block;
     width: 100%;
-    background: rgb(255, 140, 0);
+    background: ${palette.mainColor};
     border: none;
     padding: 10px 20px;
     color: white;
@@ -77,21 +77,21 @@ export const FindMethod = styled.div`
     font-weight: bold;
 
     &:hover {
-      border: 1px solid rgb(255, 140, 0);
+      border: 1px solid ${palette.mainColor};
     }
   }
 
   .nick {
-    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? 'rgb(255, 140, 0)' : '')};
-    color: ${({ isnickname }) => (isnickname === 'true' ? 'rgb(255, 140, 0)' : '')};
+    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? `${palette.mainColor}` : '')};
+    color: ${({ isnickname }) => (isnickname === 'true' ? `${palette.mainColor}` : '')};
     svg {
       font-size: 50px;
     }
   }
 
   .email {
-    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? '' : 'rgb(255, 140, 0)')};
-    color: ${({ isnickname }) => (isnickname === 'true' ? '' : 'rgb(255, 140, 0)')};
+    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? '' : `${palette.mainColor}`)};
+    color: ${({ isnickname }) => (isnickname === 'true' ? '' : `${palette.mainColor}`)};
     svg {
       font-size: 50px;
     }
@@ -170,7 +170,7 @@ export const StyledInput = styled.div`
   }
 
   svg {
-    color: rgb(255, 140, 0);
+    color: ${palette.mainColor};
     font-size: 40px;
     margin: 10px 10px 0 0;
   }
@@ -179,7 +179,7 @@ export const StyledInput = styled.div`
     margin-left: 10px;
 
     svg {
-      color: rgb(255, 140, 0);
+      color: ${palette.mainColor};
       font-size: 40px;
       margin-right: 0px;
     }

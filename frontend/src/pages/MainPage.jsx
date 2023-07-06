@@ -38,7 +38,7 @@ const MainPage = () => {
         {/*--------------- 메인 -------------- */}
         <MainBox>
           <AutoPlayMethods />
-          <div style={{ position: 'relative' }}>
+          <div>
             <MeunlistsContainer />
             <AttendanceConainer />
           </div>
