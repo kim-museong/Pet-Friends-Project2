@@ -7,7 +7,7 @@ import PopularpostContainer from '../containers/main/PopularpostContainer';
 import MeunlistsContainer from '../containers/main/MeunlistsContainer';
 import ShopBoxContainer from '../containers/main/ShopBoxContainer';
 import PopularCardContainer from '../containers/main/PopularCardContainer';
-import AttendanceConainer from '../containers/main/AttendanceConainer';
+import Attendance from '../lib/main/Attendance';
 
 const ContainBox = styled.div`
   width: 75%;
@@ -40,7 +40,7 @@ const MainPage = () => {
           <AutoPlayMethods />
           <div>
             <MeunlistsContainer />
-            <AttendanceConainer />
+            <Attendance />
           </div>
         </MainBox>
         {/* -------------- 사이드 ------------- */}
@@ -59,7 +59,6 @@ const MainPage = () => {
         </MainBox>
         {/* -------------- 사이드 ------------- */}
         <SideBox>
-          <LoginFormContainer />
           <PopularpostContainer />
         </SideBox>
       </ContainBox>
@@ -67,4 +66,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default React.memo(MainPage);

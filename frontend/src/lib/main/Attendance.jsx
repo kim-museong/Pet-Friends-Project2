@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from '../../../node_modules/axios/index';
 import { useSelector } from '../../../node_modules/react-redux/es/exports';
 import { Link } from '../../../node_modules/react-router-dom/dist/index';
@@ -10,13 +10,15 @@ const AttendanceBox = styled.div`
   height: 281px;
   position: absolute;
   border: 1px solid rgb(186, 186, 186);
-  top: 44.3%;
-  left: 51.5%;
+  top: 434px;
+  left: 944px;
+  text-align: center;
+  padding: 10px;
   .attend {
     display: block;
     width: 130px;
     height: 130px;
-    margin: 35px auto;
+    margin: 10px auto 0;
     cursor: pointer;
     background: none;
     border: none;
@@ -25,6 +27,27 @@ const AttendanceBox = styled.div`
     background-repeat: no-repeat;
     background-position: ${({ isconfirm }) =>
       isconfirm === 'true' ? '16.8% 72%' : ' 82% 72%;'}; /* 이미지를 가로로 50% 위치로 이동 */
+  }
+
+  .attendBtn {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    background-color: ${palette.mainColor};
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(186, 186, 186);
+    }
+  }
+
+  .attendBtn:disabled {
+    background-color: rgba(186, 186, 186, 0.6);
+    color: rgb(186, 186, 186);
   }
 `;
 
@@ -64,7 +87,7 @@ const IsLoginBox = styled.div`
   }
 `;
 
-const AttendanceConainer = () => {
+const Attendance = () => {
   const user = useSelector((state) => state.user.user);
   const theme = useSelector((state) => state.theme.theme);
   const [cancel, setCancel] = useState(true);
@@ -72,6 +95,21 @@ const AttendanceConainer = () => {
   const date = new Date();
   const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
   const day = date.getDate();
+
+  const confirm = useCallback(async () => {
+    if (user) {
+      const { userId } = user;
+      if (userId === null) {
+        return;
+      } else {
+        const response = await axios.post('/user/isAttendance', { userId });
+        setIsConfirm(response.data);
+        console.log('검사', isConfirm);
+      }
+    } else {
+      setIsConfirm('');
+    }
+  }, [user]);
 
   const handleCheckIn = async () => {
     if (!user) {
@@ -83,6 +121,7 @@ const AttendanceConainer = () => {
       console.log('출석');
       const response = await axios.post('/user/attendance', { userId, id });
       console.log(response);
+      confirm();
     }
   };
 
@@ -91,21 +130,8 @@ const AttendanceConainer = () => {
   };
 
   useEffect(() => {
-    const confirm = async () => {
-      if (user) {
-        const { userId } = user;
-        if (userId === null) {
-          return;
-        } else {
-          const response = await axios.post('/user/isAttendance', { userId });
-          setIsConfirm(response.data);
-        }
-      } else {
-        setIsConfirm('');
-      }
-    };
     confirm();
-  }, [user, isConfirm]);
+  }, [confirm]);
 
   console.log(isConfirm);
 
@@ -138,11 +164,13 @@ const AttendanceConainer = () => {
         ) : (
           <p>출석을 해주세요.</p>
         )}
-
         <button className="attend" onClick={handleCheckIn} disabled={isConfirm}></button>
+        <button className="attendBtn" disabled={isConfirm} onClick={handleCheckIn}>
+          출석하기
+        </button>
       </AttendanceBox>
     </>
   );
 };
 
-export default AttendanceConainer;
+export default React.memo(Attendance);

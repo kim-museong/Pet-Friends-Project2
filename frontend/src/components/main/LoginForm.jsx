@@ -142,6 +142,7 @@ const LoginForm = ({ user, onLogout, theme }) => {
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               <div>
                 <div>등급: 일반</div>
+                <div>포인트: 0</div>
               </div>
               <div>
                 <div>팔로워: 0</div>

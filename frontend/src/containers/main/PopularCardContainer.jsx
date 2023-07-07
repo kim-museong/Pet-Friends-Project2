@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PopularCard from '../../components/main/PopularCard';
-import { useDispatch, useSelector } from '../../../node_modules/react-redux/es/exports';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCardAsync } from '../../modules/main';
 
 const PopularCardContainer = () => {
@@ -18,4 +18,4 @@ const PopularCardContainer = () => {
   );
 };
 
-export default PopularCardContainer;
+export default React.memo(PopularCardContainer);

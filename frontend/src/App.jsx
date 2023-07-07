@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import './App.css';
 import Setting from './components/common/Setting';
 import WritePage from './pages/WritePage';
+import AttendancePage from './pages/AttendancePage';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -64,6 +65,8 @@ const App = () => {
         <Route path="/information/:postId" element={<PostDetailPage />}></Route>
         <Route path="/picture/:postId" element={<PostDetailPage />}></Route>
         <Route path="/community/:postId" element={<PostDetailPage />}></Route>
+
+        <Route path="/attendance" element={<AttendancePage />} />
 
         {/* Not Found 페이지 */}
         <Route path="*" element={<NotFoundPage />}></Route>

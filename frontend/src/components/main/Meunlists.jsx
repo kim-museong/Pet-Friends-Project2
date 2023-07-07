@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { MdComment, MdInfo } from 'react-icons/md';
 import { AiFillNotification } from 'react-icons/ai';
+import React from 'react';
 
 const SelectBox = styled.div`
   display: flex;
@@ -157,4 +158,4 @@ const Meunlists = ({ onClick, posts, notice, info, community, theme }) => {
   );
 };
 
-export default Meunlists;
+export default React.memo(Meunlists);

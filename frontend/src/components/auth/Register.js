@@ -74,6 +74,7 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 <MdPerson />
               </div>
               <input
+                autoFocus
                 ref={inputRefs.username}
                 autoComplete="username"
                 name="username"
