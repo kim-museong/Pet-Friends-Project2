@@ -140,7 +140,7 @@ exports.readPost = async (req, res, next) => {
 // create post
 exports.createPost = async (req, res, next) => {
   const { boardName } = req.params;
-  const { title, content, imgUrl } = req.body;
+  const { title, filteredContent, imgUrl } = req.body;
 
   try {
     // boardName으로 boardId 찾아서 저장
@@ -154,9 +154,9 @@ exports.createPost = async (req, res, next) => {
       imgUrl,
     });
 
-    // DB contents 테이블에 content 저장
+    // DB contents 테이블에 filtering된 content 저장
     const contentHTML = await Content.create({
-      content,
+      content: filteredContent,
       PostId: post.id,
     });
 

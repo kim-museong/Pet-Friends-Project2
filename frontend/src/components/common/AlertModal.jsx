@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 
@@ -40,10 +41,33 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const AlertModal = ({ visible, modalData }) => {
+const AlertModal = ({ visible, modalData, modalRef, onModalOutSideClick }) => {
+  // useEffect에 enter, esc키로 버튼을 동작하게 하기 위한 이벤트 등록
+  useEffect(() => {
+    if (visible) {
+      const handleKeydown = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.keyCode === 13 /* enter 키 */) {
+          console.log('enter 눌림', event.target);
+          modalData.onConfirm && modalData.onConfirm();
+        } else if (event.keyCode === 27 /* esc 키 */) {
+          console.log('esc 눌림', event.target);
+          modalData.onCancel && modalData.onCancel();
+        }
+      };
+      window.addEventListener('keydown', handleKeydown);
+
+      return () => {
+        window.removeEventListener('keydown', handleKeydown);
+      };
+    }
+  }, [modalData, visible]);
+
+  // visible의 상태에 따라 모달컴포넌트, null 전환
   if (!visible) return null;
   return (
-    <Fullscreen>
+    <Fullscreen ref={modalRef} onClick={onModalOutSideClick}>
       <AlertModalBlock>
         <h2>{modalData.title}</h2>
         <p>{modalData.description}</p>
