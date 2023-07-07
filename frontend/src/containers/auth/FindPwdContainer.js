@@ -31,7 +31,7 @@ const FindPwdContainer = () => {
   const findPhone = async () => {
     const { phone, userId } = form;
     try {
-      const response = await axios.post('/users/findPwdPhone', {
+      const response = await axios.post('/user/findPwdPhone', {
         phone,
         userId,
       });
@@ -141,7 +141,7 @@ const FindPwdContainer = () => {
       return;
     }
     try {
-      const response = await axios.post('/users/changePwd', {
+      const response = await axios.post('/user/changePwd', {
         pwd: password,
         findEmail: isemail,
       });

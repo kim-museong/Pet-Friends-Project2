@@ -1,7 +1,7 @@
 import Meunlists from '../../components/main/Meunlists';
-import { useDispatch, useSelector } from '../../../node_modules/react-redux/es/exports';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMainAsync } from '../../modules/main';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const MeunlistsContainer = () => {
   const dispatch = useDispatch();
@@ -47,4 +47,4 @@ const MeunlistsContainer = () => {
   );
 };
 
-export default MeunlistsContainer;
+export default React.memo(MeunlistsContainer);

@@ -3,6 +3,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
+import { useNavigate } from 'react-router-dom';
 
 const CarouselBox = styled.div`
   margin-right: 20px;
@@ -28,15 +29,21 @@ const CarouselBox = styled.div`
     background-repeat: no-repeat;
     background-size: contain;
     background-position: 50% 50%; /* 이미지를 가로로 50% 위치로 이동 */
+    cursor: pointer;
   }
 `;
 
 export const Event = ({ sliderRef, settings }) => {
+  const navigate = useNavigate();
+  const onAttendancePage = () => {
+    navigate('/attendance'); // 이동할 주소를 지정합니다.
+  };
+
   return (
     <CarouselBox>
       <Slider ref={sliderRef} {...settings}>
         <div>
-          <h3 className="attend">
+          <h3 className="attend" onClick={onAttendancePage}>
             <a href="https://kor.pngtree.com/freepng/korean-yellow-time-attendance-punch-card-style_6590218.html">
               출처
             </a>

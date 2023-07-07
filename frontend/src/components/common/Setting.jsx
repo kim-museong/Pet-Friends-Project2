@@ -12,6 +12,7 @@ const SetBox = styled.div`
   z-index: 1;
   cursor: pointer;
   border: 1px solid rgb(186, 186, 186);
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   border-radius: 50%;
   right: 3%;
   bottom: 3%;
@@ -55,6 +56,7 @@ const ScrollUpBtn = styled.div`
   position: fixed;
   z-index: 1;
   cursor: pointer;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   border: 1px solid rgb(186, 186, 186);
   border-radius: 50%;
   right: 3%;
@@ -79,6 +81,7 @@ const ScrollDownBtn = styled.div`
   position: fixed;
   z-index: 1;
   cursor: pointer;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   border: 1px solid rgb(186, 186, 186);
   border-radius: 50%;
   right: 3%;

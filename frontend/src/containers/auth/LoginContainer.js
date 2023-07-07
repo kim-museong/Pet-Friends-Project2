@@ -37,6 +37,7 @@ const LoginContainer = () => {
       }),
     );
   };
+
   //비밀번호 보이기 이벤트
   const onShowPwd = () => {
     setShowPwd((prev) => !prev);
@@ -103,17 +104,6 @@ const LoginContainer = () => {
     }
   }, [dispatch, auth, authError]);
 
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-      try {
-        localStorage.setItem('user', JSON.stringify(user));
-      } catch (e) {
-        console.log('localStorage is not working');
-      }
-    }
-  }, [navigate, user]);
-
   //페이지 로딩 시 쿠키에서 아이디와 체크 여부 복원
   useEffect(() => {
     const cookie = document.cookie;
@@ -129,14 +119,28 @@ const LoginContainer = () => {
   }, []);
 
   //값변경에 따른 쿠키 저장 순서 중요!
+
   useEffect(() => {
     if (isChecked) {
       const { username } = form;
       saveUserIdCookie(username, true);
-    } else {
+    }
+
+    if (!isChecked) {
       saveUserIdCookie('', false);
     }
   }, [form, isChecked]);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.log('localStorage is not working');
+      }
+    }
+  }, [navigate, user]);
 
   return (
     <Login

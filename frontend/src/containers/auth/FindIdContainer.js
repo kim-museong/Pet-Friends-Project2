@@ -50,7 +50,7 @@ const FindIdContainer = () => {
         return;
       }
 
-      const response = await axios.post('/users/findNickname', {
+      const response = await axios.post('/user/findNickname', {
         findID: nickname,
       });
 

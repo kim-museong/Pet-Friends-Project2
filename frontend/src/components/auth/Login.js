@@ -129,6 +129,7 @@ const Login = ({
                 <MdPerson />
               </div>
               <input
+                autoFocus
                 ref={inputRefs.username}
                 autoComplete="username"
                 name="username"

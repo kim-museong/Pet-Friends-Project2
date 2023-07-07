@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Popularpost from '../../components/main/Popularpost';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPopularAsync } from '../../modules/main';
 
@@ -26,4 +26,4 @@ const PopularpostContainer = () => {
   );
 };
 
-export default PopularpostContainer;
+export default React.memo(PopularpostContainer);
