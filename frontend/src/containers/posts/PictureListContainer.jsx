@@ -14,10 +14,13 @@ const PictureListContainer = () => {
   // 3. limit : 화면의 사이즈와 사진div 크기에 따라서 유동적으로 결정.
   const posts = useSelector((state) => state.posts.posts);
   const sortType = useSelector((state) => state.sort.sortType);
+  const searchCategory = useSelector((state) => state.search.searchCategory);
+  const searchKeyword = useSelector((state) => state.search.searchKeyword);
   const loading = useSelector((state) => state.loading['posts/GET_POSTS']);
   const dispatch = useDispatch();
   const getPosts = useCallback(
-    ({ sortType, boardName, limit }) => dispatch(getPostsAsync({ sortType, boardName, limit })),
+    ({ sortType, boardName, limit, searchCategory, searchKeyword }) =>
+      dispatch(getPostsAsync({ sortType, boardName, limit, searchCategory, searchKeyword })),
     [dispatch],
   );
 
@@ -25,7 +28,7 @@ const PictureListContainer = () => {
   // fetch pictureList on mount
   useEffect(() => {
     console.log('사진 리스트 불러옵니다');
-    getPosts({ sortType: sortType, boardName: 'picture', limit: limit.current });
+    getPosts({ sortType, boardName: 'picture', limit: limit.current, searchCategory, searchKeyword });
   }, [getPosts, sortType]);
 
   // fetch additional pictureList on scroll to bottom

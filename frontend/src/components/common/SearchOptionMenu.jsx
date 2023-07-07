@@ -10,15 +10,22 @@ const SearchOptionMenuBlock = styled.div`
   padding-bottom: 1rem;
 `;
 
-const SearchOptionMenu = () => {
+const SearchOptionMenu = ({ onSelectSearchKeyword, onSelectSearchCategory }) => {
+  const handleOptionChange = (event) => {
+    onSelectSearchCategory(event.target.value);
+  };
+  const handleInputChange = (event) => {
+    onSelectSearchKeyword(event.target.value);
+  };
+
   return (
     <SearchOptionMenuBlock>
-      <select name="" id="searchType">
-        <option value="titleContent">제목+내용</option>
+      <select name="" id="searchType" onChange={handleOptionChange}>
+        <option value="titleDetail">제목+내용</option>
         <option value="title">제목</option>
         <option value="nickname">작성자</option>
       </select>
-      <input type="text" placeholder="검색어를 입력하세요." />
+      <input type="text" placeholder="검색어를 입력하세요." onChange={handleInputChange} />
       <button>검색</button>
     </SearchOptionMenuBlock>
   );

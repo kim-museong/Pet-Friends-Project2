@@ -1,40 +1,56 @@
 const { Post, User, Board, Content, Comment, Like } = require('../models');
+const { Op } = require('sequelize');
 
 // read picture list
 exports.readPictureList = (req, res, next) => {
-  const { sortType, limit } = req.query;
+  const { sortType, limit, searchCategory, searchKeyword } = req.query;
   const { boardName } = req.params;
-  console.log(sortType, limit, boardName);
-  let column = 'createdAt';
-  let order = 'DESC';
-  switch (sortType) {
-    case 'newest':
-      column = 'createdAt';
-      order = 'DESC';
-      break;
-    case 'oldest':
-      column = 'createdAt';
-      order = 'ASC';
-      break;
-    case 'highestViews':
-      column = 'view';
-      order = 'DESC';
-      break;
-    case 'lowestViews':
-      column = 'view';
-      order = 'ASC';
-      break;
-    default:
-      column = 'createdAt';
-      order = 'DESC';
-      break;
+
+  // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
+  const sortOptions = {
+    newest: { column: 'createdAt', order: 'DESC' },
+    oldest: { column: 'createdAt', order: 'ASC' },
+    highestViews: { column: 'view', order: 'DESC' },
+    lowestViews: { column: 'view', order: 'ASC' },
+  };
+  const searchOptions = {
+    titleDetail: { title: searchKeyword, content: searchKeyword, nickname: '' },
+    title: { title: searchKeyword, content: '', nickname: '' },
+    nickname: { title: '', content: '', nickname: searchKeyword },
+  };
+  const { title, content, nickname } = searchOptions[searchCategory] || { title: '', content: '', nickname: '' };
+  const { column, order } = sortOptions[sortType] || sortOptions.newest;
+
+  const titleCondition = {};
+  const contentCondition = {};
+  const nicknameCondition = {};
+  if (title) {
+    titleCondition.title = {
+      [Op.like]: `%${title}%`,
+    };
   }
+  if (content) {
+    contentCondition.content = {
+      [Op.like]: `%${content}%`,
+    };
+  }
+  if (nickname) {
+    nicknameCondition.nickname = {
+      nickname,
+    };
+  }
+  console.log('---------------------------------');
+  console.log(titleCondition);
+  console.log(contentCondition);
+  console.log(nicknameCondition);
+  console.log('---------------------------------');
 
   Post.findAll({
     include: [
       {
         model: User,
         attributes: ['userId', 'nickname'],
+        where: nicknameCondition,
       },
       {
         model: Board,
@@ -44,18 +60,21 @@ exports.readPictureList = (req, res, next) => {
       {
         model: Content,
         attributes: ['content'],
+        where: contentCondition,
       },
-      // {
-      //   model: Like,
-      //   attributes: ["UserId", "PostId"],
-      // },
+      {
+        model: Like,
+        attributes: ['UserId', 'PostId'],
+      },
     ],
+    where: titleCondition,
     order: [[column, order]],
     limit: parseInt(limit),
   })
     .then((data) => {
       const pictures = data.map((item) => item.dataValues);
       // 필요한 정보만 가공해서 주도록 수정
+      console.log(pictures.length);
       res.json(pictures);
     })
     .catch((err) => {

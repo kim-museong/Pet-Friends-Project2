@@ -10,6 +10,7 @@ import theme from './theme';
 import post, { postSaga } from './post';
 import write, { writeSaga } from './write';
 import main, { mainSaga } from './main';
+import search from './search';
 
 const rootReducer = combineReducers({
   posts,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   post,
   write,
   main,
+  search,
 });
 
 export function* rootSaga() {
