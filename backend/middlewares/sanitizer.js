@@ -1,7 +1,6 @@
 const sanitizeHtml = require('sanitize-html');
 
 exports.sanitizer = (req, res, next) => {
-  console.log(sanitizeHtml.defaults);
   const filtered = sanitizeHtml(req.body.content, sanitizeConfig);
   // content 3000자 넘어가면 무시함
   filtered.length < 3000 ? filtered : filtered.slice(0, 3000);

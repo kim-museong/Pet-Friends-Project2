@@ -1,30 +1,54 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import SearchOptionMenu from '../../components/common/SearchOptionMenu';
-import { selectSearchCategory, selectSearchKeyword } from '../../modules/search';
+import { changeSearchOptions } from '../../modules/search';
+import { selectSortType } from '../../modules/sort';
+import { changePageNumber } from '../../modules/pagination';
 
 const SearchOptionMenuContainer = () => {
+  const [category, setCategory] = useState('titleDetail');
+  const [keyword, setKeyword] = useState('');
   const dispatch = useDispatch();
-  const onSelectSearchKeyword = useCallback(
-    (searchKeyword) => dispatch(selectSearchKeyword(searchKeyword)),
+  const handleSearchClick = useCallback(
+    (searchCategory, searchKeyword) => {
+      dispatch(selectSortType('newest'));
+      dispatch(changePageNumber(1));
+      dispatch(changeSearchOptions(searchCategory, searchKeyword));
+    },
     [dispatch],
   );
-  const onSelectSearchCategory = useCallback(
-    (searchCategory) => dispatch(selectSearchCategory(searchCategory)),
-    [dispatch],
-  );
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+  const handleKeywordChange = (event) => {
+    setKeyword(event.target.value);
+  };
+  // const onSelectSearchKeyword = useCallback(
+  //   (searchKeyword) => dispatch(selectSearchKeyword(searchKeyword)),
+  //   [dispatch],
+  // );
+  // const onSelectSearchCategory = useCallback(
+  //   (searchCategory) => dispatch(selectSearchCategory(searchCategory)),
+  //   [dispatch],
+  // );
 
   useEffect(() => {
     // 초기값 : ''
-    onSelectSearchKeyword('');
+    // onSelectSearchKeyword('');
     // 초기값 : 제목+내용
-    onSelectSearchCategory('titleDetail');
-  });
+    // onSelectSearchCategory('titleDetail');
+    handleSearchClick('titleDetail', '');
+  }, []);
 
   return (
     <SearchOptionMenu
-      onSelectSearchKeyword={onSelectSearchKeyword}
-      onSelectSearchCategory={onSelectSearchCategory}
+      handleSearchClick={handleSearchClick}
+      handleCategoryChange={handleCategoryChange}
+      handleKeywordChange={handleKeywordChange}
+      category={category}
+      keyword={keyword}
+      // onSelectSearchKeyword={onSelectSearchKeyword}
+      // onSelectSearchCategory={onSelectSearchCategory}
     ></SearchOptionMenu>
   );
 };

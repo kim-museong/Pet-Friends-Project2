@@ -4,6 +4,8 @@ import SearchOptionMenuContainer from '../containers/common/SearchOptionMenuCont
 import SortOptionMenuContainer from '../containers/common/SortOptionMenuContainer';
 import PostButtonContainer from '../containers/posts/PostButtonContainer';
 import PostListContainer from '../containers/posts/PostListContainer';
+import PaginationContainer from '../containers/common/PaginationContainer';
+import ApiContainer from '../containers/api/ApiContainer';
 
 const CommunityPage = () => {
   return (
@@ -11,6 +13,8 @@ const CommunityPage = () => {
       <HeaderContainer></HeaderContainer>
       <SearchOptionMenuContainer></SearchOptionMenuContainer>
       <SortOptionMenuContainer></SortOptionMenuContainer>
+      <PaginationContainer />
+      <ApiContainer />
       <PostButtonContainer></PostButtonContainer>
       <PostListContainer></PostListContainer>
     </>

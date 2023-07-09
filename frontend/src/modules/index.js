@@ -11,6 +11,7 @@ import post, { postSaga } from './post';
 import write, { writeSaga } from './write';
 import main, { mainSaga } from './main';
 import search from './search';
+import pagination from './pagination';
 
 const rootReducer = combineReducers({
   posts,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   write,
   main,
   search,
+  pagination,
 });
 
 export function* rootSaga() {

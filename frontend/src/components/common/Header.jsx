@@ -26,7 +26,7 @@ const Wrapper = styled(Responsive)`
   .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    letter=spacing: 2px;
+    letter-spacing: 2px;
   }
   .right {
     display: flex;

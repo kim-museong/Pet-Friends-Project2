@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 // read picture list
 exports.readPictureList = (req, res, next) => {
-  const { sortType, limit, searchCategory, searchKeyword } = req.query;
+  const { searchCategory, searchKeyword, sortType, currPageNum, limit } = req.query;
   const { boardName } = req.params;
 
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
@@ -21,61 +21,145 @@ exports.readPictureList = (req, res, next) => {
   const { title, content, nickname } = searchOptions[searchCategory] || { title: '', content: '', nickname: '' };
   const { column, order } = sortOptions[sortType] || sortOptions.newest;
 
-  const titleCondition = {};
-  const contentCondition = {};
-  const nicknameCondition = {};
-  if (title) {
-    titleCondition.title = {
-      [Op.like]: `%${title}%`,
+  const offset = (parseInt(currPageNum) - 1) * parseInt(limit);
+  let querySQL = {};
+  if (searchCategory === 'titleDetail') {
+    querySQL = {
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+          where: { name: boardName },
+        },
+        {
+          model: Content,
+          attributes: ['content'],
+        },
+        {
+          model: Like,
+          attributes: ['UserId', 'PostId'],
+        },
+      ],
+      offset: offset,
+      order: [[column, order]],
+      limit: parseInt(limit),
+    };
+  } else if (searchCategory === 'title') {
+    querySQL = {
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+          where: { name: boardName },
+        },
+        {
+          model: Content,
+          attributes: ['content'],
+        },
+        {
+          model: Like,
+          attributes: ['UserId', 'PostId'],
+        },
+      ],
+      where: { title: { [Op.like]: `%${title}%` } },
+      offset: offset,
+      order: [[column, order]],
+      limit: parseInt(limit),
+    };
+  } else if (searchCategory === 'nickname') {
+    querySQL = {
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+          where: { nickname: nickname },
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+          where: { name: boardName },
+        },
+        {
+          model: Content,
+          attributes: ['content'],
+        },
+        {
+          model: Like,
+          attributes: ['UserId', 'PostId'],
+        },
+      ],
+      offset: offset,
+      order: [[column, order]],
+      limit: parseInt(limit),
+    };
+  } else {
+    querySQL = {
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+          where: { name: boardName },
+        },
+        {
+          model: Content,
+          attributes: ['content'],
+        },
+        {
+          model: Like,
+          attributes: ['UserId', 'PostId'],
+        },
+      ],
+      offset: offset,
+      order: [[column, order]],
+      limit: parseInt(limit),
     };
   }
-  if (content) {
-    contentCondition.content = {
-      [Op.like]: `%${content}%`,
-    };
-  }
-  if (nickname) {
-    nicknameCondition.nickname = {
-      nickname,
-    };
-  }
-  console.log('---------------------------------');
-  console.log(titleCondition);
-  console.log(contentCondition);
-  console.log(nicknameCondition);
-  console.log('---------------------------------');
 
-  Post.findAll({
-    include: [
-      {
-        model: User,
-        attributes: ['userId', 'nickname'],
-        where: nicknameCondition,
-      },
-      {
-        model: Board,
-        attributes: ['name'],
-        where: { name: boardName },
-      },
-      {
-        model: Content,
-        attributes: ['content'],
-        where: contentCondition,
-      },
-      {
-        model: Like,
-        attributes: ['UserId', 'PostId'],
-      },
-    ],
-    where: titleCondition,
-    order: [[column, order]],
-    limit: parseInt(limit),
-  })
+  // const titleCondition = {};
+  // const contentCondition = {};
+  // const nicknameCondition = {};
+  // if (title) {
+  //   titleCondition.title = {
+  //     [Op.like]: `%${title}%`,
+  //   };
+  // }
+  // if (content) {
+  //   contentCondition.content = {
+  //     [Op.like]: `%${content}%`,
+  //   };
+  // }
+  // if (nickname) {
+  //   nicknameCondition.nickname = {
+  //     nickname,
+  //   };
+  // }
+  // console.log('---------------------------------');
+  // console.log(titleCondition);
+  // console.log(contentCondition);
+  // console.log(nicknameCondition);
+  // console.log('---------------------------------');
+
+  Post.findAndCountAll(querySQL)
     .then((data) => {
-      const pictures = data.map((item) => item.dataValues);
+      const formattedData = {
+        postCount: data.count,
+        posts: data.rows.map((post) => post.dataValues),
+      };
       // 필요한 정보만 가공해서 주도록 수정
-      console.log(pictures.length);
-      res.json(pictures);
+      console.log(formattedData.posts.length);
+      res.json(formattedData);
     })
     .catch((err) => {
       console.error(err);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const SearchOptionMenuBlock = styled.div`
@@ -10,23 +10,23 @@ const SearchOptionMenuBlock = styled.div`
   padding-bottom: 1rem;
 `;
 
-const SearchOptionMenu = ({ onSelectSearchKeyword, onSelectSearchCategory }) => {
-  const handleOptionChange = (event) => {
-    onSelectSearchCategory(event.target.value);
-  };
-  const handleInputChange = (event) => {
-    onSelectSearchKeyword(event.target.value);
-  };
+const SearchOptionMenu = ({ handleSearchClick, handleCategoryChange, handleKeywordChange, category, keyword }) => {
+  // const handleOptionChange = (event) => {
+  //   onSelectSearchCategory(event.target.value);
+  // };
+  // const handleInputChange = (event) => {
+  //   onSelectSearchKeyword(event.target.value);
+  // };
 
   return (
     <SearchOptionMenuBlock>
-      <select name="" id="searchType" onChange={handleOptionChange}>
+      <select name="" id="searchType" onChange={handleCategoryChange}>
         <option value="titleDetail">제목+내용</option>
         <option value="title">제목</option>
         <option value="nickname">작성자</option>
       </select>
-      <input type="text" placeholder="검색어를 입력하세요." onChange={handleInputChange} />
-      <button>검색</button>
+      <input type="text" placeholder="검색어를 입력하세요." onChange={handleKeywordChange} />
+      <button onClick={handleSearchClick(category, keyword)}>검색</button>
     </SearchOptionMenuBlock>
   );
 };

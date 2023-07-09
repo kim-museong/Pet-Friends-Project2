@@ -14,12 +14,13 @@ const GET_POSTS_FAILURE = 'posts/GET_POSTS_FAILURE';
 // action creator
 export const getPostsAsync = createAction(
   GET_POSTS,
-  ({ sortType, boardName, limit, searchCategory, searchKeyword }) => ({
-    sortType,
-    boardName,
-    limit,
+  ({ searchCategory, searchKeyword, sortType, currPageNum, boardName, limit }) => ({
     searchCategory,
     searchKeyword,
+    sortType,
+    currPageNum,
+    boardName,
+    limit,
   }),
 );
 
@@ -31,6 +32,7 @@ export function* postsSaga() {
 
 // init
 const initialState = {
+  postCount: 0,
   posts: null,
 };
 
@@ -39,7 +41,8 @@ const posts = handleActions(
   {
     [GET_POSTS_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      posts: data,
+      postCount: data.postCount,
+      posts: data.posts,
     }),
     [GET_POSTS_FAILURE]: (state, { payload: error }) => ({
       ...state,
