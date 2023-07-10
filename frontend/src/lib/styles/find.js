@@ -144,11 +144,10 @@ export const ResultBox = styled.div`
 `;
 
 export const StyledInput = styled.div`
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
   display: flex;
   border: 1px solid ${palette.gray[5]};
-  font-size: 26px;
   padding: 5px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : '')};
 
@@ -157,7 +156,7 @@ export const StyledInput = styled.div`
     border: none;
     outline: none;
     background: inherit;
-    font-size: 22px;
+    font-size: 20px;
     padding: 5px 15px 0;
     border-radius: 0;
     color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
@@ -171,8 +170,8 @@ export const StyledInput = styled.div`
 
   svg {
     color: ${palette.mainColor};
-    font-size: 40px;
-    margin: 10px 10px 0 0;
+    font-size: 30px;
+    margin: 10px 10px 5px 0;
   }
 
   .icon {
@@ -180,13 +179,13 @@ export const StyledInput = styled.div`
 
     svg {
       color: ${palette.mainColor};
-      font-size: 40px;
+      font-size: 30px;
       margin-right: 0px;
     }
   }
 
   & + & {
-    margin-top: 10px;
+    margin-top: 5px;
   }
 
   &.errorUserId,

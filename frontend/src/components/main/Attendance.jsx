@@ -12,22 +12,16 @@ const AttendanceBackRound = styled.div`
   left: 0;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : `${palette.mainColor}`)};
   z-index: -1;
-
-  background-image: url('../../../images/attend.png');
-  background-repeat: no-repeat;
-  background-size: 300px;
-  background-position: 50% 10%;
 `;
 
 const AttendanceBox = styled.div`
   width: 100%;
-  height: 100px;
-  margin: 0 auto;
-  margin-top: -200px;
+  height: 100%;
+  margin: 20px auto 0;
 
   .react-calendar {
-    width: 50%;
-    margin: 0 auto;
+    width: 30%;
+    margin-right: 20px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(60,60,60)' : 'white')};
   }
 
@@ -51,6 +45,7 @@ const AttendanceBox = styled.div`
       height: 50px;
       border: none;
       font-weight: bold;
+      color: ${({ theme }) => (theme === 'true' ? 'white' : `black`)};
     }
 
     button + button {
@@ -59,18 +54,21 @@ const AttendanceBox = styled.div`
   }
 
   .react-calendar__navigation button {
-    text-align: center !important;
-    display: inline-block !important;
+    text-align: center;
+    display: inline-block;
     padding: 0;
     border: 1px solid;
   }
 
   .react-calendar__month-view {
-    padding: 30px;
+    padding: 10px;
+
     button {
-      height: 66px;
+      height: 70px;
       display: flex;
       flex-direction: column;
+      border: 1px solid;
+      padding: 5px;
       abbr,
       img {
         margin: 0 auto;
@@ -91,8 +89,18 @@ const AttendanceBox = styled.div`
   }
 `;
 
-const AttendanceCalender = styled.div`
-  margin-top: 500px;
+const AttendancePoster = styled.div`
+  background-image: url('../../../images/attend.png');
+  height: 250px;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  background-position: 50% 10%;
+`;
+
+const UserBox = styled.div`
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
 `;
 
 export const Attendance = ({ renderStamp, theme }) => {
@@ -100,9 +108,11 @@ export const Attendance = ({ renderStamp, theme }) => {
     <>
       <AttendanceBackRound theme={String(theme)} />
       <AttendanceBox theme={String(theme)}>
-        <AttendanceCalender>
+        <AttendancePoster />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Calendar tileContent={({ date }) => renderStamp(date)} />
-        </AttendanceCalender>
+          <UserBox></UserBox>
+        </div>
       </AttendanceBox>
     </>
   );

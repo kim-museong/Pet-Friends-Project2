@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { Attendance } from '../../components/main/Attendance';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import HeaderContainer from '../common/HeaderContainer';
 
 const AttendanceContainer = () => {
   const theme = useSelector((state) => state.theme.theme);
@@ -45,7 +44,6 @@ const AttendanceContainer = () => {
 
   return (
     <>
-      <HeaderContainer />
       <Attendance theme={theme} renderStamp={renderStamp} />
     </>
   );

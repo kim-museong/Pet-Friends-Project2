@@ -5,10 +5,8 @@ import React from 'react';
 
 const SelectBox = styled.div`
   display: flex;
-  margin-top: 20px;
   margin-right: 20px;
   font-weight: bold;
-  width: 70%;
 
   div {
     border: 1px solid rgb(186, 186, 186);
@@ -77,7 +75,6 @@ const SelectBox = styled.div`
 `;
 
 const ShowBox = styled.div`
-  width: 70%;
   height: 235px;
   border: 1px solid rgb(186, 186, 186);
   border-top: none;
@@ -124,7 +121,7 @@ const ListBox = styled.ul`
 
 const Meunlists = ({ onClick, posts, notice, info, community, theme }) => {
   return (
-    <>
+    <div style={{ width: '100%' }}>
       <SelectBox notice={String(notice)} info={String(info)} community={String(community)} theme={String(theme)}>
         <div data-type="notice" className="notice" onClick={onClick}>
           <AiFillNotification />
@@ -154,7 +151,7 @@ const Meunlists = ({ onClick, posts, notice, info, community, theme }) => {
           ))}
         </ListBox>
       </ShowBox>
-    </>
+    </div>
   );
 };
 

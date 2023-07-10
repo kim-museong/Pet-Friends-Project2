@@ -6,30 +6,28 @@ import { Link } from '../../../node_modules/react-router-dom/dist/index';
 import palette from '../../lib/styles/palette';
 
 const AttendanceBox = styled.div`
-  width: 240px;
+  width: 30%;
   height: 281px;
-  position: absolute;
   border: 1px solid rgb(186, 186, 186);
-  top: 434px;
-  left: 944px;
   text-align: center;
   padding: 10px;
   .attend {
     display: block;
-    width: 130px;
-    height: 130px;
-    margin: 10px auto 0;
+    width: 115px;
+    height: 115px;
+    margin: 20px auto 0;
     cursor: pointer;
     background: none;
     border: none;
     background-image: url('../../../images/attend.png');
-    background-size: 730px;
+    background-size: 630px;
     background-repeat: no-repeat;
     background-position: ${({ isconfirm }) =>
-      isconfirm === 'true' ? '16.8% 72%' : ' 82% 72%;'}; /* 이미지를 가로로 50% 위치로 이동 */
+      isconfirm === 'true' ? '16.8% 72%' : ' 83% 72%;'}; /* 이미지를 가로로 50% 위치로 이동 */
   }
 
   .attendBtn {
+    width: 80%;
     display: block;
     margin: 0 auto;
     padding: 10px 20px;
@@ -133,8 +131,6 @@ const Attendance = () => {
     confirm();
   }, [confirm]);
 
-  console.log(isConfirm);
-
   return (
     <>
       {!cancel && (
@@ -162,7 +158,7 @@ const Attendance = () => {
             </div>
           </>
         ) : (
-          <p>출석을 해주세요.</p>
+          <p style={{ margin: '20px 0' }}>오늘 출석을 해주세요.</p>
         )}
         <button className="attend" onClick={handleCheckIn} disabled={isConfirm}></button>
         <button className="attendBtn" disabled={isConfirm} onClick={handleCheckIn}>

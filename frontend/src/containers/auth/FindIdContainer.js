@@ -36,7 +36,6 @@ const FindIdContainer = () => {
 
   //닉네임 찾기 함수
   const findNickname = async () => {
-    console.log('asd');
     const { nickname } = findId;
     try {
       if (nickname === '') {
@@ -73,18 +72,8 @@ const FindIdContainer = () => {
 
   //이메일 전송 함수
   const findEmail = async () => {
-    const { email, userId } = findId;
+    const { email } = findId;
     try {
-      if (userId === '') {
-        dispatch(
-          isAlert({
-            result: '아이디를 입력해주세요.',
-            isResult: true,
-            valid: true,
-          }),
-        );
-        return;
-      }
       if (email === '') {
         dispatch(
           isAlert({
@@ -108,6 +97,22 @@ const FindIdContainer = () => {
         );
         return;
       }
+      const response = await axios.post('/user/findIdEmail', {
+        findEmail: email,
+      });
+
+      console.log(response.data);
+
+      if (response.data === '') {
+        dispatch(
+          isAlert({
+            result: '등록되지 않은 이메일 입니다.',
+            isResult: true,
+            valid: false,
+          }),
+        );
+        return;
+      }
 
       dispatch(
         isAlert({
@@ -116,9 +121,6 @@ const FindIdContainer = () => {
           valid: false,
         }),
       );
-      await axios.post('/users/findIdEmail', {
-        findEmail: email,
-      });
     } catch (e) {
       dispatch(isAlert({ result: '이메일이 전송이 실패하였습니다.', isResult: true }));
       console.log(e);
