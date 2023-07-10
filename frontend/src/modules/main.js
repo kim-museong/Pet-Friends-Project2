@@ -55,7 +55,7 @@ const main = handleActions(
   {
     [GET_MAIN_POSTS_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      posts: data,
+      posts: data.posts,
       error: null,
     }),
     [GET_MAIN_POSTS_FAILURE]: (state, { payload: error }) => ({
@@ -65,7 +65,7 @@ const main = handleActions(
     }),
     [GET_POPULARPOST_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      popularPost: data,
+      popularPost: data.posts,
       error: null,
     }),
     [GET_POPULARPOST_FAILURE]: (state, { payload: error }) => ({
@@ -75,7 +75,7 @@ const main = handleActions(
     }),
     [GET_CARD_POSTS_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      cardPosts: data,
+      cardPosts: data.posts,
       error: null,
     }),
     [GET_CARD_POSTS_FAILURE]: (state, { payload: error }) => ({

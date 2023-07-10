@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 // read picture list
 exports.readPosts = (req, res, next) => {
-  const { searchCategory, searchKeyword, sortType, currPageNum, limit } = req.query;
+  const { searchCategory = '', searchKeyword = '', sortType, currPageNum = 1, limit } = req.query;
   const { boardName } = req.params;
 
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
