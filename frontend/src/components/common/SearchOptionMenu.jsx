@@ -14,26 +14,18 @@ const SearchOptionMenu = ({
   handleSearchClick,
   handleCategoryChange,
   handleKeywordChange,
+  handleKeydown,
   searchCategory,
   searchKeyword,
-  category,
-  keyword,
   inputEl,
 }) => {
-  // enter 키로 검색
+  // keydown 이벤트 활성화
   useEffect(() => {
-    const handleKeydown = (event) => {
-      if (event.keyCode === 13 && inputEl.current === document.activeElement /* enter 키 */) {
-        inputEl.current.blur();
-        handleSearchClick(category, keyword);
-      }
-    };
-
     window.addEventListener('keydown', handleKeydown);
     return () => {
       window.removeEventListener('keydown', handleKeydown);
     };
-  }, [category, handleSearchClick, inputEl, keyword]);
+  }, []);
 
   return (
     <SearchOptionMenuBlock>
@@ -43,7 +35,7 @@ const SearchOptionMenu = ({
         <option value="nickname">작성자</option>
       </select>
       <input type="text" placeholder="검색어를 입력하세요." onChange={handleKeywordChange} ref={inputEl} />
-      <button onClick={() => handleSearchClick(category, keyword)}>검색</button>
+      <button onClick={() => handleSearchClick(searchCategory, searchKeyword)}>검색</button>
     </SearchOptionMenuBlock>
   );
 };
