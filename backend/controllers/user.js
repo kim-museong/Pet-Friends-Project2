@@ -119,7 +119,7 @@ exports.getPost = async (req, res, next) => {
 
 exports.findNickanme = async (req, res, next) => {
   const { findID } = req.body;
-
+  console.log(123);
   try {
     const findId = await User.findOne({ where: { nickname: findID } });
     res.status(200).json(findId);
@@ -129,13 +129,13 @@ exports.findNickanme = async (req, res, next) => {
 };
 
 exports.findIdEmail = async (req, res, next) => {
-  const { userId } = req.body;
-  console.log(userId);
+  const { findEmail } = req.body;
+  console.log(findEmail);
   try {
-    const findId = await User.findOne({ where: { userId } });
+    const isEmail = await User.findOne({ where: { email: findEmail } });
 
-    if (findId === null) {
-      res.status(500).json('없는 아이디입니다.');
+    if (isEmail === null) {
+      res.status(200).json();
       return;
     }
     // const transporter = nodemailer.createTransport({

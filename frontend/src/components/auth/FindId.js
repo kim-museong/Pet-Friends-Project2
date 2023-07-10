@@ -14,7 +14,7 @@ const FindId = ({
   selectEmail,
   onCheck,
 }) => {
-  const { nickname, email, userId } = findId;
+  const { nickname, email } = findId;
   const { result, isResult, valid } = init;
   return (
     <>
@@ -35,23 +35,12 @@ const FindId = ({
           <FindInputBox>
             <div>
               <div>
-                {isnickname ? (
-                  ''
-                ) : (
-                  <input
-                    autoComplete="userId"
-                    name="userId"
-                    onChange={onChange}
-                    value={userId}
-                    placeholder="등록된 아이디를 입력해주세요."
-                  />
-                )}
                 <input
                   autoComplete="nickname"
                   name={isnickname ? 'nickname' : 'email'}
                   onChange={onChange}
                   value={isnickname ? nickname : email}
-                  placeholder={`${isnickname ? '닉네임' : '이메일'}을 입력해주세요.`}
+                  placeholder={`${isnickname ? '닉네임' : '등록하신 이메일'}을 입력해주세요.`}
                 />
                 {isnickname ? <button onClick={findNickname}>확인</button> : <button onClick={findEmail}>확인</button>}
               </div>

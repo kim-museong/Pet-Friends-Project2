@@ -21,7 +21,7 @@ const AuthFormBlock = styled.div`
 `;
 
 const ButtonWidthMarginTop = styled(Button)`
-  width: 384px;
+  width: 406px;
   height: 48px;
   margin-top: 1rem;
 `;
@@ -29,8 +29,13 @@ const ButtonWidthMarginTop = styled(Button)`
 const RegisterBox = styled.div`
   width: 600px;
   margin: 0px auto;
-  border-radius: 10px;
   padding: 10px;
+
+  p {
+    width: 70%;
+    margin: 0 auto;
+    text-align: left;
+  }
 `;
 
 const ErrorBox = styled.div`
@@ -146,6 +151,9 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 placeholder="이메일"
               />
             </StyledInput>
+            <p style={{ fontSize: '14px', color: 'rgb(150,150,150)' }}>
+              *이름이나 이메일은 아이디나 비밀번호를 찾을 때 사용됩니다.
+            </p>
           </RegisterBox>
           <ErrorBox>
             <div>{errorNickname && `*${errorNickname}`}</div>

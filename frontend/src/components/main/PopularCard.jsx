@@ -4,18 +4,26 @@ import { Link } from 'react-router-dom';
 
 const PopularCardBox = styled.div`
   border: 1px solid rgb(186, 186, 186);
-  padding: 10px;
+  padding: 20px;
   margin-top: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  margin-right: 20px;
+  div {
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .title {
+    justify-content: space-between;
+    margin: 10px 30px 20px;
+  }
 `;
 
 const PictureItemBlock = styled.div`
   display: flex;
   border: 1px solid green;
-  width: 300px;
+  width: 250px;
   height: 200px;
   margin: 10px;
   // ↓ 나중에 수정
@@ -32,15 +40,19 @@ const PictureItemBlock = styled.div`
 const PopularCard = ({ posts }) => {
   return (
     <>
-      <h2>인기 사진</h2>
-      <Link to="/picture" className="add-list">
-        더보기
-        <MdChevronRight />
-      </Link>
       <PopularCardBox>
-        {posts?.map((post) => (
-          <PictureItemBlock key={post.id} post={post} imgurl={post && post.imgUrl}></PictureItemBlock>
-        ))}
+        <div className="title">
+          <h2>인기 사진</h2>
+          <Link to="/picture" className="add-list">
+            더보기
+            <MdChevronRight />
+          </Link>
+        </div>
+        <div>
+          {posts?.map((post) => (
+            <PictureItemBlock key={post.id} post={post} imgurl={post && post.imgUrl}></PictureItemBlock>
+          ))}
+        </div>
       </PopularCardBox>
     </>
   );

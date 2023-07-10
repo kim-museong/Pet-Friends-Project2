@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { MdOutlineLocalFireDepartment, MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { PiDog } from 'react-icons/pi';
+import palette from '../../lib/styles/palette';
 
 const PopularpostBox = styled.div`
   width: 350px;
