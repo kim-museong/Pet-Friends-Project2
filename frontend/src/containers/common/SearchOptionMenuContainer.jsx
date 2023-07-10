@@ -4,16 +4,27 @@ import SearchOptionMenu from '../../components/common/SearchOptionMenu';
 import { changeSearchOptions } from '../../modules/search';
 import { selectSortType } from '../../modules/sort';
 import { changePageNumber } from '../../modules/pagination';
+import { getPostsAsync } from '../../modules/posts';
 
 const SearchOptionMenuContainer = () => {
-  const [category, setCategory] = useState('titleDetail');
+  const [category, setCategory] = useState('');
   const [keyword, setKeyword] = useState('');
   const dispatch = useDispatch();
   const handleSearchClick = useCallback(
     (searchCategory, searchKeyword) => {
       dispatch(selectSortType('newest'));
       dispatch(changePageNumber(1));
-      dispatch(changeSearchOptions(searchCategory, searchKeyword));
+      dispatch(changeSearchOptions({ searchCategory, searchKeyword }));
+      dispatch(
+        getPostsAsync({
+          searchCategory,
+          searchKeyword,
+          sortType: 'newest',
+          currPageNum: 1,
+          boardName: 'community',
+          limit: 10,
+        }),
+      );
     },
     [dispatch],
   );
@@ -23,22 +34,10 @@ const SearchOptionMenuContainer = () => {
   const handleKeywordChange = (event) => {
     setKeyword(event.target.value);
   };
-  // const onSelectSearchKeyword = useCallback(
-  //   (searchKeyword) => dispatch(selectSearchKeyword(searchKeyword)),
-  //   [dispatch],
-  // );
-  // const onSelectSearchCategory = useCallback(
-  //   (searchCategory) => dispatch(selectSearchCategory(searchCategory)),
-  //   [dispatch],
-  // );
 
   useEffect(() => {
-    // 초기값 : ''
-    // onSelectSearchKeyword('');
-    // 초기값 : 제목+내용
-    // onSelectSearchCategory('titleDetail');
     handleSearchClick('titleDetail', '');
-  }, []);
+  }, [handleSearchClick]);
 
   return (
     <SearchOptionMenu
@@ -47,8 +46,6 @@ const SearchOptionMenuContainer = () => {
       handleKeywordChange={handleKeywordChange}
       category={category}
       keyword={keyword}
-      // onSelectSearchKeyword={onSelectSearchKeyword}
-      // onSelectSearchCategory={onSelectSearchCategory}
     ></SearchOptionMenu>
   );
 };

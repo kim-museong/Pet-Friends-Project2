@@ -29,7 +29,7 @@ const PictureListContainer = () => {
   useEffect(() => {
     console.log('사진 리스트 불러옵니다');
     getPosts({ sortType, boardName: 'picture', limit: limit.current, searchCategory, searchKeyword });
-  }, [getPosts, sortType]);
+  }, [getPosts, searchCategory, searchKeyword, sortType]);
 
   // fetch additional pictureList on scroll to bottom
   useEffect(() => {

@@ -2,7 +2,7 @@ const { Post, User, Board, Content, Comment, Like } = require('../models');
 const { Op } = require('sequelize');
 
 // read picture list
-exports.readPictureList = (req, res, next) => {
+exports.readPosts = (req, res, next) => {
   const { searchCategory, searchKeyword, sortType, currPageNum, limit } = req.query;
   const { boardName } = req.params;
 
@@ -22,8 +22,9 @@ exports.readPictureList = (req, res, next) => {
   const { column, order } = sortOptions[sortType] || sortOptions.newest;
 
   const offset = (parseInt(currPageNum) - 1) * parseInt(limit);
+
   let querySQL = {};
-  if (searchCategory === 'titleDetail') {
+  if (searchCategory === 'titleDetail' && searchKeyword !== '') {
     querySQL = {
       include: [
         {
@@ -37,18 +38,21 @@ exports.readPictureList = (req, res, next) => {
         },
         {
           model: Content,
-          attributes: ['content'],
         },
         {
           model: Like,
           attributes: ['UserId', 'PostId'],
         },
       ],
+      where: {
+        [Op.or]: [{ title: { [Op.like]: `%${title}}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
+      },
       offset: offset,
       order: [[column, order]],
       limit: parseInt(limit),
+      subQuery: false, // limit 넣으면 에러 나는거 수정하기 위한 부분
     };
-  } else if (searchCategory === 'title') {
+  } else if (searchCategory === 'title' && searchKeyword !== '') {
     querySQL = {
       include: [
         {
@@ -74,7 +78,7 @@ exports.readPictureList = (req, res, next) => {
       order: [[column, order]],
       limit: parseInt(limit),
     };
-  } else if (searchCategory === 'nickname') {
+  } else if (searchCategory === 'nickname' && searchKeyword !== '') {
     querySQL = {
       include: [
         {
@@ -126,30 +130,6 @@ exports.readPictureList = (req, res, next) => {
       limit: parseInt(limit),
     };
   }
-
-  // const titleCondition = {};
-  // const contentCondition = {};
-  // const nicknameCondition = {};
-  // if (title) {
-  //   titleCondition.title = {
-  //     [Op.like]: `%${title}%`,
-  //   };
-  // }
-  // if (content) {
-  //   contentCondition.content = {
-  //     [Op.like]: `%${content}%`,
-  //   };
-  // }
-  // if (nickname) {
-  //   nicknameCondition.nickname = {
-  //     nickname,
-  //   };
-  // }
-  // console.log('---------------------------------');
-  // console.log(titleCondition);
-  // console.log(contentCondition);
-  // console.log(nicknameCondition);
-  // console.log('---------------------------------');
 
   Post.findAndCountAll(querySQL)
     .then((data) => {

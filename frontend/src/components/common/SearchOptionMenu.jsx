@@ -26,7 +26,7 @@ const SearchOptionMenu = ({ handleSearchClick, handleCategoryChange, handleKeywo
         <option value="nickname">작성자</option>
       </select>
       <input type="text" placeholder="검색어를 입력하세요." onChange={handleKeywordChange} />
-      <button onClick={handleSearchClick(category, keyword)}>검색</button>
+      <button onClick={() => handleSearchClick(category, keyword)}>검색</button>
     </SearchOptionMenuBlock>
   );
 };

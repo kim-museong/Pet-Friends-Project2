@@ -20,8 +20,8 @@ const PostListContainer = () => {
   // useEffect
   // fetch pictureList on mount
   useEffect(() => {
-    // console.log(searchCategory, searchKeyword);
-    // console.log('게시글 리스트 불러옵니다');
+    console.log(searchCategory, searchKeyword);
+    console.log('게시글 리스트 불러옵니다');
     getPosts({ searchCategory, searchKeyword, sortType, currPageNum, boardName: 'community', limit: 10 }); // limit에 '한 페이지 보여줄 게시글' 변수 할당
   }, [getPosts, searchCategory, searchKeyword, sortType, currPageNum]);
 
