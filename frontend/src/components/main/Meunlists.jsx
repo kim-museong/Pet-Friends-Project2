@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { MdComment, MdInfo } from 'react-icons/md';
-import { AiFillNotification } from 'react-icons/ai';
+import { MdComment } from 'react-icons/md';
+import { AiFillNotification, AiOutlineComment } from 'react-icons/ai';
 import React from 'react';
 
 const SelectBox = styled.div`
@@ -9,6 +9,9 @@ const SelectBox = styled.div`
   font-weight: bold;
 
   div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid rgb(186, 186, 186);
     border-radius: 0;
     width: 100%;
@@ -35,6 +38,7 @@ const SelectBox = styled.div`
   svg {
     margin-right: 5px;
     pointer-events: none;
+    font-size: 30px;
   }
 
   .community {
@@ -105,6 +109,7 @@ const ListBox = styled.ul`
 
       svg {
         margin-right: 5px;
+        font-size: 30px;
       }
 
       p {
@@ -113,7 +118,7 @@ const ListBox = styled.ul`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding-bottom: 5px;
+        padding-top: 5px;
       }
     }
   }
@@ -128,11 +133,11 @@ const Meunlists = ({ onClick, posts, notice, info, community, theme }) => {
           공지사항
         </div>
         <div data-type="info" className="info" onClick={onClick}>
-          <MdInfo />
+          <MdComment />
           정보글
         </div>
         <div data-type="community" className="community" onClick={onClick}>
-          <MdComment />
+          <AiOutlineComment />
           커뮤니티
         </div>
       </SelectBox>
@@ -141,9 +146,9 @@ const Meunlists = ({ onClick, posts, notice, info, community, theme }) => {
           {posts?.map((post) => (
             <li key={post.id}>
               <div className="list-title">
-                {community && <MdComment style={{ color: 'rgb(255, 140, 0)' }} />}
+                {community && <AiOutlineComment style={{ color: 'rgb(255, 140, 0)' }} />}
                 {notice && <AiFillNotification style={{ color: 'red' }} />}
-                {info && <MdInfo style={{ color: 'rgb(0, 115, 255)' }} />}
+                {info && <MdComment style={{ color: 'rgb(0, 115, 255)' }} />}
                 <p>{post.title}</p>
               </div>
               <div>{post.User.nickname}</div>

@@ -26,15 +26,15 @@ const WeatherContainer = () => {
 
   const getWeather = async () => {
     try {
-      const response = '';
-      // const response = await axios.get(
-      //   `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&lang=${lang}&appid=ffa479f2c43cdbb7a7e254badcc832b2`,
-      // );
-      if (response) {
-        setWeather(response.data);
-      } else {
-        setWeather(null);
-      }
+      //   const response = '';
+      //   const response = await axios.get(
+      //     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&lang=${lang}&appid=ffa479f2c43cdbb7a7e254badcc832b2`,
+      //   );
+      //   if (response) {
+      //     setWeather(response.data);
+      //   } else {
+      //     setWeather(null);
+      //   }
     } catch (e) {
       console.log(e);
     }
