@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchOptionMenu from '../../components/common/SearchOptionMenu';
 import { changeSearchOptions } from '../../modules/search';
 import { selectSortType } from '../../modules/sort';
@@ -7,8 +7,11 @@ import { changePageNumber } from '../../modules/pagination';
 import { getPostsAsync } from '../../modules/posts';
 
 const SearchOptionMenuContainer = () => {
-  const [category, setCategory] = useState('');
+  const searchCategory = useSelector((state) => state.search.searchCategory);
+  const searchKeyword = useSelector((state) => state.search.searcKeyword);
+  const [category, setCategory] = useState('titleDetail');
   const [keyword, setKeyword] = useState('');
+  const inputEl = useRef(null);
   const dispatch = useDispatch();
   const handleSearchClick = useCallback(
     (searchCategory, searchKeyword) => {
@@ -36,16 +39,30 @@ const SearchOptionMenuContainer = () => {
   };
 
   useEffect(() => {
-    handleSearchClick('titleDetail', '');
-  }, [handleSearchClick]);
+    if (searchCategory === null && searchKeyword === null) {
+      dispatch(
+        getPostsAsync({
+          searchCategory: 'titleDetail',
+          searchKeyword: '',
+          sortType: 'newest',
+          currPageNum: 1,
+          boardName: 'community',
+          limit: 10,
+        }),
+      );
+    }
+  }, [dispatch, handleSearchClick, searchCategory, searchKeyword]);
 
   return (
     <SearchOptionMenu
       handleSearchClick={handleSearchClick}
       handleCategoryChange={handleCategoryChange}
       handleKeywordChange={handleKeywordChange}
+      searchCategory={searchCategory}
+      searchKeyword={searchKeyword}
       category={category}
       keyword={keyword}
+      inputEl={inputEl}
     ></SearchOptionMenu>
   );
 };

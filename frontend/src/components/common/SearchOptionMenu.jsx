@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const SearchOptionMenuBlock = styled.div`
@@ -10,13 +10,30 @@ const SearchOptionMenuBlock = styled.div`
   padding-bottom: 1rem;
 `;
 
-const SearchOptionMenu = ({ handleSearchClick, handleCategoryChange, handleKeywordChange, category, keyword }) => {
-  // const handleOptionChange = (event) => {
-  //   onSelectSearchCategory(event.target.value);
-  // };
-  // const handleInputChange = (event) => {
-  //   onSelectSearchKeyword(event.target.value);
-  // };
+const SearchOptionMenu = ({
+  handleSearchClick,
+  handleCategoryChange,
+  handleKeywordChange,
+  searchCategory,
+  searchKeyword,
+  category,
+  keyword,
+  inputEl,
+}) => {
+  // enter 키로 검색
+  useEffect(() => {
+    const handleKeydown = (event) => {
+      if (event.keyCode === 13 && inputEl.current === document.activeElement /* enter 키 */) {
+        inputEl.current.blur();
+        handleSearchClick(category, keyword);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeydown);
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [category, handleSearchClick, inputEl, keyword]);
 
   return (
     <SearchOptionMenuBlock>
@@ -25,7 +42,7 @@ const SearchOptionMenu = ({ handleSearchClick, handleCategoryChange, handleKeywo
         <option value="title">제목</option>
         <option value="nickname">작성자</option>
       </select>
-      <input type="text" placeholder="검색어를 입력하세요." onChange={handleKeywordChange} />
+      <input type="text" placeholder="검색어를 입력하세요." onChange={handleKeywordChange} ref={inputEl} />
       <button onClick={() => handleSearchClick(category, keyword)}>검색</button>
     </SearchOptionMenuBlock>
   );

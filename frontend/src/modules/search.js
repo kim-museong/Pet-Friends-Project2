@@ -18,8 +18,8 @@ export const changeSearchOptions = createAction(CHANGE_SEARCH_OPTIONS, ({ search
 
 // init
 const initialState = {
-  searchKeyword: '',
-  searchCategory: '',
+  searchKeyword: null,
+  searchCategory: null,
 };
 
 // reducer
