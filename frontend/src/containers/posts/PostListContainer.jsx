@@ -59,7 +59,7 @@ const PostListContainer = () => {
       dispatch(selectSortType(null));
       dispatch(changePageNumber(null));
     };
-  }, [dispatch]);
+  }, [boardName, dispatch]);
 
   return <PostList posts={posts} loading={loading}></PostList>;
 };

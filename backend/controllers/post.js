@@ -1,9 +1,9 @@
 const { Post, User, Board, Content, Comment, Like } = require('../models');
 const { Op } = require('sequelize');
 
-// read picture list
+// read post list
 exports.readPosts = (req, res, next) => {
-  const { searchCategory = '', searchKeyword = '', sortType, currPageNum = 1, limit } = req.query;
+  const { searchCategory = '', searchKeyword = '', sortType = 'newest', currPageNum = 1, limit = 10 } = req.query;
   const { boardName } = req.params;
 
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
@@ -250,6 +250,72 @@ exports.createPost = async (req, res, next) => {
     return res.status(200).json(post);
   } catch (error) {
     console.error(error);
+    next(error);
+  }
+};
+
+// delete post
+exports.deletePost = (req, res, next) => {
+  // boardName은 추후 사진게시글, 일반게시글 분리시 사용
+  const { boardName, postId } = req.params;
+
+  Post.destroy({
+    where: { id: postId },
+  })
+    .then(() => {
+      console.log(`${boardName}게시판의 ${postId}번 게시글 삭제 성공`);
+      res.status(200).end();
+    })
+    .catch((error) => {
+      console.log('게시글 삭제 중 오류 발생');
+      console.log(error);
+      next(error);
+    });
+
+  // DB에서 물리적인 삭제가 아닌 deleteAt을 통한 논리적인 삭제 방식이
+  // 적용되어있기 때문에 posts 테이블과 연관된 테이블들의 데이터 삭제를
+  // 위해서는 수동으로 찾아서 삭제해줄 필요가 있다.
+  // 이 과정에서 일부 작업만 성공하고 끝나버리는 문제를 막기 위해
+  // 트랜잭션을 도입해서 처리해야한다.
+  // 혹은 물리적인 삭제로 변경해야한다. 이 경우 삭제된 정보 복구를 위해서는
+  // 삭제와 동시에 백업용 테이블에 정보를 옮겨둘 필요가 있다.
+
+  // 지금은 paranoid: false로 변경해 물리적 삭제로 변경해서 문제를 해결
+};
+
+// update post
+exports.updatePost = async (req, res, next) => {
+  const { boardName, postId } = req.params;
+  const { title, content } = req.body;
+
+  try {
+    // posts 테이블 데이터 update
+    await Post.update(
+      {
+        title: title,
+        updatedAt: new Date(),
+      },
+      {
+        where: { id: postId },
+      },
+    );
+
+    // contents 테이블 데이터 update
+    await Content.update(
+      {
+        content: content,
+        updatedAt: new Date(),
+      },
+      {
+        where: { PostId: postId },
+      },
+    );
+
+    console.log(`${boardName}게시판의 ${postId}번 게시글 수정 성공`);
+    return res.status(200).end();
+  } catch (error) {
+    console.log('게시글 수정중 오류 발생');
+    console.log(error);
     next(error);
   }
 };

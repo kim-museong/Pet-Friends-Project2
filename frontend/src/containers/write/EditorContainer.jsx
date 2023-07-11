@@ -11,6 +11,7 @@ const EditorContainer = () => {
 
   useEffect(() => {
     return () => {
+      console.log('write 페이지를 초기화 합니다.');
       initialize();
     };
   });

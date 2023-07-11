@@ -9,6 +9,7 @@ import { takeLatest } from 'redux-saga/effects';
 // define action type
 const CHANGE_INPUT = 'write/CHANGE_INPUT';
 const INIT_INPUT = 'write/INIT_INPUT';
+const STORE_ORIGIN_POST = 'write/STORE_ORIGIN_POST';
 
 const CREATE_POST = 'write/CREATE_POST';
 const CREATE_POST_SUCCESS = 'write/CREATE_POST_SUCCESS';
@@ -18,13 +19,10 @@ const CREATE_POST_FAILURE = 'write/CREATE_POST_FAILURE';
 // const UPDATE_POST_SUCCESS = 'write/UPDATE_POST_SUCCESS';
 // const UPDATE_POST_FAILURE = 'write/UPDATE_POST_FAILURE';
 
-// const DELETE_POST = 'write/DELETE_POST';
-// const DELETE_POST_SUCCESS = 'write/DELETE_POST_SUCCESS';
-// const DELETE_POST_FAILURE = 'write/DELETE_POST_FAILURE';
-
 // action creator
 export const changeInput = createAction(CHANGE_INPUT, (key, value) => ({ key, value }));
 export const initInput = createAction(INIT_INPUT);
+export const storeOriginPost = createAction(STORE_ORIGIN_POST, (post) => post);
 export const createPost = createAction(CREATE_POST, ({ boardName, title, content }) => ({ boardName, title, content }));
 
 // define saga
@@ -39,6 +37,7 @@ const initialState = {
   content: '',
   post: null,
   postError: null,
+  originPostId: null,
 };
 
 // reducer
@@ -49,6 +48,12 @@ const write = handleActions(
       [action.payload.key]: action.payload.value,
     }),
     [INIT_INPUT]: () => initialState,
+    [STORE_ORIGIN_POST]: (state, { payload: post }) => ({
+      ...state,
+      title: post.title,
+      content: post.Content.content,
+      originPostId: post.id,
+    }),
     [CREATE_POST_SUCCESS]: (state, { payload: post }) => ({
       ...state,
       post,

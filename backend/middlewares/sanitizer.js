@@ -1,7 +1,14 @@
 const sanitizeHtml = require('sanitize-html');
 
 exports.sanitizer = (req, res, next) => {
+  console.log('--------------------------------------------------');
+  console.log(req.body.content);
+  console.log('--------------------------------------------------');
+
   const filtered = sanitizeHtml(req.body.content, sanitizeConfig);
+  console.log(filtered);
+  console.log('--------------------------------------------------');
+
   // content 3000자 넘어가면 무시함
   filtered.length < 3000 ? filtered : filtered.slice(0, 3000);
   req.body.filteredContent = filtered;
@@ -281,6 +288,7 @@ const sanitizeConfig = {
     // We don't currently allow img itself by default, but
     // these attributes would make sense if we did.
     img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading', 'class', 'style'],
+    figure: ['class', 'style'],
   },
   // Lots of these won't come up by default because we don't allow them
   selfClosing: ['img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta'],

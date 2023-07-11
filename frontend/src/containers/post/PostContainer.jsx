@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPostAsync } from '../../modules/post';
 
 const PostContainer = ({ postId }) => {
-  // 작성자, 조회수, imgUrl, 작성일, 댓글수, 추천수
-
   // 필요 state 값
   const post = useSelector((state) => state.post.post);
   const loading = useSelector((state) => state.loading['post/GET_POST']);

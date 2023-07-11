@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import Responsive from '../components/common/Responsive';
 import Comments from '../components/post/Comments';
 import ActionButtonContainer from '../containers/common/ActionButtonContainer';
 import TagContainer from '../containers/common/TagContainer';
@@ -14,25 +15,13 @@ const PostDetailPage = () => {
   const boardName = location.pathname.split('/')[1];
   // 사진글 상세 정보 페이지, 나머지 게시글 상세 정보 페이지 구분
   return (
-    <>
-      {boardName === 'picture' ? (
-        <>
-          <PictureContainer postId={postId} />
-          <TagContainer />
-          <ActionButtonContainer />
-          <SubmitCommentContainer />
-          <Comments />
-        </>
-      ) : (
-        <>
-          <PostContainer postId={postId} />
-          <TagContainer />
-          <ActionButtonContainer />
-          <SubmitCommentContainer />
-          <Comments />
-        </>
-      )}
-    </>
+    <Responsive>
+      {boardName === 'picture' ? <PictureContainer postId={postId} /> : <PostContainer postId={postId} />}
+      <TagContainer />
+      <ActionButtonContainer />
+      <SubmitCommentContainer />
+      <Comments />
+    </Responsive>
   );
 };
 
