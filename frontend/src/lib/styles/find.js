@@ -144,11 +144,10 @@ export const ResultBox = styled.div`
 `;
 
 export const StyledInput = styled.div`
-  width: 70%;
+  width: 60%;
   margin: 0 auto;
   display: flex;
   border: 1px solid ${palette.gray[5]};
-  padding: 5px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : '')};
 
   input {
@@ -156,7 +155,7 @@ export const StyledInput = styled.div`
     border: none;
     outline: none;
     background: inherit;
-    font-size: 20px;
+    font-size: 16px;
     padding: 5px 15px 0;
     border-radius: 0;
     color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};

@@ -8,6 +8,8 @@ import ShopBoxContainer from '../containers/main/ShopBoxContainer';
 import PopularCardContainer from '../containers/main/PopularCardContainer';
 import Attendance from '../lib/main/Attendance';
 import WeatherContainer from '../containers/main/WeatherContainer';
+import HeaderContainer from '../containers/common/HeaderContainer';
+import Footer from '../lib/main/Footer';
 
 const ContainBox = styled.div`
   width: 75%;
@@ -33,6 +35,7 @@ const ShopBox = styled.div`
 const MainPage = () => {
   return (
     <>
+      <HeaderContainer />
       <ContainBox>
         {/*--------------- 메인 -------------- */}
         <MainBox>
@@ -61,6 +64,7 @@ const MainPage = () => {
           <WeatherContainer />
         </SideBox>
       </ContainBox>
+      <Footer />
     </>
   );
 };

@@ -25,10 +25,10 @@ const RegisterContainer = () => {
   };
 
   const errorMessages = {
-    username: '아이디: 아이디를 입력해주세요.',
-    password: '비밀번호: 비밀번호를 입력해주세요.',
-    nickname: '이름: 이름를 입력해주세요.',
-    email: '이메일: 이메일를 입력해주세요.',
+    username: '아이디: 필수 정보입니다.',
+    password: '비밀번호: 필수 정보입니다.',
+    nickname: '이름: 필수 정보입니다.',
+    email: '이메일: 필수 정보입니다.',
     passwordMismatch: '비밀번호: 비밀번호가 틀립니다.',
     invalidEmail: '이메일: 이메일 형식에 맞게 입력해주세요.',
   };
@@ -154,23 +154,77 @@ const RegisterContainer = () => {
         value,
       }),
     );
+  };
 
-    //사용 아아디 체크
+  //인풋 포커스 아웃 될 때 유효검사
+  const focusOut = async (e) => {
+    const { value, name } = e.target;
+    validation(name, value);
+  };
+
+  const validation = async (name, value) => {
+    //-------------- 아이디 검사 ------------------
     if (name === 'username') {
-      const response = await axios.post('/auth/sameUserId', { value });
-      dispatch(
-        changeError({
-          key: errorKeyMap[name],
-          value: response.data ? '아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.' : '',
-        }),
-      );
-    } else {
-      //에러 삭제
-      if (value !== '') {
+      const regex = /^[a-z0-9]{5,20}$/; //[영문 소문자, 숫자]{길이 검사} 코드
+      if (value === '') {
         dispatch(
           changeError({
             key: errorKeyMap[name],
-            value: '',
+            value: errorMessages.username,
+          }),
+        );
+      } else if (!regex.test(value)) {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: '아이디: 5~20자의 영문 소문자, 숫자만 사용 가능합니다.',
+          }),
+        );
+      } else {
+        const response = await axios.post('/auth/sameUserId', { value });
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: response.data ? '아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.' : '',
+          }),
+        );
+      }
+    }
+    //---------비밀번호 검사 -----------------
+    if (name === 'password') {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z0-9!@#$%^&*()]{8,16}$/; //[영문 대/소문자, 숫자, 특수문자]{길이 검사} 코드
+      if (value === '') {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: errorMessages.password,
+          }),
+        );
+      } else if (!regex.test(value)) {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: '비밀번호는 8에서 16자의 영문 대/소문자, 숫자, 특수문자를 포함해야 합니다.',
+          }),
+        );
+      }
+    }
+
+    //-------닉네임 검사 ----------------
+    if (name === 'nickname') {
+      const regex = /^[가-힣a-zA-Z]+$/;
+      if (value === '') {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: errorMessages.nickname,
+          }),
+        );
+      } else if (!regex.test(value)) {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: '이름: 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)',
           }),
         );
       }
@@ -224,6 +278,7 @@ const RegisterContainer = () => {
       theme={theme}
       iconClick={iconClick}
       inputRefs={inputRefs}
+      focusOut={focusOut}
     />
   );
 };
