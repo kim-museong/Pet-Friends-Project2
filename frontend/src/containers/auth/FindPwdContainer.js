@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import FindPwd from '../../components/auth/FindPwd';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeInput, checkEmail, initializeForm, isAlert } from '../../modules/find';
+import { changeInput, checkEmail, initializeForm } from '../../modules/find';
 
 const FindPwdContainer = () => {
   const [email, setEmail] = useState(true);
@@ -48,24 +48,10 @@ const FindPwdContainer = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     try {
       if (email === '') {
-        dispatch(
-          isAlert({
-            result: '이메일을 입력해주세요.',
-            isResult: true,
-            valid: true,
-          }),
-        );
         return;
       }
 
       if (!emailRegex.test(email)) {
-        dispatch(
-          isAlert({
-            result: '이메일 형식에 맞게 입력해주세요.',
-            isResult: true,
-            valid: true,
-          }),
-        );
         return;
       }
       dispatch(checkEmail({ email, userId }));
@@ -90,54 +76,23 @@ const FindPwdContainer = () => {
     const { isConfirm } = init;
     console.log(isConfirm);
     if (isConfirm) {
-      dispatch(
-        isAlert({
-          valid: false,
-          isResult: false,
-          isConfirm: true,
-        }),
-      );
       return;
     }
-    dispatch(
-      isAlert({
-        isResult: false,
-        valid: false,
-      }),
-    );
   };
 
   const onCheck = () => {
     const { validConfirm } = form;
     if (validConfirm.trim('') === certificationNum) {
-      dispatch(isAlert({ isResult: false, isConfirm: true }));
     } else {
-      dispatch(
-        isAlert({
-          result: '인증번호가 틀립니다.',
-          isResult: true,
-          valid: true,
-        }),
-      );
     }
   };
 
-  const onComplete = useCallback(() => {
-    dispatch(isAlert({ isResult: false, valid: false, isConfirm: false }));
-  }, [dispatch]);
+  const onComplete = useCallback(() => {}, [dispatch]);
 
   const onSubmitPwd = async (e) => {
     e.preventDefault();
     const { password, passwordConfirm } = form;
     if (password !== passwordConfirm) {
-      dispatch(
-        isAlert({
-          result: '비밀번호가 다릅니다.',
-          isResult: true,
-          valid: true,
-          isConfirm: true,
-        }),
-      );
       return;
     }
     try {
@@ -146,14 +101,6 @@ const FindPwdContainer = () => {
         findEmail: isemail,
       });
       console.log(response.data.message);
-      dispatch(
-        isAlert({
-          result: response.data.message,
-          isResult: true,
-          valid: true,
-          isConfirm: true,
-        }),
-      );
     } catch (e) {
       console.log(e);
     }
@@ -161,24 +108,9 @@ const FindPwdContainer = () => {
 
   useEffect(() => {
     if (emailError) {
-      dispatch(
-        isAlert({
-          result: '없는 아이디 입니다.',
-          isResult: true,
-          valid: true,
-        }),
-      );
       return;
     }
     if (isemail) {
-      dispatch(
-        isAlert({
-          result: '입력한 이메일로 인증번호가 전송되었습니다.',
-          isResult: true,
-          valid: false,
-        }),
-      );
-      setCertificationNum(isemail);
     }
   }, [isemail, emailError, dispatch]);
 

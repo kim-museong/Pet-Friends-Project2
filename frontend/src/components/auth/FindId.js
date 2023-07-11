@@ -1,61 +1,87 @@
-import { MdMailOutline, MdAccountCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import { FindIdBox, FindInputBox, FindMethod, ResultBox, Footer } from '../../lib/styles/find';
+import { FindIdBox, FindInputBox, Footer } from '../../lib/styles/find';
+import styled from 'styled-components';
 
-const FindId = ({
-  isnickname,
-  findId,
-  init,
-  theme,
-  onChange,
-  findNickname,
-  findEmail,
-  selectnick,
-  selectEmail,
-  onCheck,
-}) => {
-  const { nickname, email } = findId;
-  const { result, isResult, valid } = init;
+const ShowBox = styled.div`
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  border: 1px solid;
+  width: 300px;
+  height: 300px;
+  background-color: white;
+  div {
+    margin: 40% auto;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+`;
+
+const FindId = ({ findId, theme, onChange, findEmail, error, onConfirm, showBox, getUserId, onCancel }) => {
+  const { nickname, email, certificationNumber } = findId;
+  const { nicknameError, emailError } = error;
   return (
     <>
-      <FindIdBox>
+      <FindIdBox style={{ position: 'relative' }}>
         <div>
           <Link to="/">Logo</Link>
           <h1>아이디 찾기</h1>
         </div>
-        <FindMethod theme={String(theme)} isnickname={String(isnickname)}>
-          <div className="method nick" onClick={selectnick}>
-            <MdAccountCircle />
-            <div>닉네임</div>
-          </div>
-          <div className="method email" onClick={selectEmail}>
-            <MdMailOutline />
-            <div>이메일</div>
-          </div>
+        <div>
           <FindInputBox>
             <div>
               <div>
                 <input
+                  className={nicknameError && 'nicknameError'}
                   autoComplete="nickname"
-                  name={isnickname ? 'nickname' : 'email'}
+                  name="nickname"
                   onChange={onChange}
-                  value={isnickname ? nickname : email}
-                  placeholder={`${isnickname ? '닉네임' : '등록하신 이메일'}을 입력해주세요.`}
+                  value={nickname}
+                  placeholder="닉네임을 입력해주세요."
                 />
-                {isnickname ? <button onClick={findNickname}>확인</button> : <button onClick={findEmail}>확인</button>}
+                <div>
+                  <input
+                    className={emailError && 'emailError'}
+                    autoComplete="email"
+                    name="email"
+                    onChange={onChange}
+                    value={email}
+                    placeholder="이메일을 입력해주세요."
+                  />
+                  <button onClick={findEmail}>인증번호받기</button>
+                </div>
+                <div style={{ height: '45px', marginBottom: '20px' }}>
+                  <div className="error">{nicknameError && nicknameError}</div>
+                  <div className="error">{emailError && emailError}</div>
+                </div>
+                <div>
+                  <input
+                    className="certificationNumber"
+                    autoComplete="certificationNumber"
+                    name="certificationNumber"
+                    onChange={onChange}
+                    value={certificationNumber}
+                    placeholder="인증번호을 입력하세요."
+                  />
+                </div>
+                <button onClick={onConfirm}>확인</button>
               </div>
-              {isResult && (
-                <ResultBox theme={String(theme)}>
-                  <div>
-                    <div>{valid ? '오류!' : '아이디'}</div>
-                    <div>{result}</div>
-                    <button onClick={onCheck}>확인</button>
-                  </div>
-                </ResultBox>
-              )}
             </div>
           </FindInputBox>
-        </FindMethod>
+        </div>
+        {showBox && (
+          <ShowBox>
+            <div>
+              <p>아이디</p>
+              <p>{getUserId}</p>
+              <button onClick={onCancel}>확인</button>
+            </div>
+          </ShowBox>
+        )}
         <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>
           <Link to="/auth/credentials?type=findPwd">비밀번호 찾기</Link>

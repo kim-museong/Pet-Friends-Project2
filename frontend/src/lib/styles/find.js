@@ -20,17 +20,13 @@ export const FindIdBox = styled.div`
 
 export const FindInputBox = styled.div`
   border: 1px solid ${palette.mainColor};
-  width: 450px;
+  width: 600px;
   margin: 5% auto;
   padding: 50px;
   position: relative;
 
-  div:first-child {
-    margin-bottom: 20px;
-  }
-
   input {
-    width: 100%;
+    width: 80%;
     padding: 14px 20px 10px;
     border: 1px solid rgb(186, 186, 186);
     outline: none;
@@ -44,7 +40,7 @@ export const FindInputBox = styled.div`
 
   button {
     display: inline-block;
-    width: 100%;
+    width: 80%;
     background: ${palette.mainColor};
     border: none;
     padding: 10px 20px;
@@ -58,43 +54,29 @@ export const FindInputBox = styled.div`
   }
 
   input + button {
-    margin-top: 30px;
-  }
-`;
-
-export const FindMethod = styled.div`
-  width: 90%;
-  margin: 5% auto;
-
-  .method {
-    display: inline-block;
-    width: 180px;
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50, 50, 50)')};
-    font-size: 18px;
-    font-weight: bold;
-
-    &:hover {
-      border: 1px solid ${palette.mainColor};
-    }
+    margin-top: 10px;
   }
 
-  .nick {
-    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? `${palette.mainColor}` : '')};
-    color: ${({ isnickname }) => (isnickname === 'true' ? `${palette.mainColor}` : '')};
-    svg {
-      font-size: 50px;
-    }
+  .nicknameError,
+  .emailError {
+    border: 1px solid red;
   }
 
-  .email {
-    border: 1px solid ${({ isnickname }) => (isnickname === 'true' ? '' : `${palette.mainColor}`)};
-    color: ${({ isnickname }) => (isnickname === 'true' ? '' : `${palette.mainColor}`)};
-    svg {
-      font-size: 50px;
-    }
+  .error {
+    font-size: 14px;
+    color: red;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: left;
+  }
+
+  .error + .error {
+    margin-top: 5px;
+  }
+
+  .certificationNumber {
+    margin-bottom: 10px;
   }
 `;
 
@@ -144,11 +126,12 @@ export const ResultBox = styled.div`
 `;
 
 export const StyledInput = styled.div`
-  width: 60%;
+  width: 70%;
   margin: 0 auto;
   display: flex;
   border: 1px solid ${palette.gray[5]};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : '')};
+  overflow: hidden;
 
   input {
     width: 100%;

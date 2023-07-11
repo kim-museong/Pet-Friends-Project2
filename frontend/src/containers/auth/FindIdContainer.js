@@ -1,26 +1,57 @@
-import { useCallback } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
-import { changeInput, initializeForm, isAlert } from '../../modules/find';
+import { changeError, changeInput, initializeForm } from '../../modules/find';
 import FindId from '../../components/auth/FindId';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const FindIdContainer = () => {
-  const [isnickname, setNickname] = useState(true);
-  const [email, setEmail] = useState(false);
+  const [isValidation, setIsValidation] = useState('');
+  const [getUserId, setGetUserId] = useState('');
+  const [showBox, setShowBox] = useState(false);
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
-  const { findId, init } = useSelector(({ find }) => ({
+  const { findId, error } = useSelector(({ find }) => ({
     findId: find.findId,
-    init: find.init,
+    error: find.findId.error,
   }));
+
+  const errorKeyMap = {
+    nickname: 'nicknameError',
+    email: 'emailError',
+  };
+
+  const errorMessages = {
+    nickname: '이름: 이름을 입력해주세요.',
+    email: '이메일: 이메일을 입력해주세요.',
+  };
 
   //아이디 뒤에 별붙이기
   const masked = (str) => {
-    const visibleCharacters = str.slice(0, -3);
-    const maskedCharacters = '*'.repeat(str.length - 3);
+    const visibleCharacters = str.slice(0, -4);
+    const maskedCharacters = '*'.repeat(Math.max(str.length - 4, 0));
     return visibleCharacters + maskedCharacters;
+  };
+
+  const validation = async (name, value) => {
+    if (name === 'nickname') {
+      if (value === '') {
+        dispatch(changeError({ key: errorKeyMap[name], value: errorMessages.nickname }));
+      } else {
+        dispatch(changeError({ key: errorKeyMap[name], value: null }));
+      }
+    } else if (name === 'email') {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (value === '') {
+        dispatch(changeError({ key: errorKeyMap[name], value: errorMessages.email }));
+        return;
+      } else if (!emailRegex.test(value)) {
+        dispatch(changeError({ key: errorKeyMap[name], value: '이메일 형식이 오류' }));
+        return;
+      } else {
+        dispatch(changeError({ key: errorKeyMap[name], value: null }));
+      }
+    }
   };
 
   const onChange = (e) => {
@@ -32,116 +63,44 @@ const FindIdContainer = () => {
         value,
       }),
     );
-  };
-
-  //닉네임 찾기 함수
-  const findNickname = async () => {
-    const { nickname } = findId;
-    try {
-      if (nickname === '') {
-        dispatch(
-          isAlert({
-            valid: true,
-            result: '닉네임을 입력해주세요.',
-            isResult: true,
-          }),
-        );
-        return;
-      }
-
-      const response = await axios.post('/user/findNickname', {
-        findID: nickname,
-      });
-
-      if (response.data === null) {
-        dispatch(
-          isAlert({
-            result: '존재하지 않는 닉네임입니다.',
-            isResult: true,
-            valid: true,
-          }),
-        );
-        return;
-      }
-      const maskedResult = masked(response.data.userId);
-      dispatch(isAlert({ result: maskedResult, isResult: true, valid: false }));
-    } catch (e) {
-      console.log(e);
-    }
+    validation(name, value);
   };
 
   //이메일 전송 함수
   const findEmail = async () => {
-    const { email } = findId;
+    const { email, nickname } = findId;
+    const { nicknameError, emailError } = error;
+    validation('nickname', nickname);
+    validation('email', email);
     try {
-      if (email === '') {
-        dispatch(
-          isAlert({
-            result: '이메일을 입력해주세요.',
-            isResult: true,
-            valid: true,
-          }),
-        );
-        return;
+      if (nicknameError === null && emailError === null) {
+        const response = await axios.post('/user/findId', {
+          email,
+          nickname,
+        });
+        setIsValidation(response.data.generatedCode);
+        setGetUserId(masked(response.data.isEmail.userId));
+        dispatch(changeError({ key: 'email', value: response.data ? '' : '이메일 전송 실패' }));
       }
-
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-      if (!emailRegex.test(email)) {
-        dispatch(
-          isAlert({
-            result: '이메일 형식에 맞게 입력해주세요.',
-            isResult: true,
-            valid: true,
-          }),
-        );
-        return;
-      }
-      const response = await axios.post('/user/findIdEmail', {
-        findEmail: email,
-      });
-
-      console.log(response.data);
-
-      if (response.data === '') {
-        dispatch(
-          isAlert({
-            result: '등록되지 않은 이메일 입니다.',
-            isResult: true,
-            valid: false,
-          }),
-        );
-        return;
-      }
-
-      dispatch(
-        isAlert({
-          result: '이메일이 전송되었습니다.',
-          isResult: true,
-          valid: false,
-        }),
-      );
     } catch (e) {
-      dispatch(isAlert({ result: '이메일이 전송이 실패하였습니다.', isResult: true }));
       console.log(e);
     }
   };
 
-  const selectnick = useCallback(() => {
-    setEmail(false);
-    setNickname(true);
-    dispatch(isAlert({ isResult: false }));
-  }, [dispatch]);
+  const onConfirm = () => {
+    const { certificationNumber } = findId;
+    if (certificationNumber !== isValidation) {
+      console.log('실패');
+      setShowBox(false);
+      return;
+    }
+    console.log('성공');
+    setShowBox(true);
+  };
 
-  const selectEmail = useCallback(() => {
-    setNickname(false);
-    setEmail(true);
-    dispatch(isAlert({ isResult: false }));
-  }, [dispatch]);
-
-  const onCheck = useCallback(() => {
-    dispatch(isAlert({ result: '', isResult: false, valid: false }));
-  }, [dispatch]);
+  const onCancel = () => {
+    setShowBox(false);
+  };
 
   useEffect(() => {
     dispatch(initializeForm('findId'));
@@ -152,15 +111,14 @@ const FindIdContainer = () => {
       <FindId
         type="findId"
         findId={findId}
-        init={init}
-        isnickname={isnickname}
         theme={theme}
         onChange={onChange}
-        findNickname={findNickname}
         findEmail={findEmail}
-        selectnick={selectnick}
-        selectEmail={selectEmail}
-        onCheck={onCheck}
+        error={error}
+        onConfirm={onConfirm}
+        showBox={showBox}
+        getUserId={getUserId}
+        onCancel={onCancel}
       />
     </>
   );

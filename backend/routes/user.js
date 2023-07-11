@@ -3,8 +3,7 @@ const {
   attendance,
   isAttendance,
   getAttendance,
-  findNickanme,
-  findIdEmail,
+  findId,
   findPwdEmail,
   findPwdPhone,
   changePwd,
@@ -16,8 +15,7 @@ router.post('/attendance', attendance);
 router.post('/isAttendance', isAttendance);
 router.post('/getAttendance', getAttendance);
 
-router.post('/findNickname', findNickanme);
-router.post('/findIdEmail', findIdEmail);
+router.post('/findId', findId);
 router.post('/findPwdEmail', findPwdEmail);
 router.post('/findPwdPhone', findPwdPhone);
 router.post('/changePwd', changePwd);

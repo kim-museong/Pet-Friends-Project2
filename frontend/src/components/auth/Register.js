@@ -45,7 +45,7 @@ const RegisterBox = styled.div`
 `;
 
 const ErrorBox = styled.div`
-  width: 60%;
+  width: 70%;
   height: 30px;
   font-size: 14px;
   color: red;

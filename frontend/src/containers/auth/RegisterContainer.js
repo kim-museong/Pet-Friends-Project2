@@ -50,75 +50,22 @@ const RegisterContainer = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { username, password, passwordConfirm, email, nickname } = form;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const { errorUserId, errorPwd, errorPwdCf, errorEmail, errorNickname } = error;
+    const { username, password, email, nickname, passwordConfirm } = form;
 
-    if (username === '' || password === '' || nickname === '' || email === '') {
-      if (username === '') {
-        dispatch(
-          changeError({
-            key: errorKeyMap.username,
-            value: errorMessages.username,
-          }),
-        );
-      } else {
-        dispatch(
-          changeError({
-            key: errorKeyMap.username,
-            value: '',
-          }),
-        );
-      }
+    validation('username', username);
+    validation('password', password);
+    validation('email', email);
+    validation('nickname', nickname);
 
-      if (password === '') {
-        dispatch(
-          changeError({
-            key: errorKeyMap.password,
-            value: errorMessages.password,
-          }),
-        );
-      } else {
-        dispatch(
-          changeError({
-            key: errorKeyMap.password,
-            value: '',
-          }),
-        );
-      }
-
-      if (nickname === '') {
-        dispatch(
-          changeError({
-            key: errorKeyMap.nickname,
-            value: errorMessages.nickname,
-          }),
-        );
-      } else {
-        dispatch(
-          changeError({
-            key: errorKeyMap.nickname,
-            value: '',
-          }),
-        );
-      }
-
-      if (email === '') {
-        dispatch(
-          changeError({
-            key: errorKeyMap.email,
-            value: errorMessages.email,
-          }),
-        );
-      } else {
-        dispatch(
-          changeError({
-            key: errorKeyMap.email,
-            value: '',
-          }),
-        );
-      }
-
-      return;
+    if (
+      errorUserId === null &&
+      errorPwd === null &&
+      errorPwdCf === null &&
+      errorEmail === null &&
+      errorNickname === null
+    ) {
+      dispatch(register({ username, password, email, nickname }));
     }
 
     if (password !== passwordConfirm) {
@@ -130,18 +77,6 @@ const RegisterContainer = () => {
       );
       return;
     }
-
-    if (!emailRegex.test(email)) {
-      dispatch(
-        changeError({
-          key: errorKeyMap.email,
-          value: errorMessages.invalidEmail,
-        }),
-      );
-      return;
-    }
-
-    dispatch(register({ username, password, email, nickname }));
   };
 
   //값이 바뀔 때//
@@ -185,14 +120,13 @@ const RegisterContainer = () => {
         dispatch(
           changeError({
             key: errorKeyMap[name],
-            value: response.data ? '아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.' : '',
+            value: response.data ? '아이디: 사용할 수 없는 아이디입니다. 다른 아이디를 입력해 주세요.' : null,
           }),
         );
       }
-    }
-    //---------비밀번호 검사 -----------------
-    if (name === 'password') {
-      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z0-9!@#$%^&*()]{8,16}$/; //[영문 대/소문자, 숫자, 특수문자]{길이 검사} 코드
+    } else if (name === 'password') {
+      const regex = /^(?=.*[a-z])(?=.*\d)(?=.*[\p{S}!@#$%^&*()~])[a-zA-Z\d\p{S}!@#$%^&*()~]{8,20}$/u;
+
       if (value === '') {
         dispatch(
           changeError({
@@ -204,15 +138,19 @@ const RegisterContainer = () => {
         dispatch(
           changeError({
             key: errorKeyMap[name],
-            value: '비밀번호는 8에서 16자의 영문 대/소문자, 숫자, 특수문자를 포함해야 합니다.',
+            value: '비밀번호는 8~20자 영문 소문자, 숫자, 특수문자를 포함해야 합니다.',
+          }),
+        );
+      } else {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: null,
           }),
         );
       }
-    }
-
-    //-------닉네임 검사 ----------------
-    if (name === 'nickname') {
-      const regex = /^[가-힣a-zA-Z]+$/;
+    } else if (name === 'nickname') {
+      const regex = /^[가-힣a-zA-Z0-9]+$/;
       if (value === '') {
         dispatch(
           changeError({
@@ -224,7 +162,39 @@ const RegisterContainer = () => {
         dispatch(
           changeError({
             key: errorKeyMap[name],
-            value: '이름: 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)',
+            value: '이름: 한글, 영문 대/소문자, 숫자를 사용해 주세요. (특수기호, 공백 사용 불가)',
+          }),
+        );
+      } else {
+        const response = await axios.post('/auth/sameNickname', { value });
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: response.data ? '닉네임: 사용할 수 없는 닉네임입니다. 다른 닉네임를 입력해 주세요.' : null,
+          }),
+        );
+      }
+    } else if (name === 'email') {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (value === '') {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: errorMessages.email,
+          }),
+        );
+      } else if (!emailRegex.test(value)) {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: errorMessages.invalidEmail,
+          }),
+        );
+      } else {
+        dispatch(
+          changeError({
+            key: errorKeyMap[name],
+            value: null,
           }),
         );
       }

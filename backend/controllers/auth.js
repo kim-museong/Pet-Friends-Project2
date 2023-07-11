@@ -33,10 +33,19 @@ exports.register = async (req, res, next) => {
 
 exports.same = async (req, res, next) => {
   const { value } = req.body;
-  console.log(value);
   try {
     const sameUser = await User.findOne({ where: { userId: value } });
     res.status(200).json(sameUser);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.sameNick = async (req, res, next) => {
+  const { value } = req.body;
+  try {
+    const sameNick = await User.findOne({ where: { nickname: value } });
+    res.status(200).json(sameNick);
   } catch (e) {
     console.log(e);
   }
