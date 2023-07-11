@@ -5,7 +5,7 @@ import Responsive from '../common/Responsive';
 const PostBlock = styled(Responsive)`
   border: 1px solid tomato;
   display: block;
-  objectfit: cover;
+  object-fit: cover;
   .test img {
     max-width: 100%;
   }

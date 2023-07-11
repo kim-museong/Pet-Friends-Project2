@@ -21,7 +21,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const WriteActionButton = ({ title, content, post, postError, onSubmit }) => {
+const WriteActionButton = ({ title, content, post, postError, onSubmit, onUpdate, isEdit }) => {
   const navigate = useNavigate();
   const modalRef = useRef(null);
   const [visible, setVisible] = useState(false); // for model on-off
@@ -38,14 +38,25 @@ const WriteActionButton = ({ title, content, post, postError, onSubmit }) => {
   const onSubmitClick = () => {
     // 글쓰기 버튼 정상 동작
     if (title.trim() && content.trim()) {
-      setModalData({
-        title: '글쓰기 확인',
-        description: '입력하신 내용으로 글을 작성하시겠습니까?',
-        confirmText: '글쓰기',
-        cancelText: '취소',
-        onConfirm: onModalSubmitClick,
-        onCancel: onModalCancelClick,
-      });
+      if (isEdit) {
+        setModalData({
+          title: '게시글 수정',
+          description: '입력하신 내용으로 게시글을 수정하시겠습니까?',
+          confirmText: '수정',
+          cancelText: '취소',
+          onConfirm: onModalUpdateClick,
+          onCancel: onModalCancelClick,
+        });
+      } else {
+        setModalData({
+          title: '게시글 작성',
+          description: '입력하신 내용으로 게시글을 작성하시겠습니까?',
+          confirmText: '글쓰기',
+          cancelText: '취소',
+          onConfirm: onModalSubmitClick,
+          onCancel: onModalCancelClick,
+        });
+      }
     } else {
       // 경고 : title or content null
       setModalData({
@@ -79,10 +90,15 @@ const WriteActionButton = ({ title, content, post, postError, onSubmit }) => {
     }
   };
 
-  // modal창의 확인 버튼
+  // modal창의 글쓰기 버튼
   const onModalSubmitClick = () => {
     setVisible(false);
     onSubmit();
+  };
+  // modal창의 수정 버튼
+  const onModalUpdateClick = () => {
+    setVisible(false);
+    onUpdate();
   };
   // modal창의 뒤로가기 버튼
   const onModalBackClick = () => {

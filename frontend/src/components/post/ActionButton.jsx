@@ -2,9 +2,9 @@ import React, { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '../common/AlertModal';
-import Button from './Button';
+import Button from '../common/Button';
 import { storeOriginPost } from '../../modules/write';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const ActionButtonBlock = styled.div`
   border: 1px solid green;
@@ -24,8 +24,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const ActionButton = ({ onDelete }) => {
-  const post = useSelector((state) => state.post.post);
+const ActionButton = ({ onDelete, post, boardName }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalRef = useRef(null);
@@ -42,6 +41,7 @@ const ActionButton = ({ onDelete }) => {
   // 수정 버튼 클릭
   const onEditPost = () => {
     dispatch(storeOriginPost(post));
+    navigate('/editor/post', { state: { boardName } });
   };
 
   // 삭제 버튼 클릭

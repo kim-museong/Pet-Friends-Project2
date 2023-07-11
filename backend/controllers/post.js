@@ -287,10 +287,11 @@ exports.deletePost = (req, res, next) => {
 exports.updatePost = async (req, res, next) => {
   const { boardName, postId } = req.params;
   const { title, content } = req.body;
+  console.log('boardName, postId, title, content', boardName, postId, title, content);
 
   try {
     // posts 테이블 데이터 update
-    await Post.update(
+    const post = await Post.update(
       {
         title: title,
         updatedAt: new Date(),
@@ -299,9 +300,12 @@ exports.updatePost = async (req, res, next) => {
         where: { id: postId },
       },
     );
+    console.log('post', post);
+    // TODO : .update의 리턴값은 업데이트 성공한 row 갯수
+    // TODO : post를 만들어주기 위해서 post 조회할 필요 있음
 
     // contents 테이블 데이터 update
-    await Content.update(
+    const body = await Content.update(
       {
         content: content,
         updatedAt: new Date(),
@@ -310,6 +314,7 @@ exports.updatePost = async (req, res, next) => {
         where: { PostId: postId },
       },
     );
+    console.log('body', body);
 
     console.log(`${boardName}게시판의 ${postId}번 게시글 수정 성공`);
     return res.status(200).end();

@@ -15,20 +15,28 @@ const CREATE_POST = 'write/CREATE_POST';
 const CREATE_POST_SUCCESS = 'write/CREATE_POST_SUCCESS';
 const CREATE_POST_FAILURE = 'write/CREATE_POST_FAILURE';
 
-// const UPDATE_POST = 'write/UPDATE_POST';
-// const UPDATE_POST_SUCCESS = 'write/UPDATE_POST_SUCCESS';
-// const UPDATE_POST_FAILURE = 'write/UPDATE_POST_FAILURE';
+const UPDATE_POST = 'write/UPDATE_POST';
+const UPDATE_POST_SUCCESS = 'write/UPDATE_POST_SUCCESS';
+const UPDATE_POST_FAILURE = 'write/UPDATE_POST_FAILURE';
 
 // action creator
 export const changeInput = createAction(CHANGE_INPUT, (key, value) => ({ key, value }));
 export const initInput = createAction(INIT_INPUT);
 export const storeOriginPost = createAction(STORE_ORIGIN_POST, (post) => post);
 export const createPost = createAction(CREATE_POST, ({ boardName, title, content }) => ({ boardName, title, content }));
+export const updatePost = createAction(UPDATE_POST, ({ boardName, originPostId, title, content }) => ({
+  boardName,
+  postId: originPostId,
+  title,
+  content,
+}));
 
 // define saga
 const createPostSaga = createRequestSaga(CREATE_POST, postAPI.createPost);
+const updatePostSaga = createRequestSaga(UPDATE_POST, postAPI.updatePost);
 export function* writeSaga() {
   yield takeLatest(CREATE_POST, createPostSaga);
+  yield takeLatest(UPDATE_POST, updatePostSaga);
 }
 
 // init
@@ -50,9 +58,9 @@ const write = handleActions(
     [INIT_INPUT]: () => initialState,
     [STORE_ORIGIN_POST]: (state, { payload: post }) => ({
       ...state,
-      title: post.title,
-      content: post.Content.content,
-      originPostId: post.id,
+      title: post.post.title,
+      content: post.post.Content.content,
+      originPostId: post.post.id,
     }),
     [CREATE_POST_SUCCESS]: (state, { payload: post }) => ({
       ...state,
@@ -60,6 +68,16 @@ const write = handleActions(
       postError: null,
     }),
     [CREATE_POST_FAILURE]: (state, { payload: postError }) => ({
+      ...state,
+      post: null,
+      postError,
+    }),
+    [UPDATE_POST_SUCCESS]: (state, { payload: post }) => ({
+      ...state,
+      post,
+      postError: null,
+    }),
+    [UPDATE_POST_FAILURE]: (state, { payload: postError }) => ({
       ...state,
       post: null,
       postError,

@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import Responsive from '../components/common/Responsive';
 import Comments from '../components/post/Comments';
-import ActionButtonContainer from '../containers/common/ActionButtonContainer';
+import ActionButtonContainer from '../containers/post/ActionButtonContainer';
 import TagContainer from '../containers/common/TagContainer';
 import PictureContainer from '../containers/post/PictureContainer';
 import PostContainer from '../containers/post/PostContainer';
