@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Button from '../common/Button';
 import { Link } from 'react-router-dom';
+
 import { MdPerson, MdLock, MdVisibility, MdVisibilityOff, MdEmail } from 'react-icons/md';
 import { useState } from 'react';
 import { StyledInput } from '../../lib/styles/find';
@@ -28,7 +29,7 @@ const ButtonWidthMarginTop = styled(Button)`
 
 const RegisterBox = styled.div`
   width: 600px;
-  margin: 0px auto;
+  margin: 20px auto;
   padding: 10px;
 
   p {
@@ -36,15 +37,19 @@ const RegisterBox = styled.div`
     margin: 0 auto;
     text-align: left;
   }
+
+  .message {
+    font-size: 14px;
+    color: rgb(150, 150, 150);
+  }
 `;
 
 const ErrorBox = styled.div`
-  width: 350px;
+  width: 60%;
   height: 30px;
-  font-size: 12px;
+  font-size: 14px;
   color: red;
-  margin: 5px auto 20px;
-
+  margin: 5px auto;
   div {
     text-align: left;
   }
@@ -54,7 +59,7 @@ const ErrorBox = styled.div`
   }
 `;
 
-const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs }) => {
+const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut }) => {
   const [showPwd, setShowPwd] = useState(false);
   const [showPwdCf, setShowPwdCf] = useState(false);
 
@@ -86,6 +91,7 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 value={form.username}
                 onChange={onChange}
                 placeholder="아이디"
+                onBlur={focusOut}
               />
             </StyledInput>
             <StyledInput theme={String(theme)} className={errorPwd && 'errorPwd'}>
@@ -100,6 +106,7 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 onChange={onChange}
                 type={showPwd ? 'text' : 'password'}
                 placeholder="비밀번호"
+                onBlur={focusOut}
               />
               <ShowPwdBox onClick={onShowPwd}>{showPwd ? <MdVisibility /> : <MdVisibilityOff />}</ShowPwdBox>
             </StyledInput>
@@ -118,11 +125,12 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
               />
               <ShowPwdBox onClick={onShowPwdCf}>{showPwdCf ? <MdVisibility /> : <MdVisibilityOff />}</ShowPwdBox>
             </StyledInput>
+            <ErrorBox>
+              <div>{errorUserId && `* ${errorUserId}`}</div>
+              <div>{errorPwd && `* ${errorPwd}`}</div>
+            </ErrorBox>
           </RegisterBox>
-          <ErrorBox>
-            <div>{errorUserId && `*${errorUserId}`}</div>
-            <div>{errorPwd && `*${errorPwd}`}</div>
-          </ErrorBox>
+
           <RegisterBox>
             <StyledInput theme={String(theme)} className={errorNickname && 'errorNickname'}>
               <div className="icon" onClick={() => iconClick('nickname')}>
@@ -135,6 +143,7 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 value={form.nickname}
                 onChange={onChange}
                 placeholder="이름"
+                onBlur={focusOut}
               />
             </StyledInput>
 
@@ -149,16 +158,15 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 value={form.email}
                 onChange={onChange}
                 placeholder="이메일"
+                onBlur={focusOut}
               />
             </StyledInput>
-            <p style={{ fontSize: '14px', color: 'rgb(150,150,150)' }}>
-              *이름이나 이메일은 아이디나 비밀번호를 찾을 때 사용됩니다.
-            </p>
+
+            <ErrorBox>
+              <div>{errorNickname && `*${errorNickname}`}</div>
+              <div>{errorEmail && `*${errorEmail}`}</div>
+            </ErrorBox>
           </RegisterBox>
-          <ErrorBox>
-            <div>{errorNickname && `*${errorNickname}`}</div>
-            <div>{errorEmail && `*${errorEmail}`}</div>
-          </ErrorBox>
 
           <ButtonWidthMarginTop>회원가입</ButtonWidthMarginTop>
         </form>

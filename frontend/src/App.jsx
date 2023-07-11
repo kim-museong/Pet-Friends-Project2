@@ -18,7 +18,6 @@ import './App.css';
 import Setting from './components/common/Setting';
 import WritePage from './pages/WritePage';
 import AttendancePage from './pages/AttendancePage';
-import { Layout } from './lib/main/Layout';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -35,46 +34,44 @@ const App = () => {
     <>
       <GlobalStyle theme={String(theme)} />
       <Setting />
-      <Layout>
-        <Routes>
-          {/* 메인페이지 */}
-          <Route path="/" element={<MainPage />}></Route>
 
-          {/* 로그인, 회원가입 페이지, 유저정보찾기 */}
-          <Route path="/auth">
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="credentials" element={<RecoverCredentialsPage />} />
-          </Route>
+      <Routes>
+        {/* 메인페이지 */}
+        <Route path="/" element={<MainPage />} />
+        {/* 로그인, 회원가입 페이지, 유저정보찾기 */}
+        <Route path="/auth">
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="credentials" element={<RecoverCredentialsPage />} />
+        </Route>
 
-          {/* 마이페이지 */}
-          <Route path="/mypage/:userId" element={<MyPage />}></Route>
+        {/* 마이페이지 */}
+        <Route path="/mypage/:userId" element={<MyPage />}></Route>
 
-          {/* 관리자페이지 */}
-          <Route path="/admin" element={<AdminPage />}></Route>
+        {/* 관리자페이지 */}
+        <Route path="/admin" element={<AdminPage />}></Route>
 
-          {/* 게시판 페이지 */}
-          <Route path="/notice" element={<NoticePage />}></Route>
-          <Route path="/information" element={<InformationPage />}></Route>
-          <Route path="/picture" element={<PicturePage />}></Route>
-          <Route path="/community" element={<CommunityPage />}></Route>
+        {/* 게시판 페이지 */}
+        <Route path="/notice" element={<NoticePage />}></Route>
+        <Route path="/information" element={<InformationPage />}></Route>
+        <Route path="/picture" element={<PicturePage />}></Route>
+        <Route path="/community" element={<CommunityPage />}></Route>
 
-          {/* 글쓰기(편집기) 페이지 */}
-          <Route path="/editor/post" element={<WritePage />}></Route>
-          <Route path="/editor/picture" element={<WritePage />}></Route>
+        {/* 글쓰기(편집기) 페이지 */}
+        <Route path="/editor/post" element={<WritePage />}></Route>
+        <Route path="/editor/picture" element={<WritePage />}></Route>
 
-          {/* 게시글 상세 정보 */}
-          <Route path="/notice/:postId" element={<PostDetailPage />}></Route>
-          <Route path="/information/:postId" element={<PostDetailPage />}></Route>
-          <Route path="/picture/:postId" element={<PostDetailPage />}></Route>
-          <Route path="/community/:postId" element={<PostDetailPage />}></Route>
+        {/* 게시글 상세 정보 */}
+        <Route path="/notice/:postId" element={<PostDetailPage />}></Route>
+        <Route path="/information/:postId" element={<PostDetailPage />}></Route>
+        <Route path="/picture/:postId" element={<PostDetailPage />}></Route>
+        <Route path="/community/:postId" element={<PostDetailPage />}></Route>
 
-          {/* Not Found 페이지 */}
-          <Route path="*" element={<NotFoundPage />}></Route>
+        {/* Not Found 페이지 */}
+        <Route path="*" element={<NotFoundPage />}></Route>
 
-          <Route path="/attendance" element={<AttendancePage />} />
-        </Routes>
-      </Layout>
+        <Route path="/attendance" element={<AttendancePage />} />
+      </Routes>
     </>
   );
 };

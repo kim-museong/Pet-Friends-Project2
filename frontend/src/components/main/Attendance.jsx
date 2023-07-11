@@ -17,7 +17,7 @@ const AttendanceBackRound = styled.div`
 const AttendanceBox = styled.div`
   width: 100%;
   height: 100%;
-  margin: 20px auto 0;
+  margin: 20px auto;
 
   .react-calendar {
     width: 30%;
@@ -67,7 +67,6 @@ const AttendanceBox = styled.div`
       height: 70px;
       display: flex;
       flex-direction: column;
-      border: 1px solid;
       padding: 5px;
       abbr,
       img {

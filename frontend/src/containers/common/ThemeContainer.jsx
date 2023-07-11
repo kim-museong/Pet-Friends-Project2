@@ -19,4 +19,4 @@ const ThemeContainer = () => {
   );
 };
 
-export default ThemeContainer;
+export default React.memo(ThemeContainer);

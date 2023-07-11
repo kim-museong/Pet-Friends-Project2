@@ -6,24 +6,27 @@ import { Link } from '../../../node_modules/react-router-dom/dist/index';
 import palette from '../../lib/styles/palette';
 
 const AttendanceBox = styled.div`
-  width: 30%;
-  height: 281px;
+  width: 240px;
+  height: 287px;
   border: 1px solid rgb(186, 186, 186);
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
+  top: 434px;
+  left: 944px;
   text-align: center;
   padding: 10px;
   .attend {
     display: block;
-    width: 115px;
-    height: 115px;
-    margin: 20px auto 0;
+    width: 130px;
+    height: 130px;
+    margin: 10px auto 0;
     cursor: pointer;
     background: none;
     border: none;
     background-image: url('../../../images/attend.png');
-    background-size: 630px;
+    background-size: 730px;
     background-repeat: no-repeat;
     background-position: ${({ isconfirm }) =>
-      isconfirm === 'true' ? '16.8% 72%' : ' 83% 72%;'}; /* 이미지를 가로로 50% 위치로 이동 */
+      isconfirm === 'true' ? '16.8% 72%' : ' 82% 72%;'}; /* 이미지를 가로로 50% 위치로 이동 */
   }
 
   .attendBtn {
@@ -131,6 +134,8 @@ const Attendance = () => {
     confirm();
   }, [confirm]);
 
+  console.log(isConfirm);
+
   return (
     <>
       {!cancel && (
@@ -149,7 +154,7 @@ const Attendance = () => {
         </BlackBox>
       )}
 
-      <AttendanceBox isconfirm={String(isConfirm)}>
+      <AttendanceBox isconfirm={String(isConfirm)} theme={String(theme)}>
         {isConfirm ? (
           <>
             <div>{user?.nickname}님</div>
@@ -158,7 +163,7 @@ const Attendance = () => {
             </div>
           </>
         ) : (
-          <p style={{ margin: '20px 0' }}>오늘 출석을 해주세요.</p>
+          <p>출석을 해주세요.</p>
         )}
         <button className="attend" onClick={handleCheckIn} disabled={isConfirm}></button>
         <button className="attendBtn" disabled={isConfirm} onClick={handleCheckIn}>
