@@ -16,7 +16,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const PageButton = ({ buttonText, handleClick }) => {
+const PageButton = ({ handleClick, buttonText }) => {
   return <StyledButton onClick={() => handleClick(buttonText)}>{buttonText}</StyledButton>;
 };
 

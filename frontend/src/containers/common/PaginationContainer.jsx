@@ -1,14 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Pagination from '../../components/common/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePageNumber } from '../../modules/pagination';
+import { useLocation } from 'react-router-dom';
+import { getPostsAsync } from '../../modules/posts';
 
 const PaginationContainer = () => {
+  const location = useLocation();
+
+  const searchCategory = useSelector((state) => state.search.searchCategory);
+  const searchKeyword = useSelector((state) => state.search.searchKeyword);
+  const sortType = useSelector((state) => state.sort.sortType);
+  const boardName = location.pathname.split('/')[1];
+  const postCount = useSelector((state) => state.posts.postCount);
+  const currPageNum = useSelector((state) => state.pagination.pageNumber);
+
+  const limit = useRef(10);
+
   const [firstPageNum, setFirstPageNum] = useState(1);
   const [lastPageNum, setLastPageNum] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const postCount = useSelector((state) => state.posts.postCount);
-  const currPageNum = useSelector((state) => state.pagination.pageNumber);
+
   const dispatch = useDispatch();
 
   // 총 page 수 결정
@@ -38,7 +50,7 @@ const PaginationContainer = () => {
   // 페이지네이션 아이콘 버튼 동작 설정
   const handleClick = useCallback(
     (buttonText) => {
-      let pageNumber = buttonText;
+      let pageNumber = parseInt(buttonText);
       switch (buttonText) {
         case '<<':
           pageNumber = currPageNum > 10 ? currPageNum - 10 : 1;
@@ -56,9 +68,19 @@ const PaginationContainer = () => {
           pageNumber = buttonText;
           break;
       }
-      dispatch(changePageNumber(pageNumber)); // current page state update
+      dispatch(changePageNumber(pageNumber));
+      dispatch(
+        getPostsAsync({
+          searchCategory,
+          searchKeyword,
+          sortType,
+          currPageNum: pageNumber,
+          boardName,
+          limit: limit.current,
+        }),
+      );
     },
-    [dispatch, totalPage, currPageNum],
+    [dispatch, searchCategory, searchKeyword, sortType, currPageNum, boardName, totalPage],
   );
 
   return <Pagination firstPageNum={firstPageNum} lastPageNum={lastPageNum} handleClick={handleClick}></Pagination>;

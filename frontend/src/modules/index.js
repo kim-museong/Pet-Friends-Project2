@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import storage from 'redux-persist/lib/storage/session';
+import { persistReducer } from 'redux-persist';
 import posts, { postsSaga } from './posts';
 import sort from './sort';
 import { all } from 'redux-saga/effects';
@@ -28,8 +30,15 @@ const rootReducer = combineReducers({
   pagination,
 });
 
+// redux-persist로 새로고침시 state 유지
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export function* rootSaga() {
   yield all([postsSaga(), authSaga(), userSaga(), emailSage(), postSaga(), mainSaga(), writeSaga()]);
 }
 
-export default rootReducer;
+export default persistedReducer;

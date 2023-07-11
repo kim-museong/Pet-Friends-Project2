@@ -1,40 +1,47 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import SortOptionMenu from '../../components/common/SortOptionMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSortType } from '../../modules/sort';
 import { changePageNumber } from '../../modules/pagination';
-import { changeSearchOptions } from '../../modules/search';
 import { getPostsAsync } from '../../modules/posts';
+import { useLocation } from 'react-router-dom';
 
 const SortOptionMenuContainer = () => {
-  const category = useSelector((state) => state.search.searchCategory);
-  const keyword = useSelector((state) => state.search.searchKeyword);
+  const location = useLocation();
+
+  const searchCategory = useSelector((state) => state.search.searchCategory);
+  const searchKeyword = useSelector((state) => state.search.searchKeyword);
+  const boardName = location.pathname.split('/')[1];
+  const limit = useRef(10);
+
   const dispatch = useDispatch();
+
+  // 정렬 버튼 클릭
   const handleSortClick = useCallback(
     (searchCategory, searchKeyword, sortType) => {
       dispatch(selectSortType(sortType));
       dispatch(changePageNumber(1));
-      dispatch(changeSearchOptions({ searchCategory, searchKeyword }));
       dispatch(
         getPostsAsync({
           searchCategory,
           searchKeyword,
           sortType,
           currPageNum: 1,
-          boardName: 'community',
-          limit: 10,
+          boardName,
+          limit: limit.current,
         }),
       );
     },
-    [dispatch],
+    [boardName, dispatch],
   );
 
-  useEffect(() => {
-    // 초기값 : 최신순
-    handleSortClick('titleDetail', '', 'newest');
-  }, [handleSortClick]);
-
-  return <SortOptionMenu handleSortClick={handleSortClick} category={category} keyword={keyword}></SortOptionMenu>;
+  return (
+    <SortOptionMenu
+      handleSortClick={handleSortClick}
+      searchCategory={searchCategory}
+      searchKeyword={searchKeyword}
+    ></SortOptionMenu>
+  );
 };
 
 export default SortOptionMenuContainer;

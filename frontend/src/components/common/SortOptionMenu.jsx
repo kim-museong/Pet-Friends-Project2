@@ -16,16 +16,18 @@ const StyledButton = styled(Button)`
   box-shadow: 5px 5px 5px rgba(235, 173, 38, 0.5);
 `;
 
-const SortOptionMenu = ({ handleSortClick, category, keyword }) => {
+const SortOptionMenu = ({ handleSortClick, searchCategory, searchKeyword }) => {
   return (
-    <>
-      <SortOptionMenuBlock>
-        <StyledButton onClick={() => handleSortClick(category, keyword, 'newest')}>최신순</StyledButton>
-        <StyledButton onClick={() => handleSortClick(category, keyword, 'oldest')}>오래된순</StyledButton>
-        <StyledButton onClick={() => handleSortClick(category, keyword, 'highestViews')}>높은조회수</StyledButton>
-        <StyledButton onClick={() => handleSortClick(category, keyword, 'lowestViews')}>낮은조회수</StyledButton>
-      </SortOptionMenuBlock>
-    </>
+    <SortOptionMenuBlock>
+      <StyledButton onClick={() => handleSortClick(searchCategory, searchKeyword, 'newest')}>최신순</StyledButton>
+      <StyledButton onClick={() => handleSortClick(searchCategory, searchKeyword, 'oldest')}>오래된순</StyledButton>
+      <StyledButton onClick={() => handleSortClick(searchCategory, searchKeyword, 'highestViews')}>
+        높은조회수
+      </StyledButton>
+      <StyledButton onClick={() => handleSortClick(searchCategory, searchKeyword, 'lowestViews')}>
+        낮은조회수
+      </StyledButton>
+    </SortOptionMenuBlock>
   );
 };
 

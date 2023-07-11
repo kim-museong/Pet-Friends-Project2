@@ -12,7 +12,15 @@ const PostListBlock = styled(Responsive)`
   justify-content: center;
 `;
 const PostList = ({ posts, loading }) => {
-  return <PostListBlock>{posts && posts.map((post) => <PostItem key={post.id} post={post}></PostItem>)}</PostListBlock>;
+  return (
+    <>
+      {/* 로딩중... 부분 추후 loading spiiner 이미지로 대체 */}
+      {loading && <PostListBlock>{'로딩중.......'}</PostListBlock>}
+      {!loading && (
+        <PostListBlock>{posts && posts.map((post) => <PostItem key={post.id} post={post}></PostItem>)}</PostListBlock>
+      )}
+    </>
+  );
 };
 
 export default PostList;

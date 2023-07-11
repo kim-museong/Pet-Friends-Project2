@@ -6,8 +6,10 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import rootReducer from './modules';
+import persistedReducer from './modules';
 import { rootSaga } from './modules/index';
 import { HelmetProvider } from 'react-helmet-async';
 import { check, tempSetUser } from './modules/user';
@@ -15,9 +17,10 @@ import ScrollToTop from './lib/ScrollToTop';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   middleware: [sagaMiddleware],
 });
+let persistor = persistStore(store);
 
 function loadUser() {
   try {
@@ -36,12 +39,14 @@ loadUser();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <ScrollToTop />
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </BrowserRouter>
+    <PersistGate loading={<div>Loading.....</div>} persistor={persistor}>
+      <BrowserRouter>
+        <ScrollToTop />
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </BrowserRouter>
+    </PersistGate>
   </Provider>,
 );
 

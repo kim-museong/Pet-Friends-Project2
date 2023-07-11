@@ -11,7 +11,7 @@ export const changePageNumber = createAction(CHANGE_PAGE_NUMBER, (pageNumber) =>
 
 // init
 const initialState = {
-  pageNumber: 1,
+  pageNumber: null,
 };
 
 // reducer

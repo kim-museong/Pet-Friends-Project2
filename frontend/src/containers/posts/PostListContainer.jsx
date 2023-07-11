@@ -1,29 +1,65 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PostList from '../../components/posts/PostList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync } from '../../modules/posts';
+import { useLocation } from 'react-router-dom';
+import { selectSortType } from '../../modules/sort';
+import { changePageNumber } from '../../modules/pagination';
+import { changeSearchOptions } from '../../modules/search';
 
 const PostListContainer = () => {
-  const posts = useSelector((state) => state.posts.posts);
-  const sortType = useSelector((state) => state.sort.sortType);
+  const location = useLocation();
+
   const searchCategory = useSelector((state) => state.search.searchCategory);
   const searchKeyword = useSelector((state) => state.search.searchKeyword);
+  const sortType = useSelector((state) => state.sort.sortType);
   const currPageNum = useSelector((state) => state.pagination.pageNumber);
-  const loading = useSelector((state) => state.loading['posts/GET_POSTS']);
-  const dispatch = useDispatch();
-  const getPosts = useCallback(
-    ({ searchCategory, searchKeyword, sortType, currPageNum, boardName, limit }) =>
-      dispatch(getPostsAsync({ searchCategory, searchKeyword, sortType, currPageNum, boardName, limit })),
-    [dispatch],
-  );
+  const boardName = location.pathname.split('/')[1];
 
-  // useEffect
-  // fetch pictureList on mount
+  const posts = useSelector((state) => state.posts.posts);
+  const loading = useSelector((state) => state.loading['posts/GET_POSTS']);
+
+  const limit = useRef(10);
+  const dispatch = useDispatch();
+
+  // post list 렌더링, 리렌더링
   useEffect(() => {
-    console.log(searchCategory, searchKeyword);
-    console.log('게시글 리스트 불러옵니다');
-    getPosts({ searchCategory, searchKeyword, sortType, currPageNum, boardName: 'community', limit: 10 }); // limit에 '한 페이지 보여줄 게시글' 변수 할당
-  }, [getPosts, searchCategory, searchKeyword, sortType, currPageNum]);
+    if (searchCategory === null && searchKeyword === null && sortType === null && currPageNum === null) {
+      console.log('SearchOptionMenuContainer 첫 렌더링. 초기화 시작.');
+      dispatch(selectSortType('newest'));
+      dispatch(changePageNumber(1));
+      dispatch(changeSearchOptions({ searchCategory: 'titleDetail', searchKeyword: '' }));
+      dispatch(
+        getPostsAsync({
+          searchCategory: 'titleDetail',
+          searchKeyword: '',
+          sortType: 'newest',
+          currPageNum: 1,
+          boardName,
+          limit: limit.current,
+        }),
+      );
+    } else {
+      console.log('SearchOptionMenuContainer 리렌더링. 초기화 시작.');
+      dispatch(
+        getPostsAsync({
+          searchCategory,
+          searchKeyword,
+          sortType,
+          currPageNum,
+          boardName,
+          limit: limit.current,
+        }),
+      );
+    }
+
+    // post list 사라질 때 searchCategory, searchKeyword, sortType, pageNumber 초기화
+    return () => {
+      dispatch(changeSearchOptions({ searchCategory: null, searchKeyword: null }));
+      dispatch(selectSortType(null));
+      dispatch(changePageNumber(null));
+    };
+  }, [dispatch]);
 
   return <PostList posts={posts} loading={loading}></PostList>;
 };

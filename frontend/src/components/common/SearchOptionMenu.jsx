@@ -25,7 +25,7 @@ const SearchOptionMenu = ({
     return () => {
       window.removeEventListener('keydown', handleKeydown);
     };
-  }, []);
+  }, [handleKeydown]);
 
   return (
     <SearchOptionMenuBlock>
