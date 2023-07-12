@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '../common/AlertModal';
@@ -24,7 +24,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const ActionButton = ({ onDelete, post, boardName }) => {
+const ActionButton = ({ onDelete, post, user, boardName }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalRef = useRef(null);
@@ -77,10 +77,12 @@ const ActionButton = ({ onDelete, post, boardName }) => {
 
   return (
     <>
-      <ActionButtonBlock>
-        <StyledButton onClick={onEditPost}>{' 수정 '}</StyledButton>
-        <StyledButton onClick={onDeleteClick}>{' 삭제 '}</StyledButton>
-      </ActionButtonBlock>
+      {user && post && user.id === post.post.UserId && (
+        <ActionButtonBlock>
+          <StyledButton onClick={onEditPost}>{' 수정 '}</StyledButton>
+          <StyledButton onClick={onDeleteClick}>{' 삭제 '}</StyledButton>
+        </ActionButtonBlock>
+      )}
       <AlertModal
         modalRef={modalRef}
         visible={visible}

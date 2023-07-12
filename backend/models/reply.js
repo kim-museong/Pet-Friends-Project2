@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 
-class Comment extends Sequelize.Model {
+class Reply extends Sequelize.Model {
   static initiate(sequelize) {
-    Comment.init(
+    Reply.init(
       {
         content: {
           type: Sequelize.STRING(5000),
@@ -13,8 +13,8 @@ class Comment extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: 'Comment',
-        tableName: 'comments',
+        modelName: 'Reply',
+        tableName: 'replies',
         paranoid: false,
         charset: 'utf8',
         collate: 'utf8_general_ci',
@@ -23,12 +23,10 @@ class Comment extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Comment.belongsTo(db.User);
-    db.Comment.belongsTo(db.Post);
-    db.Comment.belongsTo(db.Picture);
-    db.Comment.hasMany(db.Like);
-    db.Comment.hasMany(db.Reply);
+    db.Reply.belongsTo(db.User);
+    db.Reply.hasMany(db.Like);
+    db.Reply.belongsTo(db.Comment);
   }
 }
 
-module.exports = Comment;
+module.exports = Reply;

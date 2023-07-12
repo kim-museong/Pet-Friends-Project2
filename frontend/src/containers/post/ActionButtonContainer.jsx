@@ -14,6 +14,7 @@ const ActionButtonContainer = () => {
   const boardName = location.pathname.split('/')[1];
 
   const post = useSelector((state) => state.post.post);
+  const user = useSelector((state) => state.user.user);
 
   // boardName, postId 필요
   const onDelete = async () => {
@@ -27,7 +28,7 @@ const ActionButtonContainer = () => {
     }
   };
 
-  return <ActionButton onDelete={onDelete} post={post} boardName={boardName}></ActionButton>;
+  return <ActionButton onDelete={onDelete} post={post} user={user} boardName={boardName}></ActionButton>;
 };
 
 export default ActionButtonContainer;

@@ -21,6 +21,8 @@ class Like extends Sequelize.Model {
     db.Like.belongsTo(db.User);
     db.Like.belongsTo(db.Post);
     db.Like.belongsTo(db.Picture);
+    db.Like.belongsTo(db.Comment);
+    db.Like.belongsTo(db.Reply);
   }
 }
 
