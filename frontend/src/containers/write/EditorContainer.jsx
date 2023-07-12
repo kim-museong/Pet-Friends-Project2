@@ -18,7 +18,7 @@ const EditorContainer = () => {
       console.log('editor 페이지를 초기화 합니다.');
       initialize();
     };
-  }, []);
+  }, [initialize]);
 
   // 제목 변경
   // 본문 변경

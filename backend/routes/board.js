@@ -14,6 +14,6 @@ router.post('/:boardName/posts', sanitizer, createPost);
 router.delete('/:boardName/posts/:postId', deletePost);
 
 // UPDATE /board/:boardName/posts/:postId
-router.put('/:boardName/posts/:postId', updatePost);
+router.put('/:boardName/posts/:postId', sanitizer, updatePost);
 
 module.exports = router;

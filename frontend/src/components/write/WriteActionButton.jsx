@@ -140,7 +140,7 @@ const WriteActionButton = ({ title, content, post, postError, boardName, onSubmi
   return (
     <>
       <WriteActionButtonBlock>
-        <StyledButton onClick={onSubmitClick}> 글쓰기 </StyledButton>
+        <StyledButton onClick={onSubmitClick}>{isEdit ? '수정' : '글쓰기'}</StyledButton>
         <StyledButton onClick={onCancelClick}> 취소 </StyledButton>
       </WriteActionButtonBlock>
       <AlertModal
