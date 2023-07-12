@@ -21,8 +21,9 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const WriteActionButton = ({ title, content, post, postError, onSubmit, onUpdate, isEdit }) => {
+const WriteActionButton = ({ title, content, post, postError, boardName, onSubmit, onUpdate, isEdit }) => {
   const navigate = useNavigate();
+
   const modalRef = useRef(null);
   const [visible, setVisible] = useState(false); // for model on-off
   const [modalData, setModalData] = useState({
@@ -75,7 +76,7 @@ const WriteActionButton = ({ title, content, post, postError, onSubmit, onUpdate
   const onCancelClick = () => {
     // 취소 버튼 정상 동작
     if (!(title.trim() || content.trim())) {
-      navigate(-1);
+      navigate(-1, { replace: true });
     } else {
       // 경고 : title or content not null
       setModalData({
@@ -103,7 +104,7 @@ const WriteActionButton = ({ title, content, post, postError, onSubmit, onUpdate
   // modal창의 뒤로가기 버튼
   const onModalBackClick = () => {
     setVisible(false);
-    navigate(-1);
+    navigate(-1, { replace: true });
   };
   // modal창의 취소 버튼
   const onModalCancelClick = () => {
@@ -120,7 +121,7 @@ const WriteActionButton = ({ title, content, post, postError, onSubmit, onUpdate
   useEffect(() => {
     if (post && postError === null) {
       // 글 작성 성공, 이전 페이지로
-      navigate(-1);
+      navigate(`/${boardName}/${post.id}`, { replace: true });
     } else if (postError && post === null) {
       // 서버에서 에러 발생
       // TODO :  postError 메세지의 종류에 따라 다른 description
@@ -134,7 +135,7 @@ const WriteActionButton = ({ title, content, post, postError, onSubmit, onUpdate
       });
       setVisible(true);
     }
-  }, [navigate, post, postError]);
+  }, [boardName, navigate, post, postError]);
 
   return (
     <>

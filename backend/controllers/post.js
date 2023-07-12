@@ -290,8 +290,11 @@ exports.updatePost = async (req, res, next) => {
   console.log('boardName, postId, title, content', boardName, postId, title, content);
 
   try {
+    // boardName으로 boardId 찾아서 저장
+    const boardId = await Board.findOne({ where: { name: boardName } });
+
     // posts 테이블 데이터 update
-    const post = await Post.update(
+    await Post.update(
       {
         title: title,
         updatedAt: new Date(),
@@ -300,12 +303,9 @@ exports.updatePost = async (req, res, next) => {
         where: { id: postId },
       },
     );
-    console.log('post', post);
-    // TODO : .update의 리턴값은 업데이트 성공한 row 갯수
-    // TODO : post를 만들어주기 위해서 post 조회할 필요 있음
 
     // contents 테이블 데이터 update
-    const body = await Content.update(
+    await Content.update(
       {
         content: content,
         updatedAt: new Date(),
@@ -314,10 +314,21 @@ exports.updatePost = async (req, res, next) => {
         where: { PostId: postId },
       },
     );
-    console.log('body', body);
+
+    // 업데이트 후 리턴해줄 mergedPost(post+body) 작성
+    const post = await Post.findByPk(postId);
+    const body = await Content.findOne({
+      where: {
+        PostId: postId,
+      },
+    });
+
+    // post 객체에 boardName과 content 정보를 추가
+    post.dataValues.boardName = boardId.dataValues.name;
+    post.dataValues.content = body.dataValues.content;
 
     console.log(`${boardName}게시판의 ${postId}번 게시글 수정 성공`);
-    return res.status(200).end();
+    return res.status(200).json(post);
   } catch (error) {
     console.log('게시글 수정중 오류 발생');
     console.log(error);

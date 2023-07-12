@@ -26,6 +26,7 @@ const WriteActionButtonContainer = () => {
       content={content}
       post={post}
       postError={postError}
+      boardName={boardName}
       onSubmit={onSubmit}
       onUpdate={onUpdate}
       isEdit={!!originPostId}

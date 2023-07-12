@@ -54,11 +54,11 @@ const PostListContainer = () => {
     }
 
     // post list 사라질 때 searchCategory, searchKeyword, sortType, pageNumber 초기화
-    return () => {
-      dispatch(changeSearchOptions({ searchCategory: null, searchKeyword: null }));
-      dispatch(selectSortType(null));
-      dispatch(changePageNumber(null));
-    };
+    // return () => {
+    //   dispatch(changeSearchOptions({ searchCategory: null, searchKeyword: null }));
+    //   dispatch(selectSortType(null));
+    //   dispatch(changePageNumber(null));
+    // };
   }, [boardName, dispatch]);
 
   return <PostList posts={posts} loading={loading}></PostList>;
