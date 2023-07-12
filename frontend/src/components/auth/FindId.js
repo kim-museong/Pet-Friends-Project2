@@ -96,7 +96,7 @@ const ExplanationBox = styled.div`
   left: 97px;
   display: flex;
   flex-direction: column;
-  width: 340px;
+  width: 350px;
   box-shadow: 0px 0px 2px black;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -109,7 +109,7 @@ const ExplanationBox = styled.div`
   .triangle {
     position: absolute;
     top: 49px;
-    left: 30px;
+    left: 885px;
     width: 10px;
     height: 10px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -205,12 +205,12 @@ const FindId = ({
                   </StatusBox>
 
                   <InfoBox>
-                    인증번호가 오지 않나요?
+                    아직도 인증번호을 받지 못하셨나요?
                     <MdInfo onMouseEnter={onInfoHover} onMouseLeave={onInfoLeave} />
                     <ExplanationBox theme={String(theme)} ishovered={String(isInfoHovered)}>
                       <div className="triangle"></div>
                       <div>
-                        인증번호가 오지 않는 이유는 닉네임과 이메일이 일치하지 않거나 회원가입 시 입력한 이메일과 다를
+                        인증번호를 받지 못하는 이유는 닉네임과 이메일이 일치하지 않거나 회원가입 시 입력한 이메일과 다를
                         수 있습니다.
                       </div>
                     </ExplanationBox>

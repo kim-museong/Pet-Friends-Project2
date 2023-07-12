@@ -1,5 +1,5 @@
 import client from './client';
 
-export const checkEmail = ({ email, userId }) => {
-  return client.post('/users/findPwdEmail', { email, userId });
+export const checkEmail = ({ email, nickname }) => {
+  return client.post('/user/findPwdEmail', { email, nickname });
 };

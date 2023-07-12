@@ -17,9 +17,9 @@ export const changeInput = createAction(CHANGE_INPUT, ({ form, key, value }) => 
   value,
 }));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
-export const checkEmail = createAction(EMAIL, ({ email, userId }) => ({
+export const checkEmail = createAction(EMAIL, ({ email, nickname }) => ({
   email,
-  userId,
+  nickname,
 }));
 export const changeError = createAction(CHANGE_ERROR, ({ form, key, value }) => ({
   key,
@@ -41,6 +41,7 @@ const initialState = {
   findPwd: {
     userId: '',
     email: '',
+    nickname: '',
     certificationNumber: '',
     password: '',
     passwordConfirm: '',
@@ -48,6 +49,7 @@ const initialState = {
       userIdError: null,
       notUserError: null,
       emailError: null,
+      nicknameError: null,
     },
   },
   init: {
