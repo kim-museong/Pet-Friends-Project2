@@ -24,6 +24,7 @@ class Content extends Sequelize.Model {
 
   static associate(db) {
     db.Content.belongsTo(db.Post);
+    db.Content.belongsTo(db.Picture);
   }
 }
 

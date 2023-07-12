@@ -61,7 +61,7 @@ const WriteActionButton = ({ title, content, post, postError, boardName, onSubmi
     } else {
       // 경고 : title or content null
       setModalData({
-        title: '경고',
+        title: '필수 정보 입력',
         description: '제목 또는 본문을 마저 입력해주세요.',
         confirmText: '확인',
         cancelText: '',
@@ -80,7 +80,7 @@ const WriteActionButton = ({ title, content, post, postError, boardName, onSubmi
     } else {
       // 경고 : title or content not null
       setModalData({
-        title: '경고',
+        title: '게시글 작성 취소',
         description: '작성중인 내용이 존재합니다. 정말 돌아가시겠습니까?',
         confirmText: '돌아가기',
         cancelText: '취소',

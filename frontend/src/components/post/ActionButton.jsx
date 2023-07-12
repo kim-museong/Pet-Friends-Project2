@@ -78,8 +78,8 @@ const ActionButton = ({ onDelete, post, boardName }) => {
   return (
     <>
       <ActionButtonBlock>
-        <StyledButton onClick={onEditPost}> 수정 </StyledButton>
-        <StyledButton onClick={onDeleteClick}> 삭제 </StyledButton>
+        <StyledButton onClick={onEditPost}>{' 수정 '}</StyledButton>
+        <StyledButton onClick={onDeleteClick}>{' 삭제 '}</StyledButton>
       </ActionButtonBlock>
       <AlertModal
         modalRef={modalRef}

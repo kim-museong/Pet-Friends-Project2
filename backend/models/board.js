@@ -24,6 +24,7 @@ class Board extends Sequelize.Model {
 
   static associate(db) {
     db.Board.hasMany(db.Post);
+    db.Board.hasMany(db.Picture);
   }
 }
 

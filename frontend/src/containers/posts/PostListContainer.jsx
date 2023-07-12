@@ -61,7 +61,7 @@ const PostListContainer = () => {
     // };
   }, [boardName, dispatch]);
 
-  return <PostList posts={posts} loading={loading}></PostList>;
+  return <PostList posts={posts} boardName={boardName} loading={loading}></PostList>;
 };
 
 export default PostListContainer;

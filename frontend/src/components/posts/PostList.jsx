@@ -11,13 +11,15 @@ const PostListBlock = styled(Responsive)`
   flex-wrap: wrap;
   justify-content: center;
 `;
-const PostList = ({ posts, loading }) => {
+const PostList = ({ posts, boardName, loading }) => {
   return (
     <>
       {/* 로딩중... 부분 추후 loading spiiner 이미지로 대체 */}
       {loading && <PostListBlock>{'로딩중.......'}</PostListBlock>}
       {!loading && (
-        <PostListBlock>{posts && posts.map((post) => <PostItem key={post.id} post={post}></PostItem>)}</PostListBlock>
+        <PostListBlock>
+          {posts && posts.map((post) => <PostItem key={post.id} post={post} boardName={boardName}></PostItem>)}
+        </PostListBlock>
       )}
     </>
   );

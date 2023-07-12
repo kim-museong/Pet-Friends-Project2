@@ -1,26 +1,26 @@
 const Sequelize = require('sequelize');
 
-class Post extends Sequelize.Model {
+class Picture extends Sequelize.Model {
   static initiate(sequelize) {
-    Post.init(
+    Picture.init(
       {
         // 좋아요 숫자 카운트 하는 칼럼 필요할 수도 있음(성능문제)
-        title: {
-          type: Sequelize.STRING(500),
-          allowNull: false,
-        },
         view: {
           type: Sequelize.INTEGER,
           allowNull: false,
           defaultValue: 0,
+        },
+        imgUrl: {
+          type: Sequelize.STRING(500),
+          allowNull: true,
         },
       },
       {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: 'Post',
-        tableName: 'posts',
+        modelName: 'Picture',
+        tableName: 'pictures',
         paranoid: false,
         charset: 'utf8',
         collate: 'utf8_general_ci',
@@ -29,13 +29,13 @@ class Post extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Post.belongsTo(db.User);
-    db.Post.hasMany(db.Like);
-    db.Post.hasMany(db.Comment);
-    db.Post.hasOne(db.Content);
-    db.Post.belongsTo(db.Board);
-    db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });
+    db.Picture.belongsTo(db.User);
+    db.Picture.hasMany(db.Like);
+    db.Picture.hasMany(db.Comment);
+    db.Picture.hasOne(db.Content);
+    db.Picture.belongsTo(db.Board);
+    db.Picture.belongsToMany(db.Hashtag, { through: 'PictureHashtag' });
   }
 }
 
-module.exports = Post;
+module.exports = Picture;

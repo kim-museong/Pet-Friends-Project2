@@ -16,11 +16,11 @@ const Wrapper = styled.div`
   margin: 15px;
 `;
 
-const PostItem = ({ post, loading }) => {
+const PostItem = ({ post, boardName, loading }) => {
   return (
     <>
       <Wrapper>
-        <Link to={`/community/${post.id}`}>
+        <Link to={`/${boardName}/${post.id}`}>
           <PostItemBlock>{post.title}</PostItemBlock>
         </Link>
       </Wrapper>
