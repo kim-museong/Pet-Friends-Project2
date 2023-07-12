@@ -15,10 +15,30 @@ const ShowBox = styled.div`
   }
 
   button {
-    padding: 10px 20px;
+    padding: 40px 20 10px;
     margin-top: 20px;
     cursor: pointer;
   }
+`;
+
+const ErrorBox = styled.div`
+  height: 45px;
+  margin-bottom: 20px;
+`;
+
+const TimeBox = styled.div`
+  border: 1px solid rgb(186, 186, 186);
+  margin-left: 5px;
+  width: 30%;
+  padding: 12px 20px;
+  font-size: 18px;
+`;
+
+const CertificationBox = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
 `;
 
 const FindId = ({ findId, theme, onChange, findEmail, error, onConfirm, showBox, getUserId, onCancel }) => {
@@ -26,7 +46,7 @@ const FindId = ({ findId, theme, onChange, findEmail, error, onConfirm, showBox,
   const { nicknameError, emailError } = error;
   return (
     <>
-      <FindIdBox style={{ position: 'relative' }}>
+      <FindIdBox>
         <div>
           <Link to="/">Logo</Link>
           <h1>아이디 찾기</h1>
@@ -54,11 +74,11 @@ const FindId = ({ findId, theme, onChange, findEmail, error, onConfirm, showBox,
                   />
                   <button onClick={findEmail}>인증번호받기</button>
                 </div>
-                <div style={{ height: '45px', marginBottom: '20px' }}>
+                <ErrorBox>
                   <div className="error">{nicknameError && nicknameError}</div>
                   <div className="error">{emailError && emailError}</div>
-                </div>
-                <div>
+                </ErrorBox>
+                <CertificationBox>
                   <input
                     className="certificationNumber"
                     autoComplete="certificationNumber"
@@ -67,7 +87,8 @@ const FindId = ({ findId, theme, onChange, findEmail, error, onConfirm, showBox,
                     value={certificationNumber}
                     placeholder="인증번호을 입력하세요."
                   />
-                </div>
+                  <TimeBox>05:00</TimeBox>
+                </CertificationBox>
                 <button onClick={onConfirm}>확인</button>
               </div>
             </div>

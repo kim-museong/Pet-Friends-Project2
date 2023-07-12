@@ -9,6 +9,9 @@ const FindIdContainer = () => {
   const [isValidation, setIsValidation] = useState('');
   const [getUserId, setGetUserId] = useState('');
   const [showBox, setShowBox] = useState(false);
+  const [timer, setTimer] = useState(300); // 5분
+  const [timerExpired, setTimerExpired] = useState(false);
+
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const { findId, error } = useSelector(({ find }) => ({
@@ -89,6 +92,9 @@ const FindIdContainer = () => {
 
   const onConfirm = () => {
     const { certificationNumber } = findId;
+    if (isValidation === '') {
+      return;
+    }
     if (certificationNumber !== isValidation) {
       console.log('실패');
       setShowBox(false);
@@ -101,6 +107,22 @@ const FindIdContainer = () => {
   const onCancel = () => {
     setShowBox(false);
   };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else {
+      setTimerExpired(true);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [timer]);
 
   useEffect(() => {
     dispatch(initializeForm('findId'));

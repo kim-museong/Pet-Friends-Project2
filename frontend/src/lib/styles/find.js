@@ -7,8 +7,7 @@ export const FindIdBox = styled.div`
   border-radius: 5px;
   text-align: center;
   overflow: hidden;
-
-  h1 {
+  position: 'relative' h1 {
     margin: 0;
     padding: 20px;
   }
@@ -19,7 +18,6 @@ export const FindIdBox = styled.div`
 `;
 
 export const FindInputBox = styled.div`
-  border: 1px solid ${palette.mainColor};
   width: 600px;
   margin: 5% auto;
   padding: 50px;
@@ -53,10 +51,6 @@ export const FindInputBox = styled.div`
     }
   }
 
-  input + button {
-    margin-top: 10px;
-  }
-
   .nicknameError,
   .emailError {
     border: 1px solid red;
@@ -77,6 +71,7 @@ export const FindInputBox = styled.div`
 
   .certificationNumber {
     margin-bottom: 10px;
+    width: 100%;
   }
 `;
 
