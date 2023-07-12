@@ -21,7 +21,6 @@ export const FindInputBox = styled.div`
   width: 600px;
   margin: 5% auto;
   padding: 50px;
-  position: relative;
 
   input {
     width: 80%;
@@ -52,7 +51,8 @@ export const FindInputBox = styled.div`
   }
 
   .nicknameError,
-  .emailError {
+  .emailError,
+  .certificationError {
     border: 1px solid red;
   }
 
@@ -72,6 +72,13 @@ export const FindInputBox = styled.div`
   .certificationNumber {
     margin-bottom: 10px;
     width: 100%;
+  }
+
+  .certificationBtn {
+    margin-top: 10px;
+    &:disabled {
+      background-color: rgb(186, 186, 186);
+    }
   }
 `;
 

@@ -139,26 +139,36 @@ exports.findId = async (req, res, next) => {
     };
     const generatedCode = generateCode();
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'antjd0419@gmail.com',
-        pass: process.env.MYEMAILPASSWORD,
-      },
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: 'gmail',
+    //   auth: {
+    //     user: 'antjd0419@gmail.com',
+    //     pass: process.env.MYEMAILPASSWORD,
+    //   },
+    // });
 
-    const mailOptions = {
-      from: '펫프렌즈',
-      to: email,
-      subject: '안녕하세요. 펫프렌즈입니다.',
-      text: `${isEmail.nickname}님의 인증번호는 ${generatedCode}입니다`,
-    };
+    // const mailOptions = {
+    //   from: '펫프렌즈',
+    //   to: email,
+    //   subject: '안녕하세요. 펫프렌즈입니다.',
+    //   text: `${isEmail.nickname}님의 인증번호는 ${generatedCode}입니다`,
+    // };
 
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
     console.log('이메일 성공적 전송');
     res.status(200).json({ isEmail, generatedCode });
   } catch (error) {
     console.log(error);
+  }
+};
+
+exports.userIdConfirm = async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    const response = await User.findOne({ where: { userId } });
+    res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
   }
 };
 

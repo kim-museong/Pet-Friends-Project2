@@ -21,9 +21,10 @@ export const checkEmail = createAction(EMAIL, ({ email, userId }) => ({
   email,
   userId,
 }));
-export const changeError = createAction(CHANGE_ERROR, ({ key, value }) => ({
+export const changeError = createAction(CHANGE_ERROR, ({ form, key, value }) => ({
   key,
   value,
+  form,
 }));
 
 //초기값생성
@@ -37,13 +38,17 @@ const initialState = {
       emailError: null,
     },
   },
-  emailCheck: {
+  findPwd: {
     userId: '',
     email: '',
-    phone: '',
-    validConfirm: '',
+    certificationNumber: '',
     password: '',
     passwordConfirm: '',
+    error: {
+      userIdError: null,
+      notUserError: null,
+      emailError: null,
+    },
   },
   init: {
     result: '',
@@ -68,10 +73,10 @@ const find = handleActions(
       produce(state, (draft) => {
         draft[form][key] = value;
       }),
-    [CHANGE_ERROR]: (state, { payload: { key, value } }) =>
+    [CHANGE_ERROR]: (state, { payload: { form, key, value } }) =>
       produce(state, (draft) => {
-        draft.findId.error = {
-          ...draft.findId.error,
+        draft[form].error = {
+          ...draft[form].error,
           [key]: value,
         };
       }),
