@@ -134,8 +134,6 @@ const Attendance = () => {
     confirm();
   }, [confirm]);
 
-  console.log(isConfirm);
-
   return (
     <>
       {!cancel && (

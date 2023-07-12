@@ -117,47 +117,58 @@ exports.getPost = async (req, res, next) => {
   }
 };
 
-exports.findNickanme = async (req, res, next) => {
-  const { findID } = req.body;
-  console.log(123);
+exports.findId = async (req, res, next) => {
+  const { email, nickname } = req.body;
   try {
-    const findId = await User.findOne({ where: { nickname: findID } });
-    res.status(200).json(findId);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-exports.findIdEmail = async (req, res, next) => {
-  const { findEmail } = req.body;
-  console.log(findEmail);
-  try {
-    const isEmail = await User.findOne({ where: { email: findEmail } });
-
+    const isEmail = await User.findOne({ where: { email: email, nickname: nickname } });
     if (isEmail === null) {
       res.status(200).json();
       return;
     }
+    console.log(isEmail);
+
+    //랜덤문자 생성(문자와 숫자가 섞인 6자리 랜덤문자 생성)
+    const generateCode = () => {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let code = '';
+      for (let i = 0; i < 6; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        code += characters.charAt(randomIndex);
+      }
+      return code;
+    };
+    const generatedCode = generateCode();
+
     // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
+    //   service: 'gmail',
     //   auth: {
-    //     user: "antjd0419@gmail.com",
+    //     user: 'antjd0419@gmail.com',
     //     pass: process.env.MYEMAILPASSWORD,
     //   },
     // });
 
     // const mailOptions = {
-    //   from: "antjd0419@gmail.com",
-    //   to: findEmail,
-    //   subject: "안녕하세요. 펫프렌즈입니다.",
-    //   text: `${findId.nickname}님의 아이디는 ${findId.userId}입니다`,
+    //   from: '펫프렌즈',
+    //   to: email,
+    //   subject: '안녕하세요. 펫프렌즈입니다.',
+    //   text: `${isEmail.nickname}님의 인증번호는 ${generatedCode}입니다`,
     // };
 
     // await transporter.sendMail(mailOptions);
     console.log('이메일 성공적 전송');
-    res.status(200).json('이메일이 성공적으로 전송되었습니다.');
+    res.status(200).json({ isEmail, generatedCode });
   } catch (error) {
     console.log(error);
+  }
+};
+
+exports.userIdConfirm = async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    const response = await User.findOne({ where: { userId } });
+    res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -167,7 +178,7 @@ exports.findPwdEmail = async (req, res, next) => {
   const response = await User.findOne({ where: { userId } });
   if (response) {
     try {
-      //임시 비밀번호 생성(문자와 숫자가 섞인 6자리 랜덤문자 생성)
+      //랜덤문자 생성(문자와 숫자가 섞인 6자리 랜덤문자 생성)
       const generateCode = () => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let code = '';

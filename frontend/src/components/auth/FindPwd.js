@@ -1,43 +1,19 @@
 import styled from 'styled-components';
-import { MdMailOutline, MdOutlineSmartphone } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { FindIdBox, Footer, FindInputBox } from '../../lib/styles/find';
 import palette from '../../lib/styles/palette';
+import { useCallback, useState } from 'react';
 
-const FindMethod = styled.div`
-  width: 90%;
-  margin: 5% auto;
+const StatusBox = styled.div`
+  height: 45px;
+  margin-bottom: 20px;
+  text-align: left;
+  margin: 10px auto;
+`;
 
-  .method {
-    display: inline-block;
-    width: 20%;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50, 50, 50)')};
-    font-size: 14px;
-
-    &:hover {
-      border: 1px solid rgb(255, 140, 0);
-    }
-  }
-
-  .nick {
-    border: 1px solid ${({ email }) => (email === 'true' ? '' : `${palette.mainColor}`)};
-    svg {
-      font-size: 50px;
-      color: ${({ email }) => (email === 'true' ? '' : `${palette.mainColor}`)};
-    }
-  }
-
-  .email {
-    border: 1px solid ${({ email }) => (email === 'true' ? `${palette.mainColor}` : '')};
-
-    svg {
-      font-size: 50px;
-      color: ${({ email }) => (email === 'true' ? `${palette.mainColor}` : '')};
-    }
+const FindPwdInputBox = styled(FindInputBox)`
+  button {
+    margin-top: 10px;
   }
 `;
 
@@ -101,21 +77,25 @@ const ChangePwdBox = styled.div`
 `;
 
 const FindPwd = ({
-  form,
+  findPwd,
   init,
-  email,
   theme,
   onChange,
   findPhone,
   findEmail,
-  selectPhone,
-  selectEmail,
   onCheck,
   onCancel,
   onSubmitPwd,
-  onComplete,
+  error,
+  nextQ,
+  firstQ,
+  user,
 }) => {
   const { result, isResult, valid, isConfirm } = init;
+  const { userIdError, emailError, notUserError } = error;
+  const { email } = user;
+  const atIndex = email.indexOf('@');
+  const maskedEmail = email.substring(0, atIndex - 4) + '****' + email.substring(atIndex);
   return (
     <>
       <FindIdBox>
@@ -123,47 +103,46 @@ const FindPwd = ({
           <Link to="/">Logo</Link>
           <h1>비밀번호 찾기</h1>
         </div>
-        <FindMethod theme={String(theme)} email={String(email)}>
-          <div className="method email" onClick={selectEmail}>
-            <MdMailOutline />
-            <div>이메일</div>
-          </div>
-          <div className="method nick" onClick={selectPhone}>
-            <MdOutlineSmartphone />
-            <div>휴대폰</div>
-          </div>
-
-          <FindInputBox>
+        {firstQ ? (
+          <FindPwdInputBox>
+            <input
+              autoComplete="userId"
+              name="userId"
+              onChange={onChange}
+              value={findPwd.userId}
+              placeholder="아이디를 입력해주세요."
+            />
+            <button onClick={nextQ}> 확인</button>
+            <StatusBox>
+              <div className="error">{userIdError && userIdError}</div>
+              <div className="error">{notUserError && notUserError}</div>
+            </StatusBox>
+          </FindPwdInputBox>
+        ) : (
+          <FindPwdInputBox>
             <div>
+              <div>{maskedEmail && maskedEmail}</div>
               <div>
-                <div>{email ? '등록했던 이메일을 입력해주세요.' : '전화번호'}</div>
-                <input
-                  autoComplete="userId"
-                  name="userId"
-                  onChange={onChange}
-                  value={form.userId}
-                  placeholder="아이디를 입력해주세요."
-                />
                 <input
                   autoComplete="email"
                   name="email"
                   onChange={onChange}
-                  value={form.email}
-                  placeholder={` ${email ? '이메일' : '전화번호'}을 입력해주세요.`}
+                  value={findPwd.email}
+                  placeholder="이메일을 입력해주세요."
                 />
-                {email ? <button onClick={findEmail}> 확인</button> : <button onClick={findPhone}> 확인</button>}
+                <button onClick={findEmail}> 확인</button>
               </div>
               {isConfirm && (
                 <ChangePwdBox theme={String(theme)}>
                   <div>비밀번호 재설정</div>
-                  <form onSubmit={onSubmitPwd}>
+                  <findPwd onSubmit={onSubmitPwd}>
                     <div>
                       <input
                         autoComplete="new-password"
                         type="password"
                         name="password"
                         placeholder="새로운 비밀번호를 입력해주세요."
-                        value={form.password}
+                        value={findPwd.password}
                         onChange={onChange}
                       />
                     </div>
@@ -173,12 +152,12 @@ const FindPwd = ({
                         type="password"
                         name="passwordConfirm"
                         placeholder="비밀번호 확인"
-                        value={form.passwordConfirm}
+                        value={findPwd.passwordConfirm}
                         onChange={onChange}
                       />
                     </div>
                     <button>변경</button>
-                  </form>
+                  </findPwd>
                 </ChangePwdBox>
               )}
               {isResult && (
@@ -194,7 +173,7 @@ const FindPwd = ({
                           <input
                             placeholder="인증번호를 입력해주세요."
                             name="validConfirm"
-                            value={form.validConfirm}
+                            value={findPwd.validConfirm}
                             onChange={onChange}
                           />
                         </>
@@ -202,7 +181,7 @@ const FindPwd = ({
                     </div>
                     {valid ? (
                       isConfirm ? (
-                        <button onClick={onComplete}>확인</button>
+                        <button>확인</button>
                       ) : (
                         <button onClick={onCancel}>확인</button>
                       )
@@ -213,8 +192,9 @@ const FindPwd = ({
                 </ResultBox>
               )}
             </div>
-          </FindInputBox>
-        </FindMethod>
+          </FindPwdInputBox>
+        )}
+
         <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>
           <Link to="/auth/credentials?type=findId">아이디 찾기</Link>

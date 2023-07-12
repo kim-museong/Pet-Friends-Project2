@@ -3,11 +3,11 @@ const {
   attendance,
   isAttendance,
   getAttendance,
-  findNickanme,
-  findIdEmail,
+  findId,
   findPwdEmail,
   findPwdPhone,
   changePwd,
+  userIdConfirm,
 } = require('../controllers/user');
 const router = express.Router();
 
@@ -16,8 +16,8 @@ router.post('/attendance', attendance);
 router.post('/isAttendance', isAttendance);
 router.post('/getAttendance', getAttendance);
 
-router.post('/findNickname', findNickanme);
-router.post('/findIdEmail', findIdEmail);
+router.post('/findId', findId);
+router.post('/userIdConfirm', userIdConfirm);
 router.post('/findPwdEmail', findPwdEmail);
 router.post('/findPwdPhone', findPwdPhone);
 router.post('/changePwd', changePwd);

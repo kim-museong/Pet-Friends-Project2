@@ -1,28 +1,81 @@
-import { useCallback } from 'react';
 import axios from 'axios';
-import { useState } from 'react';
-import { changeInput, initializeForm, isAlert } from '../../modules/find';
+import { useCallback, useState } from 'react';
+import { changeError, changeInput, initializeForm } from '../../modules/find';
 import FindId from '../../components/auth/FindId';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const FindIdContainer = () => {
-  const [isnickname, setNickname] = useState(true);
-  const [email, setEmail] = useState(false);
+  // ------------- state ---------------------
+  const [isValidation, setIsValidation] = useState('');
+  const [getUserId, setGetUserId] = useState('');
+  const [showBox, setShowBox] = useState(false);
+  const [timer, setTimer] = useState(180); // 3분
+  const [timerExpired, setTimerExpired] = useState(false);
+  const [timeOut, setTimeOut] = useState(false);
+  const [confirmFail, setConfirmFailure] = useState(null);
+  const [intervalId, setIntervalId] = useState(null);
+
+  // ---------------- 리덕스 ---------------------
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
-  const { findId, init } = useSelector(({ find }) => ({
+  const { findId, error } = useSelector(({ find }) => ({
     findId: find.findId,
-    init: find.init,
+    error: find.findId.error,
   }));
 
-  //아이디 뒤에 별붙이기
+  // -------------- 에러별 이름과 내용 --------------
+  const errorKeyMap = {
+    nickname: 'nicknameError',
+    email: 'emailError',
+  };
+
+  const errorMessages = {
+    nickname: '* 이름: 이름을 입력해주세요.',
+    email: '* 이메일: 이메일을 입력해주세요.',
+    confirmFail: '* 인증: 인증번호를 입력해주세요.',
+    different: '* 인증: 인증번호가 틀립니다.',
+  };
+
+  // ---------- 초를 분:초로 바꾸기 -----------------
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
+
+  // ------------ 아이디 뒤에 별붙이기 -----------------
   const masked = (str) => {
-    const visibleCharacters = str.slice(0, -3);
-    const maskedCharacters = '*'.repeat(str.length - 3);
+    const visibleCharacters = str.slice(0, -4);
+    const maskedCharacters = '*'.repeat(Math.max(str.length - 4, 0));
     return visibleCharacters + maskedCharacters;
   };
 
+  // ------------- 유효성 검사 함수 ----------------------------
+  const validation = async (name, value) => {
+    if (name === 'nickname') {
+      if (value === '') {
+        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: errorMessages.nickname }));
+      } else {
+        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: null }));
+      }
+    } else if (name === 'email') {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (value === '') {
+        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: errorMessages.email }));
+        return;
+      } else if (!emailRegex.test(value)) {
+        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: '이메일 형식이 오류' }));
+        return;
+      } else {
+        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: null }));
+      }
+    }
+  };
+
+  //-------------- 인풋값 변경 함수 --------------------
   const onChange = (e) => {
     const { value, name } = e.target;
     dispatch(
@@ -32,135 +85,109 @@ const FindIdContainer = () => {
         value,
       }),
     );
+    validation(name, value);
   };
 
-  //닉네임 찾기 함수
-  const findNickname = async () => {
-    const { nickname } = findId;
-    try {
-      if (nickname === '') {
-        dispatch(
-          isAlert({
-            valid: true,
-            result: '닉네임을 입력해주세요.',
-            isResult: true,
-          }),
-        );
-        return;
-      }
-
-      const response = await axios.post('/user/findNickname', {
-        findID: nickname,
-      });
-
-      if (response.data === null) {
-        dispatch(
-          isAlert({
-            result: '존재하지 않는 닉네임입니다.',
-            isResult: true,
-            valid: true,
-          }),
-        );
-        return;
-      }
-      const maskedResult = masked(response.data.userId);
-      dispatch(isAlert({ result: maskedResult, isResult: true, valid: false }));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  //이메일 전송 함수
+  //---------- 이메일 전송 함수 -------------
   const findEmail = async () => {
-    const { email } = findId;
+    const { email, nickname } = findId;
+    const { nicknameError, emailError } = error;
+    validation('nickname', nickname);
+    validation('email', email);
+
     try {
-      if (email === '') {
-        dispatch(
-          isAlert({
-            result: '이메일을 입력해주세요.',
-            isResult: true,
-            valid: true,
-          }),
-        );
-        return;
+      if (nicknameError === null && emailError === null) {
+        clearInterval(intervalId);
+        setTimerExpired(false);
+        setTimer(180);
+        setTimeOut(false);
+
+        const response = await axios.post('/user/findId', {
+          email,
+          nickname,
+        });
+        setIsValidation(response.data.generatedCode);
+        setGetUserId(masked(response.data.isEmail.userId));
+        dispatch(changeError({ key: 'email', value: response.data ? '' : '이메일 전송 실패' }));
+        setTimerExpired(true);
+        timeStart();
       }
-
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-      if (!emailRegex.test(email)) {
-        dispatch(
-          isAlert({
-            result: '이메일 형식에 맞게 입력해주세요.',
-            isResult: true,
-            valid: true,
-          }),
-        );
-        return;
-      }
-      const response = await axios.post('/user/findIdEmail', {
-        findEmail: email,
-      });
-
-      console.log(response.data);
-
-      if (response.data === '') {
-        dispatch(
-          isAlert({
-            result: '등록되지 않은 이메일 입니다.',
-            isResult: true,
-            valid: false,
-          }),
-        );
-        return;
-      }
-
-      dispatch(
-        isAlert({
-          result: '이메일이 전송되었습니다.',
-          isResult: true,
-          valid: false,
-        }),
-      );
     } catch (e) {
-      dispatch(isAlert({ result: '이메일이 전송이 실패하였습니다.', isResult: true }));
       console.log(e);
     }
   };
 
-  const selectnick = useCallback(() => {
-    setEmail(false);
-    setNickname(true);
-    dispatch(isAlert({ isResult: false }));
-  }, [dispatch]);
+  //----------- 인증번호 확인 함수 -------------------
+  const onConfirm = () => {
+    const { certificationNumber } = findId;
+    if (isValidation === '') {
+      setConfirmFailure(errorMessages.confirmFail);
+      return;
+    } else if (certificationNumber !== isValidation) {
+      console.log('실패');
+      setShowBox(false);
+      setConfirmFailure(errorMessages.different);
+      return;
+    } else {
+      setConfirmFailure(null);
+      console.log('성공');
+      setShowBox(true);
+    }
+  };
 
-  const selectEmail = useCallback(() => {
-    setNickname(false);
-    setEmail(true);
-    dispatch(isAlert({ isResult: false }));
-  }, [dispatch]);
+  const onCancel = () => {
+    setShowBox(false);
+    dispatch(initializeForm('findId'));
+    clearInterval(intervalId);
+    setTimerExpired(false);
+    setTimer(180);
+    setTimeOut(false);
+  };
 
-  const onCheck = useCallback(() => {
-    dispatch(isAlert({ result: '', isResult: false, valid: false }));
-  }, [dispatch]);
+  // ----------- 타이머 함수 --------------
 
+  const timeStart = () => {
+    setTimerExpired(true);
+    const id = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer <= 1) {
+          clearInterval(intervalId);
+          setTimerExpired(false);
+          setTimer(180);
+          setTimeOut(true);
+          return;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+    setIntervalId(id);
+  };
+
+  // ----------findId 초기화 -------------------
   useEffect(() => {
     dispatch(initializeForm('findId'));
   }, [dispatch]);
+
+  console.log(isValidation);
 
   return (
     <>
       <FindId
         type="findId"
         findId={findId}
-        init={init}
-        isnickname={isnickname}
         theme={theme}
         onChange={onChange}
-        findNickname={findNickname}
         findEmail={findEmail}
-        selectnick={selectnick}
-        selectEmail={selectEmail}
-        onCheck={onCheck}
+        error={error}
+        onConfirm={onConfirm}
+        showBox={showBox}
+        getUserId={getUserId}
+        onCancel={onCancel}
+        timerExpired={timerExpired}
+        timer={timer}
+        formatTime={formatTime}
+        timeOut={timeOut}
+        confirmFail={confirmFail}
       />
     </>
   );
