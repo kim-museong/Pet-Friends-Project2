@@ -37,7 +37,9 @@ const Editor = ({ onChangeField, title, content, postId }) => {
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
           console.log('Editor is ready to use!', editor);
-          editor.setData(content);
+          if (postId) {
+            editor.setData(content);
+          }
           editor.editing.view.change((writer) => {
             writer.setStyle('height', '350px', editor.editing.view.document.getRoot());
             // writer.setStyle('width', '350px', editor.editing.view.document.getRoot());

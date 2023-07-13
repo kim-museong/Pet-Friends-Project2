@@ -23,12 +23,18 @@ const UPDATE_POST_FAILURE = 'write/UPDATE_POST_FAILURE';
 export const changeInput = createAction(CHANGE_INPUT, (key, value) => ({ key, value }));
 export const initInput = createAction(INIT_INPUT);
 export const storeOriginPost = createAction(STORE_ORIGIN_POST, (post) => post);
-export const createPost = createAction(CREATE_POST, ({ boardName, title, content }) => ({ boardName, title, content }));
-export const updatePost = createAction(UPDATE_POST, ({ boardName, originPostId, title, content }) => ({
+export const createPost = createAction(CREATE_POST, ({ boardName, title, content, tags }) => ({
+  boardName,
+  title,
+  content,
+  tags,
+}));
+export const updatePost = createAction(UPDATE_POST, ({ boardName, originPostId, title, content, tags }) => ({
   boardName,
   postId: originPostId,
   title,
   content,
+  tags,
 }));
 
 // define saga
@@ -43,6 +49,7 @@ export function* writeSaga() {
 const initialState = {
   title: '',
   content: '',
+  tags: [],
   post: null,
   postError: null,
   originPostId: null,
@@ -60,6 +67,7 @@ const write = handleActions(
       ...state,
       title: post.post.title,
       content: post.post.Content.content,
+      tags: post.hashtags,
       originPostId: post.post.id,
     }),
     [CREATE_POST_SUCCESS]: (state, { payload: post }) => ({

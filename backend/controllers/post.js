@@ -1,11 +1,18 @@
-const { Post, User, Board, Content, Comment, Like } = require('../models');
+const { Post, User, Board, Content, Comment, Like, Hashtag } = require('../models');
 11;
 const { Op } = require('sequelize');
 const { sequelize } = require('../models');
 
 // read post list
 exports.readPosts = (req, res, next) => {
-  const { searchCategory = '', searchKeyword = '', sortType = 'newest', currPageNum = 1, limit = 10 } = req.query;
+  const {
+    searchCategory = '',
+    searchKeyword = '',
+    sortType = 'newest',
+    currPageNum = 1,
+    tag = '',
+    limit = 10,
+  } = req.query;
   const { boardName } = req.params;
 
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
@@ -45,6 +52,12 @@ exports.readPosts = (req, res, next) => {
           model: Like,
           attributes: ['UserId', 'PostId'],
         },
+        {
+          model: Hashtag,
+          attributes: [],
+          where: { title: tag },
+          through: { attributes: [] },
+        },
       ],
       where: {
         [Op.or]: [{ title: { [Op.like]: `%${title}}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
@@ -74,6 +87,12 @@ exports.readPosts = (req, res, next) => {
           model: Like,
           attributes: ['UserId', 'PostId'],
         },
+        {
+          model: Hashtag,
+          attributes: [],
+          where: { title: tag },
+          through: { attributes: [] },
+        },
       ],
       where: { title: { [Op.like]: `%${title}%` } },
       offset: offset,
@@ -101,6 +120,12 @@ exports.readPosts = (req, res, next) => {
           model: Like,
           attributes: ['UserId', 'PostId'],
         },
+        {
+          model: Hashtag,
+          attributes: [],
+          where: { title: tag },
+          through: { attributes: [] },
+        },
       ],
       offset: offset,
       order: [[column, order]],
@@ -126,6 +151,9 @@ exports.readPosts = (req, res, next) => {
           model: Like,
           attributes: ['UserId', 'PostId'],
         },
+        {
+          model: Hashtag,
+        },
       ],
       offset: offset,
       order: [[column, order]],
@@ -141,7 +169,6 @@ exports.readPosts = (req, res, next) => {
       };
       // 필요한 정보만 가공해서 주도록 수정
       // 쿼리문에서 attributes 변경으로 해결
-      console.log(formattedData);
       res.json(formattedData);
     })
     .catch((err) => {
@@ -190,6 +217,16 @@ exports.readPost = async (req, res, next) => {
       transaction,
     });
 
+    // 해시태그 정보 가져옴
+    const postWithHashtag = await Post.findByPk(postId, {
+      include: {
+        model: Hashtag,
+        through: { attributes: [] },
+      },
+      transaction,
+    });
+    const hashtags = postWithHashtag.Hashtags.map((hashtag) => hashtag.title);
+
     // 추천 정보 가져옴
     const likeCount = await Like.count({
       where: { PostId: postId },
@@ -218,6 +255,7 @@ exports.readPost = async (req, res, next) => {
     const data = {
       post: post.dataValues,
       comments: comments.map((item) => item.dataValues),
+      hashtags,
       likeCount,
       commentCount,
     };
@@ -239,7 +277,7 @@ exports.readPost = async (req, res, next) => {
 exports.createPost = async (req, res, next) => {
   const transaction = await sequelize.transaction();
   const { boardName } = req.params;
-  const { title, filteredContent } = req.body;
+  const { title, filteredContent, tags: hashtags } = req.body;
 
   try {
     // boardName으로 boardId 찾아서 저장
@@ -263,6 +301,23 @@ exports.createPost = async (req, res, next) => {
       },
       { transaction },
     );
+
+    // hash tag 저장
+    if (hashtags) {
+      const result = await Promise.all(
+        hashtags.map((tag) => {
+          return Hashtag.findOrCreate({
+            where: { title: tag.toLowerCase() },
+            transaction,
+          });
+        }),
+      );
+
+      await post.addHashtags(
+        result.map((r) => r[0]),
+        { transaction },
+      );
+    }
 
     // post 객체에 boardName과 content 정보를 추가
     post.dataValues.boardName = boardId.dataValues.name;
@@ -314,9 +369,12 @@ exports.deletePost = (req, res, next) => {
 exports.updatePost = async (req, res, next) => {
   const transaction = await sequelize.transaction();
   const { boardName, postId } = req.params;
-  const { title, filteredContent } = req.body;
+  const { title, filteredContent, tags: newHashtags } = req.body;
 
   try {
+    // old post 저장
+    const oldPost = await Post.findByPk(postId, { transaction });
+
     // boardName으로 boardId 찾아서 저장
     const boardId = await Board.findOne({
       where: { name: boardName },
@@ -347,25 +405,71 @@ exports.updatePost = async (req, res, next) => {
       },
     );
 
+    // hash tag update
+    // 넘어온 tags와 db에 저장된 tags를 비교해서 빠지거나 추가된 tags를 업데이트
+    const addedHashtags = [];
+    const removedHashtags = [];
+    const rawHashtags = await oldPost.getHashtags({ transaction });
+    const oldHashtags = rawHashtags.map((hashtag) => hashtag.title);
+
+    newHashtags.map((newHashtag) => {
+      if (!oldHashtags.includes(newHashtag)) {
+        addedHashtags.push(newHashtag);
+      }
+    });
+    oldHashtags.map((oldHashtag) => {
+      if (!newHashtags.includes(oldHashtag)) {
+        removedHashtags.push(oldHashtag);
+      }
+    });
+
+    if (addedHashtags && addedHashtags.length > 0) {
+      const result = await Promise.all(
+        addedHashtags.map((addedHashtag) => {
+          return Hashtag.findOrCreate({
+            where: { title: addedHashtag.toLowerCase() },
+            transaction,
+          });
+        }),
+      );
+
+      await oldPost.addHashtags(
+        result.map((r) => r[0]),
+        { transaction },
+      );
+    }
+    if (removedHashtags && removedHashtags.length > 0) {
+      const result = await Promise.all(
+        removedHashtags.map(async (removedHashtag) => {
+          return oldPost.removeHashtag(
+            rawHashtags.find((hashtag) => hashtag.title === removedHashtag),
+            { transaction },
+          );
+        }),
+      );
+    }
+
     // 업데이트 후 리턴해줄 mergedPost(post+body) 작성
-    const post = await Post.findByPk(postId, { transaction });
+    const newPost = await Post.findByPk(postId, { transaction });
     const body = await Content.findOne({
       where: {
         PostId: postId,
       },
       transaction,
     });
+    const hashtags = await newPost.getHashtags({ transaction });
 
     // post 객체에 boardName과 content 정보를 추가
-    post.dataValues.boardName = boardId.dataValues.name;
-    post.dataValues.content = body.dataValues.content;
+    newPost.dataValues.boardName = boardId.dataValues.name;
+    newPost.dataValues.content = body.dataValues.content;
+    newPost.dataValues.tags = hashtags.map((hashtag) => hashtag.title);
 
     console.log(`${boardName}게시판의 ${postId}번 게시글 수정 성공`);
 
     // transaction commit
     await transaction.commit();
 
-    return res.status(200).json(post);
+    return res.status(200).json(newPost);
   } catch (error) {
     // transaction rollback
     await transaction.rollback();

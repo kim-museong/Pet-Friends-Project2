@@ -8,6 +8,7 @@ const WriteActionButtonContainer = () => {
   const boardName = location.state.boardName;
   const title = useSelector((state) => state.write.title);
   const content = useSelector((state) => state.write.content);
+  const tags = useSelector((state) => state.write.tags);
   const post = useSelector((state) => state.write.post);
   const postError = useSelector((state) => state.write.postError);
   const originPostId = useSelector((state) => state.write.originPostId);
@@ -15,10 +16,10 @@ const WriteActionButtonContainer = () => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(createPost({ boardName, title, content }));
+    dispatch(createPost({ boardName, title, content, tags }));
   };
   const onUpdate = () => {
-    dispatch(updatePost({ boardName, originPostId, title, content }));
+    dispatch(updatePost({ boardName, originPostId, title, content, tags }));
   };
   return (
     <WriteActionButton

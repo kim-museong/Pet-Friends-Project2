@@ -14,11 +14,12 @@ const GET_POSTS_FAILURE = 'posts/GET_POSTS_FAILURE';
 // action creator
 export const getPostsAsync = createAction(
   GET_POSTS,
-  ({ searchCategory, searchKeyword, sortType, currPageNum, boardName, limit }) => ({
+  ({ searchCategory, searchKeyword, sortType, currPageNum, tag, boardName, limit }) => ({
     searchCategory,
     searchKeyword,
     sortType,
     currPageNum,
+    tag,
     boardName,
     limit,
   }),
