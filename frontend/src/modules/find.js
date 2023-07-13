@@ -6,9 +6,12 @@ import { takeLatest } from 'redux-saga/effects';
 
 //액션 정의
 const CHANGE_INPUT = 'find/CHANGE_INPUT';
-const INITIALIZE_FORM = 'find/INITIALIZE_FORM';
-const [EMAIL, EMAIL_SUCCESS, EMIAL_FAILURE] = createRequestActionTypes('find/EMAIL');
 const CHANGE_ERROR = 'find/CHANGE_ERROR';
+const NEXT_STEP = 'find/NEXT_STEP';
+const PREV_STEP = 'find/PREV_STEP';
+const INITIALIZE_FORM = 'find/INITIALIZE_FORM';
+const INITNUMBER = 'find/INITNUMBER';
+const [EMAIL, EMAIL_SUCCESS, EMIAL_FAILURE] = createRequestActionTypes('find/EMAIL');
 
 //액션 생성
 export const changeInput = createAction(CHANGE_INPUT, ({ form, key, value }) => ({
@@ -21,11 +24,19 @@ export const checkEmail = createAction(EMAIL, ({ email, nickname }) => ({
   email,
   nickname,
 }));
+
 export const changeError = createAction(CHANGE_ERROR, ({ form, key, value }) => ({
   key,
   value,
   form,
 }));
+
+//인증번호 초기화
+export const initNumber = createAction(INITNUMBER);
+
+//스텝 변경
+export const nextStep = createAction(NEXT_STEP);
+export const prevStep = createAction(PREV_STEP);
 
 //초기값생성
 const initialState = {
@@ -39,6 +50,7 @@ const initialState = {
     },
   },
   findPwd: {
+    step: 1,
     userId: '',
     email: '',
     nickname: '',
@@ -50,13 +62,9 @@ const initialState = {
       notUserError: null,
       emailError: null,
       nicknameError: null,
+      passwordError: null,
+      passwordConfirmError: null,
     },
-  },
-  init: {
-    result: '',
-    isResult: false,
-    valid: false,
-    isConfirm: false,
   },
   isemail: null,
   isUserId: null,
@@ -65,6 +73,7 @@ const initialState = {
 
 //사가생성
 const checkEmailSaga = createRequestSaga(EMAIL, Find.checkEmail);
+
 export function* emailSage() {
   yield takeLatest(EMAIL, checkEmailSaga);
 }
@@ -82,6 +91,24 @@ const find = handleActions(
           [key]: value,
         };
       }),
+    [NEXT_STEP]: (state) => ({
+      ...state,
+      findPwd: {
+        ...state.findPwd,
+        step: state.findPwd.step + 1,
+      },
+    }),
+    [PREV_STEP]: (state) => ({
+      ...state,
+      findPwd: {
+        ...state.findPwd,
+        step: state.findPwd.step - 1,
+      },
+    }),
+    [INITNUMBER]: (state) => ({
+      ...state,
+      isemail: null,
+    }),
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],

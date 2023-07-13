@@ -150,14 +150,6 @@ const FindPwdContainer = () => {
     }
   };
 
-  const onCancel = () => {
-    const { isConfirm } = init;
-    console.log(isConfirm);
-    if (isConfirm) {
-      return;
-    }
-  };
-
   const onConfirm = () => {
     const { certificationNumber } = findPwd;
     if (isValidation === '') {
@@ -221,7 +213,6 @@ const FindPwdContainer = () => {
         onChange={onChange}
         findEmail={findEmail}
         onCheck={onCheck}
-        onCancel={onCancel}
         onSubmitPwd={onSubmitPwd}
         nextQ={nextQ}
         firstQ={firstQ}

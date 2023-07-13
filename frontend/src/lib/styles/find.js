@@ -19,8 +19,8 @@ export const FindIdBox = styled.div`
 
 export const FindInputBox = styled.div`
   width: 600px;
-  margin: 5% auto;
-  padding: 50px;
+  margin: 5% auto 0;
+  padding: 50px 30px 0;
 
   input {
     width: 80%;

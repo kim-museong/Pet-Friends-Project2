@@ -178,13 +178,10 @@ const ExplanationBox = styled.div`
 
 const FindPwd = ({
   findPwd,
-  init,
+
   theme,
   onChange,
-  findPhone,
   findEmail,
-  onCheck,
-  onCancel,
   onSubmitPwd,
   error,
   nextQ,
@@ -197,7 +194,6 @@ const FindPwd = ({
   formatTime,
   onConfirm,
 }) => {
-  const { result, isResult, valid, isConfirm } = init;
   const { userIdError, emailError, notUserError, nicknameError } = error;
   const { email } = user || {};
   const atIndex = email ? email.indexOf('@') : -1; // email이 존재하지 않는 경우 -1로 설정
@@ -302,34 +298,33 @@ const FindPwd = ({
                   <div className="error">{confirmFail && confirmFail}</div>
                 </StatusBox>
               </div>
-              {isConfirm && (
-                <ChangePwdBox theme={String(theme)}>
-                  <div>비밀번호 재설정</div>
-                  <findPwd onSubmit={onSubmitPwd}>
-                    <div>
-                      <input
-                        autoComplete="new-password"
-                        type="password"
-                        name="password"
-                        placeholder="새로운 비밀번호를 입력해주세요."
-                        value={findPwd.password}
-                        onChange={onChange}
-                      />
-                    </div>
-                    <div>
-                      <input
-                        autoComplete="new-password"
-                        type="password"
-                        name="passwordConfirm"
-                        placeholder="비밀번호 확인"
-                        value={findPwd.passwordConfirm}
-                        onChange={onChange}
-                      />
-                    </div>
-                    <button>변경</button>
-                  </findPwd>
-                </ChangePwdBox>
-              )}
+
+              <ChangePwdBox theme={String(theme)}>
+                <div>비밀번호 재설정</div>
+                <findPwd onSubmit={onSubmitPwd}>
+                  <div>
+                    <input
+                      autoComplete="new-password"
+                      type="password"
+                      name="password"
+                      placeholder="새로운 비밀번호를 입력해주세요."
+                      value={findPwd.password}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      autoComplete="new-password"
+                      type="password"
+                      name="passwordConfirm"
+                      placeholder="비밀번호 확인"
+                      value={findPwd.passwordConfirm}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <button>변경</button>
+                </findPwd>
+              </ChangePwdBox>
             </div>
           </FindPwdInputBox>
         )}

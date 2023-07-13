@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
-import { changeError, changeInput, initializeForm } from '../../modules/find';
+import { changeError, changeInput, initNumber, initializeForm } from '../../modules/find';
 import FindId from '../../components/auth/FindId';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -155,6 +155,7 @@ const FindIdContainer = () => {
         if (prevTimer <= 1) {
           clearInterval(intervalId);
           setTimeOut(true);
+          dispatch(initNumber());
           return;
         }
         return prevTimer - 1;
@@ -167,8 +168,6 @@ const FindIdContainer = () => {
   useEffect(() => {
     dispatch(initializeForm('findId'));
   }, [dispatch]);
-
-  console.log(isValidation);
 
   return (
     <>
