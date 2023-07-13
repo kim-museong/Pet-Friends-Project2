@@ -15,22 +15,20 @@ const FindPwdSecondContainer = () => {
     email: 'emailError',
     nickname: 'nicknameError',
   });
+  const [errorMessages, setErrorMessages] = useState({
+    nicknameError: '* 이름: 이름을 입력해주세요.',
+    emailError: '* 이메일: 이메일을 입력해주세요.',
+    confirmFail: '* 인증: 인증번호를 입력해주세요.',
+    different: '* 인증: 인증번호가 틀립니다.',
+  });
 
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const { findPwd, isemail, error } = useSelector(({ find }) => ({
     findPwd: find.findPwd,
     isemail: find.isemail,
-
     error: find.findPwd.error,
   }));
-
-  const errorMessages = {
-    nicknameError: '* 이름: 이름을 입력해주세요.',
-    emailError: '* 이메일: 이메일을 입력해주세요.',
-    confirmFail: '* 인증: 인증번호를 입력해주세요.',
-    different: '* 인증: 인증번호가 틀립니다.',
-  };
 
   const validation = useCallback(
     async (name, value) => {
@@ -75,7 +73,7 @@ const FindPwdSecondContainer = () => {
         if (prevTimer <= 1) {
           clearInterval(intervalId);
           setTimeOut(true);
-          return;
+          return 0;
         }
         return prevTimer - 1;
       });
@@ -99,23 +97,27 @@ const FindPwdSecondContainer = () => {
   );
 
   //------------- 이메일 전송 함수 ---------------------
+
   const findEmail = async () => {
     const { email, nickname } = findPwd;
-    console.log(nickname);
     const { nicknameError, emailError } = error;
-    if (nicknameError && emailError) {
-      return;
-    }
-    try {
-      clearInterval(intervalId);
-      setTimerExpired(false);
-      setTimer(180);
-      setTimeOut(false);
-      dispatch(checkEmail({ email, nickname }));
-      setTimerExpired(true);
-      timeStart();
-    } catch (e) {
-      console.log(e);
+    validation('email', email);
+    validation('nickname', nickname);
+    console.log(email, nickname);
+    if (email && nickname) {
+      try {
+        console.log('11111111111111111111');
+        clearInterval(intervalId);
+        setTimerExpired(false);
+        setTimer(180);
+        setTimeOut(false);
+        dispatch(checkEmail({ email, nickname }));
+        //이메일 전송 메시지
+        setTimerExpired(true);
+        timeStart();
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -136,7 +138,19 @@ const FindPwdSecondContainer = () => {
 
   return (
     <>
-      <FindPwdSecond onChange={onChange} onConfirm={onConfirm} findPwd={findPwd} error={error} />
+      <FindPwdSecond
+        onChange={onChange}
+        onConfirm={onConfirm}
+        error={error}
+        findPwd={findPwd}
+        timerExpired={timerExpired}
+        findEmail={findEmail}
+        theme={theme}
+        timeOut={timeOut}
+        confirmFail={confirmFail}
+        timer={timer}
+        formatTime={formatTime}
+      />
     </>
   );
 };

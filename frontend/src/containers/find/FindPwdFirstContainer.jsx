@@ -62,7 +62,6 @@ const FindPwdFirstContainer = () => {
 
   const onConfirm = useCallback(async () => {
     const { userId } = findPwd;
-    console.log(1234, userId);
     try {
       const res = await axios.post('/user/userIdConfirm', { userId });
       if (!res.data) {
@@ -70,7 +69,7 @@ const FindPwdFirstContainer = () => {
         return;
       } else {
         dispatch(nextStep());
-        navigate(`/auth/credentials?type=findPwd&step=${step}`);
+        navigate('/auth/credentials?type=findPwd&step=2');
       }
     } catch (e) {
       console.log(e);

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FindIdBox, FindInputBox, Footer } from '../../lib/styles/find';
 import styled from 'styled-components';
-import { MdInfo } from 'react-icons/md';
+import { MdInfo, MdAlarm } from 'react-icons/md';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
 
@@ -22,11 +22,16 @@ const ShowBox = styled.div`
 `;
 
 const TimeBox = styled.div`
-  border: 1px solid rgb(186, 186, 186);
-  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 30%;
-  padding: 12px 20px;
-  font-size: 18px;
+  height: 63.6px;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding: 20px 20px;
+  border: 1px solid rgb(186, 186, 186);
+  font-size: 20px;
 
   color: ${({ timer, timerexpired }) => {
     if (timerexpired === 'true') {
@@ -61,6 +66,12 @@ const TimeBox = styled.div`
       return 'rgb(186,186,186)';
     }
   }};
+
+  svg {
+    font-size: 25px;
+    margin-top: 5px;
+    margin-right: 5px;
+  }
 `;
 
 const CertificationBox = styled.div`
@@ -108,8 +119,8 @@ const ExplanationBox = styled.div`
 
   .triangle {
     position: absolute;
-    top: 49px;
-    left: 885px;
+    top: 47px;
+    left: 105px;
     width: 10px;
     height: 10px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -226,10 +237,15 @@ const FindId = ({
                       placeholder="인증번호을 입력하세요."
                     />
                     <TimeBox timer={String(timer)} timerexpired={String(timerExpired)}>
+                      <div>
+                        <MdAlarm />
+                      </div>
                       {formatTime(timer)}
                     </TimeBox>
                   </CertificationBox>
-                  <button onClick={onConfirm}>확인</button>
+                  <button className="confirm" onClick={onConfirm}>
+                    확인
+                  </button>
                   <StatusBox>
                     <div className="error">{timeOut && '인증: 인증시간이 초과. 다시 시도해주세요.'}</div>
                     <div className="error">{confirmFail && confirmFail}</div>

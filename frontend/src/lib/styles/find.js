@@ -2,12 +2,13 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 
 export const FindIdBox = styled.div`
-  width: 50%;
+  width: 70%;
   margin: 5% auto;
   border-radius: 5px;
   text-align: center;
   overflow: hidden;
-  position: 'relative' h1 {
+  position: 'relative';
+  h1 {
     margin: 0;
     padding: 20px;
   }
@@ -18,17 +19,17 @@ export const FindIdBox = styled.div`
 `;
 
 export const FindInputBox = styled.div`
-  width: 600px;
-  margin: 5% auto 0;
-  padding: 50px 30px 0;
+  width: 800px;
+  margin: 50px auto 0;
+  padding: 0 30px;
 
   input {
     width: 80%;
-    padding: 14px 20px 10px;
+    padding: 20px 28px 18px;
     border: 1px solid rgb(186, 186, 186);
     outline: none;
     margin-top: 10px;
-    font-size: 18px;
+    font-size: 20px;
 
     &:focus {
       border: 1px solid ${palette.mainColor};
@@ -40,10 +41,11 @@ export const FindInputBox = styled.div`
     width: 80%;
     background: ${palette.mainColor};
     border: none;
-    padding: 10px 20px;
+    margin-top: 20px;
+    padding: 20px 28px;
     color: white;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
 
     &:hover {
       background: rgb(186, 186, 186);
@@ -57,7 +59,7 @@ export const FindInputBox = styled.div`
   }
 
   .error {
-    font-size: 14px;
+    font-size: 18px;
     color: red;
     width: 80%;
     margin: 0 auto;
@@ -70,12 +72,11 @@ export const FindInputBox = styled.div`
   }
 
   .certificationNumber {
-    margin-bottom: 10px;
     width: 100%;
   }
 
   .certificationBtn {
-    margin-top: 10px;
+    margin-top: 20px;
     &:disabled {
       background-color: rgb(186, 186, 186);
     }

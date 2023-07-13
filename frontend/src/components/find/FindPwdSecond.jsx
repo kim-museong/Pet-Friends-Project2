@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FindInputBox } from '../../lib/styles/find';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
-import { MdInfo } from 'react-icons/md';
+import { MdInfo, MdAlarm } from 'react-icons/md';
 
 const StatusBox = styled.div`
   height: 45px;
@@ -12,17 +12,20 @@ const StatusBox = styled.div`
 `;
 
 const FindPwdInputBox = styled(FindInputBox)`
-  button {
-    margin-top: 10px;
-  }
+  text-align: center;
 `;
 
 const TimeBox = styled.div`
-  border: 1px solid rgb(186, 186, 186);
-  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 30%;
-  padding: 12px 20px;
-  font-size: 18px;
+  height: 63.6px;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding: 20px 20px;
+  border: 1px solid rgb(186, 186, 186);
+  font-size: 20px;
 
   color: ${({ timer, timerexpired }) => {
     if (timerexpired === 'true') {
@@ -57,6 +60,12 @@ const TimeBox = styled.div`
       return 'rgb(186,186,186)';
     }
   }};
+
+  svg {
+    font-size: 25px;
+    margin-top: 5px;
+    margin-right: 5px;
+  }
 `;
 
 const CertificationBox = styled.div`
@@ -72,7 +81,7 @@ const InfoBox = styled.div`
   align-items: center;
   width: 80%;
   margin: 0 auto;
-  font-size: 12px;
+  font-size: 16px;
   color: rgb(140 140, 140);
 
   svg {
@@ -88,11 +97,11 @@ const InfoBox = styled.div`
 
 const ExplanationBox = styled.div`
   position: absolute;
-  top: -65px;
-  left: 97px;
+  top: -70px;
+  left: 178px;
   display: flex;
   flex-direction: column;
-  width: 350px;
+  width: 450px;
   box-shadow: 0px 0px 2px black;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -104,8 +113,8 @@ const ExplanationBox = styled.div`
 
   .triangle {
     position: absolute;
-    top: 49px;
-    left: 885px;
+    top: 57px;
+    left: 88px;
     width: 10px;
     height: 10px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -149,8 +158,8 @@ const FindPwdSecond = ({
     <>
       <FindPwdInputBox>
         <div>
-          <div style={{ marginBottom: '50px' }}>{maskedEmail && maskedEmail} 인증번호 보내기</div>
-          <p style={{ fontSize: '12px', color: 'rgb(160,160,160)' }}>
+          <div style={{ margin: '100px 0 50px' }}>{maskedEmail && maskedEmail} 인증번호 보내기</div>
+          <p style={{ fontSize: '16px', color: 'rgb(160,160,160)' }}>
             * 본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
           </p>
           <div>
@@ -204,12 +213,15 @@ const FindPwdSecond = ({
                 placeholder="인증번호을 입력하세요."
               />
               <TimeBox timer={String(timer)} timerexpired={String(timerExpired)}>
-                {formatTime(timer)}
+                <div>
+                  <MdAlarm />
+                </div>
+                <div>{formatTime(timer)}</div>
               </TimeBox>
             </CertificationBox>
             <button onClick={onConfirm}>확인</button>
             <StatusBox>
-              <div className="error">{timeOut && '인증: 인증시간이 초과. 다시 시도해주세요.'}</div>
+              <div className="error">{timeOut && '인증: 인증시간이 초과되었습니다. 다시 시도해주세요.'}</div>
               <div className="error">{confirmFail && confirmFail}</div>
             </StatusBox>
           </div>
