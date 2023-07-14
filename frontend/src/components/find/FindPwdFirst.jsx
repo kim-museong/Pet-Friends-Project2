@@ -41,7 +41,6 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
     <>
       <MainBox>
         <div>
-          <Link to="/">Logo</Link>
           <h2>비밀번호를 재설정할 아이디를 입력해 주세요.</h2>
         </div>
         <FindPwdInputBox>
@@ -60,7 +59,7 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
         </FindPwdInputBox>
         <div className="findId">
           <p>
-            아이디가 기억나지 않습니까?{' '}
+            아이디가 기억나지 않습니까?
             <Link to="/auth/credentials?type=findId" className="findIdLink">
               아이디찾기
             </Link>

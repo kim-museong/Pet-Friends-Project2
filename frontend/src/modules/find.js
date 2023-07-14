@@ -12,6 +12,7 @@ const PREV_STEP = 'find/PREV_STEP';
 const INITIALIZE_FORM = 'find/INITIALIZE_FORM';
 const INITNUMBER = 'find/INITNUMBER';
 const [EMAIL, EMAIL_SUCCESS, EMIAL_FAILURE] = createRequestActionTypes('find/EMAIL');
+const FINDUSER = 'find/FINDUSER';
 
 //액션 생성
 export const changeInput = createAction(CHANGE_INPUT, ({ form, key, value }) => ({
@@ -30,6 +31,8 @@ export const changeError = createAction(CHANGE_ERROR, ({ form, key, value }) => 
   value,
   form,
 }));
+
+export const findUser = createAction(FINDUSER, (user) => user);
 
 //인증번호 초기화
 export const initNumber = createAction(INITNUMBER);
@@ -65,6 +68,7 @@ const initialState = {
       passwordError: null,
       passwordConfirmError: null,
     },
+    findUser: null,
   },
   isemail: null,
   isUserId: null,
@@ -109,14 +113,20 @@ const find = handleActions(
       ...state,
       isemail: null,
     }),
+    [FINDUSER]: (state, { payload: user }) => ({
+      ...state,
+      findPwd: {
+        ...state.findPwd,
+        findUser: user,
+      },
+    }),
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
     }),
-    [EMAIL_SUCCESS]: (state, { payload: email, userId }) => ({
+    [EMAIL_SUCCESS]: (state, { payload: email }) => ({
       ...state,
       isemail: email,
-      isUserId: userId,
       emailError: null,
     }),
     [EMIAL_FAILURE]: (state, { payload: error }) => ({

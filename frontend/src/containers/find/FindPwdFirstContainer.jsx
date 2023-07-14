@@ -1,13 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import FindPwdFirst from '../../components/find/FindPwdFirst';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeInput, changeError, nextStep } from '../../modules/find';
-import { useNavigate } from 'react-router-dom';
+import { changeInput, changeError, nextStep, initializeForm, findUser } from '../../modules/find';
 
 const FindPwdFirstContainer = () => {
-  const navigate = useNavigate();
-
   //-------------- state ------------------
   const [errorKeyMap, setErrorKeyMap] = useState({
     userId: 'userIdError',
@@ -68,13 +65,17 @@ const FindPwdFirstContainer = () => {
         dispatch(changeError({ form: 'findPwd', key: 'notUserError', value: errorMessages.notUserError }));
         return;
       } else {
+        dispatch(findUser(res.data));
         dispatch(nextStep());
-        navigate('/auth/credentials?type=findPwd&step=2');
       }
     } catch (e) {
       console.log(e);
     }
-  }, [dispatch, errorMessages.notUserError, findPwd, navigate, step]);
+  }, [dispatch, errorMessages.notUserError, findPwd]);
+
+  useEffect(() => {
+    dispatch(initializeForm('findPwd'));
+  }, [dispatch]);
 
   return (
     <>

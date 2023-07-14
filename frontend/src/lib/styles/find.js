@@ -59,12 +59,18 @@ export const FindInputBox = styled.div`
   }
 
   .error {
-    font-size: 18px;
     color: red;
     width: 80%;
     margin: 0 auto;
     margin-top: 10px;
     text-align: left;
+  }
+
+  .success {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
+    color: ${palette.mainColor};
   }
 
   .error + .error {

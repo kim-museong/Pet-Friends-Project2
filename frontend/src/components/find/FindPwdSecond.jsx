@@ -3,12 +3,13 @@ import { FindInputBox } from '../../lib/styles/find';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
 import { MdInfo, MdAlarm } from 'react-icons/md';
+import { useSelector } from '../../../node_modules/react-redux/es/exports';
 
 const StatusBox = styled.div`
   height: 45px;
   margin-bottom: 20px;
   text-align: left;
-  margin: 10px auto;
+  margin: 5px auto 30px;
 `;
 
 const FindPwdInputBox = styled(FindInputBox)`
@@ -138,6 +139,7 @@ const FindPwdSecond = ({
   confirmFail,
   timer,
   formatTime,
+  sendSuccess,
 }) => {
   const { emailError, nicknameError } = error;
   const { email } = user || {};
@@ -158,7 +160,7 @@ const FindPwdSecond = ({
     <>
       <FindPwdInputBox>
         <div>
-          <div style={{ margin: '100px 0 50px' }}>{maskedEmail && maskedEmail} 인증번호 보내기</div>
+          <div style={{ margin: '50px 0 ' }}>{maskedEmail && maskedEmail} 인증번호 보내기</div>
           <p style={{ fontSize: '16px', color: 'rgb(160,160,160)' }}>
             * 본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
           </p>
@@ -190,6 +192,7 @@ const FindPwdSecond = ({
             <StatusBox>
               <div className="error">{nicknameError && nicknameError}</div>
               <div className="error">{emailError && emailError}</div>
+              <div className="success">{sendSuccess && sendSuccess}</div>
             </StatusBox>
             <InfoBox>
               아직도 인증번호을 받지 못하셨나요?

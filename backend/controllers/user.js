@@ -165,8 +165,8 @@ exports.findId = async (req, res, next) => {
 exports.userIdConfirm = async (req, res, next) => {
   const { userId } = req.body;
   try {
-    const response = await User.findOne({ where: { userId } });
-    res.status(200).json(response);
+    const findUser = await User.findOne({ where: { userId }, attributes: ['userId', 'nickname', 'email'] });
+    res.status(200).json(findUser);
   } catch (e) {
     console.log(e);
   }
@@ -213,8 +213,6 @@ exports.findPwdEmail = async (req, res, next) => {
     } catch (error) {
       console.log(error);
     }
-  } else {
-    res.status(500).json('등록된 아이디가 아닙니다.');
   }
 };
 
