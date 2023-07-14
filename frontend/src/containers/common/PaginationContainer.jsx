@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Pagination from '../../components/common/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePageNumber } from '../../modules/pagination';
+import { selectPageNumber } from '../../modules/searchOption';
 import { useLocation } from 'react-router-dom';
 import { getPostsAsync } from '../../modules/posts';
 
 const PaginationContainer = () => {
   const location = useLocation();
 
-  const searchCategory = useSelector((state) => state.search.searchCategory);
-  const searchKeyword = useSelector((state) => state.search.searchKeyword);
-  const sortType = useSelector((state) => state.sort.sortType);
+  const searchCategory = useSelector((state) => state.searchOption.searchCategory);
+  const searchKeyword = useSelector((state) => state.searchOption.searchKeyword);
+  const sortType = useSelector((state) => state.searchOption.sortType);
+  const tag = useSelector((state) => state.searchOption.tag);
   const boardName = location.pathname.split('/')[1];
   const postCount = useSelector((state) => state.posts.postCount);
-  const currPageNum = useSelector((state) => state.pagination.pageNumber);
+  const currPageNum = useSelector((state) => state.searchOption.pageNumber);
 
   const limit = useRef(10);
 
@@ -68,19 +69,20 @@ const PaginationContainer = () => {
           pageNumber = buttonText;
           break;
       }
-      dispatch(changePageNumber(pageNumber));
+      dispatch(selectPageNumber(pageNumber));
       dispatch(
         getPostsAsync({
           searchCategory,
           searchKeyword,
           sortType,
           currPageNum: pageNumber,
+          tag,
           boardName,
           limit: limit.current,
         }),
       );
     },
-    [dispatch, searchCategory, searchKeyword, sortType, currPageNum, boardName, totalPage],
+    [dispatch, searchCategory, searchKeyword, sortType, tag, boardName, currPageNum, totalPage],
   );
 
   return <Pagination firstPageNum={firstPageNum} lastPageNum={lastPageNum} handleClick={handleClick}></Pagination>;

@@ -16,12 +16,15 @@ const StayledTag = styled.div`
   }
 `;
 
-const Tag = ({ hashtags }) => {
+const Tag = ({ hashtags, handleTagClick }) => {
   return (
     <TagBlock>
-      {hashtags.map((tag) => (
-        <StayledTag>#{tag}</StayledTag>
-      ))}
+      {hashtags &&
+        hashtags.map((tag) => (
+          <StayledTag key={tag} onClick={() => handleTagClick(tag)}>
+            #{tag}
+          </StayledTag>
+        ))}
     </TagBlock>
   );
 };

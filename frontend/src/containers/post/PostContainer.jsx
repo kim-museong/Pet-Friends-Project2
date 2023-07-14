@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import Post from '../../components/post/Post';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostAsync } from '../../modules/post';
+import { getPostAsync, initPost } from '../../modules/post';
 
 const PostContainer = ({ postId }) => {
   // 필요 state 값
@@ -15,9 +15,11 @@ const PostContainer = ({ postId }) => {
   useEffect(() => {
     console.log('게시글 정보를 불러옵니다');
     getPost(postId);
-  }, [postId, getPost]);
+    // 게시글 상세정보 페이지 언마운트되면 post 정보도 초기화
+    return () => dispatch(initPost());
+  }, [postId, getPost, dispatch]);
 
   return <Post post={post} loading={loading}></Post>;
 };
 
-export default React.memo(PostContainer);
+export default PostContainer;

@@ -3,17 +3,16 @@ import PostList from '../../components/posts/PostList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync } from '../../modules/posts';
 import { useLocation } from 'react-router-dom';
-import { selectSortType } from '../../modules/sort';
-import { changePageNumber } from '../../modules/pagination';
-import { changeSearchOptions } from '../../modules/search';
+import { selectPageNumber, selectSearchOptions, selectSortType } from '../../modules/searchOption';
 
 const PostListContainer = () => {
   const location = useLocation();
 
-  const searchCategory = useSelector((state) => state.search.searchCategory);
-  const searchKeyword = useSelector((state) => state.search.searchKeyword);
-  const sortType = useSelector((state) => state.sort.sortType);
-  const currPageNum = useSelector((state) => state.pagination.pageNumber);
+  const searchCategory = useSelector((state) => state.searchOption.searchCategory);
+  const searchKeyword = useSelector((state) => state.searchOption.searchKeyword);
+  const sortType = useSelector((state) => state.searchOption.sortType);
+  const currPageNum = useSelector((state) => state.searchOption.pageNumber);
+  const tag = useSelector((state) => state.searchOption.tag);
   const boardName = location.pathname.split('/')[1];
 
   const posts = useSelector((state) => state.posts.posts);
@@ -27,14 +26,15 @@ const PostListContainer = () => {
     if (searchCategory === null && searchKeyword === null && sortType === null && currPageNum === null) {
       console.log('SearchOptionMenuContainer 첫 렌더링. 초기화 시작.');
       dispatch(selectSortType('newest'));
-      dispatch(changePageNumber(1));
-      dispatch(changeSearchOptions({ searchCategory: 'titleDetail', searchKeyword: '' }));
+      dispatch(selectPageNumber(1));
+      dispatch(selectSearchOptions({ searchCategory: 'titleDetail', searchKeyword: '' }));
       dispatch(
         getPostsAsync({
           searchCategory: 'titleDetail',
           searchKeyword: '',
           sortType: 'newest',
           currPageNum: 1,
+          tag,
           boardName,
           limit: limit.current,
         }),
@@ -47,6 +47,7 @@ const PostListContainer = () => {
           searchKeyword,
           sortType,
           currPageNum,
+          tag,
           boardName,
           limit: limit.current,
         }),

@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage/session';
 import { persistReducer } from 'redux-persist';
 import posts, { postsSaga } from './posts';
-import sort from './sort';
 import { all } from 'redux-saga/effects';
 import auth, { authSaga } from './auth';
 import loading from './loading';
@@ -12,12 +11,10 @@ import theme from './theme';
 import post, { postSaga } from './post';
 import write, { writeSaga } from './write';
 import main, { mainSaga } from './main';
-import search from './search';
-import pagination from './pagination';
+import searchOption from './searchOption';
 
 const rootReducer = combineReducers({
   posts,
-  sort,
   loading,
   auth,
   user,
@@ -26,8 +23,7 @@ const rootReducer = combineReducers({
   post,
   write,
   main,
-  search,
-  pagination,
+  searchOption,
 });
 
 // redux-persist로 새로고침시 state 유지

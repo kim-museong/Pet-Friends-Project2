@@ -1,17 +1,16 @@
 import React, { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SearchOptionMenu from '../../components/common/SearchOptionMenu';
-import { changeSearchOptions } from '../../modules/search';
-import { selectSortType } from '../../modules/sort';
-import { changePageNumber } from '../../modules/pagination';
 import { getPostsAsync } from '../../modules/posts';
 import { useLocation } from '../../../node_modules/react-router-dom/dist/index';
+import { selectPageNumber, selectSearchOptions, selectSortType } from '../../modules/searchOption';
 
 const SearchOptionMenuContainer = () => {
   const location = useLocation();
 
-  const searchCategory = useSelector((state) => state.search.searchCategory);
-  const searchKeyword = useSelector((state) => state.search.searchKeyword);
+  const searchCategory = useSelector((state) => state.searchOption.searchCategory);
+  const searchKeyword = useSelector((state) => state.searchOption.searchKeyword);
+  const tag = useSelector((state) => state.searchOption.tag);
   const boardName = location.pathname.split('/')[1];
   const limit = useRef(10);
 
@@ -22,13 +21,14 @@ const SearchOptionMenuContainer = () => {
   const handleSearchClick = useCallback(
     (searchCategory, searchKeyword) => {
       dispatch(selectSortType('newest'));
-      dispatch(changePageNumber(1));
+      dispatch(selectPageNumber(1));
       dispatch(
         getPostsAsync({
           searchCategory,
           searchKeyword,
           sortType: 'newest',
           currPageNum: 1,
+          tag: '',
           boardName,
           limit: limit.current,
         }),
@@ -37,10 +37,10 @@ const SearchOptionMenuContainer = () => {
     [boardName, dispatch],
   );
   const handleCategoryChange = (event) => {
-    dispatch(changeSearchOptions({ searchCategory: event.target.value, searchKeyword: searchKeyword }));
+    dispatch(selectSearchOptions({ searchCategory: event.target.value, searchKeyword: searchKeyword }));
   };
   const handleKeywordChange = (event) => {
-    dispatch(changeSearchOptions({ searchCategory: searchCategory, searchKeyword: event.target.value }));
+    dispatch(selectSearchOptions({ searchCategory: searchCategory, searchKeyword: event.target.value }));
   };
   const handleKeydown = (event) => {
     // enter키 && input이 현재 활성화되어있음

@@ -31,141 +31,63 @@ exports.readPosts = (req, res, next) => {
   const { column, order } = sortOptions[sortType] || sortOptions.newest;
 
   const offset = (parseInt(currPageNum) - 1) * parseInt(limit);
-
-  let querySQL = {};
-  if (searchCategory === 'titleDetail' && searchKeyword !== '') {
-    querySQL = {
-      include: [
-        {
-          model: User,
-          attributes: ['userId', 'nickname', 'rank'],
-        },
-        {
-          model: Board,
-          attributes: ['name'],
-          where: { name: boardName },
-        },
-        {
-          model: Content,
-        },
-        {
-          model: Like,
-          attributes: ['UserId', 'PostId'],
-        },
-        {
-          model: Hashtag,
-          attributes: [],
-          where: { title: tag },
-          through: { attributes: [] },
-        },
-      ],
-      where: {
-        [Op.or]: [{ title: { [Op.like]: `%${title}}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
+  const querySQL = {
+    include: [
+      {
+        model: User,
+        attributes: ['userId', 'nickname', 'rank'],
       },
-      offset: offset,
-      order: [[column, order]],
-      limit: parseInt(limit),
-      subQuery: false, // limit 넣으면 에러 나는거 수정하기 위한 부분
+      {
+        model: Board,
+        attributes: ['name'],
+        where: { name: boardName },
+      },
+      {
+        model: Content,
+        attributes: ['content'],
+      },
+      {
+        model: Like,
+        attributes: ['UserId', 'PostId'],
+      },
+      {
+        model: Hashtag,
+      },
+    ],
+    offset: offset,
+    order: [[column, order]],
+    limit: parseInt(limit),
+  };
+
+  // 조건에 따라 querySQL 추가 옵션 지정
+  // 태그가 존재함
+  if (tag) {
+    querySQL.include.find((include) => include.model === Hashtag).where = {
+      title: tag,
     };
+  }
+  // 검색 Keyword가 존재함
+  if (searchCategory === 'titleDetail' && searchKeyword !== '') {
+    // category : 제목+내용
+    querySQL.where = {
+      [Op.or]: [{ title: { [Op.like]: `%${title}}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
+    };
+    querySQL.subQuery = false;
   } else if (searchCategory === 'title' && searchKeyword !== '') {
-    querySQL = {
-      include: [
-        {
-          model: User,
-          attributes: ['userId', 'nickname', 'rank'],
-        },
-        {
-          model: Board,
-          attributes: ['name'],
-          where: { name: boardName },
-        },
-        {
-          model: Content,
-          attributes: ['content'],
-        },
-        {
-          model: Like,
-          attributes: ['UserId', 'PostId'],
-        },
-        {
-          model: Hashtag,
-          attributes: [],
-          where: { title: tag },
-          through: { attributes: [] },
-        },
-      ],
-      where: { title: { [Op.like]: `%${title}%` } },
-      offset: offset,
-      order: [[column, order]],
-      limit: parseInt(limit),
-    };
+    // category : 제목
+    querySQL.where = { title: { [Op.like]: `%${title}%` } };
   } else if (searchCategory === 'nickname' && searchKeyword !== '') {
-    querySQL = {
-      include: [
-        {
-          model: User,
-          attributes: ['userId', 'nickname', 'rank'],
-          where: { nickname: nickname },
-        },
-        {
-          model: Board,
-          attributes: ['name'],
-          where: { name: boardName },
-        },
-        {
-          model: Content,
-          attributes: ['content'],
-        },
-        {
-          model: Like,
-          attributes: ['UserId', 'PostId'],
-        },
-        {
-          model: Hashtag,
-          attributes: [],
-          where: { title: tag },
-          through: { attributes: [] },
-        },
-      ],
-      offset: offset,
-      order: [[column, order]],
-      limit: parseInt(limit),
-    };
-  } else {
-    querySQL = {
-      include: [
-        {
-          model: User,
-          attributes: ['userId', 'nickname', 'rank'],
-        },
-        {
-          model: Board,
-          attributes: ['name'],
-          where: { name: boardName },
-        },
-        {
-          model: Content,
-          attributes: ['content'],
-        },
-        {
-          model: Like,
-          attributes: ['UserId', 'PostId'],
-        },
-        {
-          model: Hashtag,
-        },
-      ],
-      offset: offset,
-      order: [[column, order]],
-      limit: parseInt(limit),
+    // category : 닉네임
+    querySQL.include.find((include) => include.model === User).where = {
+      nickname: nickname,
     };
   }
 
-  Post.findAndCountAll(querySQL)
+  Post.findAll(querySQL)
     .then((data) => {
       const formattedData = {
-        postCount: data.count,
-        posts: data.rows.map((post) => post.dataValues),
+        postCount: data.length,
+        posts: data.map((post) => post.dataValues),
       };
       // 필요한 정보만 가공해서 주도록 수정
       // 쿼리문에서 attributes 변경으로 해결
