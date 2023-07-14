@@ -78,7 +78,7 @@ const ChangePwdBox = styled.div`
 `;
 
 const TimeBox = styled.div`
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   margin-left: 5px;
   width: 30%;
   padding: 12px 20px;
@@ -97,7 +97,7 @@ const TimeBox = styled.div`
           return 'red';
       }
     } else {
-      return 'rgb(186,186,186)';
+      return `${palette.border}`;
     }
   }};
 
@@ -114,7 +114,7 @@ const TimeBox = styled.div`
           return 'red';
       }
     } else {
-      return 'rgb(186,186,186)';
+      return `${palette.border}`;
     }
   }};
 `;

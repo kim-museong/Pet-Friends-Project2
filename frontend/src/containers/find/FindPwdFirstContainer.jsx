@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import FindPwdFirst from '../../components/find/FindPwdFirst';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeInput, changeError, nextStep, initializeForm, findUser } from '../../modules/find';
+import { changeInput, changeError, nextStep, initialize, findUser } from '../../modules/find';
 
 const FindPwdFirstContainer = () => {
   //-------------- state ------------------
@@ -10,8 +10,8 @@ const FindPwdFirstContainer = () => {
     userId: 'userIdError',
   });
   const [errorMessages, setErrorMessages] = useState({
-    userIdError: '* 아이디: 아이디를 입력해주세요.',
-    notUserError: '* 아이디: 없는 아이디거나 아이디가 틀렸습니다.',
+    userIdError: '・ 아이디: 아이디를 입력해주세요.',
+    notUserError: '・ 아이디: 없는 아이디거나 아이디가 틀렸습니다.',
   });
 
   // ------------ 리덕스 -------------------
@@ -74,7 +74,7 @@ const FindPwdFirstContainer = () => {
   }, [dispatch, errorMessages.notUserError, findPwd]);
 
   useEffect(() => {
-    dispatch(initializeForm('findPwd'));
+    dispatch(initialize('findPwd'));
   }, [dispatch]);
 
   return (

@@ -17,11 +17,11 @@ const FindPwdSecondContainer = () => {
     nickname: 'nicknameError',
   });
   const [messages, setMessages] = useState({
-    nicknameError: '* 이름: 이름을 입력해주세요.',
-    emailError: '* 이메일: 이메일을 입력해주세요.',
-    confirmFail: '* 인증: 인증번호를 입력해주세요.',
-    different: '* 인증: 인증번호가 틀립니다.',
-    sendSuccess: '* 전송: 이메일이 성공적으로 전송되었습니다.',
+    nicknameError: '・ 이름: 이름을 입력해주세요.',
+    emailError: '・ 이메일: 이메일을 입력해주세요.',
+    confirmFail: '・ 인증: 인증번호를 입력해주세요.',
+    different: '・ 인증: 인증번호가 틀립니다.',
+    sendSuccess: '・ 전송: 이메일이 성공적으로 전송되었습니다.',
   });
 
   const theme = useSelector((state) => state.theme.theme);
@@ -69,7 +69,7 @@ const FindPwdSecondContainer = () => {
 
   // ----------- 타이머 함수 --------------
 
-  const timeStart = () => {
+  const timeStart = useCallback(() => {
     setTimerExpired(true);
     const id = setInterval(() => {
       setTimer((prevTimer) => {
@@ -82,7 +82,7 @@ const FindPwdSecondContainer = () => {
       });
     }, 1000);
     setIntervalId(id);
-  };
+  }, []);
 
   const onChange = useCallback(
     (e) => {

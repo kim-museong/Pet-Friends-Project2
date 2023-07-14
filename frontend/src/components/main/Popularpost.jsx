@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import { MdOutlineLocalFireDepartment, MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { PiDog } from 'react-icons/pi';
+import palette from '../../lib/styles/palette';
 
 const PopularpostBox = styled.div`
   width: 350px;
   height: 372px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   padding: 20px;
   margin-right: 20px;
   overflow: hidden;
@@ -18,7 +19,7 @@ const Postlist = styled.li`
   align-items: center;
   width: 100%;
   height: 50px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   padding: 5px 10px;
   margin-top: 20px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(20,20,20)' : '')};
@@ -55,7 +56,7 @@ const ListBox = styled.div`
   justify-content: space-between;
 
   a {
-    color: ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(50, 50, 50)')};
+    color: ${({ theme }) => (theme === 'true' ? `${palette.border}` : 'rgb(50, 50, 50)')};
   }
 
   .add-list {

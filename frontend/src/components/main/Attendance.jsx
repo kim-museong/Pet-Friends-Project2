@@ -36,7 +36,7 @@ const AttendanceBox = styled.div`
       height: 50px;
       border-radius: 50%;
       font-size: 30px;
-      color: rgb(186, 186, 186);
+      color: ${palette.border};
       padding-bottom: 5px;
     }
 
@@ -84,7 +84,7 @@ const AttendanceBox = styled.div`
   }
 
   .react-calendar__tile--now:hover {
-    background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'rgb(186,186,186)')};
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : `${palette.border}`)};
   }
 `;
 

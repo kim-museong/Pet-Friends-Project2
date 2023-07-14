@@ -1,9 +1,10 @@
 import styled, { css } from 'styled-components';
 import { MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/palette';
 
 const PopularCardBox = styled.div`
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   padding: 20px;
   margin-top: 20px;
   margin-right: 20px;

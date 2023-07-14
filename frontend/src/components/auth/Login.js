@@ -5,6 +5,7 @@ import { MdPerson, MdLock, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import { ShowPwdBox } from '../../lib/styles/auth';
 import { Footer } from '../../lib/styles/find';
 import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/palette';
 
 const AuthFormBlock = styled.div`
   text-align: center;
@@ -43,7 +44,7 @@ const SaveUserIdBox = styled.div`
     -moz-appearance: none;
     appearance: none;
     background: #fff;
-    border: 1px solid rgb(186, 186, 186);
+    border: 1px solid ${palette.mainColor};
     border-radius: 4px;
     cursor: pointer;
     height: 25px;

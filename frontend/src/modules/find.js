@@ -8,8 +8,8 @@ import { takeLatest } from 'redux-saga/effects';
 const CHANGE_INPUT = 'find/CHANGE_INPUT';
 const CHANGE_ERROR = 'find/CHANGE_ERROR';
 const NEXT_STEP = 'find/NEXT_STEP';
-const PREV_STEP = 'find/PREV_STEP';
-const INITIALIZE_FORM = 'find/INITIALIZE_FORM';
+const CHANGE_STEP = 'find/CHANGE_STEP';
+const INITIALIZE = 'find/INITIALIZE_FORM';
 const INITNUMBER = 'find/INITNUMBER';
 const [EMAIL, EMAIL_SUCCESS, EMIAL_FAILURE] = createRequestActionTypes('find/EMAIL');
 const FINDUSER = 'find/FINDUSER';
@@ -20,7 +20,7 @@ export const changeInput = createAction(CHANGE_INPUT, ({ form, key, value }) => 
   key,
   value,
 }));
-export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
+export const initialize = createAction(INITIALIZE, (form) => form);
 export const checkEmail = createAction(EMAIL, ({ email, nickname }) => ({
   email,
   nickname,
@@ -39,7 +39,7 @@ export const initNumber = createAction(INITNUMBER);
 
 //스텝 변경
 export const nextStep = createAction(NEXT_STEP);
-export const prevStep = createAction(PREV_STEP);
+export const changeStep = createAction(CHANGE_STEP, (number) => number);
 
 //초기값생성
 const initialState = {
@@ -102,11 +102,11 @@ const find = handleActions(
         step: state.findPwd.step + 1,
       },
     }),
-    [PREV_STEP]: (state) => ({
+    [CHANGE_STEP]: (state, { payload: number }) => ({
       ...state,
       findPwd: {
         ...state.findPwd,
-        step: state.findPwd.step - 1,
+        step: number,
       },
     }),
     [INITNUMBER]: (state) => ({
@@ -120,7 +120,7 @@ const find = handleActions(
         findUser: user,
       },
     }),
-    [INITIALIZE_FORM]: (state, { payload: form }) => ({
+    [INITIALIZE]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
     }),

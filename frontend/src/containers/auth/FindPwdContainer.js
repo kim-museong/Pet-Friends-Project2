@@ -34,12 +34,12 @@ const FindPwdContainer = () => {
   };
 
   const errorMessages = {
-    userIdError: '* 아이디: 아이디를 입력해주세요.',
-    notUserError: '* 아이디: 없는 아이디거나 아이디가 틀렸습니다.',
-    nicknameError: '* 이름: 이름을 입력해주세요.',
-    emailError: '* 이메일: 이메일을 입력해주세요.',
-    confirmFail: '* 인증: 인증번호를 입력해주세요.',
-    different: '* 인증: 인증번호가 틀립니다.',
+    userIdError: '・ 아이디: 아이디를 입력해주세요.',
+    notUserError: '・ 아이디: 없는 아이디거나 아이디가 틀렸습니다.',
+    nicknameError: '・ 이름: 이름을 입력해주세요.',
+    emailError: '・ 이메일: 이메일을 입력해주세요.',
+    confirmFail: '・ 인증: 인증번호를 입력해주세요.',
+    different: '・ 인증: 인증번호가 틀립니다.',
   };
 
   // ------------- 유효성 검사 함수 ----------------------------

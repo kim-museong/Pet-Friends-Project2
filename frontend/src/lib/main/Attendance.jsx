@@ -8,7 +8,7 @@ import palette from '../../lib/styles/palette';
 const AttendanceBox = styled.div`
   width: 240px;
   height: 287px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   top: 434px;
   left: 944px;
@@ -42,13 +42,13 @@ const AttendanceBox = styled.div`
     cursor: pointer;
 
     &:hover {
-      background-color: rgb(186, 186, 186);
+      background-color: ${palette.border};
     }
   }
 
   .attendBtn:disabled {
     background-color: rgba(186, 186, 186, 0.6);
-    color: rgb(186, 186, 186);
+    color: ${palette.border};
   }
 `;
 
@@ -83,7 +83,7 @@ const IsLoginBox = styled.div`
     font-size: 20px;
 
     &:hover {
-      background: rgb(186, 186, 186);
+      background: ${palette.border};
     }
   }
 `;

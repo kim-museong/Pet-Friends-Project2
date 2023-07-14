@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
-import { changeError, changeInput, initNumber, initializeForm } from '../../modules/find';
+import { changeError, changeInput, initNumber, initialize } from '../../modules/find';
 import FindId from '../../components/auth/FindId';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -31,10 +31,10 @@ const FindIdContainer = () => {
   // -------------- 에러별 이름과 내용 --------------
 
   const errorMessages = {
-    nickname: '* 이름: 이름을 입력해주세요.',
-    email: '* 이메일: 이메일을 입력해주세요.',
-    confirmFail: '* 인증: 인증번호를 입력해주세요.',
-    different: '* 인증: 인증번호가 틀립니다.',
+    nickname: '・ 이름: 이름을 입력해주세요.',
+    email: '・ 이메일: 이메일을 입력해주세요.',
+    confirmFail: '・ 인증: 인증번호를 입력해주세요.',
+    different: '・ 인증: 인증번호가 틀립니다.',
   };
 
   // ---------- 초를 분:초로 바꾸기 -----------------
@@ -139,7 +139,7 @@ const FindIdContainer = () => {
 
   const onCancel = () => {
     setShowBox(false);
-    dispatch(initializeForm('findId'));
+    dispatch(initialize('findId'));
     clearInterval(intervalId);
     setTimerExpired(false);
     setTimer(180);
@@ -166,7 +166,7 @@ const FindIdContainer = () => {
 
   // ----------findId 초기화 -------------------
   useEffect(() => {
-    dispatch(initializeForm('findId'));
+    dispatch(initialize('findId'));
   }, [dispatch]);
 
   return (

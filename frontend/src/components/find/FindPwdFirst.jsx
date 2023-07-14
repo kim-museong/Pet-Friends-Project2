@@ -51,6 +51,7 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
             value={userId}
             placeholder="아이디를 입력해주세요."
           />
+
           <button onClick={onConfirm}> 다음</button>
           <StatusBox>
             <div className="error">{userIdError && userIdError}</div>

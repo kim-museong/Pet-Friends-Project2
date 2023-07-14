@@ -13,7 +13,7 @@ const StatusBox = styled.div`
 const ShowBox = styled.div`
   padding: 20px;
   margin: 20px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
 
   .title {
     margin: 30px auto;
@@ -30,7 +30,7 @@ const TimeBox = styled.div`
   margin-top: 10px;
   margin-left: 5px;
   padding: 20px 20px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   font-size: 20px;
 
   color: ${({ timer, timerexpired }) => {
@@ -46,7 +46,7 @@ const TimeBox = styled.div`
           return 'red';
       }
     } else {
-      return 'rgb(186,186,186)';
+      return `${palette.border}`;
     }
   }};
 
@@ -63,7 +63,7 @@ const TimeBox = styled.div`
           return 'red';
       }
     } else {
-      return 'rgb(186,186,186)';
+      return `${palette.border}`;
     }
   }};
 
@@ -87,7 +87,6 @@ const InfoBox = styled.div`
   align-items: center;
   width: 80%;
   margin: 0 auto;
-  font-size: 12px;
   color: rgb(140 140, 140);
 
   svg {
@@ -104,10 +103,9 @@ const InfoBox = styled.div`
 const ExplanationBox = styled.div`
   position: absolute;
   top: -65px;
-  left: 97px;
-  display: flex;
-  flex-direction: column;
+  left: 139px;
   width: 350px;
+  font-size: 14px;
   box-shadow: 0px 0px 2px black;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -119,7 +117,7 @@ const ExplanationBox = styled.div`
 
   .triangle {
     position: absolute;
-    top: 47px;
+    top: 55px;
     left: 105px;
     width: 10px;
     height: 10px;
@@ -179,8 +177,8 @@ const FindId = ({
           <div>
             <FindInputBox>
               <div>
-                <p style={{ fontSize: '12px', color: 'rgb(160,160,160)' }}>
-                  * 본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
+                <p style={{ color: 'rgb(160,160,160)' }}>
+                  ・본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
                 </p>
                 <div>
                   <input

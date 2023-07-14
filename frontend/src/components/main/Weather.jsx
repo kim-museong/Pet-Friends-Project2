@@ -4,7 +4,7 @@ import palette from '../../lib/styles/palette';
 
 const WeatherBox = styled.div`
   width: 350px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   margin-top: 20px;
   padding: 20px;
   text-align: center;
