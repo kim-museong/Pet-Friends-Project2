@@ -165,17 +165,18 @@ exports.findId = async (req, res, next) => {
 exports.userIdConfirm = async (req, res, next) => {
   const { userId } = req.body;
   try {
-    const response = await User.findOne({ where: { userId } });
-    res.status(200).json(response);
+    const findUser = await User.findOne({ where: { userId }, attributes: ['userId', 'nickname', 'email'] });
+    res.status(200).json(findUser);
   } catch (e) {
     console.log(e);
   }
 };
 
 exports.findPwdEmail = async (req, res, next) => {
-  const { email, userId } = req.body;
+  const { email, nickname } = req.body;
+  console.log(email, nickname);
 
-  const response = await User.findOne({ where: { userId } });
+  const response = await User.findOne({ where: { email: email, nickname: nickname } });
   if (response) {
     try {
       //랜덤문자 생성(문자와 숫자가 섞인 6자리 랜덤문자 생성)
@@ -209,12 +210,9 @@ exports.findPwdEmail = async (req, res, next) => {
       // await transporter.sendMail(mailOptions);
       // console.log("이메일이 성공적으로 전송되었습니다.");
       res.status(200).json(generatedCode);
-      console.log(generatedCode);
     } catch (error) {
       console.log(error);
     }
-  } else {
-    res.status(500).json('등록된 아이디가 아닙니다.');
   }
 };
 

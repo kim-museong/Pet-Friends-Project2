@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import LoginFormContainer from '../containers/main/LoginFormContainer';
 import AutoPlayMethods from '../containers/main/eventContainer';
@@ -10,7 +10,8 @@ import Attendance from '../lib/main/Attendance';
 import WeatherContainer from '../containers/main/WeatherContainer';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import Footer from '../lib/main/Footer';
-
+import { useDispatch } from '../../node_modules/react-redux/es/exports';
+import { initializeForm } from '../modules/find';
 const ContainBox = styled.div`
   width: 75%;
   margin: 50px auto 20px;
@@ -33,6 +34,11 @@ const ShopBox = styled.div`
 `;
 
 const MainPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeForm('findPwd'));
+  }, [dispatch]);
   return (
     <>
       <HeaderContainer />

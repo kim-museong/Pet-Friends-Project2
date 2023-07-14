@@ -6,9 +6,13 @@ import { takeLatest } from 'redux-saga/effects';
 
 //액션 정의
 const CHANGE_INPUT = 'find/CHANGE_INPUT';
-const INITIALIZE_FORM = 'find/INITIALIZE_FORM';
-const [EMAIL, EMAIL_SUCCESS, EMIAL_FAILURE] = createRequestActionTypes('find/EMAIL');
 const CHANGE_ERROR = 'find/CHANGE_ERROR';
+const NEXT_STEP = 'find/NEXT_STEP';
+const PREV_STEP = 'find/PREV_STEP';
+const INITIALIZE_FORM = 'find/INITIALIZE_FORM';
+const INITNUMBER = 'find/INITNUMBER';
+const [EMAIL, EMAIL_SUCCESS, EMIAL_FAILURE] = createRequestActionTypes('find/EMAIL');
+const FINDUSER = 'find/FINDUSER';
 
 //액션 생성
 export const changeInput = createAction(CHANGE_INPUT, ({ form, key, value }) => ({
@@ -17,15 +21,25 @@ export const changeInput = createAction(CHANGE_INPUT, ({ form, key, value }) => 
   value,
 }));
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
-export const checkEmail = createAction(EMAIL, ({ email, userId }) => ({
+export const checkEmail = createAction(EMAIL, ({ email, nickname }) => ({
   email,
-  userId,
+  nickname,
 }));
+
 export const changeError = createAction(CHANGE_ERROR, ({ form, key, value }) => ({
   key,
   value,
   form,
 }));
+
+export const findUser = createAction(FINDUSER, (user) => user);
+
+//인증번호 초기화
+export const initNumber = createAction(INITNUMBER);
+
+//스텝 변경
+export const nextStep = createAction(NEXT_STEP);
+export const prevStep = createAction(PREV_STEP);
 
 //초기값생성
 const initialState = {
@@ -39,8 +53,10 @@ const initialState = {
     },
   },
   findPwd: {
+    step: 1,
     userId: '',
     email: '',
+    nickname: '',
     certificationNumber: '',
     password: '',
     passwordConfirm: '',
@@ -48,13 +64,11 @@ const initialState = {
       userIdError: null,
       notUserError: null,
       emailError: null,
+      nicknameError: null,
+      passwordError: null,
+      passwordConfirmError: null,
     },
-  },
-  init: {
-    result: '',
-    isResult: false,
-    valid: false,
-    isConfirm: false,
+    findUser: null,
   },
   isemail: null,
   isUserId: null,
@@ -63,6 +77,7 @@ const initialState = {
 
 //사가생성
 const checkEmailSaga = createRequestSaga(EMAIL, Find.checkEmail);
+
 export function* emailSage() {
   yield takeLatest(EMAIL, checkEmailSaga);
 }
@@ -80,14 +95,38 @@ const find = handleActions(
           [key]: value,
         };
       }),
+    [NEXT_STEP]: (state) => ({
+      ...state,
+      findPwd: {
+        ...state.findPwd,
+        step: state.findPwd.step + 1,
+      },
+    }),
+    [PREV_STEP]: (state) => ({
+      ...state,
+      findPwd: {
+        ...state.findPwd,
+        step: state.findPwd.step - 1,
+      },
+    }),
+    [INITNUMBER]: (state) => ({
+      ...state,
+      isemail: null,
+    }),
+    [FINDUSER]: (state, { payload: user }) => ({
+      ...state,
+      findPwd: {
+        ...state.findPwd,
+        findUser: user,
+      },
+    }),
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
     }),
-    [EMAIL_SUCCESS]: (state, { payload: email, userId }) => ({
+    [EMAIL_SUCCESS]: (state, { payload: email }) => ({
       ...state,
       isemail: email,
-      isUserId: userId,
       emailError: null,
     }),
     [EMIAL_FAILURE]: (state, { payload: error }) => ({

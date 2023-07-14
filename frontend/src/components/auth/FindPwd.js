@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FindIdBox, Footer, FindInputBox } from '../../lib/styles/find';
 import palette from '../../lib/styles/palette';
 import { useCallback, useState } from 'react';
+import { MdInfo } from 'react-icons/md';
 
 const StatusBox = styled.div`
   height: 45px;
@@ -76,26 +77,138 @@ const ChangePwdBox = styled.div`
   }
 `;
 
+const TimeBox = styled.div`
+  border: 1px solid rgb(186, 186, 186);
+  margin-left: 5px;
+  width: 30%;
+  padding: 12px 20px;
+  font-size: 18px;
+
+  color: ${({ timer, timerexpired }) => {
+    if (timerexpired === 'true') {
+      switch (true) {
+        case timer > 120:
+          return 'green';
+        case timer > 60:
+          return 'orange';
+        case timer > 30:
+          return 'red';
+        default:
+          return 'red';
+      }
+    } else {
+      return 'rgb(186,186,186)';
+    }
+  }};
+
+  border-color: ${({ timer, timerexpired }) => {
+    if (timerexpired === 'true') {
+      switch (true) {
+        case timer > 120:
+          return 'green';
+        case timer > 60:
+          return 'orange';
+        case timer > 30:
+          return 'red';
+        default:
+          return 'red';
+      }
+    } else {
+      return 'rgb(186,186,186)';
+    }
+  }};
+`;
+
+const CertificationBox = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+`;
+
+const InfoBox = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 12px;
+  color: rgb(140 140, 140);
+
+  svg {
+    font-size: 16px;
+    margin-left: 3px;
+    margin-top: 1px;
+  }
+
+  svg:hover {
+    color: ${palette.mainColor};
+  }
+`;
+
+const ExplanationBox = styled.div`
+  position: absolute;
+  top: -65px;
+  left: 97px;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  box-shadow: 0px 0px 2px black;
+  padding: 10px;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
+  text-align: left;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  ${({ ishovered }) => ishovered === 'true' && `opacity: 1;`}
+
+  .triangle {
+    position: absolute;
+    top: 49px;
+    left: 885px;
+    width: 10px;
+    height: 10px;
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
+    border-radius: 0 2px;
+    box-shadow: -1px 1px rgb(150, 150, 150);
+    transform: rotate(315deg);
+    z-index: 2;
+  }
+`;
+
 const FindPwd = ({
   findPwd,
-  init,
+
   theme,
   onChange,
-  findPhone,
   findEmail,
-  onCheck,
-  onCancel,
   onSubmitPwd,
   error,
   nextQ,
   firstQ,
   user,
+  timerExpired,
+  timeOut,
+  confirmFail,
+  timer,
+  formatTime,
+  onConfirm,
 }) => {
-  const { result, isResult, valid, isConfirm } = init;
-  const { userIdError, emailError, notUserError } = error;
-  const { email } = user;
-  const atIndex = email.indexOf('@');
-  const maskedEmail = email.substring(0, atIndex - 4) + '****' + email.substring(atIndex);
+  const { userIdError, emailError, notUserError, nicknameError } = error;
+  const { email } = user || {};
+  const atIndex = email ? email.indexOf('@') : -1; // email이 존재하지 않는 경우 -1로 설정
+  const maskedEmail = atIndex !== -1 ? email.substring(0, atIndex - 4) + '****' + email.substring(atIndex) : '';
+  const [isInfoHovered, setIsInfoHovered] = useState(false);
+  const { certificationNumber } = findPwd;
+
+  const onInfoHover = () => {
+    setIsInfoHovered(true);
+  };
+
+  const onInfoLeave = () => {
+    setIsInfoHovered(false);
+  };
+
   return (
     <>
       <FindIdBox>
@@ -121,8 +234,18 @@ const FindPwd = ({
         ) : (
           <FindPwdInputBox>
             <div>
-              <div>{maskedEmail && maskedEmail}</div>
+              <div style={{ marginBottom: '50px' }}>{maskedEmail && maskedEmail} 인증번호 보내기</div>
+              <p style={{ fontSize: '12px', color: 'rgb(160,160,160)' }}>
+                * 본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
+              </p>
               <div>
+                <input
+                  autoComplete="nickname"
+                  name="nickname"
+                  onChange={onChange}
+                  value={findPwd.nickname}
+                  placeholder="이름을 입력해주세요."
+                />
                 <input
                   autoComplete="email"
                   name="email"
@@ -130,67 +253,78 @@ const FindPwd = ({
                   value={findPwd.email}
                   placeholder="이메일을 입력해주세요."
                 />
-                <button onClick={findEmail}> 확인</button>
-              </div>
-              {isConfirm && (
-                <ChangePwdBox theme={String(theme)}>
-                  <div>비밀번호 재설정</div>
-                  <findPwd onSubmit={onSubmitPwd}>
-                    <div>
-                      <input
-                        autoComplete="new-password"
-                        type="password"
-                        name="password"
-                        placeholder="새로운 비밀번호를 입력해주세요."
-                        value={findPwd.password}
-                        onChange={onChange}
-                      />
-                    </div>
-                    <div>
-                      <input
-                        autoComplete="new-password"
-                        type="password"
-                        name="passwordConfirm"
-                        placeholder="비밀번호 확인"
-                        value={findPwd.passwordConfirm}
-                        onChange={onChange}
-                      />
-                    </div>
-                    <button>변경</button>
-                  </findPwd>
-                </ChangePwdBox>
-              )}
-              {isResult && (
-                <ResultBox theme={String(theme)}>
-                  <div>
-                    <div>{valid ? (isConfirm ? '성공' : '오류!') : '인증번호가 전송되었습니다.'}</div>
 
+                {timerExpired ? (
+                  <button className="certificationBtn" onClick={findEmail}>
+                    다시받기
+                  </button>
+                ) : (
+                  <button className="certificationBtn" onClick={findEmail}>
+                    인증번호받기
+                  </button>
+                )}
+                <StatusBox>
+                  <div className="error">{nicknameError && nicknameError}</div>
+                  <div className="error">{emailError && emailError}</div>
+                </StatusBox>
+                <InfoBox>
+                  아직도 인증번호을 받지 못하셨나요?
+                  <MdInfo onMouseEnter={onInfoHover} onMouseLeave={onInfoLeave} />
+                  <ExplanationBox theme={String(theme)} ishovered={String(isInfoHovered)}>
+                    <div className="triangle"></div>
                     <div>
-                      {valid ? (
-                        <div>{result}</div>
-                      ) : (
-                        <>
-                          <input
-                            placeholder="인증번호를 입력해주세요."
-                            name="validConfirm"
-                            value={findPwd.validConfirm}
-                            onChange={onChange}
-                          />
-                        </>
-                      )}
+                      인증번호를 받지 못하는 이유는 닉네임과 이메일이 일치하지 않거나 회원가입 시 입력한 이메일과 다를
+                      수 있습니다.
                     </div>
-                    {valid ? (
-                      isConfirm ? (
-                        <button>확인</button>
-                      ) : (
-                        <button onClick={onCancel}>확인</button>
-                      )
-                    ) : (
-                      <button onClick={onCheck}>인증번호 확인</button>
-                    )}
+                  </ExplanationBox>
+                </InfoBox>
+
+                <CertificationBox>
+                  <input
+                    className={`certificationNumber ${timeOut || confirmFail ? 'certificationError' : ''}`}
+                    autoComplete="certificationNumber"
+                    name="certificationNumber"
+                    onChange={onChange}
+                    value={certificationNumber}
+                    placeholder="인증번호을 입력하세요."
+                  />
+                  <TimeBox timer={String(timer)} timerexpired={String(timerExpired)}>
+                    {formatTime(timer)}
+                  </TimeBox>
+                </CertificationBox>
+                <button onClick={onConfirm}>확인</button>
+                <StatusBox>
+                  <div className="error">{timeOut && '인증: 인증시간이 초과. 다시 시도해주세요.'}</div>
+                  <div className="error">{confirmFail && confirmFail}</div>
+                </StatusBox>
+              </div>
+
+              <ChangePwdBox theme={String(theme)}>
+                <div>비밀번호 재설정</div>
+                <findPwd onSubmit={onSubmitPwd}>
+                  <div>
+                    <input
+                      autoComplete="new-password"
+                      type="password"
+                      name="password"
+                      placeholder="새로운 비밀번호를 입력해주세요."
+                      value={findPwd.password}
+                      onChange={onChange}
+                    />
                   </div>
-                </ResultBox>
-              )}
+                  <div>
+                    <input
+                      autoComplete="new-password"
+                      type="password"
+                      name="passwordConfirm"
+                      placeholder="비밀번호 확인"
+                      value={findPwd.passwordConfirm}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <button>변경</button>
+                </findPwd>
+              </ChangePwdBox>
             </div>
           </FindPwdInputBox>
         )}

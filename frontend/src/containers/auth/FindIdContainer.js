@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
-import { changeError, changeInput, initializeForm } from '../../modules/find';
+import { changeError, changeInput, initNumber, initializeForm } from '../../modules/find';
 import FindId from '../../components/auth/FindId';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -15,6 +15,10 @@ const FindIdContainer = () => {
   const [timeOut, setTimeOut] = useState(false);
   const [confirmFail, setConfirmFailure] = useState(null);
   const [intervalId, setIntervalId] = useState(null);
+  const [errorKeyMap, setErrorKeyMap] = useState({
+    nickname: 'nicknameError',
+    email: 'emailError',
+  });
 
   // ---------------- 리덕스 ---------------------
   const theme = useSelector((state) => state.theme.theme);
@@ -25,10 +29,6 @@ const FindIdContainer = () => {
   }));
 
   // -------------- 에러별 이름과 내용 --------------
-  const errorKeyMap = {
-    nickname: 'nicknameError',
-    email: 'emailError',
-  };
 
   const errorMessages = {
     nickname: '* 이름: 이름을 입력해주세요.',
@@ -54,26 +54,29 @@ const FindIdContainer = () => {
   };
 
   // ------------- 유효성 검사 함수 ----------------------------
-  const validation = async (name, value) => {
-    if (name === 'nickname') {
-      if (value === '') {
-        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: errorMessages.nickname }));
-      } else {
-        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: null }));
+  const validation = useCallback(
+    async (name, value) => {
+      if (name === 'nickname') {
+        if (value === '') {
+          dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: errorMessages.nickname }));
+        } else {
+          dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: null }));
+        }
+      } else if (name === 'email') {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (value === '') {
+          dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: errorMessages.email }));
+          return;
+        } else if (!emailRegex.test(value)) {
+          dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: '이메일 형식이 오류' }));
+          return;
+        } else {
+          dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: null }));
+        }
       }
-    } else if (name === 'email') {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (value === '') {
-        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: errorMessages.email }));
-        return;
-      } else if (!emailRegex.test(value)) {
-        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: '이메일 형식이 오류' }));
-        return;
-      } else {
-        dispatch(changeError({ form: 'findId', key: errorKeyMap[name], value: null }));
-      }
-    }
-  };
+    },
+    [dispatch, errorKeyMap, errorMessages.email, errorMessages.nickname],
+  );
 
   //-------------- 인풋값 변경 함수 --------------------
   const onChange = (e) => {
@@ -101,14 +104,13 @@ const FindIdContainer = () => {
         setTimerExpired(false);
         setTimer(180);
         setTimeOut(false);
-
         const response = await axios.post('/user/findId', {
           email,
           nickname,
         });
         setIsValidation(response.data.generatedCode);
         setGetUserId(masked(response.data.isEmail.userId));
-        dispatch(changeError({ key: 'email', value: response.data ? '' : '이메일 전송 실패' }));
+        dispatch(changeError({ form: 'findId', key: 'email', value: response.data ? '' : '이메일 전송 실패' }));
         setTimerExpired(true);
         timeStart();
       }
@@ -152,9 +154,8 @@ const FindIdContainer = () => {
       setTimer((prevTimer) => {
         if (prevTimer <= 1) {
           clearInterval(intervalId);
-          setTimerExpired(false);
-          setTimer(180);
           setTimeOut(true);
+          dispatch(initNumber());
           return;
         }
         return prevTimer - 1;
@@ -167,8 +168,6 @@ const FindIdContainer = () => {
   useEffect(() => {
     dispatch(initializeForm('findId'));
   }, [dispatch]);
-
-  console.log(isValidation);
 
   return (
     <>
