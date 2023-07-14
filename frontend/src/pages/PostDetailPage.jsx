@@ -1,12 +1,12 @@
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import Responsive from '../components/common/Responsive';
-import Comments from '../components/post/Comments';
 import ActionButtonContainer from '../containers/post/ActionButtonContainer';
 import TagContainer from '../containers/common/TagContainer';
 import PictureContainer from '../containers/post/PictureContainer';
 import PostContainer from '../containers/post/PostContainer';
-import SubmitCommentContainer from '../containers/post/SubmitCommentContainer';
+import CommentsContainer from '../containers/comments/CommentsContainer';
+import CommentInputContainer from '../containers/comment/CommentInputContainer';
 
 const PostDetailPage = () => {
   const location = useLocation();
@@ -19,8 +19,8 @@ const PostDetailPage = () => {
       {boardName === 'picture' ? <PictureContainer postId={postId} /> : <PostContainer postId={postId} />}
       <TagContainer />
       <ActionButtonContainer />
-      <SubmitCommentContainer />
-      <Comments />
+      <CommentInputContainer></CommentInputContainer>
+      <CommentsContainer></CommentsContainer>
     </Responsive>
   );
 };

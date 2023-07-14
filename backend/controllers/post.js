@@ -1,5 +1,4 @@
 const { Post, User, Board, Content, Comment, Like, Hashtag } = require('../models');
-11;
 const { Op } = require('sequelize');
 const { sequelize } = require('../models');
 
@@ -69,8 +68,9 @@ exports.readPosts = (req, res, next) => {
   // 검색 Keyword가 존재함
   if (searchCategory === 'titleDetail' && searchKeyword !== '') {
     // category : 제목+내용
+    // TODO : html 태그가 같이 검색되는 문제. mysql로 쿼리문을 통채로 보내서 해결하던가 검색용 db 따로 만들어야함
     querySQL.where = {
-      [Op.or]: [{ title: { [Op.like]: `%${title}}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
+      [Op.or]: [{ title: { [Op.like]: `%${title}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
     };
     querySQL.subQuery = false;
   } else if (searchCategory === 'title' && searchKeyword !== '') {
