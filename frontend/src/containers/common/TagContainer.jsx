@@ -15,6 +15,7 @@ const TagContainer = () => {
   const dispatch = useDispatch();
 
   const handleTagClick = (tag) => {
+    console.log('click');
     dispatch(selectSortType('newest'));
     dispatch(selectPageNumber(1));
     dispatch(selectTag(tag));
@@ -31,7 +32,7 @@ const TagContainer = () => {
       }),
     );
 
-    navigate(-1);
+    navigate('/community');
   };
 
   return <Tag hashtags={hashtags} handleTagClick={handleTagClick}></Tag>;

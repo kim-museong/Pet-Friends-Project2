@@ -66,11 +66,11 @@ const FindPwdThirdContainer = () => {
       return;
     }
     try {
-      //   const response = await axios.post('/user/changePwd', {
-      //     pwd: password,
-      //     findEmail: '',
-      //   });
-      //   console.log(response.data.message);
+      const response = await axios.post('/user/changePwd', {
+        pwd: password,
+        findEmail: findUser.email,
+      });
+      console.log(response.data.message);
     } catch (e) {
       console.log(e);
     }
