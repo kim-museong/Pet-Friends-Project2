@@ -4,6 +4,7 @@ import { BiSolidUpArrow, BiSolidDownArrow } from 'react-icons/bi';
 import ThemeContainer from '../../containers/common/ThemeContainer';
 import { styled } from 'styled-components';
 import { useSelector } from 'react-redux';
+import palette from '../../lib/styles/palette';
 
 const SetBox = styled.div`
   width: 60px;
@@ -11,7 +12,7 @@ const SetBox = styled.div`
   position: fixed;
   z-index: 1;
   cursor: pointer;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   border-radius: 50%;
   right: 3%;
@@ -30,7 +31,7 @@ const SetBox = styled.div`
   }
 
   &:hover {
-    box-shadow: -1px 1px 4px ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(186,186,186)')};
+    box-shadow: -1px 1px 4px ${palette.border};
     background: ${({ theme }) => (theme === 'true' ? 'rgb(80,80,80)' : 'rgb(245,245,245)')};
   }
 `;
@@ -38,9 +39,9 @@ const SetBox = styled.div`
 const ShowBox = styled.div`
   width: 150px;
   height: 100px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
-  box-shadow: -1px 1px 4px rgb(186, 186, 186);
+  box-shadow: -1px 1px 4px ${palette.border};
   position: fixed;
   right: 7%;
   bottom: 3%;
@@ -57,7 +58,7 @@ const ScrollUpBtn = styled.div`
   z-index: 1;
   cursor: pointer;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   border-radius: 50%;
   right: 3%;
   bottom: 17%;
@@ -82,7 +83,7 @@ const ScrollDownBtn = styled.div`
   z-index: 1;
   cursor: pointer;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   border-radius: 50%;
   right: 3%;
   bottom: 10%;

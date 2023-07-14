@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { check } from '../../modules/user';
 import Login from '../../components/auth/Login';
+import { initialize } from '../../modules/find';
 
 const LoginContainer = () => {
   const navigate = useNavigate();
@@ -90,6 +91,7 @@ const LoginContainer = () => {
 
   useEffect(() => {
     dispatch(initializeForm('login'));
+    dispatch(initialize('findPwd'));
   }, [dispatch]);
 
   useEffect(() => {

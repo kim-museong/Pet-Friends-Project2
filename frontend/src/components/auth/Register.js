@@ -126,8 +126,8 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
               <ShowPwdBox onClick={onShowPwdCf}>{showPwdCf ? <MdVisibility /> : <MdVisibilityOff />}</ShowPwdBox>
             </StyledInput>
             <ErrorBox>
-              <div>{errorUserId && `* ${errorUserId}`}</div>
-              <div>{errorPwd && `* ${errorPwd}`}</div>
+              <div>{errorUserId && `・${errorUserId}`}</div>
+              <div>{errorPwd && `・${errorPwd}`}</div>
             </ErrorBox>
           </RegisterBox>
 
@@ -163,8 +163,8 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
             </StyledInput>
 
             <ErrorBox>
-              <div>{errorNickname && `*${errorNickname}`}</div>
-              <div>{errorEmail && `*${errorEmail}`}</div>
+              <div>{errorNickname && `・${errorNickname}`}</div>
+              <div>{errorEmail && `・${errorEmail}`}</div>
             </ErrorBox>
           </RegisterBox>
 

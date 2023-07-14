@@ -26,14 +26,10 @@ export const FindInputBox = styled.div`
   input {
     width: 80%;
     padding: 20px 28px 18px;
-    border: 1px solid rgb(186, 186, 186);
+    border: 1px solid ${palette.border};
     outline: none;
     margin-top: 10px;
     font-size: 20px;
-
-    &:focus {
-      border: 1px solid ${palette.mainColor};
-    }
   }
 
   button {
@@ -48,7 +44,7 @@ export const FindInputBox = styled.div`
     font-size: 20px;
 
     &:hover {
-      background: rgb(186, 186, 186);
+      background: ${palette.border};
     }
   }
 
@@ -84,7 +80,7 @@ export const FindInputBox = styled.div`
   .certificationBtn {
     margin-top: 20px;
     &:disabled {
-      background-color: rgb(186, 186, 186);
+      background-color: ${palette.border};
     }
   }
 `;
@@ -95,7 +91,7 @@ export const Footer = styled.div`
   margin-top: 10px;
 
   a {
-    color: ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+    color: ${({ theme }) => (theme === 'true' ? `${palette.border}` : 'rgb(110,110,110)')};
     &:hover {
       text-decoration: underline;
     }

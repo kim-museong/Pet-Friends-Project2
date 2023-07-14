@@ -1,11 +1,12 @@
 import React from 'react';
 import { MdSunny, MdDarkMode } from 'react-icons/md';
 import styled from 'styled-components';
+import palette from '../../lib/styles/palette';
 
 const ChangeMode = styled.div`
   width: 105px;
   height: 46px;
-  border: 2px solid ${({ theme }) => (theme === true ? 'white' : 'rgb(186,186,186)')};
+  border: 2px solid ${({ theme }) => (theme === true ? 'white' : `${palette.border}`)};
   border-radius: 30px;
   display: flex;
   align-items: center;
@@ -17,7 +18,7 @@ const ChangeMode = styled.div`
   button {
     width: 40px;
     height: 40px;
-    border: 2px solid ${({ theme }) => (theme === true ? 'white' : 'rgb(186,186,186)')};
+    border: 2px solid ${({ theme }) => (theme === true ? 'white' : `${palette.border}`)};
     border-radius: 50%;
     cursor: pointer;
     background: rgb(255, 140, 0);

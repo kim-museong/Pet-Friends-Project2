@@ -11,16 +11,16 @@ import WeatherContainer from '../containers/main/WeatherContainer';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import Footer from '../lib/main/Footer';
 import { useDispatch } from '../../node_modules/react-redux/es/exports';
-import { initializeForm } from '../modules/find';
+import { initialize } from '../modules/find';
 const ContainBox = styled.div`
-  width: 75%;
+  width: 90%;
   margin: 50px auto 20px;
   display: flex;
   justify-content: center;
 `;
 
 const MainBox = styled.div`
-  width: 70%;
+  width: 60%;
   display: inline-block;
 `;
 
@@ -29,7 +29,7 @@ const SideBox = styled.div`
 `;
 
 const ShopBox = styled.div`
-  width: 85%;
+  width: 100%;
   margin: 0 auto;
 `;
 
@@ -37,7 +37,7 @@ const MainPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(initializeForm('findPwd'));
+    dispatch(initialize('findPwd'));
   }, [dispatch]);
   return (
     <>

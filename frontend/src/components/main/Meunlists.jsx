@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { MdComment } from 'react-icons/md';
 import { AiFillNotification, AiOutlineComment } from 'react-icons/ai';
 import React from 'react';
+import palette from '../../lib/styles/palette';
 
 const SelectBox = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const SelectBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(186, 186, 186);
+    border: 1px solid ${palette.border};
     border-radius: 0;
     width: 100%;
     text-align: center;
@@ -50,7 +51,7 @@ const SelectBox = styled.div`
         : theme === 'true'
         ? 'black'
         : 'rgb(240,240,240)'};
-    color: ${({ community }) => (community === 'true' ? '' : 'rgb(186,186,186)')};
+    color: ${({ community }) => (community === 'true' ? '' : `${palette.border}`)};
     border-bottom: ${({ community }) => community === 'true' && 'none'};
     svg {
       color: ${({ community }) => (community === 'true' ? 'rgb(255, 140, 0)' : '')};
@@ -60,7 +61,7 @@ const SelectBox = styled.div`
   .info {
     background: ${({ info, theme }) =>
       info === 'true' ? (theme === 'true' ? 'rgb(45,45,45)' : '') : theme === 'true' ? 'black' : 'rgb(240,240,240)'};
-    color: ${({ info }) => (info === 'true' ? '' : 'rgb(186,186,186)')};
+    color: ${({ info }) => (info === 'true' ? '' : `${palette.border}`)};
     border-bottom: ${({ info }) => info === 'true' && 'none'};
     svg {
       color: ${({ info }) => (info === 'true' ? 'rgb(0, 115, 255)' : '')};
@@ -70,7 +71,7 @@ const SelectBox = styled.div`
   .notice {
     background: ${({ notice, theme }) =>
       notice === 'true' ? (theme === 'true' ? 'rgb(45,45,45)' : '') : theme === 'true' ? 'black' : 'rgb(240,240,240)'};
-    color: ${({ notice }) => (notice === 'true' ? '' : 'rgb(186,186,186)')};
+    color: ${({ notice }) => (notice === 'true' ? '' : `${palette.border}`)};
     border-bottom: ${({ notice }) => notice === 'true' && 'none'};
     svg {
       color: ${({ notice }) => (notice === 'true' ? 'red' : '')};
@@ -80,7 +81,7 @@ const SelectBox = styled.div`
 
 const ShowBox = styled.div`
   height: 235px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   border-top: none;
   border-radius: 0 0 4px 4px;
   margin-right: 20px;

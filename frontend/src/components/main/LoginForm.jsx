@@ -19,7 +19,7 @@ const Profile = styled.div`
 const LoginFormBox = styled.div`
   width: 350px;
   height: 210px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   padding: 20px;
   text-align: center;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -40,7 +40,7 @@ const LoginFormBox = styled.div`
     font-size: 20px;
 
     &:hover {
-      background: rgb(186, 186, 186);
+      background: ${palette.border};
     }
   }
 
@@ -54,7 +54,7 @@ const LoginFormBox = styled.div`
 const IsLoginFormBox = styled.div`
   width: 350px;
   height: 165px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   position: relative;
   border-bottom: none;
   border-radius: 4px 4px 0 0;
@@ -77,7 +77,7 @@ const IsLoginFormBox = styled.div`
     font-size: 20px;
 
     &:hover {
-      background: rgb(186, 186, 186);
+      background: ${palette.border};
     }
   }
 
@@ -112,10 +112,10 @@ const Menu = styled.div`
 const FindBox = styled.div`
   margin-top: 20px;
   font-size: 14px;
-  color: ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+  color: ${({ theme }) => (theme === 'true' ? `${palette.border}` : 'rgb(110,110,110)')};
 
   a {
-    color: ${({ theme }) => (theme === 'true' ? 'rgb(186,186,186)' : 'rgb(110,110,110)')};
+    color: ${({ theme }) => (theme === 'true' ? `${palette.border}` : 'rgb(110,110,110)')};
   }
 
   a:hover {

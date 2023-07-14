@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import FindPwdThird from '../../components/find/FindPwdThird';
 import { useCallback, useState } from 'react';
-import { changeInput, changeError } from '../../modules/find';
+import { changeInput, changeError, nextStep } from '../../modules/find';
 
 const FindPwdThirdContainer = () => {
   const dispatch = useDispatch();
@@ -17,9 +17,9 @@ const FindPwdThirdContainer = () => {
     passwordConfirm: 'passwordConfirmError',
   });
   const [messages, setMessages] = useState({
-    different: '*비밀번호: 비밀번호는 8~20자 영문 소문자, 숫자, 특수문자를 포함해야 합니다.',
-    passwordError: '*비밀번호: 비밀번호를 입력해주세요.',
-    passwordConfirm: '*비밀번호: 비밀번호가 틀립니다.',
+    different: '・비밀번호: 비밀번호는 8~20자 영문 소문자, 숫자, 특수문자를 포함해야 합니다.',
+    passwordError: '・비밀번호: 비밀번호를 입력해주세요.',
+    passwordConfirm: '・비밀번호: 비밀번호가 틀립니다.',
   });
 
   // ------------- 유효성 검사 함수 ----------------------------
@@ -35,6 +35,10 @@ const FindPwdThirdContainer = () => {
         } else {
           dispatch(changeError({ form: 'findPwd', key: errorKeyMap[name], value: null }));
           dispatch(changeError({ form: 'findPwd', key: 'notUserError', value: null }));
+        }
+      } else if (name === 'passwordConfirm') {
+        if (value === '') {
+          dispatch(changeError({ form: 'findPwd', key: errorKeyMap[name], value: messages.passwordConfirm }));
         }
       }
     },
@@ -71,6 +75,7 @@ const FindPwdThirdContainer = () => {
         findEmail: findUser.email,
       });
       console.log(response.data.message);
+      dispatch(nextStep());
     } catch (e) {
       console.log(e);
     }

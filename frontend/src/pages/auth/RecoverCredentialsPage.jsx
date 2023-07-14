@@ -5,6 +5,7 @@ import FindPwdSecondContainer from '../../containers/find/FindPwdSecondContainer
 import { useSelector } from 'react-redux';
 import PasswordStep from '../../components/common/PasswordStep';
 import FindPwdThirdContainer from '../../containers/find/FindPwdThirdContainer';
+import FindPwdFinishContainer from '../../containers/find/FindPwdFinishContainer';
 
 const RecoverCredentialsPage = () => {
   const location = useLocation();
@@ -17,10 +18,11 @@ const RecoverCredentialsPage = () => {
     <>
       {type === 'findPwd' && (
         <>
-          <PasswordStep />
+          {step !== 4 && <PasswordStep />}
           {step === 1 && <FindPwdFirstContainer />}
           {step === 2 && <FindPwdSecondContainer />}
           {step === 3 && <FindPwdThirdContainer />}
+          {step === 4 && <FindPwdFinishContainer />}
         </>
       )}
       {type === 'findId' && <FindIdContainer />}

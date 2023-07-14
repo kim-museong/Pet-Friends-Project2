@@ -3,7 +3,6 @@ import { FindInputBox } from '../../lib/styles/find';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
 import { MdInfo, MdAlarm } from 'react-icons/md';
-import { useSelector } from '../../../node_modules/react-redux/es/exports';
 
 const StatusBox = styled.div`
   height: 45px;
@@ -25,7 +24,7 @@ const TimeBox = styled.div`
   margin-top: 10px;
   margin-left: 5px;
   padding: 20px 20px;
-  border: 1px solid rgb(186, 186, 186);
+  border: 1px solid ${palette.border};
   font-size: 20px;
 
   color: ${({ timer, timerexpired }) => {
@@ -41,7 +40,7 @@ const TimeBox = styled.div`
           return 'red';
       }
     } else {
-      return 'rgb(186,186,186)';
+      return `${palette.border}`;
     }
   }};
 
@@ -58,7 +57,7 @@ const TimeBox = styled.div`
           return 'red';
       }
     } else {
-      return 'rgb(186,186,186)';
+      return `${palette.border}`;
     }
   }};
 
@@ -98,14 +97,13 @@ const InfoBox = styled.div`
 
 const ExplanationBox = styled.div`
   position: absolute;
-  top: -70px;
-  left: 178px;
-  display: flex;
-  flex-direction: column;
-  width: 450px;
+  top: -71px;
+  left: 156px;
+  width: 364px;
   box-shadow: 0px 0px 2px black;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
+  font-size: 14px;
   text-align: left;
   z-index: 1;
   opacity: 0;
@@ -114,7 +112,7 @@ const ExplanationBox = styled.div`
 
   .triangle {
     position: absolute;
-    top: 57px;
+    top: 55px;
     left: 88px;
     width: 10px;
     height: 10px;
@@ -162,7 +160,7 @@ const FindPwdSecond = ({
         <div>
           <div style={{ margin: '50px 0 ' }}>{maskedEmail && maskedEmail} 인증번호 보내기</div>
           <p style={{ fontSize: '16px', color: 'rgb(160,160,160)' }}>
-            * 본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
+            ・ 본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
           </p>
           <div>
             <input

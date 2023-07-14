@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { MdInfo } from 'react-icons/md';
+import palette from '../../lib/styles/palette';
 
 const ShopShowBox = styled.div`
   margin-right: 20px;
@@ -15,7 +16,7 @@ const ShopShowBox = styled.div`
   div h3 {
     width: 300px;
     height: 200px;
-    border: 1px solid rgb(186, 186, 186);
+    border: 1px solid ${palette.border};
   }
 
   .slick-slider {
