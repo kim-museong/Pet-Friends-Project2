@@ -85,7 +85,15 @@ const PaginationContainer = () => {
     [dispatch, searchCategory, searchKeyword, sortType, tag, boardName, currPageNum, totalPage],
   );
 
-  return <Pagination firstPageNum={firstPageNum} lastPageNum={lastPageNum} handleClick={handleClick}></Pagination>;
+  return (
+    <Pagination
+      firstPageNum={firstPageNum}
+      lastPageNum={lastPageNum}
+      handleClick={handleClick}
+      currPageNum={currPageNum}
+      totalPage={totalPage}
+    ></Pagination>
+  );
 };
 
 export default PaginationContainer;
