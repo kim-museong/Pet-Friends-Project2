@@ -127,7 +127,7 @@ const ButtonBox = styled.div`
   width: 100%;
   height: 140px;
   bottom: 0;
-  background: white;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30' : 'white')};
 `;
 
 const Space = styled.div`
@@ -135,7 +135,7 @@ const Space = styled.div`
   background: white;
 `;
 
-const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck }) => {
+const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
   const { tos, privacy, location, benefit } = agree;
   console.log(tos, privacy);
 
@@ -310,7 +310,7 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck }) => {
           </p>
         </Detail>
         <Space />
-        <ButtonBox>
+        <ButtonBox theme={String(theme)}>
           <button onClick={onConfirm} disabled={!tos || !privacy}>
             다음
           </button>

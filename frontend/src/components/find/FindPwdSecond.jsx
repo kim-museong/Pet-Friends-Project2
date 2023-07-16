@@ -97,8 +97,8 @@ const InfoBox = styled.div`
 
 const ExplanationBox = styled.div`
   position: absolute;
-  top: -71px;
-  left: 156px;
+  top: -86px;
+  left: 180px;
   width: 364px;
   box-shadow: 0px 0px 2px black;
   padding: 10px;
@@ -112,8 +112,8 @@ const ExplanationBox = styled.div`
 
   .triangle {
     position: absolute;
-    top: 55px;
-    left: 88px;
+    top: 70px;
+    left: 86px;
     width: 10px;
     height: 10px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -169,13 +169,16 @@ const FindPwdSecond = ({
               onChange={onChange}
               value={findPwd.nickname}
               placeholder="이름을 입력해주세요."
+              className={nicknameError ? 'nicknameError' : ''}
             />
+
             <input
               autoComplete="email"
               name="email"
               onChange={onChange}
               value={findPwd.email}
               placeholder="이메일을 입력해주세요."
+              className={emailError ? 'emailError' : ''}
             />
 
             {timerExpired ? (

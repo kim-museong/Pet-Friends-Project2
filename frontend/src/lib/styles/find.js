@@ -48,10 +48,11 @@ export const FindInputBox = styled.div`
     }
   }
 
+  .userIdError,
   .nicknameError,
   .emailError,
   .certificationError {
-    border: 1px solid red;
+    border-color: red;
   }
 
   .error {

@@ -59,7 +59,7 @@ const ErrorBox = styled.div`
   }
 `;
 
-const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut }) => {
+const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut, sendPhone }) => {
   const [showPwd, setShowPwd] = useState(false);
   const [showPwdCf, setShowPwdCf] = useState(false);
 
@@ -157,9 +157,24 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 name="email"
                 value={form.email}
                 onChange={onChange}
-                placeholder="이메일"
+                placeholder="[선택] 비밀번호 분실 시 확인용 이메일"
                 onBlur={focusOut}
               />
+            </StyledInput>
+
+            <StyledInput theme={String(theme)}>
+              <div className="icon">
+                <MdEmail />
+              </div>
+              <input
+                type="tel"
+                autoComplete="phone"
+                name="phone"
+                value={form.phone}
+                onChange={onChange}
+                placeholder="휴대전화번호"
+              />
+              <button onClick={sendPhone}>전송</button>
             </StyledInput>
 
             <ErrorBox>

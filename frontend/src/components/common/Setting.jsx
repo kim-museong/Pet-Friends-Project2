@@ -6,17 +6,29 @@ import { styled } from 'styled-components';
 import { useSelector } from 'react-redux';
 import palette from '../../lib/styles/palette';
 
+const Contain = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 5;
+
+  div + div {
+    margin-top: 10px;
+  }
+`;
+
 const SetBox = styled.div`
   width: 60px;
   height: 60px;
-  position: fixed;
   z-index: 1;
   cursor: pointer;
   border: 1px solid ${palette.border};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   border-radius: 50%;
-  right: 3%;
-  bottom: 3%;
   svg {
     font-size: 35px;
     margin: 12px 0 0 12px;
@@ -42,10 +54,9 @@ const ShowBox = styled.div`
   border: 1px solid ${palette.border};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   box-shadow: -1px 1px 4px ${palette.border};
-  position: fixed;
-  right: 7%;
-  bottom: 3%;
-  z-index: 3;
+  position: absolute;
+  right: 70px;
+  bottom: 0;
   div {
     margin: 26px auto;
   }
@@ -54,14 +65,12 @@ const ShowBox = styled.div`
 const ScrollUpBtn = styled.div`
   width: 60px;
   height: 60px;
-  position: fixed;
   z-index: 1;
   cursor: pointer;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   border: 1px solid ${palette.border};
   border-radius: 50%;
-  right: 3%;
-  bottom: 17%;
+
   svg {
     font-size: 30px;
     margin: 13px 0 0 15px;
@@ -79,14 +88,13 @@ const ScrollUpBtn = styled.div`
 const ScrollDownBtn = styled.div`
   width: 60px;
   height: 60px;
-  position: fixed;
+
   z-index: 1;
   cursor: pointer;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : 'white')};
   border: 1px solid ${palette.border};
   border-radius: 50%;
-  right: 3%;
-  bottom: 10%;
+
   svg {
     font-size: 30px;
     margin: 16px 0 0 15px;
@@ -124,20 +132,22 @@ const Setting = () => {
   };
   return (
     <>
-      <ScrollUpBtn theme={String(theme)} onClick={scrollToTop}>
-        <BiSolidUpArrow />
-      </ScrollUpBtn>
-      <ScrollDownBtn theme={String(theme)} onClick={scrollToBottom}>
-        <BiSolidDownArrow />
-      </ScrollDownBtn>
-      {showsetting && (
-        <ShowBox theme={String(theme)}>
-          <ThemeContainer />
-        </ShowBox>
-      )}
-      <SetBox theme={String(theme)} showsetting={String(showsetting)} onClick={onClick}>
-        <MdSettings />
-      </SetBox>
+      <Contain>
+        <ScrollUpBtn theme={String(theme)} onClick={scrollToTop}>
+          <BiSolidUpArrow />
+        </ScrollUpBtn>
+        <ScrollDownBtn theme={String(theme)} onClick={scrollToBottom}>
+          <BiSolidDownArrow />
+        </ScrollDownBtn>
+        {showsetting && (
+          <ShowBox theme={String(theme)}>
+            <ThemeContainer />
+          </ShowBox>
+        )}
+        <SetBox theme={String(theme)} showsetting={String(showsetting)} onClick={onClick}>
+          <MdSettings />
+        </SetBox>
+      </Contain>
     </>
   );
 };

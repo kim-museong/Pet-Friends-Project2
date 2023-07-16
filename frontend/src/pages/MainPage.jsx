@@ -12,6 +12,7 @@ import HeaderContainer from '../containers/common/HeaderContainer';
 import Footer from '../lib/main/Footer';
 import { useDispatch } from '../../node_modules/react-redux/es/exports';
 import { initialize } from '../modules/find';
+import { initializeForm } from '../modules/auth';
 const ContainBox = styled.div`
   width: 90%;
   margin: 50px auto 20px;
@@ -38,6 +39,7 @@ const MainPage = () => {
 
   useEffect(() => {
     dispatch(initialize('findPwd'));
+    dispatch(initializeForm('register'));
   }, [dispatch]);
   return (
     <>

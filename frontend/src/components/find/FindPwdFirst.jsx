@@ -41,7 +41,7 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
     <>
       <MainBox>
         <div>
-          <h2>비밀번호를 재설정할 아이디를 입력해 주세요.</h2>
+          <h3>비밀번호를 재설정할 아이디를 입력해 주세요.</h3>
         </div>
         <FindPwdInputBox>
           <input
@@ -50,6 +50,7 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
             onChange={onChange}
             value={userId}
             placeholder="아이디를 입력해주세요."
+            className={userIdError || notUserError ? 'userIdError' : ''}
           />
 
           <button onClick={onConfirm}> 다음</button>

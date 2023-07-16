@@ -5,7 +5,7 @@ import palette from '../../lib/styles/palette';
 
 const ChangeMode = styled.div`
   width: 105px;
-  height: 46px;
+  height: 45px;
   border: 2px solid ${({ theme }) => (theme === true ? 'white' : `${palette.border}`)};
   border-radius: 30px;
   display: flex;
@@ -26,7 +26,7 @@ const ChangeMode = styled.div`
     transform: translateY(-50%);
     transition: all 0.2s ease-in-out;
     top: 50%;
-    left: ${({ theme }) => (theme === true ? '60px' : '1px')};
+    left: ${({ theme }) => (theme === true ? '61px' : '1px')};
   }
 
   & svg {

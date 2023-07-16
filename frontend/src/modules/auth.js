@@ -56,6 +56,7 @@ export function* authSaga() {
 export const initialState = {
   register: {
     agree: {
+      confirm: false,
       tos: false,
       privacy: false,
       location: false,
@@ -66,6 +67,7 @@ export const initialState = {
     passwordConfirm: '',
     email: '',
     nickname: '',
+    phone: '',
     error: {
       errorUserId: null,
       errorPwd: null,
@@ -110,7 +112,6 @@ const auth = handleActions(
           privacy: !state.register.agree.privacy,
           location: !state.register.agree.location,
           benefit: !state.register.agree.benefit,
-          confirm: false,
         },
       },
     }),

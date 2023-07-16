@@ -16,10 +16,9 @@ const FindPwdFirstContainer = () => {
 
   // ------------ 리덕스 -------------------
   const dispatch = useDispatch();
-  const { findPwd, error, step } = useSelector(({ find }) => ({
+  const { findPwd, error } = useSelector(({ find }) => ({
     findPwd: find.findPwd,
     error: find.findPwd.error,
-    step: find.findPwd.step,
   }));
 
   // ------------- 유효성 검사 함수 ----------------------------
@@ -61,7 +60,10 @@ const FindPwdFirstContainer = () => {
     const { userId } = findPwd;
     try {
       const res = await axios.post('/user/userIdConfirm', { userId });
-      if (!res.data) {
+
+      if (userId === '') {
+        validation('userId', userId);
+      } else if (!res.data) {
         dispatch(changeError({ form: 'findPwd', key: 'notUserError', value: errorMessages.notUserError }));
         return;
       } else {

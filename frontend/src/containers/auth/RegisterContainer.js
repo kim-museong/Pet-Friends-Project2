@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeError, changeField, initializeForm, register } from '../../modules/auth';
 import { check } from '../../modules/user';
@@ -201,9 +201,16 @@ const RegisterContainer = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(initializeForm('register'));
-  }, [dispatch]);
+  const sendPhone = async (e) => {
+    e.preventDefault();
+    const { phone } = form;
+    console.log(phone, '------------------------------------');
+    try {
+      const res = await axios.post('/auth/sendPhone', { phone: phone });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     if (authError) {
@@ -249,6 +256,7 @@ const RegisterContainer = () => {
       iconClick={iconClick}
       inputRefs={inputRefs}
       focusOut={focusOut}
+      sendPhone={sendPhone}
     />
   );
 };

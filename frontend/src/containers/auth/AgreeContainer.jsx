@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import Agree from '../../components/auth/Agree';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAgree, isConfirm, allCheck } from '../../modules/auth';
@@ -6,6 +6,7 @@ import { checkAgree, isConfirm, allCheck } from '../../modules/auth';
 const AgreeContainer = () => {
   const dispatch = useDispatch();
   const agree = useSelector((state) => state.auth.register.agree);
+  const theme = useSelector((state) => state.theme.theme);
 
   const onConfirm = useCallback(
     (e) => {
@@ -29,9 +30,9 @@ const AgreeContainer = () => {
 
   return (
     <>
-      <Agree onConfirm={onConfirm} onCheck={onCheck} agree={agree} allAgreeCheck={allAgreeCheck} />
+      <Agree onConfirm={onConfirm} onCheck={onCheck} agree={agree} allAgreeCheck={allAgreeCheck} theme={theme} />
     </>
   );
 };
 
-export default AgreeContainer;
+export default React.memo(AgreeContainer);
