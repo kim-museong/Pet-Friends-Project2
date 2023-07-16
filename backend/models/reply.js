@@ -15,7 +15,7 @@ class Reply extends Sequelize.Model {
         underscored: false,
         modelName: 'Reply',
         tableName: 'replies',
-        paranoid: false,
+        paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
       },
@@ -24,7 +24,6 @@ class Reply extends Sequelize.Model {
 
   static associate(db) {
     db.Reply.belongsTo(db.User);
-    db.Reply.hasMany(db.Like);
     db.Reply.belongsTo(db.Comment);
   }
 }

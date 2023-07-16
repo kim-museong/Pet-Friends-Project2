@@ -13,7 +13,7 @@ const GET_POST_FAILURE = 'post/GET_POST_FAILURE';
 const INIT_POST = 'post/INIT_POST';
 
 // action creator
-export const getPostAsync = createAction(GET_POST, (postId) => postId);
+export const getPostAsync = createAction(GET_POST, ({ postId, boardName }) => ({ postId, boardName }));
 export const initPost = createAction(INIT_POST);
 
 // define saga

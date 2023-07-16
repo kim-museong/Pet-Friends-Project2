@@ -15,7 +15,7 @@ class Content extends Sequelize.Model {
         underscored: false,
         modelName: 'Content',
         tableName: 'contents',
-        paranoid: false,
+        paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
       },
@@ -24,7 +24,6 @@ class Content extends Sequelize.Model {
 
   static associate(db) {
     db.Content.belongsTo(db.Post);
-    db.Content.belongsTo(db.Picture);
   }
 }
 

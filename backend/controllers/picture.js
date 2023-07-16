@@ -141,7 +141,6 @@ exports.readPosts = (req, res, next) => {
       };
       // 필요한 정보만 가공해서 주도록 수정
       // 쿼리문에서 attributes 변경으로 해결
-      console.log(formattedData);
       res.json(formattedData);
     })
     .catch((err) => {

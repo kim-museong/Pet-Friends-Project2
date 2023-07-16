@@ -8,8 +8,8 @@ import { useDispatch } from 'react-redux';
 
 const ActionButtonBlock = styled.div`
   border: 1px solid green;
-  margin-top: 1rem;
-  margin-bottom: 3rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
   button + button {
     margin-left: 0.5rem;
   }

@@ -6,6 +6,7 @@ import TagContainer from '../containers/common/TagContainer';
 import PictureContainer from '../containers/post/PictureContainer';
 import PostContainer from '../containers/post/PostContainer';
 import CommentListContainer from '../containers/comment/CommentListContainer';
+import CommentInputContainer from '../containers/comment/CommentInputContainer';
 
 const PostDetailPage = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const PostDetailPage = () => {
       {boardName === 'picture' ? <PictureContainer postId={postId} /> : <PostContainer postId={postId} />}
       <TagContainer />
       <ActionButtonContainer />
+      <CommentInputContainer></CommentInputContainer>
       <CommentListContainer></CommentListContainer>
     </Responsive>
   );
