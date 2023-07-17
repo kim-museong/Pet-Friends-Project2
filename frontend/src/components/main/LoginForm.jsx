@@ -17,16 +17,17 @@ const Profile = styled.div`
 `;
 
 const LoginFormBox = styled.div`
-  width: 350px;
-  height: 210px;
-  border: 1px solid ${palette.border};
-  padding: 20px;
+  width: 400px;
+  height: 180px;
+  box-shadow: 0 0 0 1px ${palette.border};
+  padding: 20px 40px;
   text-align: center;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
 
   p {
-    padding-top: 20px;
-    font-size: 20px;
+    padding-top: 5px;
+    font-size: 18px;
+    font-weight: bold;
   }
 
   .login {
@@ -35,7 +36,7 @@ const LoginFormBox = styled.div`
     background: ${palette.mainColor};
     color: white;
     padding: 15px 10px;
-    margin: 20px auto 10px;
+    margin: 15px auto 10px;
     font-weight: bold;
     font-size: 20px;
 
@@ -63,7 +64,7 @@ const IsLoginFormBox = styled.div`
 
   p {
     font-size: 16px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .login {

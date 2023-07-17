@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
     color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+    transition: all 0.2s ease-out;
   }
 
 `;

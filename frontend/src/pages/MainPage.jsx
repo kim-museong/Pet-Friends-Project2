@@ -21,7 +21,7 @@ const ContainBox = styled.div`
 `;
 
 const MainBox = styled.div`
-  width: 60%;
+  width: 55%;
   display: inline-block;
 `;
 

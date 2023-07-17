@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 const CarouselBox = styled.div`
   margin-right: 20px;
+  box-shadow: 0 0 0 1px ${palette.border};
 
   h3 {
     width: 100%;
-    height: 300px;
+    height: 150px;
 
     border-radius: 0;
   }
@@ -24,7 +25,6 @@ const CarouselBox = styled.div`
   }
 
   .attend {
-    background: ${palette.mainColor};
     background-image: url('../../../images/attend.png');
     background-repeat: no-repeat;
     background-size: contain;
