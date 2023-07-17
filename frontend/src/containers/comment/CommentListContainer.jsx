@@ -14,7 +14,7 @@ const CommentListContainer = () => {
 
   useEffect(() => {
     dispatch(getComments({ postId }));
-  }, []);
+  }, [comment, dispatch, postId]);
   // }, [dispatch, comment, postId]);
 
   return <CommentList comments={comments}></CommentList>;
