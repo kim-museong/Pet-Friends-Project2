@@ -1,12 +1,11 @@
 const Sequelize = require('sequelize');
-const { DataTypes } = Sequelize;
 
-class Attendance extends Sequelize.Model {
+class CommunityInfo extends Sequelize.Model {
   static initiate(sequelize) {
-    Attendance.init(
+    CommunityInfo.init(
       {
-        checkInTime: {
-          type: DataTypes.DATE,
+        title: {
+          type: Sequelize.STRING(500),
           allowNull: false,
         },
       },
@@ -14,8 +13,8 @@ class Attendance extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: 'Attendance',
-        tableName: 'attendances',
+        modelName: 'CommunityInfo',
+        tableName: 'community_infos',
         paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
@@ -24,8 +23,8 @@ class Attendance extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Attendance.belongsTo(db.User);
+    db.CommunityInfo.belongsTo(db.Post);
   }
 }
 
-module.exports = Attendance;
+module.exports = CommunityInfo;

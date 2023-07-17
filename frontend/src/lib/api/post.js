@@ -1,13 +1,14 @@
 import client from './client';
 
 // get post
-export const getPost = (postId) => {
-  return client.get(`/posts/${postId}`);
+export const getPost = ({ postId, boardName }) => {
+  return client.get(`/posts/${postId}`, {
+    params: { boardName },
+  });
 };
 
 // create post
-export const createPost = ({ boardName, title, content, tags }) => {
-  const imgUrl = '';
+export const createPost = ({ boardName, title = null, imgUrl = null, content = null, tags = [] }) => {
   return client.post(`/board/${boardName}/posts`, {
     title,
     content,

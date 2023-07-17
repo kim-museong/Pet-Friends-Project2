@@ -6,6 +6,7 @@ const fs = require('fs');
 const router = express.Router();
 
 const { afterUploadImage } = require('../controllers/post');
+const { createComment, getComments } = require('../controllers/comment');
 
 try {
   fs.readdirSync('uploads');
@@ -32,5 +33,11 @@ router.post('/img', upload.any(), afterUploadImage);
 
 // GET /posts/:postId
 router.get('/:postId', readPost);
+
+// POST /posts/:postId/comments
+router.post('/:postId/comments', createComment);
+
+// GET /posts/:postId/comments
+router.get('/:postId/comments', getComments);
 
 module.exports = router;

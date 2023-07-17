@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 import Responsive from '../common/Responsive';
 
-const PostBlock = styled(Responsive)`
+const PostBlock = styled.div`
   border: 1px solid tomato;
   display: block;
   object-fit: cover;
@@ -17,7 +17,7 @@ const Post = ({ post }) => {
       {post && (
         <>
           <div>작성자 : {post.post.User.userId}</div>
-          <div>제목 : {post.post.title}</div>
+          <div>제목 : {post.post.CommunityInfo.title}</div>
           <div className="test" dangerouslySetInnerHTML={{ __html: post.post.Content.content }} />
           <div>좋아요 : {post.likeCount}</div>
           <div>조회수 : {post.post.view}</div>

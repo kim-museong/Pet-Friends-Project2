@@ -68,7 +68,7 @@ class User extends Sequelize.Model {
         underscored: false,
         modelName: 'User',
         tableName: 'users',
-        paranoid: false,
+        paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
       },
@@ -80,7 +80,6 @@ class User extends Sequelize.Model {
     db.User.hasMany(db.Like);
     db.User.hasMany(db.Comment);
     db.User.hasMany(db.Post);
-    db.User.hasMany(db.Picture);
     db.User.hasMany(db.Attendance);
     db.User.belongsToMany(db.User, {
       foreignKey: 'followingId',

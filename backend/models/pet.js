@@ -31,7 +31,7 @@ class Pet extends Sequelize.Model {
         underscored: false,
         modelName: 'Pet',
         tableName: 'pets',
-        paranoid: false,
+        paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
       },

@@ -19,6 +19,7 @@ const SortOptionMenuContainer = () => {
   // 정렬 버튼 클릭
   const handleSortClick = useCallback(
     (searchCategory, searchKeyword, sortType) => {
+      console.log('정렬버튼 클릭', tag);
       dispatch(selectSortType(sortType));
       dispatch(selectPageNumber(1));
       dispatch(
@@ -33,7 +34,7 @@ const SortOptionMenuContainer = () => {
         }),
       );
     },
-    [boardName, dispatch],
+    [boardName, dispatch, tag],
   );
 
   return (

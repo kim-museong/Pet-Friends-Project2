@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Tag from '../../components/common/Tag';
 import { getPostsAsync } from '../../modules/posts';
-import { selectPageNumber, selectSortType, selectTag } from '../../modules/searchOption';
+import { selectPageNumber, selectSearchOptions, selectSortType, selectTag } from '../../modules/searchOption';
 
 const TagContainer = () => {
   const location = useLocation();
@@ -15,7 +15,7 @@ const TagContainer = () => {
   const dispatch = useDispatch();
 
   const handleTagClick = (tag) => {
-    console.log('click');
+    dispatch(selectSearchOptions({ searchCategory: 'titleDetail', searchKeyword: '' }));
     dispatch(selectSortType('newest'));
     dispatch(selectPageNumber(1));
     dispatch(selectTag(tag));
