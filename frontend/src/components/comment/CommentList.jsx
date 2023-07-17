@@ -5,17 +5,19 @@ const CommentListBlock = styled.div`
   border: 1px solid greenyellow;
 `;
 
-const Comment = () => {
-  return <div>comment</div>;
+const Comment = ({ comment }) => {
+  return (
+    <div>
+      <div>{comment.createdAt}</div>
+      <div>{comment.content}</div>
+    </div>
+  );
 };
 
-const CommentList = () => {
+const CommentList = ({ comments }) => {
   return (
     <CommentListBlock>
-      <Comment></Comment>
-      <Comment></Comment>
-      <Comment></Comment>
-      <Comment></Comment>
+      {comments && comments.map((comment) => <Comment key={comment.id} comment={comment}></Comment>)}
     </CommentListBlock>
   );
 };

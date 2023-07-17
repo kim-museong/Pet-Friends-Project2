@@ -20,7 +20,7 @@ const PostContainer = ({ postId }) => {
     getPost(postId, boardName);
     // 게시글 상세정보 페이지 언마운트되면 post 정보도 초기화
     return () => dispatch(initPost());
-  }, [postId, getPost, dispatch]);
+  }, [postId, getPost, dispatch, boardName]);
 
   return <Post post={post} loading={loading}></Post>;
 };

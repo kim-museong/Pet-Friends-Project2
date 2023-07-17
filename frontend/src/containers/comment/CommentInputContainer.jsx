@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import CommentInput from '../../components/comment/CommentInput';
 import { useDispatch } from 'react-redux';
-import { changeCommentInput, createComment } from '../../modules/comment';
+import { changeCommentInput, createComment, getComments } from '../../modules/comment';
 import { useSelector } from 'react-redux';
 
 const CommentInputContainer = () => {
   const user = useSelector((state) => state.user.user);
   const content = useSelector((state) => state.comment.commentInput);
-  const postId = useSelector((state) => state.post.post.post.id);
+  const postId = useSelector((state) => state.post.post?.post.id);
+
+  const textareaEl = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -17,11 +19,18 @@ const CommentInputContainer = () => {
 
   const handleClick = (event) => {
     event.preventDefault();
-    console.log('댓글쓰기 누름');
     dispatch(createComment({ content, postId }));
+    textareaEl.current.value = '';
   };
 
-  return <CommentInput user={user} handleCommentChange={handleCommentChange} handleClick={handleClick}></CommentInput>;
+  return (
+    <CommentInput
+      user={user}
+      handleCommentChange={handleCommentChange}
+      handleClick={handleClick}
+      textareaEl={textareaEl}
+    ></CommentInput>
+  );
 };
 
 export default CommentInputContainer;

@@ -50,3 +50,35 @@ exports.createComment = async (req, res, next) => {
     next(error);
   }
 };
+
+//////////////////////////////////////////////////////
+//////////////////// get comment /////////////////////
+//////////////////////////////////////////////////////
+exports.getComments = async (req, res, next) => {
+  const { postId } = req.params;
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    // 1. get comment list
+    if (postId) {
+      const comments = await Comment.findAll({
+        where: { PostId: postId },
+        transaction,
+      });
+      // transaction commit
+      await transaction.commit();
+
+      console.log(comments);
+      return res.status(200).json(comments);
+    } else {
+      return res.status(404).json({ error: 'comment not found' });
+    }
+  } catch (error) {
+    // transaction rollback
+    await transaction.rollback();
+
+    console.error(error);
+    next(error);
+  }
+};

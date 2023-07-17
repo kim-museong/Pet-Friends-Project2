@@ -16,7 +16,7 @@ const SearchOptionMenu = ({
   handleCategoryChange,
   handleKeywordChange,
   handleKeydown,
-  searchCategory,
+  searchCategory = '',
   searchKeyword,
   sortType,
   pageNumber,
