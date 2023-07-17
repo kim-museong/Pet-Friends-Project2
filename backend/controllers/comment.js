@@ -63,6 +63,12 @@ exports.getComments = async (req, res, next) => {
     // 1. get comment list
     if (postId) {
       const comments = await Comment.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['nickname'],
+          },
+        ],
         where: { PostId: postId },
         transaction,
       });
@@ -74,6 +80,40 @@ exports.getComments = async (req, res, next) => {
     } else {
       return res.status(404).json({ error: 'comment not found' });
     }
+  } catch (error) {
+    // transaction rollback
+    await transaction.rollback();
+
+    console.error(error);
+    next(error);
+  }
+};
+
+/////////////////////////////////////////////////////////
+//////////////////// delete comment /////////////////////
+/////////////////////////////////////////////////////////
+exports.deleteComment = async (req, res, next) => {
+  console.log('댓글 삭제 진입');
+  const { postId, commentId } = req.params;
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    // 1. delete comment
+    if (commentId) {
+      await Comment.destroy({
+        where: { id: commentId },
+        transaction,
+      });
+    } else {
+      return res.status(404).json({ error: 'the commentId is incorrect' });
+    }
+
+    // transaction commit
+    await transaction.commit();
+
+    console.log(`${postId} 게시글의 ${commentId}번 댓글 삭제 성공`);
+    res.status(200).end();
   } catch (error) {
     // transaction rollback
     await transaction.rollback();
