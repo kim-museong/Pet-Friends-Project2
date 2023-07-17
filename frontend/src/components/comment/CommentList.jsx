@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { AiOutlineClose } from 'react-icons/ai';
+import CommentInputContainer from '../../containers/comment/CommentInputContainer';
 
 const CommentListBlock = styled.div`
   border: 1px solid greenyellow;
@@ -46,34 +48,45 @@ const CommentReplyButton = styled.button`
   cursor: pointer;
 `;
 
-const Comment = ({ comment, handleDeleteClick, handleReplyClick }) => {
+const Comment = ({ user, comment, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
   return (
     <CommentBlock>
+      {/* comment description + delete button */}
       <CommentHeader>
         <div>
           <CommentNickname>{comment.User.nickname}</CommentNickname>
           <CommentCreatedAt>{comment.createdAt}</CommentCreatedAt>
         </div>
-        <CommentDeleteButton onClick={() => handleDeleteClick(comment.id)}>X</CommentDeleteButton>
+        {user && comment.UserId === user.id && (
+          <CommentDeleteButton onClick={() => handleDeleteClick(comment.id)}>
+            <AiOutlineClose />
+          </CommentDeleteButton>
+        )}
       </CommentHeader>
+      {/* comment content + reply button */}
       <CommentContent>
         <span>{comment.content}</span>
-        <CommentReplyButton onClick={() => handleReplyClick(comment.id)}>대댓글</CommentReplyButton>
+        {user && <CommentReplyButton onClick={() => handleReplyClick(comment.id)}>대댓글</CommentReplyButton>}
       </CommentContent>
+      {/* reply editor */}
+      {comment.id === selectedCommentId && <CommentInputContainer />}
+      {/* reply list */}
     </CommentBlock>
   );
 };
 
-const CommentList = ({ comments, handleDeleteClick, handleReplyClick }) => {
+const CommentList = ({ user, comments, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
   return (
     <CommentListBlock>
       {comments &&
         comments.map((comment) => (
           <Comment
             key={comment.id}
+            user={user}
             comment={comment}
             handleDeleteClick={handleDeleteClick}
             handleReplyClick={handleReplyClick}
+            selectedCommentId={selectedCommentId}
           ></Comment>
         ))}
     </CommentListBlock>

@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentList from '../../components/comment/CommentList';
 import { deleteComment, getComments } from '../../modules/comment';
+import { useState } from 'react';
 
 const CommentListContainer = () => {
+  const user = useSelector((state) => state.user.user);
   const comments = useSelector((state) => state.comment?.comments);
   const postId = useSelector((state) => state.post.post?.post.id);
-
-  console.log('comments', comments);
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -21,13 +22,16 @@ const CommentListContainer = () => {
   };
   const handleReplyClick = (commentId) => {
     console.log(`${commentId}의 대댓글 버튼 클릭됨`);
+    setSelectedCommentId((prevCommentId) => (prevCommentId === commentId ? null : commentId));
   };
 
   return (
     <CommentList
+      user={user}
       comments={comments}
       handleDeleteClick={handleDeleteClick}
       handleReplyClick={handleReplyClick}
+      selectedCommentId={selectedCommentId}
     ></CommentList>
   );
 };
