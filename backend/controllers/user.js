@@ -118,45 +118,16 @@ exports.getPost = async (req, res, next) => {
 };
 
 exports.findId = async (req, res, next) => {
-  const { email, nickname } = req.body;
+  const { nickname } = req.body;
   try {
-    const isEmail = await User.findOne({ where: { email: email, nickname: nickname } });
-    if (isEmail === null) {
+    const userId = await User.findOne({ where: { nickname }, attributes: ['userId'] });
+    if (userId === null) {
       res.status(200).json();
       return;
     }
-    console.log(isEmail);
 
-    //랜덤문자 생성(문자와 숫자가 섞인 6자리 랜덤문자 생성)
-    const generateCode = () => {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let code = '';
-      for (let i = 0; i < 6; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        code += characters.charAt(randomIndex);
-      }
-      return code;
-    };
-    const generatedCode = generateCode();
-
-    // const transporter = nodemailer.createTransport({
-    //   service: 'gmail',
-    //   auth: {
-    //     user: 'antjd0419@gmail.com',
-    //     pass: process.env.MYEMAILPASSWORD,
-    //   },
-    // });
-
-    // const mailOptions = {
-    //   from: '펫프렌즈',
-    //   to: email,
-    //   subject: '안녕하세요. 펫프렌즈입니다.',
-    //   text: `${isEmail.nickname}님의 인증번호는 ${generatedCode}입니다`,
-    // };
-
-    // await transporter.sendMail(mailOptions);
     console.log('이메일 성공적 전송');
-    res.status(200).json({ isEmail, generatedCode });
+    res.status(200).json(userId);
   } catch (error) {
     console.log(error);
   }
@@ -165,7 +136,7 @@ exports.findId = async (req, res, next) => {
 exports.userIdConfirm = async (req, res, next) => {
   const { userId } = req.body;
   try {
-    const findUser = await User.findOne({ where: { userId }, attributes: ['userId', 'nickname', 'email'] });
+    const findUser = await User.findOne({ where: { userId }, attributes: ['userId', 'nickname', 'phone', 'email'] });
     res.status(200).json(findUser);
   } catch (e) {
     console.log(e);

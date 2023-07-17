@@ -5,8 +5,8 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 exports.register = async (req, res, next) => {
-  const { username, password, email, nickname } = req.body;
-  console.log(req.body);
+  const { username, password, email, nickname, phone } = req.body;
+
   try {
     const exUser = await User.findOne({ where: { userId: username } });
     if (exUser) {
@@ -19,6 +19,7 @@ exports.register = async (req, res, next) => {
       password: hash,
       email,
       nickname,
+      phone,
     });
     req.login(newUser, (loginError) => {
       if (loginError) {
@@ -103,24 +104,24 @@ exports.sendPhone = async (req, res, next) => {
   const { phone } = req.body;
 
   // ---- SENE API에 필요한 정보 ---------------
-  const accessKey = process.env.SENS_ACCESS_KEY;
-  const secretKey = process.env.SENS_SECRET_KEY;
-  const serviceKey = process.env.SENS_SERVICE_KEY;
-  const url = `https://sens.apigw.ntruss.com/sms/v2/services/${serviceKey}/messages`;
-  const timestamp = Date.now();
-  const method = 'POST';
-  const space = ' ';
-  const newLine = '\n';
-  const url2 = `/sms/v2/services/${serviceKey}/messages`;
-  const hmac = crypto.createHmac('sha256', secretKey);
-  hmac.update(method.toString());
-  hmac.update(space.toString());
-  hmac.update(url2.toString());
-  hmac.update(newLine.toString());
-  hmac.update(timestamp.toString());
-  hmac.update(newLine.toString());
-  hmac.update(accessKey.toString());
-  const signature = hmac.digest('base64');
+  // const accessKey = process.env.SENS_ACCESS_KEY;
+  // const secretKey = process.env.SENS_SECRET_KEY;
+  // const serviceKey = process.env.SENS_SERVICE_KEY;
+  // const url = `https://sens.apigw.ntruss.com/sms/v2/services/${serviceKey}/messages`;
+  // const timestamp = Date.now();
+  // const method = 'POST';
+  // const space = ' ';
+  // const newLine = '\n';
+  // const url2 = `/sms/v2/services/${serviceKey}/messages`;
+  // const hmac = crypto.createHmac('sha256', secretKey);
+  // hmac.update(method.toString());
+  // hmac.update(space.toString());
+  // hmac.update(url2.toString());
+  // hmac.update(newLine.toString());
+  // hmac.update(timestamp.toString());
+  // hmac.update(newLine.toString());
+  // hmac.update(accessKey.toString());
+  // const signature = hmac.digest('base64');
 
   // ---- 랜덤 6자리 숫자 생성 -----------------
   const generateAuthNumber = Math.floor(100000 + Math.random() * 900000);
@@ -149,7 +150,7 @@ exports.sendPhone = async (req, res, next) => {
   //     },
   //   );
   //   console.log('SMS 전송 성공:', response.data);
-  //   res.status(200).json(generateAuthNumber);
+  res.status(200).json(generateAuthNumber.toString());
   // } catch (error) {
   //   console.error('SMS 전송 실패:', error.response.data);
   //   res.status(500);

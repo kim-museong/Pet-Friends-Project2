@@ -18,19 +18,11 @@ class User extends Sequelize.Model {
           allowNull: false,
           unique: true,
         },
+        phone: {
+          type: Sequelize.STRING(12),
+          allowNull: false,
+        },
         email: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
-        },
-        address1: {
-          type: Sequelize.STRING(10),
-          allowNull: true,
-        },
-        address2: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
-        },
-        address3: {
           type: Sequelize.STRING(100),
           allowNull: true,
         },

@@ -4,8 +4,9 @@ import palette from '../../lib/styles/palette';
 import { MdArrowForwardIos } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { useDispatch } from '../../../node_modules/react-redux/es/exports';
-import { changeStep, initNumber, initialize } from '../../modules/find';
+
 import { useCallback } from 'react';
+import { changeStep } from '../../modules/auth';
 
 const StepBox = styled.div`
   display: flex;
@@ -40,16 +41,13 @@ const TitleBox = styled.div`
   font-size: 30px;
 `;
 
-const PasswordStep = () => {
-  const step = useSelector((state) => state.find.findPwd.step);
+const RegisterStep = () => {
+  const step = useSelector((state) => state.auth.register.step);
   const dispatch = useDispatch();
 
   const prevChangeStep = useCallback(
     (number) => {
-      if (step > number) {
-        dispatch(changeStep(number));
-        dispatch(initNumber());
-      }
+      if (step > number) dispatch(changeStep(number));
     },
     [dispatch, step],
   );
@@ -61,19 +59,19 @@ const PasswordStep = () => {
       </TitleBox>
       <StepBox>
         <span className={step >= 1 ? 'userId' : ''} onClick={() => prevChangeStep(1)}>
-          1. 아이디 입력
+          1. 약관동의
         </span>
         <span>
           <MdArrowForwardIos />
         </span>
         <span className={step >= 2 ? 'certification' : ''} onClick={() => prevChangeStep(2)}>
-          2. 본인인증{' '}
+          2. 휴대번호인증
         </span>
         <span>
           <MdArrowForwardIos />
         </span>
         <span className={step === 3 ? 'newPassword' : ''} onClick={() => prevChangeStep(3)}>
-          3. 새비밀번호 입력
+          3. 정보입력
         </span>
       </StepBox>
       <StepBar />
@@ -81,4 +79,4 @@ const PasswordStep = () => {
   );
 };
 
-export default PasswordStep;
+export default RegisterStep;

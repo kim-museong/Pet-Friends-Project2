@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeError, changeField, initializeForm, register } from '../../modules/auth';
-import { check } from '../../modules/user';
+import { changeError, changeField, register } from '../../../modules/auth';
+import { check } from '../../../modules/user';
 import { useNavigate } from 'react-router-dom';
-import Register from '../../components/auth/Register';
+import Register from '../../../components/auth/register/Register';
 import axios from 'axios';
 
 const RegisterContainer = () => {
@@ -28,7 +28,6 @@ const RegisterContainer = () => {
     username: '아이디: 필수 정보입니다.',
     password: '비밀번호: 필수 정보입니다.',
     nickname: '이름: 필수 정보입니다.',
-    email: '이메일: 필수 정보입니다.',
     passwordMismatch: '비밀번호: 비밀번호가 틀립니다.',
     invalidEmail: '이메일: 이메일 형식에 맞게 입력해주세요.',
   };
@@ -51,12 +50,11 @@ const RegisterContainer = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const { errorUserId, errorPwd, errorPwdCf, errorEmail, errorNickname } = error;
-    const { username, password, email, nickname, passwordConfirm } = form;
+    const { username, password, email, nickname, passwordConfirm, phone } = form;
 
     validation('username', username);
     validation('password', password);
     validation('email', email);
-    validation('nickname', nickname);
 
     if (
       errorUserId === null &&
@@ -65,7 +63,7 @@ const RegisterContainer = () => {
       errorEmail === null &&
       errorNickname === null
     ) {
-      dispatch(register({ username, password, email, nickname }));
+      dispatch(register({ username, password, email, nickname, phone }));
     }
 
     if (password !== passwordConfirm) {
@@ -176,39 +174,23 @@ const RegisterContainer = () => {
       }
     } else if (name === 'email') {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (value === '') {
-        dispatch(
-          changeError({
-            key: errorKeyMap[name],
-            value: errorMessages.email,
-          }),
-        );
-      } else if (!emailRegex.test(value)) {
-        dispatch(
-          changeError({
-            key: errorKeyMap[name],
-            value: errorMessages.invalidEmail,
-          }),
-        );
-      } else {
-        dispatch(
-          changeError({
-            key: errorKeyMap[name],
-            value: null,
-          }),
-        );
+      if (value) {
+        if (!emailRegex.test(value)) {
+          dispatch(
+            changeError({
+              key: errorKeyMap[name],
+              value: errorMessages.invalidEmail,
+            }),
+          );
+        } else {
+          dispatch(
+            changeError({
+              key: errorKeyMap[name],
+              value: null,
+            }),
+          );
+        }
       }
-    }
-  };
-
-  const sendPhone = async (e) => {
-    e.preventDefault();
-    const { phone } = form;
-    console.log(phone, '------------------------------------');
-    try {
-      const res = await axios.post('/auth/sendPhone', { phone: phone });
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -256,7 +238,6 @@ const RegisterContainer = () => {
       iconClick={iconClick}
       inputRefs={inputRefs}
       focusOut={focusOut}
-      sendPhone={sendPhone}
     />
   );
 };

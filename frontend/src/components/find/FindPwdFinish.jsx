@@ -15,7 +15,7 @@ const MainBox = styled(FindIdBox)`
   .btn {
     display: inline-block;
     width: 400px;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 10px 20px;
     background-color: ${palette.mainColor};
     color: white;

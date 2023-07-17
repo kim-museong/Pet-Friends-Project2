@@ -3,6 +3,10 @@ import { FindInputBox } from '../../lib/styles/find';
 
 const ChangePwd = styled(FindInputBox)`
   text-align: center;
+  margin-top: 100px;
+  div + form {
+    margin-top: 30px;
+  }
 `;
 
 const StatusBox = styled.div`

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import FindPwdFirst from '../../components/find/FindPwdFirst';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeInput, changeError, nextStep, initialize, findUser } from '../../modules/find';
+import { changeInput, changeError, nextStep, initialize, findUser, initNumber } from '../../modules/find';
 
 const FindPwdFirstContainer = () => {
   //-------------- state ------------------
@@ -77,6 +77,7 @@ const FindPwdFirstContainer = () => {
 
   useEffect(() => {
     dispatch(initialize('findPwd'));
+    dispatch(initNumber());
   }, [dispatch]);
 
   return (

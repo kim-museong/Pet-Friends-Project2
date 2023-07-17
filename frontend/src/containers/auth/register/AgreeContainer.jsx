@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
-import Agree from '../../components/auth/Agree';
+import React, { useCallback, useEffect } from 'react';
+import Agree from '../../../components/auth/register/Agree';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAgree, isConfirm, allCheck } from '../../modules/auth';
+import { checkAgree, allCheck, nextStep, initializeForm } from '../../../modules/auth';
 
 const AgreeContainer = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const AgreeContainer = () => {
   const onConfirm = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(isConfirm());
+      dispatch(nextStep());
     },
     [dispatch],
   );
@@ -26,6 +26,10 @@ const AgreeContainer = () => {
 
   const allAgreeCheck = useCallback(() => {
     dispatch(allCheck());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(initializeForm('register'));
   }, [dispatch]);
 
   return (

@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import Button from '../common/Button';
-import { Link } from 'react-router-dom';
-
-import { MdPerson, MdLock, MdVisibility, MdVisibilityOff, MdEmail } from 'react-icons/md';
+import Button from '../../common/Button';
+import { MdPerson, MdLock, MdVisibility, MdVisibilityOff, MdEmail, MdPhoneAndroid } from 'react-icons/md';
 import { useState } from 'react';
-import { StyledInput } from '../../lib/styles/find';
-import { ShowPwdBox } from '../../lib/styles/auth';
+import { StyledInput } from '../../../lib/styles/find';
+import { ShowPwdBox } from '../../../lib/styles/auth';
 
 const AuthFormBlock = styled.div`
   text-align: center;
@@ -76,7 +74,6 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
   return (
     <>
       <AuthFormBlock>
-        <Link to="/">LOGO</Link>
         <form onSubmit={onSubmit}>
           <RegisterBox>
             <StyledInput theme={String(theme)} className={errorUserId && 'errorUserId'}>
@@ -164,17 +161,9 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
 
             <StyledInput theme={String(theme)}>
               <div className="icon">
-                <MdEmail />
+                <MdPhoneAndroid />
               </div>
-              <input
-                type="tel"
-                autoComplete="phone"
-                name="phone"
-                value={form.phone}
-                onChange={onChange}
-                placeholder="휴대전화번호"
-              />
-              <button onClick={sendPhone}>전송</button>
+              <input placeholder={form.phone} disabled />
             </StyledInput>
 
             <ErrorBox>

@@ -27,12 +27,6 @@ const MainBox = styled(FindIdBox)`
   }
 `;
 
-const FindPwdInputBox = styled(FindInputBox)`
-  button {
-    margin-top: 20px;
-  }
-`;
-
 const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
   const { userIdError, notUserError } = error;
   const { userId } = findPwd || {};
@@ -43,7 +37,7 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
         <div>
           <h3>비밀번호를 재설정할 아이디를 입력해 주세요.</h3>
         </div>
-        <FindPwdInputBox>
+        <FindInputBox>
           <input
             autoComplete="userId"
             name="userId"
@@ -58,7 +52,7 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
             <div className="error">{userIdError && userIdError}</div>
             <div className="error">{notUserError && notUserError}</div>
           </StatusBox>
-        </FindPwdInputBox>
+        </FindInputBox>
         <div className="findId">
           <p>
             아이디가 기억나지 않습니까?
