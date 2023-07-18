@@ -13,6 +13,7 @@ import Footer from '../lib/main/Footer';
 import { useDispatch } from '../../node_modules/react-redux/es/exports';
 import { initialize } from '../modules/find';
 import { initializeForm } from '../modules/auth';
+import NewsTicker from '../components/main/NewsTicker';
 const ContainBox = styled.div`
   width: 90%;
   margin: 50px auto 20px;
@@ -21,17 +22,13 @@ const ContainBox = styled.div`
 `;
 
 const MainBox = styled.div`
-  width: 55%;
+  width: 50%;
   display: inline-block;
+  margin-right: 30px;
 `;
 
 const SideBox = styled.div`
   display: inline-block;
-`;
-
-const ShopBox = styled.div`
-  width: 100%;
-  margin: 0 auto;
 `;
 
 const MainPage = () => {
@@ -48,29 +45,23 @@ const MainPage = () => {
         {/*--------------- 메인 -------------- */}
         <MainBox>
           <AutoPlayMethods />
-          <div style={{ display: 'flex', marginRight: '20px', marginTop: '20px' }}>
-            <MeunlistsContainer />
-            <Attendance />
-          </div>
+          <MeunlistsContainer />
         </MainBox>
         {/* -------------- 사이드 ------------- */}
         <SideBox>
           <LoginFormContainer />
+          <WeatherContainer />
+          <NewsTicker />
           <PopularpostContainer />
         </SideBox>
       </ContainBox>
-      <ShopBox>
-        <ShopBoxContainer />
-      </ShopBox>
       <ContainBox>
         {/*--------------- 메인 -------------- */}
         <MainBox>
           <PopularCardContainer />
         </MainBox>
         {/* -------------- 사이드 ------------- */}
-        <SideBox>
-          <WeatherContainer />
-        </SideBox>
+        <SideBox></SideBox>
       </ContainBox>
       <Footer />
     </>

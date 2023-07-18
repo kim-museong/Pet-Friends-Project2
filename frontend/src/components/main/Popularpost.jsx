@@ -1,28 +1,31 @@
 import styled from 'styled-components';
-import { MdOutlineLocalFireDepartment, MdChevronRight } from 'react-icons/md';
+import { MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import { PiDog } from 'react-icons/pi';
 import palette from '../../lib/styles/palette';
+import SubButton from './SubButton';
+
+const PostsBox = styled.div`
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+`;
 
 const PopularpostBox = styled.div`
-  width: 350px;
-  height: 372px;
-  border: 1px solid ${palette.border};
-  padding: 20px;
-  margin-right: 20px;
-  overflow: hidden;
+  width: 100%;
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  padding: 15px 20px 0;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45, 45, 45)' : '')};
+
+  ol {
+    margin: 20px 0;
+  }
 `;
 
 const Postlist = styled.li`
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 50px;
-  border: 1px solid ${palette.border};
-  padding: 5px 10px;
-  margin-top: 20px;
-  background: ${({ theme }) => (theme === 'true' ? 'rgb(20,20,20)' : '')};
+  padding-bottom: 5px;
+  background: inherit;
   font-size: 14px;
 
   svg {
@@ -31,23 +34,30 @@ const Postlist = styled.li`
     margin-right: 10px;
   }
 
-  .postView {
-  }
-
-  div:nth-child(2) {
+  .postNumber {
+    width: 20px;
+    height: 20px;
+    background: ${palette.mainColor};
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 2px;
+    padding-right: 1px;
     margin-right: 10px;
+    color: white;
   }
 
   .title {
     display: inline-block;
-    width: 180px;
+    width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
+    cursor: pointer;
 
-  & + & {
-    margin-top: 5px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -64,7 +74,7 @@ const ListBox = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-top: 14px;
 
     &:hover {
       text-decoration: underline;
@@ -72,44 +82,28 @@ const ListBox = styled.div`
   }
 
   h2 {
-    margin-left: 40px;
-    color: rgb(255, 140, 0);
-  }
-
-  svg {
-    font-size: 20px;
-  }
-`;
-
-const MiniBox = styled.div`
-  position: absolute;
-
-  svg {
-    font-size: 35px;
-    color: rgb(255, 140, 0);
+    color: ${palette.mainColor};
   }
 `;
 
 const Popularpost = ({ pupularPosts, theme }) => {
   return (
-    <>
+    <PostsBox>
+      <SubButton />
       <PopularpostBox theme={String(theme)}>
         <ListBox theme={String(theme)}>
-          <MiniBox>
-            <PiDog />
-          </MiniBox>
           <h2>인기 게시물</h2>
+
           <Link to="/community" className="add-list">
             더보기
             <MdChevronRight />
           </Link>
         </ListBox>
-
+        <hr style={{ marginTop: '10px' }} />
         <ol>
-          {pupularPosts?.map((post) => (
+          {pupularPosts?.map((post, index) => (
             <Postlist key={post.id} theme={String(theme)}>
-              <MdOutlineLocalFireDepartment />
-              <div className="postView">{post.view}</div>
+              <div className="postNumber">{index + 1}</div>
               <div className="postInfo">
                 <span className="title">{post.title}</span>
               </div>
@@ -117,7 +111,7 @@ const Popularpost = ({ pupularPosts, theme }) => {
           ))}
         </ol>
       </PopularpostBox>
-    </>
+    </PostsBox>
   );
 };
 

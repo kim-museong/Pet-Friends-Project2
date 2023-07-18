@@ -19,7 +19,7 @@ const Profile = styled.div`
 const LoginFormBox = styled.div`
   width: 400px;
   height: 180px;
-  box-shadow: 0 0 0 1px ${palette.border};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
   padding: 20px 40px;
   text-align: center;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -27,7 +27,6 @@ const LoginFormBox = styled.div`
   p {
     padding-top: 5px;
     font-size: 18px;
-    font-weight: bold;
   }
 
   .login {
