@@ -13,10 +13,15 @@ export default function createRequestSaga(type, request) {
   const FAILURE = `${type}_FAILURE`;
 
   return function* (action) {
+    console.log(
+      `<<<<<<createRequestSaga>>>>>>
+     type: ${type}
+      action :`,
+      action,
+    );
     yield put(startLoading(type));
     try {
       const res = yield call(request, action.payload);
-      console.log(action, res.data);
       yield put({
         type: SUCCESS,
         payload: res.data,

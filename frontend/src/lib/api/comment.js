@@ -9,6 +9,7 @@ export const createComment = ({ content = '', postId = null }) => {
 
 // get comments
 export const getComments = ({ postId = null }) => {
+  console.log('getComments 요청', postId);
   return client.get(`/posts/${postId}/comments`);
 };
 

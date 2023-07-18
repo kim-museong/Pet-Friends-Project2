@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
+import CommentInputContainer from '../../containers/comment/CommentInputContainer';
 
 const ReplyListBlock = styled.div`
   border: 1px solid pink;
@@ -40,7 +41,14 @@ const ReplyDeleteButton = styled.button`
   cursor: pointer;
 `;
 
-const Reply = ({ reply, user, handleDeleteClick }) => {
+const CommentReplyButton = styled.button`
+  margin-left: auto;
+  background-color: transparent;
+  /* border: none; */
+  cursor: pointer;
+`;
+
+const Reply = ({ reply, user, handleDeleteClick, handleReplyClick, selectedCommentId, parentCommentId }) => {
   return (
     <ReplyBlock>
       {/* comment description + delete button */}
@@ -58,17 +66,28 @@ const Reply = ({ reply, user, handleDeleteClick }) => {
       {/* comment content + reply button */}
       <ReplyContent>
         <span>{reply.content}</span>
+        {user && <CommentReplyButton onClick={() => handleReplyClick(parentCommentId)}>대댓글</CommentReplyButton>}
       </ReplyContent>
+      {/* reply editor */}
+      {parentCommentId === selectedCommentId && <CommentInputContainer parentCommentId={parentCommentId} />}
     </ReplyBlock>
   );
 };
 
-const ReplyList = ({ replies, user, handleDeleteClick }) => {
+const ReplyList = ({ replies, user, handleDeleteClick, handleReplyClick, selectedCommentId, parentCommentId }) => {
   return (
     <ReplyListBlock>
       {replies &&
         replies.map((reply) => (
-          <Reply key={reply.id} reply={reply} user={user} handleDeleteClick={handleDeleteClick}></Reply>
+          <Reply
+            key={reply.id}
+            reply={reply}
+            user={user}
+            handleDeleteClick={handleDeleteClick}
+            handleReplyClick={handleReplyClick}
+            selectedCommentId={selectedCommentId}
+            parentCommentId={parentCommentId}
+          ></Reply>
         ))}
     </ReplyListBlock>
   );

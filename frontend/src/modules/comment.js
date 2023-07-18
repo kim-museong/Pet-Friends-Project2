@@ -38,8 +38,16 @@ export const getComments = createAction(GET_COMMENT, (postId) => postId);
 export const deleteComment = createAction(DELETE_COMMENT, ({ postId, commentId }) => ({ postId, commentId }));
 
 export const changeReplyInput = createAction(CHANGE_REPLY_INPUT, (input) => input);
-export const createReply = createAction(CREATE_REPLY, ({ content, parentCommentId }) => ({ content, parentCommentId }));
-export const deleteReply = createAction(DELETE_REPLY, ({ parentCommentId, replyId }) => ({ parentCommentId, replyId }));
+export const createReply = createAction(CREATE_REPLY, ({ content, parentCommentId, postId }) => ({
+  content,
+  parentCommentId,
+  postId,
+}));
+export const deleteReply = createAction(DELETE_REPLY, ({ parentCommentId, replyId, postId }) => ({
+  parentCommentId,
+  replyId,
+  postId,
+}));
 
 // define saga
 const createCommentSaga = createRequestSaga(CREATE_COMMENT, commentAPI.createComment);
@@ -65,12 +73,18 @@ export function* commentSaga() {
 
   // create reply 후에 get replies 요청
   yield takeLatest(CREATE_REPLY, function* (action) {
+    console.log(`create reply 요청`);
+    console.log(`createReplySaga 시작`);
     yield call(createReplySaga, action);
+    console.log(`getCommentsSaga 시작`);
     yield call(getCommentsSaga, action);
   });
   // delete reply 요청
   yield takeLatest(DELETE_REPLY, function* (action) {
+    console.log(`delete reply 요청`);
+    console.log(`deleteReplySaga 시작`);
     yield call(deleteReplySaga, action);
+    console.log(`getCommentsSaga 시작`);
     yield call(getCommentsSaga, action);
   });
 }

@@ -75,13 +75,13 @@ exports.getReplies = async (req, res, next) => {
       // transaction commit
       await transaction.commit();
 
-      const formattedData = {
-        commentId: parentCommentId,
-        replies,
-      };
+      // const formattedData = {
+      //   commentId: parentCommentId,
+      //   replies,
+      // };
 
-      console.log(formattedData);
-      return res.status(200).json(formattedData);
+      // console.log(formattedData);
+      return res.status(200).json(replies);
     } else {
       return res.status(404).json({ error: 'comment not found' });
     }

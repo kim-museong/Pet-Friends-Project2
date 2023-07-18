@@ -5,6 +5,7 @@ import { deleteComment, getComments } from '../../modules/comment';
 import { useState } from 'react';
 
 const CommentListContainer = () => {
+  console.log('CommentListContainer render(rerender)');
   const user = useSelector((state) => state.user.user);
   const comments = useSelector((state) => state.comment?.comments);
   const postId = useSelector((state) => state.post.post?.post.id);
@@ -13,6 +14,7 @@ const CommentListContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('CommentListContainer mounted');
     dispatch(getComments({ postId }));
   }, [dispatch, postId]);
 
