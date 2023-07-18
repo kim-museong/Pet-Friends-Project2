@@ -3,7 +3,7 @@
 /////////////
 import { createAction, handleActions } from 'redux-actions';
 import createRequestSaga from '../lib/createRequestSaga';
-import * as postAPI from '../lib/api/comment';
+import * as commentAPI from '../lib/api/comment';
 import { takeLatest, call } from 'redux-saga/effects';
 
 // define action type
@@ -21,16 +21,34 @@ const DELETE_COMMENT = 'comment/DELETE_COMMENT';
 const DELETE_COMMENT_SUCCESS = 'comment/DELETE_COMMENT_SUCCESS';
 const DELETE_COMMENT_FAILURE = 'comment/DELETE_COMMENT_FAILURE';
 
+const CHANGE_REPLY_INPUT = 'reply/CHANGE_REPLY_INPUT';
+
+const CREATE_REPLY = 'comment/CREATE_REPLY';
+const CREATE_REPLY_SUCCESS = 'comment/CREATE_REPLY_SUCCESS';
+const CREATE_REPLY_FAILURE = 'comment/CREATE_REPLY_FAILURE';
+
+const DELETE_REPLY = 'comment/DELETE_REPLY';
+const DELETE_REPLY_SUCCESS = 'comment/DELETE_REPLY_SUCCESS';
+const DELETE_REPLY_FAILURE = 'comment/DELETE_REPLY_FAILURE';
+
 // action creator
 export const changeCommentInput = createAction(CHANGE_COMMENT_INPUT, (input) => input);
 export const createComment = createAction(CREATE_COMMENT, ({ content, postId }) => ({ content, postId }));
 export const getComments = createAction(GET_COMMENT, (postId) => postId);
 export const deleteComment = createAction(DELETE_COMMENT, ({ postId, commentId }) => ({ postId, commentId }));
 
+export const changeReplyInput = createAction(CHANGE_REPLY_INPUT, (input) => input);
+export const createReply = createAction(CREATE_REPLY, ({ content, parentCommentId }) => ({ content, parentCommentId }));
+export const deleteReply = createAction(DELETE_REPLY, ({ parentCommentId, replyId }) => ({ parentCommentId, replyId }));
+
 // define saga
-const createCommentSaga = createRequestSaga(CREATE_COMMENT, postAPI.createComment);
-const getCommentsSaga = createRequestSaga(GET_COMMENT, postAPI.getComments);
-const deleteCommentSaga = createRequestSaga(DELETE_COMMENT, postAPI.deleteComment);
+const createCommentSaga = createRequestSaga(CREATE_COMMENT, commentAPI.createComment);
+const getCommentsSaga = createRequestSaga(GET_COMMENT, commentAPI.getComments);
+const deleteCommentSaga = createRequestSaga(DELETE_COMMENT, commentAPI.deleteComment);
+
+const createReplySaga = createRequestSaga(CREATE_REPLY, commentAPI.createReply);
+const deleteReplySaga = createRequestSaga(DELETE_REPLY, commentAPI.deleteReply);
+
 export function* commentSaga() {
   // create comment 후에 get comments 요청
   yield takeLatest(CREATE_COMMENT, function* (action) {
@@ -44,6 +62,17 @@ export function* commentSaga() {
     yield call(deleteCommentSaga, action);
     yield call(getCommentsSaga, action);
   });
+
+  // create reply 후에 get replies 요청
+  yield takeLatest(CREATE_REPLY, function* (action) {
+    yield call(createReplySaga, action);
+    yield call(getCommentsSaga, action);
+  });
+  // delete reply 요청
+  yield takeLatest(DELETE_REPLY, function* (action) {
+    yield call(deleteReplySaga, action);
+    yield call(getCommentsSaga, action);
+  });
 }
 
 // init
@@ -52,6 +81,9 @@ const initialState = {
   comment: null,
   comments: null,
   commentError: null,
+  replyInput: null,
+  reply: null,
+  replyError: null,
 };
 
 // reducer
@@ -85,6 +117,26 @@ const comment = handleActions(
       ...state,
     }),
     [DELETE_COMMENT_FAILURE]: (state) => ({
+      ...state,
+    }),
+    [CHANGE_REPLY_INPUT]: (state, { payload: replyInput }) => ({
+      ...state,
+      replyInput,
+    }),
+    [CREATE_REPLY_SUCCESS]: (state, { payload: reply }) => ({
+      ...state,
+      reply,
+      replyError: null,
+    }),
+    [CREATE_REPLY_FAILURE]: (state, { payload: replyError }) => ({
+      ...state,
+      reply: null,
+      replyError,
+    }),
+    [DELETE_REPLY_SUCCESS]: (state) => ({
+      ...state,
+    }),
+    [DELETE_REPLY_FAILURE]: (state) => ({
       ...state,
     }),
   },

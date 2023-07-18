@@ -68,6 +68,9 @@ exports.getComments = async (req, res, next) => {
             model: User,
             attributes: ['nickname'],
           },
+          {
+            model: Reply,
+          },
         ],
         where: { PostId: postId },
         transaction,
@@ -75,10 +78,9 @@ exports.getComments = async (req, res, next) => {
       // transaction commit
       await transaction.commit();
 
-      console.log(comments);
       return res.status(200).json(comments);
     } else {
-      return res.status(404).json({ error: 'comment not found' });
+      return res.status(404).json({ error: 'post not found' });
     }
   } catch (error) {
     // transaction rollback
@@ -105,15 +107,15 @@ exports.deleteComment = async (req, res, next) => {
         where: { id: commentId },
         transaction,
       });
+
+      // transaction commit
+      await transaction.commit();
+
+      console.log(`${postId} 게시글의 ${commentId}번 댓글 삭제 성공`);
+      res.status(200).end();
     } else {
       return res.status(404).json({ error: 'the commentId is incorrect' });
     }
-
-    // transaction commit
-    await transaction.commit();
-
-    console.log(`${postId} 게시글의 ${commentId}번 댓글 삭제 성공`);
-    res.status(200).end();
   } catch (error) {
     // transaction rollback
     await transaction.rollback();

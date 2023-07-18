@@ -5,11 +5,13 @@ const authRouter = require('./auth');
 const boardRouter = require('./board');
 const postsRouter = require('./posts');
 const userRouter = require('./user');
+const commentRouter = require('./comments');
 
 router.use('/auth', authRouter);
 router.use('/board', boardRouter);
 router.use('/posts', postsRouter);
 router.use('/user', userRouter);
+router.use('/comments', commentRouter);
 
 ///////////////////////////////
 // 캐시를 위한 미들웨어 설정 //

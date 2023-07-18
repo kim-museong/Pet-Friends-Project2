@@ -29,6 +29,7 @@ const CommentListContainer = () => {
     <CommentList
       user={user}
       comments={comments}
+      postId={postId}
       handleDeleteClick={handleDeleteClick}
       handleReplyClick={handleReplyClick}
       selectedCommentId={selectedCommentId}

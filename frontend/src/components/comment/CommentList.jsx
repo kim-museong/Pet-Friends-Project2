@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import CommentInputContainer from '../../containers/comment/CommentInputContainer';
+import ReplyListContainer from '../../containers/comment/ReplyListContainer';
 
 const CommentListBlock = styled.div`
   border: 1px solid greenyellow;
@@ -48,7 +49,7 @@ const CommentReplyButton = styled.button`
   cursor: pointer;
 `;
 
-const Comment = ({ user, comment, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
+const Comment = ({ user, comment, postId, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
   return (
     <CommentBlock>
       {/* comment description + delete button */}
@@ -69,13 +70,19 @@ const Comment = ({ user, comment, handleDeleteClick, handleReplyClick, selectedC
         {user && <CommentReplyButton onClick={() => handleReplyClick(comment.id)}>대댓글</CommentReplyButton>}
       </CommentContent>
       {/* reply editor */}
-      {comment.id === selectedCommentId && <CommentInputContainer />}
+      {comment.id === selectedCommentId && <CommentInputContainer parentCommentId={comment.id} />}
       {/* reply list */}
+      <ReplyListContainer
+        replies={comment.Replies}
+        user={user}
+        postId={postId}
+        parentCommentId={comment.id}
+      ></ReplyListContainer>
     </CommentBlock>
   );
 };
 
-const CommentList = ({ user, comments, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
+const CommentList = ({ user, postId, comments, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
   return (
     <CommentListBlock>
       {comments &&
@@ -84,6 +91,7 @@ const CommentList = ({ user, comments, handleDeleteClick, handleReplyClick, sele
             key={comment.id}
             user={user}
             comment={comment}
+            postId={postId}
             handleDeleteClick={handleDeleteClick}
             handleReplyClick={handleReplyClick}
             selectedCommentId={selectedCommentId}
