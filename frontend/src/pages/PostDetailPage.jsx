@@ -7,6 +7,7 @@ import PictureContainer from '../containers/post/PictureContainer';
 import PostContainer from '../containers/post/PostContainer';
 import CommentListContainer from '../containers/comment/CommentListContainer';
 import CommentInputContainer from '../containers/comment/CommentInputContainer';
+import TESTCommentListContainer from '../containers/comment/TESTCommentListContainer';
 
 const PostDetailPage = () => {
   const location = useLocation();
@@ -20,7 +21,8 @@ const PostDetailPage = () => {
       <TagContainer />
       <ActionButtonContainer />
       <CommentInputContainer></CommentInputContainer>
-      <CommentListContainer></CommentListContainer>
+      {/* <CommentListContainer></CommentListContainer> */}
+      <TESTCommentListContainer></TESTCommentListContainer>
     </Responsive>
   );
 };
