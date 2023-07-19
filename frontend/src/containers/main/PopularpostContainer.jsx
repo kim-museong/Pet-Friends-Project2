@@ -10,7 +10,7 @@ const PopularpostContainer = () => {
 
   useEffect(() => {
     dispatch(getPopularAsync({ sortType: 'highestViews', boardName: 'community', limit: '10' }));
-  }, [dispatch]);
+  }, []);
   return (
     <>
       <Popularpost pupularPosts={pupularPosts} theme={theme} />

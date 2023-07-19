@@ -4,9 +4,6 @@ import LoginFormContainer from '../containers/main/LoginFormContainer';
 import AutoPlayMethods from '../containers/main/eventContainer';
 import PopularpostContainer from '../containers/main/PopularpostContainer';
 import MeunlistsContainer from '../containers/main/MeunlistsContainer';
-import ShopBoxContainer from '../containers/main/ShopBoxContainer';
-import PopularCardContainer from '../containers/main/PopularCardContainer';
-import Attendance from '../lib/main/Attendance';
 import WeatherContainer from '../containers/main/WeatherContainer';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import Footer from '../lib/main/Footer';
@@ -14,6 +11,8 @@ import { useDispatch } from '../../node_modules/react-redux/es/exports';
 import { initialize } from '../modules/find';
 import { initializeForm } from '../modules/auth';
 import NewsTicker from '../components/main/NewsTicker';
+import RandomContainer from '../containers/main/RandomContainer';
+
 const ContainBox = styled.div`
   width: 90%;
   margin: 50px auto 20px;
@@ -53,15 +52,8 @@ const MainPage = () => {
           <WeatherContainer />
           <NewsTicker />
           <PopularpostContainer />
+          <RandomContainer />
         </SideBox>
-      </ContainBox>
-      <ContainBox>
-        {/*--------------- 메인 -------------- */}
-        <MainBox>
-          <PopularCardContainer />
-        </MainBox>
-        {/* -------------- 사이드 ------------- */}
-        <SideBox></SideBox>
       </ContainBox>
       <Footer />
     </>

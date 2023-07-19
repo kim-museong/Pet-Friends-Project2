@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
 const PopularCardBox = styled.div`
-  border: 1px solid ${palette.border};
+  height: 500px;
   padding: 20px;
   margin-top: 20px;
-  margin-right: 20px;
+
   div {
     overflow: hidden;
     display: flex;
@@ -38,6 +38,12 @@ const PictureItemBlock = styled.div`
   cursor: pointer;
 `;
 
+const NotPicture = styled.div`
+  margin-top: 20%;
+  color: ${palette.border};
+  font-size: 20px;
+`;
+
 const PopularCard = ({ posts }) => {
   return (
     <>
@@ -53,6 +59,11 @@ const PopularCard = ({ posts }) => {
           {posts?.map((post) => (
             <PictureItemBlock key={post.id} post={post} imgurl={post && post.imgUrl}></PictureItemBlock>
           ))}
+          {posts.length === 0 && (
+            <NotPicture>
+              <div>사진이 없습니다. 예쁜 동물들 사진을 공유해주세요!</div>
+            </NotPicture>
+          )}
         </div>
       </PopularCardBox>
     </>

@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-import { useDispatch, useSelector } from 'react-redux';
 import { getMainAsync } from '../../modules/main';
 
 const NewTickerBox = styled.div`
@@ -65,17 +66,21 @@ const NewsTicker = () => {
 
   useEffect(() => {
     const rollingElement = rollingRef.current;
+    if (rollingElement) {
+      const interval = setInterval(() => {
+        const firstChild = rollingElement.firstElementChild;
+        rollingElement.style.transitionDuration = '400ms';
+        rollingElement.style.marginTop = '-41px';
+        setTimeout(() => {
+          rollingElement.removeAttribute('style');
+          ReactDOM.unstable_batchedUpdates(() => {
+            rollingElement.appendChild(firstChild);
+          });
+        }, 400);
+      }, 4000);
 
-    const interval = setInterval(() => {
-      rollingElement.style.transitionDuration = '400ms';
-      rollingElement.style.marginTop = '-41px';
-      setTimeout(() => {
-        rollingElement.removeAttribute('style');
-        rollingElement.appendChild(rollingElement.firstElementChild);
-      }, 400);
-    }, 4000);
-
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [posts]);
 
   return (
