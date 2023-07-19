@@ -39,7 +39,7 @@ const ResultBox = styled.div`
   }
 
   div + button {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   input {

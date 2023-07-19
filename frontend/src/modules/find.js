@@ -13,6 +13,7 @@ const INITIALIZE = 'find/INITIALIZE_FORM';
 const INITNUMBER = 'find/INITNUMBER';
 const [EMAIL, EMAIL_SUCCESS, EMIAL_FAILURE] = createRequestActionTypes('find/EMAIL');
 const FINDUSER = 'find/FINDUSER';
+const [PHONE, PHONE_SUCCESS, PHONE_FAILURE] = createRequestActionTypes('find/PHONE');
 
 //액션 생성
 export const changeInput = createAction(CHANGE_INPUT, ({ form, key, value }) => ({
@@ -31,6 +32,8 @@ export const changeError = createAction(CHANGE_ERROR, ({ form, key, value }) => 
   value,
   form,
 }));
+
+export const checkPhone = createAction(PHONE, (phone) => phone);
 
 export const findUser = createAction(FINDUSER, (user) => user);
 
@@ -57,7 +60,8 @@ const initialState = {
     userId: '',
     email: '',
     nickname: '',
-    certificationNumber: '',
+    phone: '',
+    certification: '',
     password: '',
     passwordConfirm: '',
     error: {
@@ -65,21 +69,23 @@ const initialState = {
       notUserError: null,
       emailError: null,
       nicknameError: null,
+      phoneError: null,
       passwordError: null,
       passwordConfirmError: null,
     },
     findUser: null,
   },
-  isemail: null,
-  isUserId: null,
+  certificationNumber: null,
   emailError: null,
 };
 
 //사가생성
 const checkEmailSaga = createRequestSaga(EMAIL, Find.checkEmail);
+const checkPhoneSaga = createRequestSaga(PHONE, Find.checkPhone);
 
 export function* emailSage() {
   yield takeLatest(EMAIL, checkEmailSaga);
+  yield takeLatest(PHONE, checkPhoneSaga);
 }
 //액션 기능
 const find = handleActions(
@@ -111,7 +117,11 @@ const find = handleActions(
     }),
     [INITNUMBER]: (state) => ({
       ...state,
-      isemail: null,
+      certificationNumber: null,
+      findPwd: {
+        ...state.findPwd,
+        certification: '',
+      },
     }),
     [FINDUSER]: (state, { payload: user }) => ({
       ...state,
@@ -126,12 +136,20 @@ const find = handleActions(
     }),
     [EMAIL_SUCCESS]: (state, { payload: email }) => ({
       ...state,
-      isemail: email,
+      certificationNumber: email,
       emailError: null,
     }),
     [EMIAL_FAILURE]: (state, { payload: error }) => ({
       ...state,
       emailError: error,
+    }),
+    [PHONE_SUCCESS]: (state, { payload: phone }) => ({
+      ...state,
+      certificationNumber: phone,
+    }),
+    [PHONE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      sendPhone: null,
     }),
   },
   initialState,

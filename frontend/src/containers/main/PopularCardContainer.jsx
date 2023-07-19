@@ -9,7 +9,7 @@ const PopularCardContainer = () => {
 
   useEffect(() => {
     dispatch(getCardAsync({ sortType: 'highestViews', boardName: 'picture', limit: '9' }));
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import Button from '../common/Button';
-import { Link } from 'react-router-dom';
-
-import { MdPerson, MdLock, MdVisibility, MdVisibilityOff, MdEmail } from 'react-icons/md';
+import Button from '../../common/Button';
+import { MdPerson, MdLock, MdVisibility, MdVisibilityOff, MdEmail, MdPhoneAndroid } from 'react-icons/md';
 import { useState } from 'react';
-import { StyledInput } from '../../lib/styles/find';
-import { ShowPwdBox } from '../../lib/styles/auth';
+import { StyledInput } from '../../../lib/styles/find';
+import { ShowPwdBox } from '../../../lib/styles/auth';
 
 const AuthFormBlock = styled.div`
   text-align: center;
@@ -59,7 +57,7 @@ const ErrorBox = styled.div`
   }
 `;
 
-const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut }) => {
+const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut, sendPhone }) => {
   const [showPwd, setShowPwd] = useState(false);
   const [showPwdCf, setShowPwdCf] = useState(false);
 
@@ -76,7 +74,6 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
   return (
     <>
       <AuthFormBlock>
-        <Link to="/">LOGO</Link>
         <form onSubmit={onSubmit}>
           <RegisterBox>
             <StyledInput theme={String(theme)} className={errorUserId && 'errorUserId'}>
@@ -157,9 +154,16 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 name="email"
                 value={form.email}
                 onChange={onChange}
-                placeholder="이메일"
+                placeholder="[선택] 비밀번호 분실 시 확인용 이메일"
                 onBlur={focusOut}
               />
+            </StyledInput>
+
+            <StyledInput theme={String(theme)}>
+              <div className="icon">
+                <MdPhoneAndroid />
+              </div>
+              <input placeholder={form.phone} disabled />
             </StyledInput>
 
             <ErrorBox>

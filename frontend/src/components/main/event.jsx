@@ -4,13 +4,15 @@ import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 
 const CarouselBox = styled.div`
-  margin-right: 20px;
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
 
   h3 {
     width: 100%;
-    height: 300px;
+    height: 150px;
 
     border-radius: 0;
   }
@@ -24,7 +26,6 @@ const CarouselBox = styled.div`
   }
 
   .attend {
-    background: ${palette.mainColor};
     background-image: url('../../../images/attend.png');
     background-repeat: no-repeat;
     background-size: contain;
@@ -33,14 +34,15 @@ const CarouselBox = styled.div`
   }
 `;
 
-export const Event = ({ sliderRef, settings }) => {
+export const Event = ({ sliderRef, settings, theme }) => {
   const navigate = useNavigate();
-  const onAttendancePage = () => {
+
+  const onAttendancePage = useCallback(() => {
     navigate('/attendance'); // 이동할 주소를 지정합니다.
-  };
+  }, [navigate]);
 
   return (
-    <CarouselBox>
+    <CarouselBox theme={String(theme)}>
       <Slider ref={sliderRef} {...settings}>
         <div>
           <h3 className="attend" onClick={onAttendancePage}>

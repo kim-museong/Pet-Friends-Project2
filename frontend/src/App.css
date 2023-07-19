@@ -4,7 +4,7 @@
   text-decoration: none;
   min-height: auto;
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: 10px;
 
   /* 더블클릭 단어블록 타켓 막기 */
   -webkit-touch-callout: none;

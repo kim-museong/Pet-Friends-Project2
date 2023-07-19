@@ -11,6 +11,8 @@ const [GET_POPULARPOST, GET_POPULARPOST_SUCCESS, GET_POPULARPOST_FAILURE] =
 const [GET_MAIN_POSTS, GET_MAIN_POSTS_SUCCESS, GET_MAIN_POSTS_FAILURE] =
   createRequestActionTypes('main/GET_MAIN_POSTS');
 
+const [GET_INFO, GET_INFO_SUCCESS, GET_INFO_FAILURE] = createRequestActionTypes('main/GET_INFO');
+
 const [GET_CARD_POSTS, GET_CARD_POSTS_SUCCESS, GET_CARD_POSTS_FAILURE] =
   createRequestActionTypes('main/GET_CARD_POSTS');
 
@@ -20,6 +22,12 @@ export const getMainAsync = createAction(GET_MAIN_POSTS, ({ boardName, limit }) 
   limit,
 }));
 export const getPopularAsync = createAction(GET_POPULARPOST, ({ sortType, boardName, limit }) => ({
+  sortType,
+  boardName,
+  limit,
+}));
+
+export const getInfoAsync = createAction(GET_INFO, ({ sortType, boardName, limit }) => ({
   sortType,
   boardName,
   limit,
@@ -35,16 +43,19 @@ export const getCardAsync = createAction(GET_CARD_POSTS, ({ sortType, boardName,
 const getMainPostsSaga = createRequestSaga(GET_MAIN_POSTS, postsAPI.getPosts);
 const getPopularPostsSaga = createRequestSaga(GET_POPULARPOST, postsAPI.getPosts);
 const getCardPostsSaga = createRequestSaga(GET_CARD_POSTS, postsAPI.getPosts);
+const getInfoSaga = createRequestSaga(GET_INFO, postsAPI.getPosts);
 
 export function* mainSaga() {
   yield takeLatest(GET_MAIN_POSTS, getMainPostsSaga);
   yield takeLatest(GET_POPULARPOST, getPopularPostsSaga);
   yield takeLatest(GET_CARD_POSTS, getCardPostsSaga);
+  yield takeLatest(GET_INFO, getInfoSaga);
 }
 
 // init
 const initialState = {
   popularPost: null,
+  info: null,
   posts: null,
   cardPosts: null,
   error: null,
@@ -82,6 +93,14 @@ const main = handleActions(
       ...state,
       cardPosts: null,
       error: error,
+    }),
+    [GET_INFO_SUCCESS]: (state, { payload: data }) => ({
+      ...state,
+      info: data,
+    }),
+    [GET_INFO_FAILURE]: (state) => ({
+      ...state,
+      info: null,
     }),
   },
   initialState,

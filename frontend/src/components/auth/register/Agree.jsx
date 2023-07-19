@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import palette from '../../lib/styles/palette';
+import palette from '../../../lib/styles/palette';
 import { MdArrowForwardIos } from 'react-icons/md';
 
 const MainBox = styled.div`
@@ -35,11 +35,6 @@ const MainBox = styled.div`
     text-align: left;
     font-size: 14px;
     color: rgb(120, 120, 120);
-  }
-
-  .logo {
-    display: inline-block;
-    margin-bottom: 50px;
   }
 `;
 
@@ -127,7 +122,7 @@ const ButtonBox = styled.div`
   width: 100%;
   height: 140px;
   bottom: 0;
-  background: white;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30' : 'white')};
 `;
 
 const Space = styled.div`
@@ -135,18 +130,14 @@ const Space = styled.div`
   background: white;
 `;
 
-const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck }) => {
-  const { tos, privacy, location, benefit } = agree;
-  console.log(tos, privacy);
+const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
+  const { all, tos, privacy, location, benefit } = agree;
 
   return (
     <>
       <MainBox>
-        <Link to="/" className="logo">
-          LOGO
-        </Link>
         <AgreeBox>
-          <input type="checkbox" onChange={allAgreeCheck} />
+          <input type="checkbox" name="all" onChange={allAgreeCheck} checked={all} />
           <Title>
             <div style={{ marginLeft: '12px', fontSize: '20px' }}>전체동의하기</div>
           </Title>
@@ -310,7 +301,7 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck }) => {
           </p>
         </Detail>
         <Space />
-        <ButtonBox>
+        <ButtonBox theme={String(theme)}>
           <button onClick={onConfirm} disabled={!tos || !privacy}>
             다음
           </button>

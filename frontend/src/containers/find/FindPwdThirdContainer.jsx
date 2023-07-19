@@ -69,15 +69,17 @@ const FindPwdThirdContainer = () => {
       dispatch(changeError({ form: 'findPwd', key: 'passwordConfirm', value: null }));
       return;
     }
-    try {
-      const response = await axios.post('/user/changePwd', {
-        pwd: password,
-        findEmail: findUser.email,
-      });
-      console.log(response.data.message);
-      dispatch(nextStep());
-    } catch (e) {
-      console.log(e);
+    if (password && passwordConfirm) {
+      try {
+        const response = await axios.post('/user/changePwd', {
+          pwd: password,
+          findEmail: findUser.email,
+        });
+        console.log(response.data.message);
+        dispatch(nextStep());
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 

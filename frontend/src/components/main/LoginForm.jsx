@@ -12,21 +12,20 @@ const Profile = styled.div`
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  margin: 10px 100px 20px 0;
   font-size: 22px;
 `;
 
 const LoginFormBox = styled.div`
-  width: 350px;
-  height: 210px;
-  border: 1px solid ${palette.border};
-  padding: 20px;
+  width: 400px;
+  height: 180px;
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  padding: 20px 40px;
   text-align: center;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
 
   p {
-    padding-top: 20px;
-    font-size: 20px;
+    padding-top: 5px;
+    font-size: 18px;
   }
 
   .login {
@@ -35,7 +34,7 @@ const LoginFormBox = styled.div`
     background: ${palette.mainColor};
     color: white;
     padding: 15px 10px;
-    margin: 20px auto 10px;
+    margin: 15px auto 10px;
     font-weight: bold;
     font-size: 20px;
 
@@ -52,18 +51,16 @@ const LoginFormBox = styled.div`
 `;
 
 const IsLoginFormBox = styled.div`
-  width: 350px;
-  height: 165px;
-  border: 1px solid ${palette.border};
+  width: 400px;
+  height: 180px;
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  padding: 20px 40px;
   position: relative;
-  border-bottom: none;
-  border-radius: 4px 4px 0 0;
   text-align: center;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
 
   p {
     font-size: 16px;
-    margin-top: 20px;
   }
 
   .login {
@@ -88,24 +85,6 @@ const IsLoginFormBox = styled.div`
     svg {
       margin-left: 5px;
     }
-  }
-`;
-
-const Menu = styled.div`
-  width: 350px;
-  button {
-    display: inline-block;
-    width: 33.33%;
-    padding: 10px;
-    border-radius: 0;
-  }
-
-  button:first-child {
-    border-radius: 0 0 0 4px;
-  }
-
-  button:last-child {
-    border-radius: 0 0 4px 0;
   }
 `;
 
@@ -156,12 +135,6 @@ const LoginForm = ({ user, onLogout, theme }) => {
               </Button>
             </div>
           </IsLoginFormBox>
-
-          <Menu>
-            <Button>마이페이지</Button>
-            <Button>등급관리</Button>
-            <Button>정보수정</Button>
-          </Menu>
         </>
       ) : (
         <LoginFormBox theme={String(theme)}>

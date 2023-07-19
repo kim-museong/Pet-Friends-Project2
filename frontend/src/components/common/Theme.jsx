@@ -25,12 +25,12 @@ const ChangeMode = styled.div`
     position: absolute;
     transform: translateY(-50%);
     transition: all 0.2s ease-in-out;
-    top: 50%;
+    top: 21px;
     left: ${({ theme }) => (theme === true ? '60px' : '1px')};
   }
 
   & svg {
-    font-size: 2rem;
+    font-size: 32px;
     margin: 0 8px 0 !important;
     color: rgb(255, 140, 0) !important;
   }

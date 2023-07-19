@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 
 export const FindIdBox = styled.div`
-  width: 70%;
+  width: 80%;
   margin: 5% auto;
   border-radius: 5px;
   text-align: center;
@@ -19,17 +19,17 @@ export const FindIdBox = styled.div`
 `;
 
 export const FindInputBox = styled.div`
-  width: 800px;
+  width: 600px;
   margin: 50px auto 0;
   padding: 0 30px;
 
   input {
     width: 80%;
-    padding: 20px 28px 18px;
+    padding: 15px 22px 13px;
     border: 1px solid ${palette.border};
     outline: none;
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   button {
@@ -37,21 +37,22 @@ export const FindInputBox = styled.div`
     width: 80%;
     background: ${palette.mainColor};
     border: none;
-    margin-top: 20px;
-    padding: 20px 28px;
+    margin-top: 10px;
+    padding: 10px 22px;
     color: white;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
 
     &:hover {
       background: ${palette.border};
     }
   }
 
+  .userIdError,
   .nicknameError,
   .emailError,
   .certificationError {
-    border: 1px solid red;
+    border-color: red;
   }
 
   .error {
@@ -76,19 +77,11 @@ export const FindInputBox = styled.div`
   .certificationNumber {
     width: 100%;
   }
-
-  .certificationBtn {
-    margin-top: 20px;
-    &:disabled {
-      background-color: ${palette.border};
-    }
-  }
 `;
 
 export const Footer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 10px;
 
   a {
     color: ${({ theme }) => (theme === 'true' ? `${palette.border}` : 'rgb(110,110,110)')};

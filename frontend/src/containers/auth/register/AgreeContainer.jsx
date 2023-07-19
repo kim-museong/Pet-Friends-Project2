@@ -1,16 +1,17 @@
-import { useCallback, useEffect } from 'react';
-import Agree from '../../components/auth/Agree';
+import React, { useCallback, useEffect } from 'react';
+import Agree from '../../../components/auth/register/Agree';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAgree, isConfirm, allCheck } from '../../modules/auth';
+import { checkAgree, allCheck, nextStep, initializeForm } from '../../../modules/auth';
 
 const AgreeContainer = () => {
   const dispatch = useDispatch();
   const agree = useSelector((state) => state.auth.register.agree);
+  const theme = useSelector((state) => state.theme.theme);
 
   const onConfirm = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(isConfirm());
+      dispatch(nextStep());
     },
     [dispatch],
   );
@@ -27,11 +28,15 @@ const AgreeContainer = () => {
     dispatch(allCheck());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(initializeForm('register'));
+  }, [dispatch]);
+
   return (
     <>
-      <Agree onConfirm={onConfirm} onCheck={onCheck} agree={agree} allAgreeCheck={allAgreeCheck} />
+      <Agree onConfirm={onConfirm} onCheck={onCheck} agree={agree} allAgreeCheck={allAgreeCheck} theme={theme} />
     </>
   );
 };
 
-export default AgreeContainer;
+export default React.memo(AgreeContainer);

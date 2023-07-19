@@ -7,9 +7,16 @@ import * as authAPI from '../lib/api/auth';
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
+// ------- 약관동의 ----------
 const CHECK_AGREE = 'auth/CHECK_AGREE';
 const ALL_CHECK = 'auth/ALL_CHECK';
-const ISCONFIRM = 'auth/ISCONFIRM';
+
+// --------회원가입 순서 -----------
+const NEXT_STEP = 'auth/NEXT_STEP';
+const CHANGE_STEP = 'auth/CHANGE_STEP';
+const INITNUMBER = 'auth/INITNUMBER';
+
+const [PHONE, PHONE_SUCCESS, PHONE_FAILURE] = createRequestActionTypes('auth/PHONE');
 
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes('auth/REGISTER');
 
@@ -26,13 +33,19 @@ export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 
 export const checkAgree = createAction(CHECK_AGREE);
 export const allCheck = createAction(ALL_CHECK);
-export const isConfirm = createAction(ISCONFIRM);
 
-export const register = createAction(REGISTER, ({ username, password, email, nickname }) => ({
+export const nextStep = createAction(NEXT_STEP);
+export const changeStep = createAction(CHANGE_STEP, (number) => number);
+export const initNumber = createAction(INITNUMBER);
+
+export const checkPhone = createAction(PHONE, (phone) => phone);
+
+export const register = createAction(REGISTER, ({ username, password, email, nickname, phone }) => ({
   username,
   password,
   email,
   nickname,
+  phone,
 }));
 
 export const login = createAction(LOGIN, ({ username, password }) => ({
@@ -45,33 +58,42 @@ export const changeError = createAction(CHANGE_ERROR, ({ key, value }) => ({
   value,
 }));
 
+const checkPhoneSaga = createRequestSaga(PHONE, authAPI.phone);
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(PHONE, checkPhoneSaga);
 }
 
 export const initialState = {
   register: {
     agree: {
+      all: false,
       tos: false,
       privacy: false,
       location: false,
       benefit: false,
     },
+    step: 1,
     username: '',
     password: '',
     passwordConfirm: '',
     email: '',
     nickname: '',
+    phone: '',
+    certification: '',
+    certificationNumber: '',
     error: {
       errorUserId: null,
       errorPwd: null,
       errorPwdCf: null,
       errorEmail: null,
       errorNickname: null,
+      errorPhone: null,
+      errorConfirm: null,
     },
   },
   login: {
@@ -100,20 +122,28 @@ const auth = handleActions(
       [form]: initialState[form],
       authError: null,
     }),
-    [ALL_CHECK]: (state) => ({
-      ...state,
-      register: {
-        ...state.register,
-        agree: {
-          ...state.register.agree,
-          tos: !state.register.agree.tos,
-          privacy: !state.register.agree.privacy,
-          location: !state.register.agree.location,
-          benefit: !state.register.agree.benefit,
-          confirm: false,
+    [ALL_CHECK]: (state) => {
+      const isAllChecked =
+        state.register.agree.all &&
+        state.register.agree.tos &&
+        state.register.agree.privacy &&
+        state.register.agree.location &&
+        state.register.agree.benefit;
+
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          agree: {
+            all: !isAllChecked,
+            tos: !isAllChecked,
+            privacy: !isAllChecked,
+            location: !isAllChecked,
+            benefit: !isAllChecked,
+          },
         },
-      },
-    }),
+      };
+    },
     [CHECK_AGREE]: (state, { payload: name }) => ({
       ...state,
       register: {
@@ -124,14 +154,39 @@ const auth = handleActions(
         },
       },
     }),
-    [ISCONFIRM]: (state) => ({
+    [NEXT_STEP]: (state) => ({
       ...state,
       register: {
         ...state.register,
-        agree: {
-          ...state.register.agree,
-          confirm: true,
-        },
+        step: state.register.step + 1,
+      },
+    }),
+    [CHANGE_STEP]: (state, { payload: number }) => ({
+      ...state,
+      register: {
+        ...state.register,
+        step: number,
+      },
+    }),
+    [INITNUMBER]: (state) => ({
+      ...state,
+      register: {
+        ...state.register,
+        certificationNumber: '',
+      },
+    }),
+    [PHONE_SUCCESS]: (state, { payload: phone }) => ({
+      ...state,
+      register: {
+        ...state.register,
+        certificationNumber: phone,
+      },
+    }),
+    [PHONE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      register: {
+        ...state.register,
+        sendPhone: null,
       },
     }),
     [REGISTER_SUCCESS]: (state, { payload: auth }) => ({

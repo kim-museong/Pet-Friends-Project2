@@ -1,22 +1,20 @@
 import styled from 'styled-components';
-import { WiCloudy } from 'react-icons/wi';
+import { WiCloudy, WiRain, WiDaySunny } from 'react-icons/wi';
 import palette from '../../lib/styles/palette';
+import theme from '../../modules/theme';
 
 const WeatherBox = styled.div`
-  width: 350px;
-  border: 1px solid ${palette.border};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   margin-top: 20px;
-  padding: 20px;
-  text-align: center;
+  padding: 20px 40px;
+
+  hr {
+    margin-top: 5px;
+  }
 `;
 
 const WeatherStatusBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  font-weight: bold;
-  font-size: 20px;
-  color: powderblue;
   padding: 10px;
 `;
 
@@ -26,17 +24,35 @@ const WeatherImg = styled.div`
   font-size: 120px;
 `;
 
-const WeatherDetailBox = styled.div`
+const FlexBox = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-evenly;
+
+  .title {
+    font-size: 24px;
+  }
+`;
+
+const WeatherDetailBox = styled.div`
+  text-align: center;
+
+  .weather {
+    margin: 20px 0 10px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .temp {
+    font-size: 30px;
+  }
 
   p + p {
     margin-left: 10px;
   }
 `;
 
-const Weather = ({ lat, lon, weather }) => {
+const Weather = ({ lat, lon, weather, theme }) => {
   const weatherStatus = {
     Clear: '맑음',
     Clouds: '구름',
@@ -57,24 +73,36 @@ const Weather = ({ lat, lon, weather }) => {
   }
 
   return (
-    <WeatherBox>
-      <h1>오늘 날씨</h1>
-      <WeatherStatusBox>
-        <WeatherImg>
-          <WiCloudy style={{ color: 'powderblue' }} />
-        </WeatherImg>
-        <div>
-          <p>{weather && weather.name}</p>
-          <p>날씨 상태: {weather && weatherStatus[weather.weather[0].main]}</p>
-        </div>
-      </WeatherStatusBox>
+    <>
+      <WeatherBox theme={String(theme)}>
+        <FlexBox>
+          <p className="title">날씨</p> <p>{weather && weather.name}</p>
+        </FlexBox>
 
-      <WeatherDetailBox>
-        <p>습도: {weather && weather.main.humidity}%</p>
-        <p>기온: {convertKelvinToCelsius(weather && weather.main.temp).toFixed(1)}°C</p>
-        <p>체감 온도: {convertKelvinToCelsius(weather && weather.main.feels_like).toFixed(1)}°C</p>
-      </WeatherDetailBox>
-    </WeatherBox>
+        <hr />
+        <FlexBox style={{ justifyContent: 'center' }}>
+          <WeatherStatusBox>
+            <WeatherImg>
+              {weather && (
+                <>
+                  {weatherStatus[weather.weather[0].main] === '구름' && <WiCloudy style={{ color: 'gray' }} />}
+                  {weatherStatus[weather.weather[0].main] === '비' && <WiRain style={{ color: 'rgb(0,150,256)' }} />}
+                  {weatherStatus[weather.weather[0].main] === '맑음' && <WiDaySunny style={{ color: 'red' }} />}
+                </>
+              )}
+            </WeatherImg>
+          </WeatherStatusBox>
+
+          <WeatherDetailBox>
+            <p className="weather">{weather && weatherStatus[weather.weather[0].main]}</p>
+            <p className="temp"> {convertKelvinToCelsius(weather && weather.main.temp).toFixed(1)}°C</p>
+            <p className="feel">
+              ( 체감 온도: {convertKelvinToCelsius(weather && weather.main.feels_like).toFixed(1)}°C )
+            </p>
+          </WeatherDetailBox>
+        </FlexBox>
+      </WeatherBox>
+    </>
   );
 };
 
