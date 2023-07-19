@@ -9,6 +9,6 @@ router.post('/:parentCommentId/replies', createReply);
 router.get('/:parentCommentId/replies', getReplies);
 
 // DELETE /comments/:parentCommentId/replies/:replyId
-router.delete('/:parentCommentId/replies/:replyId', deleteReply);
+router.delete('/:commentId/replies/:replyId', deleteReply);
 
 module.exports = router;

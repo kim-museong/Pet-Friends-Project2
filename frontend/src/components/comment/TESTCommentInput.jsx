@@ -32,11 +32,16 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-const TESTCommentInput = () => {
+const TESTCommentInput = ({ handleCommentChange, loggedInUser, textareaEl, handleClick }) => {
   return (
     <CommentInputBlock>
-      <StyledTextarea></StyledTextarea>
-      <StyledButton>댓글쓰기</StyledButton>
+      <StyledTextarea
+        onChange={handleCommentChange}
+        disabled={!loggedInUser}
+        placeholder={loggedInUser ? '' : '로그인한 유저만 댓글을 등록하실 수 있습니다.'}
+        ref={textareaEl}
+      ></StyledTextarea>
+      <StyledButton onClick={handleClick}>댓글쓰기</StyledButton>
     </CommentInputBlock>
   );
 };

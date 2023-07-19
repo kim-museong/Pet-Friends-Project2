@@ -35,10 +35,33 @@ exports.createComment = async (req, res, next) => {
         { transaction },
       );
 
+      // 2. get comments
+      const comments = await Comment.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['nickname'],
+          },
+          {
+            model: Reply,
+            include: [
+              {
+                model: User,
+                attributes: ['nickname'],
+              },
+            ],
+            paranoid: false,
+          },
+        ],
+        where: { PostId: postId },
+        paranoid: false,
+        transaction,
+      });
+
       // transaction commit
       await transaction.commit();
 
-      return res.status(200).json(comment);
+      return res.status(200).json(comments);
     } else {
       return res.status(404).json({ error: 'post not found' });
     }
@@ -70,9 +93,16 @@ exports.getComments = async (req, res, next) => {
           },
           {
             model: Reply,
+            include: [
+              {
+                model: User,
+                attributes: ['nickname'],
+              },
+            ],
           },
         ],
         where: { PostId: postId },
+        paranoid: false,
         transaction,
       });
       // transaction commit
@@ -108,11 +138,34 @@ exports.deleteComment = async (req, res, next) => {
         transaction,
       });
 
+      // 2. get comments
+      const comments = await Comment.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['nickname'],
+          },
+          {
+            model: Reply,
+            include: [
+              {
+                model: User,
+                attributes: ['nickname'],
+              },
+            ],
+            paranoid: false,
+          },
+        ],
+        where: { PostId: postId },
+        paranoid: false,
+        transaction,
+      });
+
       // transaction commit
       await transaction.commit();
 
       console.log(`${postId} 게시글의 ${commentId}번 댓글 삭제 성공`);
-      res.status(200).end();
+      res.status(200).json(comments);
     } else {
       return res.status(404).json({ error: 'the commentId is incorrect' });
     }

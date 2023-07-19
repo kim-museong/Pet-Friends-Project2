@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
-import TESTCommentInput from './TESTCommentInput';
+import TESTCommentInputContainer from '../../containers/comment/TESTCommentInputContainer';
 
 const CommentListBlock = styled.div`
   border: 1px solid greenyellow;
@@ -48,56 +48,109 @@ const CommentReplyButton = styled.button`
   cursor: pointer;
 `;
 
-const TESTComment = ({ isReply }) => {
+const TESTComment = ({
+  comment,
+  loggedInUser,
+  selectedCommentId,
+  handleDeleteClick,
+  handleReplyClick,
+  isReply,
+  setSelectedCommentId,
+}) => {
+  if (!comment) {
+    return null;
+  }
   return (
     <CommentBlock>
       {/* comment description + delete button */}
       <CommentHeader>
         <div>
-          <CommentNickname>{'댓글 닉네임'}</CommentNickname>
-          <CommentCreatedAt>{'댓글 작성일'}</CommentCreatedAt>
+          <CommentNickname>{comment.User.nickname}</CommentNickname>
+          <CommentCreatedAt>{comment.createdAt}</CommentCreatedAt>
         </div>
-        <CommentDeleteButton>
-          {/* <CommentDeleteButton onClick={() => handleDeleteClick(comment.id)}> */}
-          <AiOutlineClose />
-        </CommentDeleteButton>
+        {loggedInUser && loggedInUser.id === comment.UserId && !comment.deletedAt && (
+          <CommentDeleteButton
+            onClick={() => handleDeleteClick(isReply, comment.id, isReply ? comment.CommentId : null)}
+          >
+            <AiOutlineClose />
+          </CommentDeleteButton>
+        )}
       </CommentHeader>
       {/* comment content + reply button */}
       <CommentContent>
-        <span>{'댓글 내용'}</span>
-        <CommentReplyButton>대댓글</CommentReplyButton>
-        {/* <CommentReplyButton onClick={() => handleReplyClick(comment.id)}>대댓글</CommentReplyButton> */}
+        {comment.deletedAt ? <span>{'삭제된 댓글입니다'}</span> : <span>{comment.content}</span>}
+        {loggedInUser && !comment.deletedAt && (
+          <CommentReplyButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentReplyButton>
+        )}
       </CommentContent>
 
       {/* comment input */}
-      {/* <TESTCommentInput></TESTCommentInput> */}
+      {selectedCommentId === comment.id && (
+        <TESTCommentInputContainer
+          isReply={true}
+          commentId={!isReply ? comment.id : comment.CommentId}
+          setSelectedCommentId={setSelectedCommentId}
+        ></TESTCommentInputContainer>
+      )}
 
       {/* reply list container */}
-
-      {!isReply && <TESTCommentList isReply={1}></TESTCommentList>}
+      {!isReply && (
+        <TESTCommentList
+          comments={comment.Replies}
+          loggedInUser={loggedInUser}
+          selectedCommentId={selectedCommentId}
+          handleDeleteClick={handleDeleteClick}
+          handleReplyClick={handleReplyClick}
+          isReply={true}
+          setSelectedCommentId={setSelectedCommentId}
+        ></TESTCommentList>
+      )}
     </CommentBlock>
   );
 };
 
-const TESTCommentList = ({ isReply }) => {
+const TESTCommentList = ({
+  comments,
+  loggedInUser,
+  selectedCommentId,
+  handleDeleteClick,
+  handleReplyClick,
+  isReply = false,
+  setSelectedCommentId,
+}) => {
   return (
-    <>
-      {!isReply && (
-        <>
-          <TESTComment></TESTComment>
-          <TESTComment></TESTComment>
-          <TESTComment></TESTComment>
-          <TESTComment></TESTComment>
-          <TESTComment></TESTComment>
-        </>
-      )}
-      {isReply && (
-        <>
-          <TESTComment isReply={isReply}></TESTComment>
-          <TESTComment isReply={isReply}></TESTComment>
-        </>
-      )}
-    </>
+    <CommentListBlock>
+      {/* comment list */}
+      {!isReply &&
+        comments &&
+        comments.map((comment) => (
+          <TESTComment
+            key={comment.id}
+            comment={comment}
+            loggedInUser={loggedInUser}
+            selectedCommentId={selectedCommentId}
+            handleDeleteClick={handleDeleteClick}
+            handleReplyClick={handleReplyClick}
+            isReply={isReply}
+            setSelectedCommentId={setSelectedCommentId}
+          ></TESTComment>
+        ))}
+      {/* reply list */}
+      {isReply &&
+        comments &&
+        comments.map((reply) => (
+          <TESTComment
+            key={reply.id}
+            comment={reply}
+            loggedInUser={loggedInUser}
+            selectedCommentId={selectedCommentId}
+            handleDeleteClick={handleDeleteClick}
+            handleReplyClick={handleReplyClick}
+            isReply={isReply}
+            setSelectedCommentId={setSelectedCommentId}
+          ></TESTComment>
+        ))}
+    </CommentListBlock>
   );
 };
 

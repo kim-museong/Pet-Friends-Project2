@@ -18,7 +18,7 @@ const { sequelize } = require('../models');
 ///////////////////////////////////////////////////////
 exports.createReply = async (req, res, next) => {
   const { parentCommentId } = req.params;
-  const { content } = req.body;
+  const { content, postId } = req.body;
 
   const transaction = await sequelize.transaction();
 
@@ -33,10 +33,33 @@ exports.createReply = async (req, res, next) => {
         },
         { transaction },
       );
+      // 2. get comments
+      const comments = await Comment.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['nickname'],
+          },
+          {
+            model: Reply,
+            include: [
+              {
+                model: User,
+                attributes: ['nickname'],
+              },
+            ],
+            paranoid: false,
+          },
+        ],
+        where: { PostId: postId },
+        paranoid: false,
+        transaction,
+      });
+
       // transaction commit
       await transaction.commit();
 
-      return res.status(200).json(reply);
+      return res.status(200).json(comments);
     } else {
       return res.status(404).json({ error: 'comment not found' });
     }
@@ -70,6 +93,7 @@ exports.getReplies = async (req, res, next) => {
           },
         ],
         where: { CommentId: parentCommentId },
+        paranoid: false,
         transaction,
       });
       // transaction commit
@@ -98,7 +122,9 @@ exports.getReplies = async (req, res, next) => {
 //////////////////// delete reply /////////////////////
 ///////////////////////////////////////////////////////
 exports.deleteReply = async (req, res, next) => {
-  const { parentCommentId, replyId } = req.params;
+  const { commentId, replyId } = req.params;
+  const { postId } = req.query;
+  console.log(postId, commentId, replyId);
 
   const transaction = await sequelize.transaction();
 
@@ -110,11 +136,34 @@ exports.deleteReply = async (req, res, next) => {
         transaction,
       });
 
+      // 2. get comments
+      const comments = await Comment.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['nickname'],
+          },
+          {
+            model: Reply,
+            include: [
+              {
+                model: User,
+                attributes: ['nickname'],
+              },
+            ],
+            paranoid: false,
+          },
+        ],
+        where: { PostId: postId },
+        paranoid: false,
+        transaction,
+      });
+
       // transaction commit
       await transaction.commit();
 
-      console.log(`${parentCommentId} 댓글의 ${replyId}번 대댓글 삭제 성공`);
-      res.status(200).json(parentCommentId);
+      console.log(`${commentId} 댓글의 ${replyId}번 대댓글 삭제 성공`);
+      res.status(200).json(comments);
     } else {
       return res.status(404).json({ error: 'the replyId is incorrect' });
     }
