@@ -65,22 +65,22 @@ const NewsTicker = () => {
   }, []);
 
   useEffect(() => {
-    const rollingElement = rollingRef.current;
-    if (rollingElement) {
-      const interval = setInterval(() => {
-        const firstChild = rollingElement.firstElementChild;
-        rollingElement.style.transitionDuration = '400ms';
-        rollingElement.style.marginTop = '-41px';
-        setTimeout(() => {
-          rollingElement.removeAttribute('style');
-          ReactDOM.unstable_batchedUpdates(() => {
-            rollingElement.appendChild(firstChild);
-          });
-        }, 400);
-      }, 4000);
-
-      return () => clearInterval(interval);
-    }
+    // const rollingElement = rollingRef.current;
+    // console.log(rollingElement);
+    // if (rollingElement) {
+    //   const interval = setInterval(() => {
+    //     const firstChild = rollingElement.firstElementChild;
+    //     rollingElement.style.transitionDuration = '400ms';
+    //     rollingElement.style.marginTop = '-41px';
+    //     setTimeout(() => {
+    //       rollingElement.removeAttribute('style');
+    //       ReactDOM.unstable_batchedUpdates(() => {
+    //         rollingElement.appendChild(firstChild);
+    //       });
+    //     }, 400);
+    //   }, 4000);
+    //   return () => clearInterval(interval);
+    // }
   }, [posts]);
 
   return (

@@ -12,6 +12,7 @@ const PostsBox = styled.div`
 
 const PopularpostBox = styled.div`
   width: 100%;
+  height: 370px;
   box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
   padding: 15px 20px 0;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45, 45, 45)' : '')};
@@ -105,7 +106,7 @@ const Popularpost = ({ pupularPosts, theme }) => {
             <Postlist key={post.id} theme={String(theme)}>
               <div className="postNumber">{index + 1}</div>
               <div className="postInfo">
-                <span className="title">{post.title}</span>
+                <span className="title">{post.CommunityInfo.title}</span>
               </div>
             </Postlist>
           ))}

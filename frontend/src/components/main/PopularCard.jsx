@@ -59,7 +59,7 @@ const PopularCard = ({ posts }) => {
           {posts?.map((post) => (
             <PictureItemBlock key={post.id} post={post} imgurl={post && post.imgUrl}></PictureItemBlock>
           ))}
-          {posts.length === 0 && (
+          {posts?.length === 0 && (
             <NotPicture>
               <div>사진이 없습니다. 예쁜 동물들 사진을 공유해주세요!</div>
             </NotPicture>

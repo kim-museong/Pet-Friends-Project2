@@ -96,7 +96,7 @@ const main = handleActions(
     }),
     [GET_INFO_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      info: data,
+      info: data.posts,
     }),
     [GET_INFO_FAILURE]: (state) => ({
       ...state,
