@@ -1,17 +1,33 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { BsArrowReturnRight } from 'react-icons/bs';
+import styled, { css, keyframes } from 'styled-components';
 import CommentInputContainer from '../../containers/comment/CommentInputContainer';
-import ReplyListContainer from '../../containers/comment/ReplyListContainer';
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 const CommentListBlock = styled.div`
-  border: 1px solid greenyellow;
+  /* border: 1px solid greenyellow; */
   margin-top: 0.5rem;
 `;
 
 const CommentBlock = styled.div`
-  border: 1px solid purple;
+  border: 1px solid grey;
   margin: 0.5rem;
+  position: relative;
+  animation: ${fadeIn} 0.5s ease-in-out;
+  ${(props) =>
+    props.isreply &&
+    css`
+      margin: 0px;
+      margin-left: 5rem;
+    `};
 `;
 
 const CommentHeader = styled.div`
@@ -22,9 +38,11 @@ const CommentHeader = styled.div`
 `;
 
 const CommentContent = styled.div`
+  /* border: 1px solid red; */
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 1.5rem;
+  word-break: break-all; /* 자동 줄바꿈을 위해 추가 */
 `;
 
 const CommentNickname = styled.span`
@@ -38,63 +56,138 @@ const CommentCreatedAt = styled.span`
 
 const CommentDeleteButton = styled.button`
   background-color: transparent;
-  /* border: none; */
+  border: none;
+  font-size: 1.25rem;
   cursor: pointer;
 `;
 
 const CommentReplyButton = styled.button`
   margin-left: auto;
   background-color: transparent;
-  /* border: none; */
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0.5rem;
   cursor: pointer;
 `;
 
-const Comment = ({ user, comment, postId, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
+const ArrowIcon = styled(BsArrowReturnRight)`
+  position: absolute;
+  top: 50%;
+  left: -4rem;
+  transform: translateY(-50%);
+  font-size: 3rem;
+`;
+
+const Comment = ({
+  comment,
+  loggedInUser,
+  selectedCommentId,
+  handleDeleteClick,
+  handleReplyClick,
+  isReply,
+  setSelectedCommentId,
+  newComment,
+}) => {
+  useEffect(() => {
+    if (newComment) {
+      newComment.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
+  if (!comment) {
+    return null;
+  }
   return (
-    <CommentBlock>
+    <CommentBlock isreply={isReply} ref={newComment}>
+      {isReply && <ArrowIcon />} {/* 아이콘 추가 */}
       {/* comment description + delete button */}
       <CommentHeader>
         <div>
           <CommentNickname>{comment.User.nickname}</CommentNickname>
           <CommentCreatedAt>{comment.createdAt}</CommentCreatedAt>
         </div>
-        {user && comment.UserId === user.id && (
-          <CommentDeleteButton onClick={() => handleDeleteClick(comment.id)}>
+        {loggedInUser && loggedInUser.id === comment.UserId && !comment.deletedAt && (
+          <CommentDeleteButton
+            onClick={() => handleDeleteClick(isReply, comment.id, isReply ? comment.CommentId : null)}
+          >
             <AiOutlineClose />
           </CommentDeleteButton>
         )}
       </CommentHeader>
       {/* comment content + reply button */}
       <CommentContent>
-        <span>{comment.content}</span>
-        {user && <CommentReplyButton onClick={() => handleReplyClick(comment.id)}>대댓글</CommentReplyButton>}
+        {comment.deletedAt ? <span>{'삭제된 댓글입니다'}</span> : <span>{comment.content}</span>}
+        {loggedInUser && !comment.deletedAt && (
+          <CommentReplyButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentReplyButton>
+        )}
       </CommentContent>
-      {/* reply editor */}
-      {comment.id === selectedCommentId && <CommentInputContainer parentCommentId={comment.id} />}
-      {/* reply list */}
-      <ReplyListContainer
-        replies={comment.Replies}
-        user={user}
-        postId={postId}
-        parentCommentId={comment.id}
-      ></ReplyListContainer>
+      {/* comment input */}
+      {selectedCommentId === comment.id && (
+        <CommentInputContainer
+          isReply={true}
+          commentId={!isReply ? comment.id : comment.CommentId}
+          setSelectedCommentId={setSelectedCommentId}
+        ></CommentInputContainer>
+      )}
+      {/* reply list container */}
+      {!isReply && (
+        <CommentList
+          comments={comment.Replies}
+          loggedInUser={loggedInUser}
+          selectedCommentId={selectedCommentId}
+          handleDeleteClick={handleDeleteClick}
+          handleReplyClick={handleReplyClick}
+          isReply={true}
+          setSelectedCommentId={setSelectedCommentId}
+          newComment={newComment}
+        ></CommentList>
+      )}
     </CommentBlock>
   );
 };
 
-const CommentList = ({ user, postId, comments, handleDeleteClick, handleReplyClick, selectedCommentId }) => {
+const CommentList = ({
+  comments,
+  loggedInUser,
+  selectedCommentId,
+  handleDeleteClick,
+  handleReplyClick,
+  isReply = false,
+  setSelectedCommentId,
+  newComment,
+}) => {
   return (
     <CommentListBlock>
-      {comments &&
+      {/* comment list */}
+      {!isReply &&
+        comments &&
         comments.map((comment) => (
           <Comment
             key={comment.id}
-            user={user}
             comment={comment}
-            postId={postId}
+            loggedInUser={loggedInUser}
+            selectedCommentId={selectedCommentId}
             handleDeleteClick={handleDeleteClick}
             handleReplyClick={handleReplyClick}
+            isReply={isReply}
+            setSelectedCommentId={setSelectedCommentId}
+            newComment={newComment}
+          ></Comment>
+        ))}
+      {/* reply list */}
+      {isReply &&
+        comments &&
+        comments.map((reply) => (
+          <Comment
+            key={reply.id}
+            comment={reply}
+            loggedInUser={loggedInUser}
             selectedCommentId={selectedCommentId}
+            handleDeleteClick={handleDeleteClick}
+            handleReplyClick={handleReplyClick}
+            isReply={isReply}
+            setSelectedCommentId={setSelectedCommentId}
+            newComment={newComment}
           ></Comment>
         ))}
     </CommentListBlock>

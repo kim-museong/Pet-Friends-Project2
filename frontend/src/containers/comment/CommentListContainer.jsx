@@ -1,42 +1,57 @@
-// import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import CommentList from '../../components/comment/CommentList';
-// import { deleteComment, getComments } from '../../modules/comment';
-// import { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import CommentList from '../../components/comment/CommentList';
+import { deleteComment, getComments } from '../../modules/comment';
 
-// const CommentListContainer = () => {
-//   console.log('CommentListContainer render(rerender)');
-//   const user = useSelector((state) => state.user.user);
-//   const comments = useSelector((state) => state.comment?.comments);
-//   const postId = useSelector((state) => state.post.post?.post.id);
-//   const [selectedCommentId, setSelectedCommentId] = useState(null);
+const CommentListContainer = () => {
+  const postId = useSelector((state) => state.post.post?.post.id);
+  const comments = useSelector((state) => state.comment.comments);
+  const user = useSelector((state) => state.user.user);
 
-//   const dispatch = useDispatch();
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  const newComment = useRef(null);
 
-//   useEffect(() => {
-//     console.log('CommentListContainer mounted');
-//     dispatch(getComments({ postId }));
-//   }, [dispatch, postId]);
+  const dispatch = useDispatch();
 
-//   const handleDeleteClick = (commentId) => {
-//     console.log(`${commentId}의 댓글 삭제 버튼 클릭됨`);
-//     dispatch(deleteComment({ postId, commentId }));
-//   };
-//   const handleReplyClick = (commentId) => {
-//     console.log(`${commentId}의 대댓글 버튼 클릭됨`);
-//     setSelectedCommentId((prevCommentId) => (prevCommentId === commentId ? null : commentId));
-//   };
+  useEffect(() => {
+    if (postId) {
+      dispatch(getComments({ postId }));
+    }
+  }, [dispatch, postId]);
 
-//   return (
-//     <CommentList
-//       user={user}
-//       comments={comments}
-//       postId={postId}
-//       handleDeleteClick={handleDeleteClick}
-//       handleReplyClick={handleReplyClick}
-//       selectedCommentId={selectedCommentId}
-//     ></CommentList>
-//   );
-// };
+  // delete button clicked
+  const handleDeleteClick = (isReply, currentId, parentId) => {
+    if (!isReply) {
+      console.log(`댓글 ${currentId}의 삭제 버튼 클릭됨`);
+      console.log('test/comment', postId, currentId, parentId);
+      dispatch(deleteComment({ postId, currentId }));
+    } else if (isReply) {
+      console.log('test/reply', postId, currentId, parentId);
+      console.log(`대댓글 ${currentId}의 삭제 버튼 클릭됨`);
+      dispatch(deleteComment({ postId, currentId, parentId }));
+    }
+  };
+  // reply button clicked
+  const handleReplyClick = (isReply, commentId) => {
+    if (!isReply) {
+      console.log(`댓글 ${commentId}의 대댓글 버튼 클릭됨`);
+    } else if (isReply) {
+      console.log(`대댓글 ${commentId}의 대댓글 버튼 클릭됨`);
+    }
+    setSelectedCommentId((prevCommentId) => (prevCommentId === commentId ? null : commentId));
+  };
 
-// export default CommentListContainer;
+  return (
+    <CommentList
+      comments={comments}
+      loggedInUser={user}
+      selectedCommentId={selectedCommentId}
+      handleDeleteClick={handleDeleteClick}
+      handleReplyClick={handleReplyClick}
+      setSelectedCommentId={setSelectedCommentId}
+      newComment={newComment}
+    ></CommentList>
+  );
+};
+
+export default CommentListContainer;

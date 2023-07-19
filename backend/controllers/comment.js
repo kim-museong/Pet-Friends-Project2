@@ -99,6 +99,7 @@ exports.getComments = async (req, res, next) => {
                 attributes: ['nickname'],
               },
             ],
+            paranoid: false,
           },
         ],
         where: { PostId: postId },
