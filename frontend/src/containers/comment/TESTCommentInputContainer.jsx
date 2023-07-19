@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TESTCommentInput from '../../components/comment/TESTCommentInput';
 import { changeCommentInput, createComment } from '../../modules/TESTcomment';
 
-const TESTCommentInputContainer = ({ commentId = null, isReply = false, setSelectedCommentId }) => {
+const TESTCommentInputContainer = ({ commentId = null, isReply = false, setSelectedCommentId = null }) => {
   // (isReply == true) ? (reply) : (comment)
   const user = useSelector((state) => state.user.user);
   const content = useSelector((state) => state.TESTcomment.commentInput);
@@ -26,13 +26,11 @@ const TESTCommentInputContainer = ({ commentId = null, isReply = false, setSelec
       dispatch(createComment({ content, commentId, postId }));
     }
     textareaEl.current.value = '';
-    setSelectedCommentId('');
+
+    if (setSelectedCommentId) {
+      setSelectedCommentId('');
+    }
   };
-
-  useEffect(() => {
-    console.log(commentId);
-  });
-
   // focus out 되는 순간 state값 초기화 해야함.(댓글-대댓글 입력창 혼선 방지)
 
   return (

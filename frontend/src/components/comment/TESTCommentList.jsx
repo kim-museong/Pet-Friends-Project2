@@ -1,16 +1,24 @@
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import styled from 'styled-components';
+import { BsArrowReturnRight } from 'react-icons/bs';
+import styled, { css } from 'styled-components';
 import TESTCommentInputContainer from '../../containers/comment/TESTCommentInputContainer';
 
 const CommentListBlock = styled.div`
-  border: 1px solid greenyellow;
+  /* border: 1px solid greenyellow; */
   margin-top: 0.5rem;
 `;
 
 const CommentBlock = styled.div`
-  border: 1px solid purple;
+  border: 1px solid grey;
   margin: 0.5rem;
+  position: relative;
+  ${(props) =>
+    props.isreply &&
+    css`
+      margin: 0px;
+      margin-left: 5rem;
+    `};
 `;
 
 const CommentHeader = styled.div`
@@ -21,9 +29,11 @@ const CommentHeader = styled.div`
 `;
 
 const CommentContent = styled.div`
+  /* border: 1px solid red; */
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 1.5rem;
+  word-break: break-all; /* 자동 줄바꿈을 위해 추가 */
 `;
 
 const CommentNickname = styled.span`
@@ -37,15 +47,26 @@ const CommentCreatedAt = styled.span`
 
 const CommentDeleteButton = styled.button`
   background-color: transparent;
-  /* border: none; */
+  border: none;
+  font-size: 1.25rem;
   cursor: pointer;
 `;
 
 const CommentReplyButton = styled.button`
   margin-left: auto;
   background-color: transparent;
-  /* border: none; */
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0.5rem;
   cursor: pointer;
+`;
+
+const ArrowIcon = styled(BsArrowReturnRight)`
+  position: absolute;
+  top: 50%;
+  left: -4rem;
+  transform: translateY(-50%);
+  font-size: 3rem;
 `;
 
 const TESTComment = ({
@@ -61,7 +82,8 @@ const TESTComment = ({
     return null;
   }
   return (
-    <CommentBlock>
+    <CommentBlock isreply={isReply}>
+      {isReply && <ArrowIcon />} {/* 아이콘 추가 */}
       {/* comment description + delete button */}
       <CommentHeader>
         <div>
@@ -83,7 +105,6 @@ const TESTComment = ({
           <CommentReplyButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentReplyButton>
         )}
       </CommentContent>
-
       {/* comment input */}
       {selectedCommentId === comment.id && (
         <TESTCommentInputContainer
@@ -92,7 +113,6 @@ const TESTComment = ({
           setSelectedCommentId={setSelectedCommentId}
         ></TESTCommentInputContainer>
       )}
-
       {/* reply list container */}
       {!isReply && (
         <TESTCommentList
