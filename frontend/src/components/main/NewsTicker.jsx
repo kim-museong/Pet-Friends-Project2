@@ -54,6 +54,12 @@ const ShowBox = styled.div`
   }
 `;
 
+const NotNotic = styled.div`
+  margin-top: 3px;
+  color: ${palette.border};
+  text-align: center;
+`;
+
 const NewsTicker = () => {
   const rollingRef = useRef();
   const posts = useSelector((state) => state.main.posts);
@@ -94,6 +100,13 @@ const NewsTicker = () => {
                 <div className="title">{item.title}</div>
               </div>
             ))}
+            {posts?.length === 0 && (
+              <>
+                <NotNotic>
+                  <div>공지사항이 없습니다.</div>
+                </NotNotic>
+              </>
+            )}
           </div>
         </ShowBox>
       </NewTickerBox>

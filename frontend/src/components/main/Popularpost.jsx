@@ -87,6 +87,13 @@ const ListBox = styled.div`
   }
 `;
 
+const NotPost = styled.div`
+  text-align: center;
+  margin-top: 120px;
+  font-size: 20px;
+  color: ${palette.border};
+`;
+
 const Popularpost = ({ pupularPosts, theme }) => {
   return (
     <PostsBox>
@@ -110,6 +117,11 @@ const Popularpost = ({ pupularPosts, theme }) => {
               </div>
             </Postlist>
           ))}
+          {pupularPosts?.length === 0 && (
+            <>
+              <NotPost>게시물이 없습니다.</NotPost>
+            </>
+          )}
         </ol>
       </PopularpostBox>
     </PostsBox>
