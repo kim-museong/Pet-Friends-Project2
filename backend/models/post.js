@@ -28,8 +28,10 @@ class Post extends Sequelize.Model {
     db.Post.hasMany(db.Comment);
     db.Post.hasMany(db.Like);
     db.Post.hasOne(db.Content);
-    db.Post.hasOne(db.CommunityInfo);
-    db.Post.hasOne(db.PictureInfo);
+    db.Post.hasOne(db.CommunityDetail);
+    db.Post.hasOne(db.PictureDetail);
+    db.Post.hasOne(db.NoticeDetail);
+    db.Post.hasOne(db.InfoDetail);
     db.Post.belongsTo(db.Board);
     db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });
   }

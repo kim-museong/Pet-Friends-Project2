@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 
-class CommunityInfo extends Sequelize.Model {
+class NoticeDetail extends Sequelize.Model {
   static initiate(sequelize) {
-    CommunityInfo.init(
+    NoticeDetail.init(
       {
         title: {
           type: Sequelize.STRING(500),
@@ -13,8 +13,8 @@ class CommunityInfo extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: 'CommunityInfo',
-        tableName: 'community_infos',
+        modelName: 'NoticeDetail',
+        tableName: 'notice_details',
         paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
@@ -23,8 +23,8 @@ class CommunityInfo extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.CommunityInfo.belongsTo(db.Post);
+    db.NoticeDetail.belongsTo(db.Post);
   }
 }
 
-module.exports = CommunityInfo;
+module.exports = NoticeDetail;

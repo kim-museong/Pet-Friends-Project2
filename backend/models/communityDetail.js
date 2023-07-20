@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize');
 
-class PictureDetail extends Sequelize.Model {
+class CommunityDetail extends Sequelize.Model {
   static initiate(sequelize) {
-    PictureDetail.init(
+    CommunityDetail.init(
       {
-        imgUrl: {
+        title: {
           type: Sequelize.STRING(500),
           allowNull: false,
         },
@@ -13,8 +13,8 @@ class PictureDetail extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: 'PictureDetail',
-        tableName: 'picture_details',
+        modelName: 'CommunityDetail',
+        tableName: 'community_details',
         paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
@@ -23,8 +23,8 @@ class PictureDetail extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.PictureDetail.belongsTo(db.Post);
+    db.CommunityDetail.belongsTo(db.Post);
   }
 }
 
-module.exports = PictureDetail;
+module.exports = CommunityDetail;
