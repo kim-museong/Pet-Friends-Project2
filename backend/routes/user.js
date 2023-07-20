@@ -8,6 +8,8 @@ const {
   findPwdPhone,
   changePwd,
   userIdConfirm,
+  saveMemo,
+  memo,
 } = require('../controllers/user');
 const router = express.Router();
 
@@ -21,5 +23,8 @@ router.post('/userIdConfirm', userIdConfirm);
 router.post('/findPwdEmail', findPwdEmail);
 router.post('/findPwdPhone', findPwdPhone);
 router.post('/changePwd', changePwd);
+
+router.post('/saveMemo', saveMemo);
+router.post('/memo', memo);
 
 module.exports = router;
