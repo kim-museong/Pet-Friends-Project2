@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentList from '../../components/comment/CommentList';
-import { deleteComment, getComments } from '../../modules/comment';
+import { deleteComment, getComments, unloadComment } from '../../modules/comment';
 
 const CommentListContainer = () => {
   const postId = useSelector((state) => state.post.post?.post.id);
@@ -9,14 +9,18 @@ const CommentListContainer = () => {
   const user = useSelector((state) => state.user.user);
 
   const [selectedCommentId, setSelectedCommentId] = useState(null);
-  const newComment = useRef(null);
+  const latestComment = useRef(null);
 
   const dispatch = useDispatch();
 
+  // load comment list
   useEffect(() => {
     if (postId) {
       dispatch(getComments({ postId }));
     }
+    return () => {
+      dispatch(unloadComment());
+    };
   }, [dispatch, postId]);
 
   // delete button clicked
@@ -49,7 +53,7 @@ const CommentListContainer = () => {
       handleDeleteClick={handleDeleteClick}
       handleReplyClick={handleReplyClick}
       setSelectedCommentId={setSelectedCommentId}
-      newComment={newComment}
+      latestComment={latestComment}
     ></CommentList>
   );
 };

@@ -5,6 +5,7 @@ import { createAction, handleActions } from 'redux-actions';
 import createRequestSaga from '../lib/createRequestSaga';
 import * as commentAPI from '../lib/api/comment';
 import { takeLatest } from 'redux-saga/effects';
+import { initial } from 'lodash';
 
 // define action type
 const CHANGE_COMMENT_INPUT = 'comment/CHANGE_COMMENT_INPUT';
@@ -21,6 +22,8 @@ const DELETE_COMMENT = 'comment/DELETE_COMMENT';
 const DELETE_COMMENT_SUCCESS = 'comment/DELETE_COMMENT_SUCCESS';
 const DELETE_COMMENT_FAILURE = 'comment/DELETE_COMMENT_FAILURE';
 
+const UNLOAD_COMMENT = 'comment/UNLOAD_COMMENT';
+
 // action creator
 export const changeCommentInput = createAction(CHANGE_COMMENT_INPUT, (input) => input);
 export const getComments = createAction(GET_COMMENT, (postId) => postId);
@@ -34,6 +37,7 @@ export const deleteComment = createAction(DELETE_COMMENT, ({ postId, currentId, 
   currentId,
   parentId,
 }));
+export const unloadComment = createAction(UNLOAD_COMMENT);
 
 // define saga
 const getCommentsSaga = createRequestSaga(GET_COMMENT, commentAPI.getComments);
@@ -93,6 +97,7 @@ const comment = handleActions(
       comments: null,
       commentError,
     }),
+    [UNLOAD_COMMENT]: (state) => initialState,
   },
   initialState,
 );

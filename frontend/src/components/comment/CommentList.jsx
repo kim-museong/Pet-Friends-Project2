@@ -23,7 +23,7 @@ const CommentBlock = styled.div`
   position: relative;
   animation: ${fadeIn} 0.5s ease-in-out;
   ${(props) =>
-    props.isreply &&
+    props.reply === 'true' &&
     css`
       margin: 0px;
       margin-left: 5rem;
@@ -78,6 +78,7 @@ const ArrowIcon = styled(BsArrowReturnRight)`
   font-size: 3rem;
 `;
 
+// comment/reply Component
 const Comment = ({
   comment,
   loggedInUser,
@@ -86,20 +87,26 @@ const Comment = ({
   handleReplyClick,
   isReply,
   setSelectedCommentId,
-  newComment,
+  latestComment,
 }) => {
+  // scroll to new comment/reply
   useEffect(() => {
-    if (newComment) {
-      newComment.current.scrollIntoView({ behavior: 'smooth' });
+    if (latestComment.current && selectedCommentId === '') {
+      latestComment.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
     }
-  }, []);
+  }, [latestComment, selectedCommentId]);
 
   if (!comment) {
     return null;
   }
   return (
-    <CommentBlock isreply={isReply} ref={newComment}>
-      {isReply && <ArrowIcon />} {/* 아이콘 추가 */}
+    <CommentBlock reply={isReply.toString()} ref={latestComment}>
+      {/* reply icon */}
+      {isReply && <ArrowIcon />}
+
       {/* comment description + delete button */}
       <CommentHeader>
         <div>
@@ -114,6 +121,7 @@ const Comment = ({
           </CommentDeleteButton>
         )}
       </CommentHeader>
+
       {/* comment content + reply button */}
       <CommentContent>
         {comment.deletedAt ? <span>{'삭제된 댓글입니다'}</span> : <span>{comment.content}</span>}
@@ -121,6 +129,7 @@ const Comment = ({
           <CommentReplyButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentReplyButton>
         )}
       </CommentContent>
+
       {/* comment input */}
       {selectedCommentId === comment.id && (
         <CommentInputContainer
@@ -129,6 +138,7 @@ const Comment = ({
           setSelectedCommentId={setSelectedCommentId}
         ></CommentInputContainer>
       )}
+
       {/* reply list container */}
       {!isReply && (
         <CommentList
@@ -139,13 +149,14 @@ const Comment = ({
           handleReplyClick={handleReplyClick}
           isReply={true}
           setSelectedCommentId={setSelectedCommentId}
-          newComment={newComment}
+          latestComment={latestComment}
         ></CommentList>
       )}
     </CommentBlock>
   );
 };
 
+// comment list, reply list Component
 const CommentList = ({
   comments,
   loggedInUser,
@@ -154,13 +165,12 @@ const CommentList = ({
   handleReplyClick,
   isReply = false,
   setSelectedCommentId,
-  newComment,
+  latestComment,
 }) => {
   return (
     <CommentListBlock>
-      {/* comment list */}
-      {!isReply &&
-        comments &&
+      {/* comment/reply list */}
+      {comments &&
         comments.map((comment) => (
           <Comment
             key={comment.id}
@@ -171,23 +181,7 @@ const CommentList = ({
             handleReplyClick={handleReplyClick}
             isReply={isReply}
             setSelectedCommentId={setSelectedCommentId}
-            newComment={newComment}
-          ></Comment>
-        ))}
-      {/* reply list */}
-      {isReply &&
-        comments &&
-        comments.map((reply) => (
-          <Comment
-            key={reply.id}
-            comment={reply}
-            loggedInUser={loggedInUser}
-            selectedCommentId={selectedCommentId}
-            handleDeleteClick={handleDeleteClick}
-            handleReplyClick={handleReplyClick}
-            isReply={isReply}
-            setSelectedCommentId={setSelectedCommentId}
-            newComment={newComment}
+            latestComment={latestComment}
           ></Comment>
         ))}
     </CommentListBlock>
