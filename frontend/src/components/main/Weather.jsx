@@ -8,6 +8,7 @@ const WeatherBox = styled.div`
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   margin-top: 20px;
   padding: 20px 40px;
+  height: 222px;
 
   hr {
     margin-top: 5px;
@@ -52,6 +53,13 @@ const WeatherDetailBox = styled.div`
   }
 `;
 
+const NotWeather = styled.div`
+  height: 222px;
+  margin-top: 60px;
+  text-align: center;
+  color: ${palette.border};
+`;
+
 const Weather = ({ lat, lon, weather, theme }) => {
   const weatherStatus = {
     Clear: '맑음',
@@ -61,14 +69,14 @@ const Weather = ({ lat, lon, weather, theme }) => {
 
   const convertKelvinToCelsius = (kelvin) => kelvin - 273.15;
 
-  if (weather === null || lat === null || lon === null) {
+  if (weather === '' || lat === null || lon === null) {
     return (
-      <>
-        <WeatherBox>
+      <WeatherBox>
+        <NotWeather>
           날씨 불러오는 중...
-          <p style={{ color: 'rgb(150,150,150)', fontSize: '14px' }}>*위치정보 허용이 안 되어있으면 못 불러옵니다.</p>
-        </WeatherBox>
-      </>
+          <p>*위치정보 허용이 안 되어있으면 못 불러옵니다.</p>
+        </NotWeather>
+      </WeatherBox>
     );
   }
 

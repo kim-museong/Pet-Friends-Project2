@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import palette from '../../lib/styles/palette';
+import { FaStamp } from 'react-icons/fa';
+import { useCallback } from 'react';
 
 const SubBtnBox = styled.div`
   display: flex;
@@ -11,15 +13,14 @@ const SubBtnBox = styled.div`
   cursor: pointer;
 
   .attend {
-    position: relative; /* 이미지가 위치를 기준으로 확대/축소하도록 설정합니다. */
-    background-image: url('../../../images/attend.png');
-    background-repeat: no-repeat;
-    background-size: 120%;
-    background-position: 50% 20%; /* 이미지를 가로로 50% 위치로 이동 */
-    background-color: ${palette.mainColor};
-    transition: background-size 0.4s ease; /* hover 시에 변화를 부드럽게 만들어줍니다. */
-    &:hover {
-      background-size: 180%; /* 이미지 크기를 1.5배 확대합니다. */
+    text-align: center;
+    color: ${palette.mainColor};
+    font-weight: bold;
+
+    svg {
+      margin: 20px 0 5px;
+      color: ${palette.mainColor};
+      font-size: 50px;
     }
   }
 
@@ -49,17 +50,30 @@ const SubBtn = styled.div`
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
   margin: 0 auto;
+
+  &:hover {
+    border: 1px solid ${palette.border};
+  }
 `;
 
 const SubButton = () => {
   const theme = useSelector((state) => state.theme.theme);
 
+  const memoClick = useCallback(() => {
+    const popupUrl = '/memo';
+    const popupOptions = 'width=400,height=500,scrollbars=yes,resizable=yes';
+    window.open(popupUrl, '메모', popupOptions);
+  }, []);
+
   return (
     <>
       <SubBtnBox theme={String(theme)}>
-        <SubBtn theme={String(theme)} className="attend"></SubBtn>
+        <SubBtn theme={String(theme)} className="attend">
+          <FaStamp />
+          <div>출석체크</div>
+        </SubBtn>
         <SubBtn theme={String(theme)}></SubBtn>
-        <SubBtn theme={String(theme)} className="memo">
+        <SubBtn theme={String(theme)} className="memo" onClick={memoClick}>
           <div className="memoTitle">메모</div>
           <div className="line"></div>
           <div className="line"></div>

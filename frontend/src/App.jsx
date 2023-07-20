@@ -18,6 +18,8 @@ import './App.css';
 import Setting from './components/common/Setting';
 import WritePage from './pages/WritePage';
 import AttendancePage from './pages/AttendancePage';
+import MemoContainer from './containers/main/MemoContainer';
+import MemoWirteContainer from './containers/main/MemoWirteContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -32,9 +34,10 @@ const App = () => {
 
   return (
     <>
+      <Routes></Routes>
+
       <GlobalStyle theme={String(theme)} />
       <Setting />
-
       <Routes>
         {/* 메인페이지 */}
         <Route path="/" element={<MainPage />} />
@@ -71,6 +74,10 @@ const App = () => {
         <Route path="*" element={<NotFoundPage />}></Route>
 
         <Route path="/attendance" element={<AttendancePage />} />
+
+        {/* 메모장 */}
+        <Route path="/memo" element={<MemoContainer />} />
+        <Route path="/memo/write" element={<MemoWirteContainer />} />
       </Routes>
     </>
   );

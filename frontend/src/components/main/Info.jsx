@@ -7,6 +7,7 @@ const DomParser = require('dom-parser');
 
 const MainBox = styled.div`
   width: 100%;
+  height: 344px;
   margin-top: 20px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   padding: 20px 40px;
@@ -60,22 +61,29 @@ const InfoBox = styled.div`
   }
 `;
 
+const NotInfo = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 70px;
+  color: ${palette.border};
+  font-size: 20px;
+`;
+
 const Info = () => {
   const info = useSelector((state) => state.main.info);
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
-  const { posts } = info || '';
 
   const extractImageUrl = useCallback((content) => {
     const parser = new DomParser();
-    const dom = parser.parseFromString(content, 'text/html'); // content를 HTML DOM으로 파싱합니다.
-    const imgTag = dom.getElementsByTagName('img')[0]; // 첫 번째 이미지 태그를 가져옵니다.
+    const dom = parser.parseFromString(content, 'text/html');
+    const imgTag = dom.getElementsByTagName('img')[0];
 
     if (imgTag) {
-      return imgTag.getAttribute('src'); // 이미지 태그의 src 속성 값을 반환합니다.
+      return imgTag.getAttribute('src');
     }
 
-    return null; // 이미지 태그가 없으면 null을 반환합니다.
+    return null;
   }, []);
 
   useEffect(() => {
@@ -87,15 +95,22 @@ const Info = () => {
       <MainBox theme={String(theme)}>
         <Title>정보글</Title>
         <Content>
-          {posts?.map((info) => (
-            <InfoBox key={info.id}>
-              <div className="img" style={{ backgroundImage: `url(${extractImageUrl(info.Content.content)})` }}></div>
+          {info?.map((post) => (
+            <InfoBox key={post.id}>
+              <div className="img" style={{ backgroundImage: `url(${extractImageUrl(post.Content.content)})` }}></div>
               <div>
                 <span className="info">정보글</span>
-                <div className="title">{info.title}</div>
+                <div className="title">{post.CommunityInfo.title}</div>
               </div>
             </InfoBox>
           ))}
+          {info?.length === 0 && (
+            <>
+              <NotInfo>
+                <div>정보글이 없습니다.</div>
+              </NotInfo>
+            </>
+          )}
         </Content>
       </MainBox>
     </>
