@@ -23,6 +23,7 @@ const ShowBox = styled.div`
     padding-top: 2px;
 
     .title {
+      width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -34,8 +35,10 @@ const ShowBox = styled.div`
   }
 
   .mark {
+    width: 90px;
     padding: 5px 10px;
     margin-right: 15px;
+    text-align: center;
     font-size: 12px;
     color: white;
     font-weight: bold;
@@ -71,22 +74,22 @@ const NewsTicker = () => {
   }, []);
 
   useEffect(() => {
-    // const rollingElement = rollingRef.current;
-    // console.log(rollingElement);
-    // if (rollingElement) {
-    //   const interval = setInterval(() => {
-    //     const firstChild = rollingElement.firstElementChild;
-    //     rollingElement.style.transitionDuration = '400ms';
-    //     rollingElement.style.marginTop = '-41px';
-    //     setTimeout(() => {
-    //       rollingElement.removeAttribute('style');
-    //       ReactDOM.unstable_batchedUpdates(() => {
-    //         rollingElement.appendChild(firstChild);
-    //       });
-    //     }, 400);
-    //   }, 4000);
-    //   return () => clearInterval(interval);
-    // }
+    const rollingElement = rollingRef.current;
+    console.log(rollingElement);
+    if (rollingElement) {
+      const interval = setInterval(() => {
+        const firstChild = rollingElement.firstElementChild;
+        rollingElement.style.transitionDuration = '400ms';
+        rollingElement.style.marginTop = '-41px';
+        setTimeout(() => {
+          rollingElement.removeAttribute('style');
+          ReactDOM.unstable_batchedUpdates(() => {
+            rollingElement.appendChild(firstChild);
+          });
+        }, 400);
+      }, 4000);
+      return () => clearInterval(interval);
+    }
   }, [posts]);
 
   return (
@@ -94,10 +97,10 @@ const NewsTicker = () => {
       <NewTickerBox theme={String(theme)}>
         <ShowBox>
           <div className="rolling" ref={rollingRef}>
-            {posts?.map((item, index) => (
+            {posts?.map((post, index) => (
               <div key={index} className="notice">
                 <span className="mark">공지사항</span>
-                <div className="title">{item.title}</div>
+                <div className="title">{post.CommunityInfo.title}</div>
               </div>
             ))}
             {posts?.length === 0 && (

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import palette from '../../lib/styles/palette';
 import { FaStamp } from 'react-icons/fa';
+import { useCallback } from 'react';
 
 const SubBtnBox = styled.div`
   display: flex;
@@ -58,6 +59,12 @@ const SubBtn = styled.div`
 const SubButton = () => {
   const theme = useSelector((state) => state.theme.theme);
 
+  const memoClick = useCallback(() => {
+    const popupUrl = '/memo';
+    const popupOptions = 'width=400,height=500,scrollbars=yes,resizable=yes';
+    window.open(popupUrl, '메모', popupOptions);
+  }, []);
+
   return (
     <>
       <SubBtnBox theme={String(theme)}>
@@ -66,7 +73,7 @@ const SubButton = () => {
           <div>출석체크</div>
         </SubBtn>
         <SubBtn theme={String(theme)}></SubBtn>
-        <SubBtn theme={String(theme)} className="memo">
+        <SubBtn theme={String(theme)} className="memo" onClick={memoClick}>
           <div className="memoTitle">메모</div>
           <div className="line"></div>
           <div className="line"></div>

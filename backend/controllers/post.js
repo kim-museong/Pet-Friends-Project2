@@ -75,7 +75,7 @@ exports.readPosts = (req, res, next) => {
   };
 
   // 게시판 종류에 따라 querySQL 추가
-  if (boardName === 'community') {
+  if (boardName === 'community' || boardName === 'info' || boardName === 'notice') {
     querySQL.include.push({
       model: CommunityInfo,
       attributes: ['title'],

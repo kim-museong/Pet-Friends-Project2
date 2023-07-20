@@ -5,6 +5,7 @@ import ThemeContainer from '../../containers/common/ThemeContainer';
 import { styled } from 'styled-components';
 import { useSelector } from 'react-redux';
 import palette from '../../lib/styles/palette';
+import { useLocation } from 'react-router-dom'; // useLocation 가져오기
 
 const Contain = styled.div`
   display: flex;
@@ -130,24 +131,32 @@ const Setting = () => {
       behavior: 'smooth',
     });
   };
+
+  const location = useLocation();
+  const isSettingVisible = !location.pathname.includes('/memo') && !location.pathname.includes('/auth/');
+
   return (
     <>
-      <Contain>
-        <ScrollUpBtn theme={String(theme)} onClick={scrollToTop}>
-          <BiSolidUpArrow />
-        </ScrollUpBtn>
-        <ScrollDownBtn theme={String(theme)} onClick={scrollToBottom}>
-          <BiSolidDownArrow />
-        </ScrollDownBtn>
-        {showsetting && (
-          <ShowBox theme={String(theme)}>
-            <ThemeContainer />
-          </ShowBox>
-        )}
-        <SetBox theme={String(theme)} showsetting={String(showsetting)} onClick={onClick}>
-          <MdSettings />
-        </SetBox>
-      </Contain>
+      {isSettingVisible && (
+        <>
+          <Contain>
+            <ScrollUpBtn theme={String(theme)} onClick={scrollToTop}>
+              <BiSolidUpArrow />
+            </ScrollUpBtn>
+            <ScrollDownBtn theme={String(theme)} onClick={scrollToBottom}>
+              <BiSolidDownArrow />
+            </ScrollDownBtn>
+            {showsetting && (
+              <ShowBox theme={String(theme)}>
+                <ThemeContainer />
+              </ShowBox>
+            )}
+            <SetBox theme={String(theme)} showsetting={String(showsetting)} onClick={onClick}>
+              <MdSettings />
+            </SetBox>
+          </Contain>
+        </>
+      )}
     </>
   );
 };
