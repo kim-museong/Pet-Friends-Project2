@@ -30,6 +30,7 @@ import { CssBaseline, ThemeProvider, Box } from '@mui/material';
 import { useMode, ColorModeContext } from './admin/theme';
 import Sidebar from './admin/Bar/Sidebar';
 import Topbar from './admin/Bar/Topbar';
+import { useLocation } from 'react-router-dom'; // useLocation 가져오기
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -43,7 +44,8 @@ const App = () => {
   const theme = useSelector((state) => state.theme.theme);
   const [themes, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-
+  const location = useLocation();
+  const showAdmin = location.pathname.includes('/admin');
   return (
     <>
       <Routes></Routes>
@@ -62,7 +64,7 @@ const App = () => {
         {/* 마이페이지 */}
         <Route path="/mypage/:userId" element={<MyPage />}></Route>
         {/* 관리자페이지 */}
-        // <Route path="/admin" element={<AdminPage />}></Route>
+        <Route path="/admin/*" />
         {/* 게시판 페이지 */}
         <Route path="/notice" element={<NoticePage />}></Route>
         <Route path="/information" element={<InformationPage />}></Route>
@@ -78,34 +80,36 @@ const App = () => {
         <Route path="/community/:postId" element={<PostDetailPage />}></Route>
         {/* Not Found 페이지 */}
         <Route path="*" element={<NotFoundPage />}></Route>
+
         <Route path="/attendance" element={<AttendancePage />} />
         {/* 메모장 */}
         <Route path="/memo" element={<MemoContainer />} />
         <Route path="/memo/write" element={<MemoWirteContainer />} />
       </Routes>
-
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={themes}>
-          <CssBaseline />
-          <Box display="flex">
-            <Sidebar isSidebar={isSidebar} />
-            <Box flex="1" display="flex" flexDirection="column">
-              <Topbar setIsSidebar={setIsSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/admin" element={<AdminPage />} />
-                  <Route path="/admin/User" element={<AdminUser />} />
-                  <Route path="/admin/Post" element={<AdminPost />} />
-                  <Route path="/admin/calendar" element={<Calendar />} />
-                  <Route path="/admin/editor" element={<Editor />} />
-                  <Route path="/admin/FAQ" element={<FAQ />} />
-                  <Route path="/admin/petUser" element={<HavePet />} />
-                </Routes>
-              </main>
+      {showAdmin && (
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={themes}>
+            <CssBaseline />
+            <Box display="flex">
+              <Sidebar isSidebar={isSidebar} />
+              <Box flex="1" display="flex" flexDirection="column">
+                <Topbar setIsSidebar={setIsSidebar} />
+                <main className="content">
+                  <Routes>
+                    <Route path="/admin/" element={<AdminPage />} />
+                    <Route path="/admin/User" element={<AdminUser />} />
+                    <Route path="/admin/Post" element={<AdminPost />} />
+                    <Route path="/admin/calendar" element={<Calendar />} />
+                    <Route path="/admin/editor" element={<Editor />} />
+                    <Route path="/admin/FAQ" element={<FAQ />} />
+                    <Route path="/admin/petUser" element={<HavePet />} />
+                  </Routes>
+                </main>
+              </Box>
             </Box>
-          </Box>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      )}
     </>
   );
 };

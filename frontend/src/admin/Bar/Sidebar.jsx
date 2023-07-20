@@ -95,28 +95,28 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : '10%'}>
-            <Item title="홈" to="/" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
+            <Item title="홈" to="/admin" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
 
             <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
               Data
             </Typography>
             <Item
               title="회원 관리"
-              to="/AdminUser"
+              to="/admin/User"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="게시글 관리"
-              to="/AdminPost"
+              to="/admin/Post"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="펫 정보"
-              to="/petUser"
+              to="/admin/pet"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -126,14 +126,14 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="달력&일정"
-              to="/calendar"
+              to="/admin/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="질문&답변"
-              to="/FAQ"
+              to="admin/FAQ"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -141,7 +141,7 @@ const Sidebar = () => {
 
             <Item
               title="공지사항 쓰기"
-              to="/editor"
+              to="admin/editor"
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
