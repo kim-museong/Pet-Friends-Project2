@@ -18,9 +18,11 @@ const NoticePost = () => {
 
   const fetchPosts = () => {
     axios
-      .get('/api/posts?boardId=1')
+      .get('/board/notice/posts')
       .then((response) => {
-        setPosts(response.data);
+        const posts = response.data.posts;
+        posts.map((post) => (post.nickname = post.User.nickname));
+        setPosts(posts);
       })
       .catch((error) => {
         console.error('게시글 정보를 가져오지 못했습니다:', error);

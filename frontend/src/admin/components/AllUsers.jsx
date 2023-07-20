@@ -15,7 +15,7 @@ const AllUsers = () => {
 
   useEffect(() => {
     axios
-      .get('/api/users')
+      .get('/users')
       .then((response) => {
         setUsers(response.data);
         setTotalUsers(response.data.length);
