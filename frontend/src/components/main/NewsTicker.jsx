@@ -69,13 +69,14 @@ const NewsTicker = () => {
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
 
+  console.log(posts);
+
   useEffect(() => {
     dispatch(getMainAsync({ boardName: 'notice', limit: '5' }));
   }, []);
 
   useEffect(() => {
     const rollingElement = rollingRef.current;
-    console.log(rollingElement);
     if (rollingElement) {
       const interval = setInterval(() => {
         const firstChild = rollingElement.firstElementChild;
@@ -100,7 +101,7 @@ const NewsTicker = () => {
             {posts?.map((post, index) => (
               <div key={index} className="notice">
                 <span className="mark">공지사항</span>
-                <div className="title">{post.CommunityInfo.title}</div>
+                <div className="title">{post.CommunityInfo?.title}</div>
               </div>
             ))}
             {posts?.length === 0 && (

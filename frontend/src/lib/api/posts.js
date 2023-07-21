@@ -14,3 +14,7 @@ export const getPosts = ({
     params: { searchCategory, searchKeyword, sortType, currPageNum, tag, limit },
   });
 };
+
+export const getMemo = (id) => {
+  return client.post('/user/memo', { id: id });
+};

@@ -60,7 +60,7 @@ const SubButton = () => {
   const theme = useSelector((state) => state.theme.theme);
 
   const memoClick = useCallback(() => {
-    const popupUrl = '/memo';
+    const popupUrl = `/memo`;
     const popupOptions = 'width=400,height=500,scrollbars=yes,resizable=yes';
     window.open(popupUrl, '메모', popupOptions);
   }, []);

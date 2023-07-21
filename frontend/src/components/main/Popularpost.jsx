@@ -113,7 +113,7 @@ const Popularpost = ({ pupularPosts, theme }) => {
             <Postlist key={post.id} theme={String(theme)}>
               <div className="postNumber">{index + 1}</div>
               <div className="postInfo">
-                <span className="title">{post.CommunityInfo.title}</span>
+                <span className="title">{post.CommunityInfo?.title}</span>
               </div>
             </Postlist>
           ))}
