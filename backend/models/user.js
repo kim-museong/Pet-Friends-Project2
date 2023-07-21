@@ -40,7 +40,7 @@ class User extends Sequelize.Model {
           allowNull: true,
         },
         rank: {
-          type: Sequelize.STRING(5), // 추후 ENUM으로 변경
+          type: Sequelize.ENUM('admin', 'member', 'guest', 'suspendedMember', 'bannedMember'), // 추후 ENUM으로 변경
           allowNull: true,
         },
         isAttendance: {

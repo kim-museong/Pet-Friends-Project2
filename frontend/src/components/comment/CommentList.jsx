@@ -61,13 +61,23 @@ const CommentDeleteButton = styled.button`
   cursor: pointer;
 `;
 
-const CommentReplyButton = styled.button`
-  margin-left: auto;
+const CommentButton = styled.button`
   background-color: transparent;
   border: 1px solid black;
   border-radius: 10px;
   padding: 0.5rem;
   cursor: pointer;
+  & + & {
+    margin-left: 0.25rem;
+  }
+`;
+
+const CommentButtonWrapper = styled.div`
+  margin-left: auto;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0.5rem;
 `;
 
 const ArrowIcon = styled(BsArrowReturnRight)`
@@ -85,6 +95,7 @@ const Comment = ({
   selectedCommentId,
   handleDeleteClick,
   handleReplyClick,
+  handleLikeClick,
   isReply,
   setSelectedCommentId,
   latestComment,
@@ -126,7 +137,10 @@ const Comment = ({
       <CommentContent>
         {comment.deletedAt ? <span>{'삭제된 댓글입니다'}</span> : <span>{comment.content}</span>}
         {loggedInUser && !comment.deletedAt && (
-          <CommentReplyButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentReplyButton>
+          <CommentButtonWrapper>
+            <CommentButton onClick={() => handleLikeClick(comment.id, isReply, loggedInUser.id)}>추천</CommentButton>
+            <CommentButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentButton>
+          </CommentButtonWrapper>
         )}
       </CommentContent>
 
@@ -147,6 +161,7 @@ const Comment = ({
           selectedCommentId={selectedCommentId}
           handleDeleteClick={handleDeleteClick}
           handleReplyClick={handleReplyClick}
+          handleLikeClick={handleLikeClick}
           isReply={true}
           setSelectedCommentId={setSelectedCommentId}
           latestComment={latestComment}
@@ -163,6 +178,7 @@ const CommentList = ({
   selectedCommentId,
   handleDeleteClick,
   handleReplyClick,
+  handleLikeClick,
   isReply = false,
   setSelectedCommentId,
   latestComment,
@@ -179,6 +195,7 @@ const CommentList = ({
             selectedCommentId={selectedCommentId}
             handleDeleteClick={handleDeleteClick}
             handleReplyClick={handleReplyClick}
+            handleLikeClick={handleLikeClick}
             isReply={isReply}
             setSelectedCommentId={setSelectedCommentId}
             latestComment={latestComment}

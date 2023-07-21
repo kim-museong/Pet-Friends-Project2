@@ -5,7 +5,6 @@ import { createAction, handleActions } from 'redux-actions';
 import createRequestSaga from '../lib/createRequestSaga';
 import * as commentAPI from '../lib/api/comment';
 import { takeLatest } from 'redux-saga/effects';
-import { initial } from 'lodash';
 
 // define action type
 const CHANGE_COMMENT_INPUT = 'comment/CHANGE_COMMENT_INPUT';
@@ -24,6 +23,10 @@ const DELETE_COMMENT_FAILURE = 'comment/DELETE_COMMENT_FAILURE';
 
 const UNLOAD_COMMENT = 'comment/UNLOAD_COMMENT';
 
+const ADD_COMMENT_LIKE = 'comment/ADD_COMMENT_LIKE';
+const ADD_COMMENT_LIKE_SUCCESS = 'comment/ADD_COMMENT_LIKE_SUCCESS';
+const ADD_COMMENT_LIKE_FAILURE = 'comment/ADD_COMMENT_LIKE_FAILURE';
+
 // action creator
 export const changeCommentInput = createAction(CHANGE_COMMENT_INPUT, (input) => input);
 export const getComments = createAction(GET_COMMENT, (postId) => postId);
@@ -38,11 +41,13 @@ export const deleteComment = createAction(DELETE_COMMENT, ({ postId, currentId, 
   parentId,
 }));
 export const unloadComment = createAction(UNLOAD_COMMENT);
+export const addCommentLike = createAction(ADD_COMMENT_LIKE);
 
 // define saga
 const getCommentsSaga = createRequestSaga(GET_COMMENT, commentAPI.getComments);
 const createCommentSaga = createRequestSaga(CREATE_COMMENT, commentAPI.createComment);
 const deleteCommentSaga = createRequestSaga(DELETE_COMMENT, commentAPI.deleteComment);
+const addCommentLikeSaga = createRequestSaga(ADD_COMMENT_LIKE, commentAPI.addCommentLike);
 
 export function* commentSaga() {
   // get comments 요청
@@ -51,6 +56,8 @@ export function* commentSaga() {
   yield takeLatest(CREATE_COMMENT, createCommentSaga);
   // delete comment 요청
   yield takeLatest(DELETE_COMMENT, deleteCommentSaga);
+  // add comment like 요청
+  yield takeLatest(ADD_COMMENT_LIKE, addCommentLikeSaga);
 }
 
 // init
@@ -98,6 +105,17 @@ const comment = handleActions(
       commentError,
     }),
     [UNLOAD_COMMENT]: (state) => initialState,
+    // TODO : like modules로 전부 옮길것
+    // [ADD_COMMENT_LIKE_SUCCESS]: (state, { payload: comments }) => ({
+    //   ...state,
+    //   comments,
+    //   commentError: null,
+    // }),
+    // [ADD_COMMENT_LIKE_FAILURE]: (state, { payload: commentError }) => ({
+    //   ...state,
+    //   comments: null,
+    //   commentError,
+    // }),
   },
   initialState,
 );

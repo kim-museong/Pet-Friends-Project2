@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { readPosts, createPost, deletePost, updatePost } = require('../controllers/post');
+const { isAdmin, isLoggedIn } = require('../middlewares');
 const { sanitizer } = require('../middlewares/sanitizer');
 
 // GET /board/:boardName/posts

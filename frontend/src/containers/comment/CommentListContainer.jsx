@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentList from '../../components/comment/CommentList';
-import { deleteComment, getComments, unloadComment } from '../../modules/comment';
+import { addCommentLike, deleteComment, getComments, unloadComment } from '../../modules/comment';
 
 const CommentListContainer = () => {
   const postId = useSelector((state) => state.post.post?.post.id);
@@ -44,6 +44,12 @@ const CommentListContainer = () => {
     }
     setSelectedCommentId((prevCommentId) => (prevCommentId === commentId ? null : commentId));
   };
+  // like button clicked
+  const handleLikeClick = (commentId, isReply, userId) => {
+    console.log(`추천 버튼 클릭됨`);
+    const type = isReply ? 'reply' : 'comment';
+    dispatch(addCommentLike({ commentId, type, userId, postId }));
+  };
 
   return (
     <CommentList
@@ -52,6 +58,7 @@ const CommentListContainer = () => {
       selectedCommentId={selectedCommentId}
       handleDeleteClick={handleDeleteClick}
       handleReplyClick={handleReplyClick}
+      handleLikeClick={handleLikeClick}
       setSelectedCommentId={setSelectedCommentId}
       latestComment={latestComment}
     ></CommentList>

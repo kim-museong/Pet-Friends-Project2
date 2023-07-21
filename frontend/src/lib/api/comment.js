@@ -40,3 +40,12 @@ export const deleteComment = ({ postId = null, currentId = null, parentId = null
     });
   }
 };
+
+// add comment like
+export const addCommentLike = ({ commentId = null, type = 'comment', userId = null, postId = null }) => {
+  console.log(`addCommentLike 요청 commentId = ${commentId}, type = ${type} userId = ${userId}, postId = ${postId}`);
+  return client.post(`/users/${userId}/posts/${postId}/likes`, {
+    type,
+    targetId: commentId,
+  });
+};
