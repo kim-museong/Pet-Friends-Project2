@@ -8,8 +8,12 @@ import { takeLatest } from 'redux-saga/effects';
 const ONCHAMGE_MEMO = 'main/ONCHAMGE_MEMO';
 const SHOW_MEMO = 'main/SHOW_MEMO';
 const MAIN_INIT = 'main/MAIN_INIT';
+const SEARCH_INIT = 'main/SEARCH_INIT';
+const MEMO_UPDATE = 'main/MEMO_UPDATE';
+const MEMO_DELETE = 'main/MEMO_DELETE';
 
 const [GET_MEMO, GET_MEMO_SUCCESS, GET_MEMO_FAILURE] = createRequestActionTypes('/main/GET_MEMO');
+const [GET_MEMOS, GET_MEMOS_SUCCESS, GET_MEMOS_FAILURE] = createRequestActionTypes('/main/GET_MEMOS');
 
 const [GET_POPULARPOST, GET_POPULARPOST_SUCCESS, GET_POPULARPOST_FAILURE] =
   createRequestActionTypes('main/GET_POPULARPOST');
@@ -45,25 +49,34 @@ export const getCardAsync = createAction(GET_CARD_POSTS, ({ sortType, boardName,
   limit,
 }));
 
-export const getMemoAsync = createAction(GET_MEMO, (id) => id);
-
-export const changeMemo = createAction(ONCHAMGE_MEMO, (value) => value);
+export const getMemoAsync = createAction(GET_MEMO, ({ id, userId }) => ({ id, userId }));
+export const getMemosAsync = createAction(GET_MEMOS, ({ id, search }) => ({ id, search }));
+export const changeMemo = createAction(ONCHAMGE_MEMO, ({ name, value }) => ({ name, value }));
 export const showMemo = createAction(SHOW_MEMO);
 export const initForm = createAction(MAIN_INIT, (form) => form);
+export const searchInit = createAction(SEARCH_INIT);
+export const memoUpdate = createAction(MEMO_UPDATE, ({ userId, content }) => ({ userId, content }));
+export const memoDelete = createAction(MEMO_DELETE, ({ userId, content }) => ({ userId, content }));
 
 // define saga
 const getMainPostsSaga = createRequestSaga(GET_MAIN_POSTS, postsAPI.getPosts);
 const getPopularPostsSaga = createRequestSaga(GET_POPULARPOST, postsAPI.getPosts);
 const getCardPostsSaga = createRequestSaga(GET_CARD_POSTS, postsAPI.getPosts);
 const getInfoSaga = createRequestSaga(GET_INFO, postsAPI.getPosts);
-const getMemoSage = createRequestSaga(GET_MEMO, postsAPI.getMemo);
+const getMemosSage = createRequestSaga(GET_MEMOS, postsAPI.getMemos);
+const getMemoSaga = createRequestSaga(GET_MEMO, postsAPI.getMemo);
+const memoUpdateSaga = createRequestSaga(MEMO_UPDATE, postsAPI.memoUpdate);
+const memoDeleteSaga = createRequestSaga(MEMO_DELETE, postsAPI.memoDelete);
 
 export function* mainSaga() {
   yield takeLatest(GET_MAIN_POSTS, getMainPostsSaga);
   yield takeLatest(GET_POPULARPOST, getPopularPostsSaga);
   yield takeLatest(GET_CARD_POSTS, getCardPostsSaga);
   yield takeLatest(GET_INFO, getInfoSaga);
-  yield takeLatest(GET_MEMO, getMemoSage);
+  yield takeLatest(GET_MEMOS, getMemosSage);
+  yield takeLatest(GET_MEMO, getMemoSaga);
+  yield takeLatest(MEMO_UPDATE, memoUpdateSaga);
+  yield takeLatest(MEMO_DELETE, memoDeleteSaga);
 }
 
 // init
@@ -74,20 +87,22 @@ const initialState = {
   cardPosts: null,
   error: null,
   memo: {
-    memo: null,
+    memo: '',
+    memos: '',
     show: false,
     content: '',
+    search: '',
   },
 };
 
 // reducer
 const main = handleActions(
   {
-    [ONCHAMGE_MEMO]: (state, { payload: value }) => ({
+    [ONCHAMGE_MEMO]: (state, { payload: { name, value } }) => ({
       ...state,
       memo: {
         ...state.memo,
-        content: value,
+        [name]: value,
       },
     }),
     [SHOW_MEMO]: (state) => ({
@@ -100,6 +115,27 @@ const main = handleActions(
     [MAIN_INIT]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
+    }),
+    [SEARCH_INIT]: (state) => ({
+      ...state,
+      memo: {
+        ...state.memo,
+        search: '',
+      },
+    }),
+    [GET_MEMOS_SUCCESS]: (state, { payload: data }) => ({
+      ...state,
+      memo: {
+        ...state.memo,
+        memos: data,
+      },
+    }),
+    [GET_MEMOS_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      memo: {
+        ...state.memo,
+        memos: null,
+      },
     }),
     [GET_MEMO_SUCCESS]: (state, { payload: data }) => ({
       ...state,
@@ -114,6 +150,12 @@ const main = handleActions(
         ...state.memo,
         memo: null,
       },
+    }),
+    [MEMO_UPDATE]: (state) => ({
+      ...state,
+    }),
+    [MEMO_DELETE]: (state) => ({
+      ...state,
     }),
     [GET_MAIN_POSTS_SUCCESS]: (state, { payload: data }) => ({
       ...state,

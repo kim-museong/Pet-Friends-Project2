@@ -18,8 +18,10 @@ import './App.css';
 import Setting from './components/common/Setting';
 import WritePage from './pages/WritePage';
 import AttendancePage from './pages/AttendancePage';
-import MemoContainer from './containers/main/MemoContainer';
-import MemoWriteContainer from './containers/main/MemoWriteContainer';
+import MemoContainer from './containers/main/Memo/MemoContainer';
+import MemoWriteContainer from './containers/main/Memo/MemoWriteContainer';
+import MemoSearchContainer from './containers/main/Memo/MemoSearchContainer';
+import MemoShowContainer from './containers/main/Memo/MemoShowContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -77,7 +79,10 @@ const App = () => {
 
         {/* 메모장 */}
         <Route path="/memo" element={<MemoContainer />} />
+        <Route path="/memo/:search" element={<MemoSearchContainer />} />
         <Route path="/memo/write" element={<MemoWriteContainer />} />
+        <Route path="/memo/:nickname/:id" element={<MemoShowContainer />} />
+        <Route path="/memo/:id/update" element={<MemoWriteContainer />} />
       </Routes>
     </>
   );

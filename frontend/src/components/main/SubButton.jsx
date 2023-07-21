@@ -61,7 +61,7 @@ const SubButton = () => {
 
   const memoClick = useCallback(() => {
     const popupUrl = `/memo`;
-    const popupOptions = 'width=400,height=500,scrollbars=yes,resizable=yes';
+    const popupOptions = 'width=500,height=600,scrollbars=yes,resizable=yes';
     window.open(popupUrl, '메모', popupOptions);
   }, []);
 

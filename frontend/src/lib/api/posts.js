@@ -15,6 +15,19 @@ export const getPosts = ({
   });
 };
 
-export const getMemo = (id) => {
-  return client.post('/user/memo', { id: id });
+// memo
+export const getMemos = ({ id, search }) => {
+  return client.post('/user/memos', { id, search });
+};
+
+export const getMemo = ({ id, userId }) => {
+  return client.post('/user/memo', { id, userId });
+};
+
+export const memoUpdate = () => {
+  return client.post('/user/memoUpdate');
+};
+
+export const memoDelete = () => {
+  return client.post('/user/memoDelete');
 };
