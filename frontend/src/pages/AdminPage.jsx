@@ -1,9 +1,10 @@
 import React from 'react';
+import Home from '../admin/Admin/Home';
 
 const AdminPage = () => {
   return (
     <>
-      <div>AdminPage</div>
+      <Home />
     </>
   );
 };

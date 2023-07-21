@@ -133,7 +133,10 @@ const Setting = () => {
   };
 
   const location = useLocation();
-  const isSettingVisible = !location.pathname.includes('/memo') && !location.pathname.includes('/auth/');
+  const isSettingVisible =
+    !location.pathname.includes('/memo') &&
+    !location.pathname.includes('/auth/') &&
+    !location.pathname.includes('/admin/');
 
   return (
     <>
