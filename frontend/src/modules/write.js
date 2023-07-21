@@ -65,7 +65,7 @@ const write = handleActions(
     [INIT_INPUT]: () => initialState,
     [STORE_ORIGIN_POST]: (state, { payload: post }) => ({
       ...state,
-      title: post.post.CommunityInfo.title,
+      title: post.post.CommunityDetail.title,
       content: post.post.Content.content,
       tags: post.hashtags,
       originPostId: post.post.id,

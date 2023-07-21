@@ -100,7 +100,7 @@ const NewsTicker = () => {
             {posts?.map((post, index) => (
               <div key={index} className="notice">
                 <span className="mark">공지사항</span>
-                <div className="title">{post.CommunityInfo.title}</div>
+                <div className="title">{post.CommunityDetail.title}</div>
               </div>
             ))}
             {posts?.length === 0 && (

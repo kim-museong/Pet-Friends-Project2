@@ -17,7 +17,7 @@ const Post = ({ post }) => {
       {post && (
         <>
           <div>작성자 : {post.post.User.userId}</div>
-          <div>제목 : {post.post.CommunityInfo.title}</div>
+          <div>제목 : {post.post.CommunityDetail.title}</div>
           <div className="test" dangerouslySetInnerHTML={{ __html: post.post.Content.content }} />
           <div>좋아요 : {post.likeCount}</div>
           <div>조회수 : {post.post.view}</div>

@@ -8,8 +8,8 @@ const {
   Hashtag,
   PostHashtag,
   Reply,
-  CommunityInfo,
-  PictureInfo,
+  CommunityDetail,
+  PictureDetail,
 } = require('../models');
 const { Op } = require('sequelize');
 const { sequelize } = require('../models');

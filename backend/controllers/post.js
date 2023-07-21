@@ -8,13 +8,13 @@ const {
   Hashtag,
   PostHashtag,
   Reply,
-  CommunityInfo,
-  PictureInfo,
+  CommunityDetail,
+  PictureDetail,
 } = require('../models');
 const { Op } = require('sequelize');
 const { sequelize } = require('../models');
-// const CommunityInfo = require('../models/communityInfo');
-// const PictureInfo = require('../models/pictureInfo');
+// const CommunityDetail = require('../models/CommunityDetail');
+// const PictureDetail = require('../models/PictureDetail');
 
 ////////////////////////////////////////////////////////////
 ///////////////////// read post list ///////////////////////
@@ -77,12 +77,12 @@ exports.readPosts = (req, res, next) => {
   // 게시판 종류에 따라 querySQL 추가
   if (boardName === 'community' || boardName === 'info' || boardName === 'notice') {
     querySQL.include.push({
-      model: CommunityInfo,
+      model: CommunityDetail,
       attributes: ['title'],
     });
   } else if (boardName === 'picture') {
     querySQL.include.push({
-      model: PictureInfo,
+      model: PictureDetail,
       attributes: ['imgUrl'],
     });
   }
@@ -101,7 +101,7 @@ exports.readPosts = (req, res, next) => {
   if (searchCategory === 'titleDetail' && searchKeyword !== '') {
     querySQL.where = {
       [Op.or]: [
-        { '$CommunityInfo.title$': { [Op.like]: `%${title}%` } },
+        { '$CommunityDetail.title$': { [Op.like]: `%${title}%` } },
         { '$Content.content$': { [Op.like]: `%${content}%` } },
       ],
     };
@@ -110,7 +110,7 @@ exports.readPosts = (req, res, next) => {
     // category : 제목
   } else if (searchCategory === 'title' && searchKeyword !== '') {
     // querySQL.where = { title: { [Op.like]: `%${title}%` } };
-    querySQL.where = { '$CommunityInfo.title$': { [Op.like]: `%${title}%` } };
+    querySQL.where = { '$CommunityDetail.title$': { [Op.like]: `%${title}%` } };
     querySQL.subQuery = false;
 
     // category : 닉네임
@@ -174,12 +174,12 @@ exports.readPost = async (req, res, next) => {
     };
     if (boardName === 'community') {
       querySQL.include.push({
-        model: CommunityInfo,
+        model: CommunityDetail,
         attributes: ['title'],
       });
     } else if (boardName === 'picture') {
       querySQL.include.push({
-        model: PictureInfo,
+        model: PictureDetail,
         attributes: ['imgUrl'],
       });
     }
@@ -265,7 +265,7 @@ exports.createPost = async (req, res, next) => {
       );
       // 3. create post information
       if (newPost && boardName == 'community') {
-        await CommunityInfo.create(
+        await CommunityDetail.create(
           {
             title,
             PostId: newPost.id,
@@ -273,7 +273,7 @@ exports.createPost = async (req, res, next) => {
           { transaction },
         );
       } else if (new Post() && boardName == 'picture') {
-        await PictureInfo.create(
+        await PictureDetail.create(
           {
             imgUrl,
             PostId: newPost.id,
@@ -343,12 +343,12 @@ exports.deletePost = async (req, res, next) => {
       });
       // 2. delete post info
       if (boardName === 'community') {
-        await CommunityInfo.destroy({
+        await CommunityDetail.destroy({
           where: { PostId: postId },
           transaction,
         });
       } else if (boardName === 'picture') {
-        await PictureInfo.destroy({
+        await PictureDetail.destroy({
           where: { PostId: postId },
           transaction,
         });
@@ -446,7 +446,7 @@ exports.updatePost = async (req, res, next) => {
 
     // 3. postinfo update
     if (boardName === 'community') {
-      await CommunityInfo.update(
+      await CommunityDetail.update(
         {
           title,
         },
@@ -456,7 +456,7 @@ exports.updatePost = async (req, res, next) => {
         },
       );
     } else if (boardName === 'picture') {
-      await PictureInfo.update(
+      await PictureDetail.update(
         {
           imgUrl,
         },

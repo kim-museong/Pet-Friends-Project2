@@ -21,7 +21,7 @@ const PostItem = ({ post, boardName, loading }) => {
     <>
       <Wrapper>
         <Link to={`/${boardName}/${post.id}`}>
-          <PostItemBlock>{post.CommunityInfo.title}</PostItemBlock>
+          <PostItemBlock>{post.CommunityDetail.title}</PostItemBlock>
         </Link>
       </Wrapper>
     </>

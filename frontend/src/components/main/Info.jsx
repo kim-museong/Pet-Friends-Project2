@@ -100,7 +100,7 @@ const Info = () => {
               <div className="img" style={{ backgroundImage: `url(${extractImageUrl(post.Content.content)})` }}></div>
               <div>
                 <span className="info">정보글</span>
-                <div className="title">{post.CommunityInfo.title}</div>
+                <div className="title">{post.CommunityDetail.title}</div>
               </div>
             </InfoBox>
           ))}
