@@ -19,7 +19,7 @@ import Setting from './components/common/Setting';
 import WritePage from './pages/WritePage';
 import AttendancePage from './pages/AttendancePage';
 import MemoContainer from './containers/main/MemoContainer';
-import MemoWirteContainer from './containers/main/MemoWirteContainer';
+import MemoWriteContainer from './containers/main/MemoWriteContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -77,7 +77,7 @@ const App = () => {
 
         {/* 메모장 */}
         <Route path="/memo" element={<MemoContainer />} />
-        <Route path="/memo/write" element={<MemoWirteContainer />} />
+        <Route path="/memo/write" element={<MemoWriteContainer />} />
       </Routes>
     </>
   );

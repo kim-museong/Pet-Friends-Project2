@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const WriteBtn = styled(Link)`
   width: 50px;
   height: 50px;
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   cursor: pointer;
@@ -29,9 +29,23 @@ const WriteBtn = styled(Link)`
   }
 `;
 
-const Memo = () => {
+const Posts = styled.div`
+  border: 1px solid ${palette.border};
+  padding: 20px 30px;
+  border-radius: 0;
+
+  & + & {
+    border-top: none;
+  }
+`;
+
+const Memo = ({ memo }) => {
   return (
     <>
+      <h3>메모</h3>
+      {memo?.map((m) => (
+        <Posts>{m.content}</Posts>
+      ))}
       <WriteBtn to="/memo/write">
         <PiPencilSimpleLineDuotone />
       </WriteBtn>

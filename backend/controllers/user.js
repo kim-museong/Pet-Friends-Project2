@@ -1,4 +1,4 @@
-const { User, Post, Content, Pet, Attendance } = require('../models');
+const { User, Post, Content, Pet, Attendance, Memo } = require('../models');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const cron = require('node-cron');
@@ -240,5 +240,37 @@ exports.editUser = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: '서버 에러 발생' });
+  }
+};
+
+exports.saveMemo = async (req, res, next) => {
+  const { content, id } = req.body;
+  if (id) {
+    try {
+      await Memo.create({
+        content: content,
+        UserId: id,
+      });
+      console.log('등록 성공!');
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    res.status(500);
+    console.log('로그인 필요');
+  }
+};
+
+exports.memo = async (req, res, next) => {
+  const { id } = req.body;
+  console.log(id);
+  if (id) {
+    try {
+      const response = await Memo.findAll({ where: { UserId: id } });
+      console.log(res.data);
+      return res.json(response);
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
