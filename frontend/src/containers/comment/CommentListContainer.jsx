@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentList from '../../components/comment/CommentList';
 import { addCommentLike, deleteComment, getComments, unloadComment } from '../../modules/comment';
+import { getLikes } from '../../modules/like';
 
 const CommentListContainer = () => {
   const postId = useSelector((state) => state.post.post?.post.id);
   const comments = useSelector((state) => state.comment.comments);
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user);
+  const likes = useSelector((state) => state.like.likes);
 
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const latestComment = useRef(null);
@@ -22,6 +24,14 @@ const CommentListContainer = () => {
       dispatch(unloadComment());
     };
   }, [dispatch, postId]);
+
+  // load like list
+  useEffect(() => {
+    if (user && postId) {
+      console.log('getLikes 요청 보냄', user, postId);
+      dispatch(getLikes({ userId: user?.id, postId }));
+    }
+  }, []);
 
   // delete button clicked
   const handleDeleteClick = (isReply, currentId, parentId) => {
@@ -50,6 +60,18 @@ const CommentListContainer = () => {
     const type = isReply ? 'reply' : 'comment';
     dispatch(addCommentLike({ commentId, type, userId, postId }));
   };
+  // isLiked
+  const isLiked = (isReply, commentId, userId) => {
+    if (!isReply) {
+      return !!likes.find(
+        (like) => like['UserId'] === userId && like['likable_type'] === 'comment' && like['likable_id'] === commentId,
+      );
+    } else {
+      return !!likes.find(
+        (like) => like['UserId'] === userId && like['likable_type'] === 'reply' && like['likable_id'] === commentId,
+      );
+    }
+  };
 
   return (
     <CommentList
@@ -61,6 +83,7 @@ const CommentListContainer = () => {
       handleLikeClick={handleLikeClick}
       setSelectedCommentId={setSelectedCommentId}
       latestComment={latestComment}
+      isLiked={isLiked}
     ></CommentList>
   );
 };

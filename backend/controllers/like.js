@@ -37,13 +37,85 @@ exports.addLike = async (req, res, next) => {
         },
         { transaction },
       );
+      // 2. update likeCount
+      const query = {
+        by: 1,
+        where: {
+          id: targetId,
+        },
+        transaction,
+      };
+      if (type === 'post') {
+        await Post.increment('likeCount', query);
+      } else if (type === 'comment') {
+        await Comment.increment('likeCount', query);
+      } else if (type === 'reply') {
+        await Reply.increment('likeCount', query);
+      }
+      // 3. get target(post, comment, reply) list
+      const comments = await Comment.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['nickname'],
+          },
+          {
+            model: Reply,
+            include: [
+              {
+                model: User,
+                attributes: ['nickname'],
+              },
+            ],
+            paranoid: false,
+          },
+        ],
+        where: { PostId: postId },
+        paranoid: false,
+        transaction,
+      });
 
+      await transaction.commit();
+
+      return res.status(200).json(comments);
+    } else {
+      return res.status(404).json({ error: 'missing required information' });
+    }
+  } catch (error) {
+    // transaction rollback
+    await transaction.rollback();
+
+    next(error);
+  }
+};
+///////////////////////////////////////////////////
+//////////////////// get likes /////////////////////
+///////////////////////////////////////////////////
+exports.getLikes = async (req, res, next) => {
+  const { userId = null } = req.params;
+  const { postId = null } = req.query;
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    // 1. get likes
+    if (userId !== null && postId !== null) {
+      const likes = await Like.findAll(
+        {},
+        {
+          where: {
+            UserId: userId,
+            PostId: postId,
+          },
+          transaction,
+        },
+      );
       // transaction commit
       await transaction.commit();
 
-      return res.status(200).json(like);
+      return res.status(200).json(likes);
     } else {
-      return res.status(404).json({ error: 'required information missing' });
+      return res.status(404).json({ error: 'missing required information' });
     }
   } catch (error) {
     // transaction rollback
@@ -53,6 +125,7 @@ exports.addLike = async (req, res, next) => {
     next(error);
   }
 };
+
 /////////////////////////////////////////////////////////
 //////////////////// create comment /////////////////////
 /////////////////////////////////////////////////////////

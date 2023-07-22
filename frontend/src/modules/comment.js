@@ -106,16 +106,16 @@ const comment = handleActions(
     }),
     [UNLOAD_COMMENT]: (state) => initialState,
     // TODO : like modules로 전부 옮길것
-    // [ADD_COMMENT_LIKE_SUCCESS]: (state, { payload: comments }) => ({
-    //   ...state,
-    //   comments,
-    //   commentError: null,
-    // }),
-    // [ADD_COMMENT_LIKE_FAILURE]: (state, { payload: commentError }) => ({
-    //   ...state,
-    //   comments: null,
-    //   commentError,
-    // }),
+    [ADD_COMMENT_LIKE_SUCCESS]: (state, { payload: comments }) => ({
+      ...state,
+      comments,
+      commentError: null,
+    }),
+    [ADD_COMMENT_LIKE_FAILURE]: (state, { payload: commentError }) => ({
+      ...state,
+      comments: null,
+      commentError,
+    }),
   },
   initialState,
 );

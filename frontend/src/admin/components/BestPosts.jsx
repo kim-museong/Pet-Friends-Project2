@@ -36,7 +36,7 @@ const BestPost = () => {
               if (userResponse) {
                 return {
                   ...post,
-                  title: post.CommunityInfo.title,
+                  title: post.CommunityDetail.title,
                   nickname: userResponse.data.nickname,
                 };
               }

@@ -31,6 +31,7 @@ exports.createComment = async (req, res, next) => {
           content,
           UserId: req.user.id,
           PostId: postId,
+          likeCount: 0,
         },
         { transaction },
       );

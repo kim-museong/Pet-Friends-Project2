@@ -7,10 +7,17 @@ class Like extends Sequelize.Model {
         likable_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
         likable_type: {
           type: Sequelize.STRING(30),
           allowNull: false,
+          primaryKey: true,
+        },
+        UserId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          primaryKey: true,
         },
       },
       {

@@ -260,6 +260,7 @@ exports.createPost = async (req, res, next) => {
         {
           BoardId: board.id,
           UserId: req.user.id,
+          likeCount: 0,
         },
         { transaction },
       );

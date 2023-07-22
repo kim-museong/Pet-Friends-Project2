@@ -30,6 +30,7 @@ exports.createReply = async (req, res, next) => {
           content,
           UserId: req.user.id,
           CommentId: parentCommentId,
+          likeCount: 0,
         },
         { transaction },
       );

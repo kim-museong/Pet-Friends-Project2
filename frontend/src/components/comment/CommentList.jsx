@@ -99,6 +99,7 @@ const Comment = ({
   isReply,
   setSelectedCommentId,
   latestComment,
+  isLiked,
 }) => {
   // scroll to new comment/reply
   useEffect(() => {
@@ -123,6 +124,7 @@ const Comment = ({
         <div>
           <CommentNickname>{comment.User.nickname}</CommentNickname>
           <CommentCreatedAt>{comment.createdAt}</CommentCreatedAt>
+          <CommentCreatedAt>{`추천수 : ${comment.likeCount}`}</CommentCreatedAt>
         </div>
         {loggedInUser && loggedInUser.id === comment.UserId && !comment.deletedAt && (
           <CommentDeleteButton
@@ -138,7 +140,11 @@ const Comment = ({
         {comment.deletedAt ? <span>{'삭제된 댓글입니다'}</span> : <span>{comment.content}</span>}
         {loggedInUser && !comment.deletedAt && (
           <CommentButtonWrapper>
-            <CommentButton onClick={() => handleLikeClick(comment.id, isReply, loggedInUser.id)}>추천</CommentButton>
+            {isLiked(isReply, comment.id, loggedInUser?.id) ? (
+              <CommentButton>추천해제</CommentButton>
+            ) : (
+              <CommentButton onClick={() => handleLikeClick(comment.id, isReply, loggedInUser.id)}>추천</CommentButton>
+            )}
             <CommentButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentButton>
           </CommentButtonWrapper>
         )}
@@ -165,6 +171,7 @@ const Comment = ({
           isReply={true}
           setSelectedCommentId={setSelectedCommentId}
           latestComment={latestComment}
+          isLiked={isLiked}
         ></CommentList>
       )}
     </CommentBlock>
@@ -182,6 +189,7 @@ const CommentList = ({
   isReply = false,
   setSelectedCommentId,
   latestComment,
+  isLiked,
 }) => {
   return (
     <CommentListBlock>
@@ -199,6 +207,7 @@ const CommentList = ({
             isReply={isReply}
             setSelectedCommentId={setSelectedCommentId}
             latestComment={latestComment}
+            isLiked={isLiked}
           ></Comment>
         ))}
     </CommentListBlock>

@@ -8,6 +8,10 @@ class Reply extends Sequelize.Model {
           type: Sequelize.STRING(5000),
           allowNull: false,
         },
+        likeCount: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
       },
       {
         sequelize,

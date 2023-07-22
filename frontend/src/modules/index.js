@@ -13,6 +13,7 @@ import write, { writeSaga } from './write';
 import main, { mainSaga } from './main';
 import searchOption from './searchOption';
 import comment, { commentSaga } from './comment';
+import like, { likeSaga } from './like';
 
 const rootReducer = combineReducers({
   posts,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   main,
   searchOption,
   comment,
+  like,
 });
 
 // redux-persist로 새로고침시 state 유지
@@ -37,7 +39,17 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export function* rootSaga() {
-  yield all([postsSaga(), authSaga(), userSaga(), emailSage(), postSaga(), mainSaga(), writeSaga(), commentSaga()]);
+  yield all([
+    postsSaga(),
+    authSaga(),
+    userSaga(),
+    emailSage(),
+    postSaga(),
+    mainSaga(),
+    writeSaga(),
+    commentSaga(),
+    likeSaga(),
+  ]);
 }
 
 export default persistedReducer;

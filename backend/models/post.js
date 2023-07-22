@@ -9,6 +9,10 @@ class Post extends Sequelize.Model {
           allowNull: false,
           defaultValue: 0,
         },
+        likeCount: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
       },
       {
         sequelize,

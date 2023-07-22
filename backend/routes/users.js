@@ -1,5 +1,5 @@
 const express = require('express');
-const { addLike } = require('../controllers/like');
+const { addLike, getLikes } = require('../controllers/like');
 const { getUsers, getUser } = require('../controllers/users');
 const router = express.Router();
 
@@ -11,5 +11,8 @@ router.get('/:userId', getUser);
 
 // POST /users/:userId/posts/:postId/likes
 router.post('/:userId/posts/:postId/likes', addLike);
+
+// GET /users/:userId/likes
+router.get('/:userId/likes', getLikes);
 
 module.exports = router;
