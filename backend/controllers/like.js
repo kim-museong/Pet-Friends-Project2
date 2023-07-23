@@ -126,57 +126,69 @@ exports.getLikes = async (req, res, next) => {
   }
 };
 
-/////////////////////////////////////////////////////////
-//////////////////// create comment /////////////////////
-/////////////////////////////////////////////////////////
-exports.createComment = async (req, res, next) => {
-  const { postId } = req.params;
-  const { content = '' } = req.body;
+//////////////////////////////////////////////////////
+//////////////////// delete like /////////////////////
+//////////////////////////////////////////////////////
+exports.deleteLike = async (req, res, next) => {
+  const { userId } = req.params;
+  const { likableType, likableId, postId } = req.query;
 
   const transaction = await sequelize.transaction();
 
   try {
-    // 1. create comment
-    if (postId) {
-      const comment = await Comment.create(
-        {
-          content,
-          UserId: req.user.id,
-          PostId: postId,
-        },
-        { transaction },
-      );
-
-      // 2. get comments
-      const comments = await Comment.findAll({
-        include: [
-          {
-            model: User,
-            attributes: ['nickname'],
-          },
-          {
-            model: Reply,
-            include: [
-              {
-                model: User,
-                attributes: ['nickname'],
-              },
-            ],
-            paranoid: false,
-          },
-        ],
-        where: { PostId: postId },
-        paranoid: false,
-        transaction,
-      });
-
-      // transaction commit
-      await transaction.commit();
-
-      return res.status(200).json(comments);
-    } else {
-      return res.status(404).json({ error: 'post not found' });
+    // 1. delete like
+    const like = await Like.destroy({
+      where: {
+        UserId: userId,
+        likable_type: likableType,
+        likable_id: likableId,
+      },
+      transaction,
+    });
+    console.log(`유저 ${userId}의 ${likableId}번 ${likableType} 삭제 성공`);
+    // 2. update likeCount
+    const query = {
+      by: 1,
+      where: {
+        id: likableId,
+      },
+      transaction,
+    };
+    if (likableType === 'post') {
+      await Post.decrement('likeCount', query);
+    } else if (likableType === 'comment') {
+      await Comment.decrement('likeCount', query);
+    } else if (likableType === 'reply') {
+      await Reply.decrement('likeCount', query);
     }
+
+    // 3. get target(post, comment, reply) list
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['nickname'],
+        },
+        {
+          model: Reply,
+          include: [
+            {
+              model: User,
+              attributes: ['nickname'],
+            },
+          ],
+          paranoid: false,
+        },
+      ],
+      where: { PostId: postId },
+      paranoid: false,
+      transaction,
+    });
+
+    // transaction commit
+    await transaction.commit();
+
+    res.status(200).json(comments);
   } catch (error) {
     // transaction rollback
     await transaction.rollback();
@@ -186,45 +198,115 @@ exports.createComment = async (req, res, next) => {
   }
 };
 
-//////////////////////////////////////////////////////
-//////////////////// get comment /////////////////////
-//////////////////////////////////////////////////////
-exports.getComments = async (req, res, next) => {
-  const { postId } = req.params;
+////////////////////////////////////////////////////////
+//////////////////// add like TEST /////////////////////
+////////////////////////////////////////////////////////
+exports.addLikeTEST = async (req, res, next) => {
+  const { userId } = req.params;
+  const { postId, targetType, targetId } = req.body;
+  console.log(userId, postId, targetType, targetId);
 
   const transaction = await sequelize.transaction();
 
   try {
-    // 1. get comment list
-    if (postId) {
-      const comments = await Comment.findAll({
-        include: [
-          {
-            model: User,
-            attributes: ['nickname'],
-          },
-          {
-            model: Reply,
-            include: [
-              {
-                model: User,
-                attributes: ['nickname'],
-              },
-            ],
-            paranoid: false,
-          },
-        ],
-        where: { PostId: postId },
-        paranoid: false,
-        transaction,
-      });
-      // transaction commit
-      await transaction.commit();
-
-      return res.status(200).json(comments);
-    } else {
-      return res.status(404).json({ error: 'post not found' });
+    // 1. add like
+    const like = await Like.create(
+      {
+        UserId: userId,
+        PostId: postId,
+        likable_type: targetType,
+        likable_id: targetId,
+      },
+      { transaction },
+    );
+    // 2. update likeCount
+    const query = {
+      by: 1,
+      where: {
+        id: targetId,
+      },
+      transaction,
+    };
+    if (targetType === 'post') {
+      await Post.increment('likeCount', query);
+    } else if (targetType === 'comment') {
+      await Comment.increment('likeCount', query);
+    } else if (targetType === 'reply') {
+      await Reply.increment('likeCount', query);
     }
+    // 3. get likes
+    const likes = await Like.findAll({
+      where: {
+        PostId: postId,
+      },
+      transaction,
+    });
+
+    // transaction commit
+    await transaction.commit();
+
+    console.log(`유저 ${userId}의 ${targetId}번 ${targetType} 추천 성공`);
+    console.log(likes);
+    res.status(200).json(likes);
+  } catch (error) {
+    // transaction rollback
+    await transaction.rollback();
+
+    console.error(error);
+    next(error);
+  }
+};
+
+///////////////////////////////////////////////////////////
+//////////////////// delete like TEST /////////////////////
+///////////////////////////////////////////////////////////
+exports.deleteLikeTEST = async (req, res, next) => {
+  const { userId } = req.params;
+  const { targetType, targetId, postId } = req.query;
+  console.log(userId, targetType, targetId, postId);
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    // 1. delete like
+    const like = await Like.destroy({
+      where: {
+        UserId: userId,
+        likable_type: targetType,
+        likable_id: targetId,
+        PostId: postId,
+      },
+      transaction,
+    });
+    // 2. update likeCount
+    const query = {
+      by: 1,
+      where: {
+        id: targetId,
+      },
+      transaction,
+    };
+    if (targetType === 'post') {
+      await Post.decrement('likeCount', query);
+    } else if (targetType === 'comment') {
+      await Comment.decrement('likeCount', query);
+    } else if (targetType === 'reply') {
+      await Reply.decrement('likeCount', query);
+    }
+    // 3. get likes
+    const likes = await Like.findAll({
+      where: {
+        PostId: postId,
+      },
+      transaction,
+    });
+
+    // transaction commit
+    await transaction.commit();
+
+    console.log(`유저 ${userId}의 ${targetId}번 ${targetType} 추천해제 성공`);
+    console.log(likes);
+    res.status(200).json(likes);
   } catch (error) {
     // transaction rollback
     await transaction.rollback();

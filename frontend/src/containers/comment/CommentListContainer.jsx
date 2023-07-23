@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentList from '../../components/comment/CommentList';
-import { addCommentLike, deleteComment, getComments, unloadComment } from '../../modules/comment';
+import { addCommentLike, deleteComment, deleteCommentLike, getComments, unloadComment } from '../../modules/comment';
 import { getLikes } from '../../modules/like';
 
 const CommentListContainer = () => {
+  console.log('CommentListContainer 렌더링');
   const postId = useSelector((state) => state.post.post?.post.id);
   const comments = useSelector((state) => state.comment.comments);
   const user = useSelector((state) => state.user?.user);
@@ -31,7 +32,7 @@ const CommentListContainer = () => {
       console.log('getLikes 요청 보냄', user, postId);
       dispatch(getLikes({ userId: user?.id, postId }));
     }
-  }, []);
+  }, [comments]);
 
   // delete button clicked
   const handleDeleteClick = (isReply, currentId, parentId) => {
@@ -60,14 +61,20 @@ const CommentListContainer = () => {
     const type = isReply ? 'reply' : 'comment';
     dispatch(addCommentLike({ commentId, type, userId, postId }));
   };
+  // unlike button clicked
+  const handleUnlikeClick = (userId, likableType, likableId) => {
+    console.log('추천 해제 버튼 클릭됨', userId, likableType, likableId);
+    dispatch(deleteCommentLike({ userId, likableType, likableId, postId }));
+  };
+
   // isLiked
   const isLiked = (isReply, commentId, userId) => {
     if (!isReply) {
-      return !!likes.find(
+      return !!likes?.find(
         (like) => like['UserId'] === userId && like['likable_type'] === 'comment' && like['likable_id'] === commentId,
       );
     } else {
-      return !!likes.find(
+      return !!likes?.find(
         (like) => like['UserId'] === userId && like['likable_type'] === 'reply' && like['likable_id'] === commentId,
       );
     }
@@ -81,6 +88,7 @@ const CommentListContainer = () => {
       handleDeleteClick={handleDeleteClick}
       handleReplyClick={handleReplyClick}
       handleLikeClick={handleLikeClick}
+      handleUnlikeClick={handleUnlikeClick}
       setSelectedCommentId={setSelectedCommentId}
       latestComment={latestComment}
       isLiked={isLiked}

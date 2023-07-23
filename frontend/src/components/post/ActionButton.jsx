@@ -24,7 +24,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const ActionButton = ({ onDelete, post, user, boardName }) => {
+const ActionButton = ({ onDelete, onLike, handleUnlikeClick, post, user, boardName, isLiked }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalRef = useRef(null);
@@ -57,6 +57,19 @@ const ActionButton = ({ onDelete, post, user, boardName }) => {
     setVisible(true);
   };
 
+  // 추천 버튼 클릭
+  const handleLikeClick = () => {
+    setModalData({
+      title: '추천 확인',
+      description: '정말 이 게시글을 추천하시겠습니까?',
+      confirmText: '추천',
+      cancelText: '취소',
+      onConfirm: onModalLikeClick,
+      onCancel: onModalCancelClick,
+    });
+    setVisible(true);
+  };
+
   // modal창의 확인 버튼
   const onModalSubmitClick = () => {
     setVisible(false);
@@ -67,6 +80,13 @@ const ActionButton = ({ onDelete, post, user, boardName }) => {
   const onModalCancelClick = () => {
     setVisible(false);
   };
+
+  // modal창의 추천 버튼
+  const onModalLikeClick = () => {
+    setVisible(false);
+    onLike();
+  };
+
   // modal창이 떴을 때 클릭 이벤트
   const onModalOutSideClick = (event) => {
     // target과 currentTarget이 같을 때 모달창 꺼짐(=모달창 외부 클릭)
@@ -77,10 +97,23 @@ const ActionButton = ({ onDelete, post, user, boardName }) => {
 
   return (
     <>
-      {user && post && user.id === post.post.UserId && (
+      {user && post && user.id === post.post.UserId ? (
         <ActionButtonBlock>
+          {!isLiked() ? (
+            <StyledButton onClick={handleLikeClick}>추천</StyledButton>
+          ) : (
+            <StyledButton onClick={handleUnlikeClick}>추천해제</StyledButton>
+          )}
           <StyledButton onClick={onEditPost}>{' 수정 '}</StyledButton>
           <StyledButton onClick={onDeleteClick}>{' 삭제 '}</StyledButton>
+        </ActionButtonBlock>
+      ) : (
+        <ActionButtonBlock>
+          {!isLiked() ? (
+            <StyledButton onClick={handleLikeClick}>추천</StyledButton>
+          ) : (
+            <StyledButton onClick={handleUnlikeClick}>추천해제</StyledButton>
+          )}
         </ActionButtonBlock>
       )}
       <AlertModal

@@ -11,7 +11,7 @@ const PostBlock = styled.div`
   }
 `;
 
-const Post = ({ post }) => {
+const Post = ({ post, likeCount, loading }) => {
   return (
     <PostBlock>
       {post && (
@@ -22,6 +22,7 @@ const Post = ({ post }) => {
           <div>좋아요 : {post.likeCount}</div>
           <div>조회수 : {post.post.view}</div>
           <div>댓글 수 : {post.commentCount}</div>
+          <div>추천수: {likeCount}</div>
         </>
       )}
     </PostBlock>

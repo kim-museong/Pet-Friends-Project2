@@ -17,6 +17,7 @@ const PostListContainer = () => {
 
   const posts = useSelector((state) => state.posts.posts);
   const loading = useSelector((state) => state.loading['posts/GET_POSTS']);
+  const likes = useSelector((state) => state.like.likes);
 
   const limit = useRef(10);
   const dispatch = useDispatch();

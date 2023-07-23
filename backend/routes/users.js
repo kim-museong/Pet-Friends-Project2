@@ -1,5 +1,5 @@
 const express = require('express');
-const { addLike, getLikes } = require('../controllers/like');
+const { addLike, getLikes, deleteLike, addLikeTEST, deleteLikeTEST } = require('../controllers/like');
 const { getUsers, getUser } = require('../controllers/users');
 const router = express.Router();
 
@@ -14,5 +14,14 @@ router.post('/:userId/posts/:postId/likes', addLike);
 
 // GET /users/:userId/likes
 router.get('/:userId/likes', getLikes);
+
+// DELETE /users/:userId/likes
+router.delete('/:userId/likes', deleteLike);
+
+// POST /users/:userId/likesTEST
+router.post('/:userId/likesTEST', addLikeTEST);
+
+// DELETE /users/:userId/likesTEST
+router.delete('/:userId/likesTEST', deleteLikeTEST);
 
 module.exports = router;

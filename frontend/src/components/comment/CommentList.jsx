@@ -96,6 +96,7 @@ const Comment = ({
   handleDeleteClick,
   handleReplyClick,
   handleLikeClick,
+  handleUnlikeClick,
   isReply,
   setSelectedCommentId,
   latestComment,
@@ -141,7 +142,11 @@ const Comment = ({
         {loggedInUser && !comment.deletedAt && (
           <CommentButtonWrapper>
             {isLiked(isReply, comment.id, loggedInUser?.id) ? (
-              <CommentButton>추천해제</CommentButton>
+              <CommentButton
+                onClick={() => handleUnlikeClick(loggedInUser.id, isReply ? 'reply' : 'comment', comment.id)}
+              >
+                추천해제
+              </CommentButton>
             ) : (
               <CommentButton onClick={() => handleLikeClick(comment.id, isReply, loggedInUser.id)}>추천</CommentButton>
             )}
@@ -168,6 +173,7 @@ const Comment = ({
           handleDeleteClick={handleDeleteClick}
           handleReplyClick={handleReplyClick}
           handleLikeClick={handleLikeClick}
+          handleUnlikeClick={handleUnlikeClick}
           isReply={true}
           setSelectedCommentId={setSelectedCommentId}
           latestComment={latestComment}
@@ -186,6 +192,7 @@ const CommentList = ({
   handleDeleteClick,
   handleReplyClick,
   handleLikeClick,
+  handleUnlikeClick,
   isReply = false,
   setSelectedCommentId,
   latestComment,
@@ -204,6 +211,7 @@ const CommentList = ({
             handleDeleteClick={handleDeleteClick}
             handleReplyClick={handleReplyClick}
             handleLikeClick={handleLikeClick}
+            handleUnlikeClick={handleUnlikeClick}
             isReply={isReply}
             setSelectedCommentId={setSelectedCommentId}
             latestComment={latestComment}

@@ -27,6 +27,10 @@ const ADD_COMMENT_LIKE = 'comment/ADD_COMMENT_LIKE';
 const ADD_COMMENT_LIKE_SUCCESS = 'comment/ADD_COMMENT_LIKE_SUCCESS';
 const ADD_COMMENT_LIKE_FAILURE = 'comment/ADD_COMMENT_LIKE_FAILURE';
 
+const DELETE_COMMENT_LIKE = 'comment/DELETE_COMMENT_LIKE';
+const DELETE_COMMENT_LIKE_SUCCESS = 'comment/DELETE_COMMENT_LIKE_SUCCESS';
+const DELETE_COMMENT_LIKE_FAILURE = 'comment/DELETE_COMMENT_LIKE_FAILURE';
+
 // action creator
 export const changeCommentInput = createAction(CHANGE_COMMENT_INPUT, (input) => input);
 export const getComments = createAction(GET_COMMENT, (postId) => postId);
@@ -42,12 +46,19 @@ export const deleteComment = createAction(DELETE_COMMENT, ({ postId, currentId, 
 }));
 export const unloadComment = createAction(UNLOAD_COMMENT);
 export const addCommentLike = createAction(ADD_COMMENT_LIKE);
+export const deleteCommentLike = createAction(DELETE_COMMENT_LIKE, ({ userId, likableType, likableId, postId }) => ({
+  userId,
+  likableType,
+  likableId,
+  postId,
+}));
 
 // define saga
 const getCommentsSaga = createRequestSaga(GET_COMMENT, commentAPI.getComments);
 const createCommentSaga = createRequestSaga(CREATE_COMMENT, commentAPI.createComment);
 const deleteCommentSaga = createRequestSaga(DELETE_COMMENT, commentAPI.deleteComment);
 const addCommentLikeSaga = createRequestSaga(ADD_COMMENT_LIKE, commentAPI.addCommentLike);
+const deleteCommentLikeSaga = createRequestSaga(DELETE_COMMENT_LIKE, commentAPI.deleteCommentLike);
 
 export function* commentSaga() {
   // get comments 요청
@@ -58,6 +69,8 @@ export function* commentSaga() {
   yield takeLatest(DELETE_COMMENT, deleteCommentSaga);
   // add comment like 요청
   yield takeLatest(ADD_COMMENT_LIKE, addCommentLikeSaga);
+  // delete like 요청
+  yield takeLatest(DELETE_COMMENT_LIKE, deleteCommentLikeSaga);
 }
 
 // init
@@ -112,6 +125,16 @@ const comment = handleActions(
       commentError: null,
     }),
     [ADD_COMMENT_LIKE_FAILURE]: (state, { payload: commentError }) => ({
+      ...state,
+      comments: null,
+      commentError,
+    }),
+    [DELETE_COMMENT_LIKE_SUCCESS]: (state, { payload: comments }) => ({
+      ...state,
+      comments,
+      commentError: null,
+    }),
+    [DELETE_COMMENT_LIKE_FAILURE]: (state, { payload: commentError }) => ({
       ...state,
       comments: null,
       commentError,

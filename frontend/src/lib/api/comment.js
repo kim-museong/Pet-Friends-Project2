@@ -49,3 +49,15 @@ export const addCommentLike = ({ commentId = null, type = 'comment', userId = nu
     targetId: commentId,
   });
 };
+
+// delete commentlike
+export const deleteCommentLike = ({ userId, likableType, likableId, postId }) => {
+  console.log('deleteLike 요청', userId, likableType, likableId, postId);
+  return client.delete(`/users/${userId}/likes`, {
+    params: {
+      likableType,
+      likableId,
+      postId,
+    },
+  });
+};

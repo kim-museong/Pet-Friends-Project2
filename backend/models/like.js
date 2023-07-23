@@ -7,17 +7,22 @@ class Like extends Sequelize.Model {
         likable_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
-          primaryKey: true,
+          unique: 'compositeIndex',
         },
         likable_type: {
           type: Sequelize.STRING(30),
           allowNull: false,
-          primaryKey: true,
+          unique: 'compositeIndex',
         },
         UserId: {
           type: Sequelize.INTEGER,
           allowNull: false,
-          primaryKey: true,
+          unique: 'compositeIndex',
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true,
+          unique: 'compositeIndex',
         },
       },
       {
@@ -29,6 +34,13 @@ class Like extends Sequelize.Model {
         paranoid: true,
         charset: 'utf8',
         collate: 'utf8_general_ci',
+        indexes: [
+          {
+            name: 'compositeIndex',
+            unique: true,
+            fields: ['UserId', 'likable_id', 'likable_type', 'deletedAt'],
+          },
+        ],
       },
     );
   }

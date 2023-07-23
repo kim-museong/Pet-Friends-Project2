@@ -3,11 +3,16 @@ import Post from '../../components/post/Post';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostAsync, initPost } from '../../modules/post';
 import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 const PostContainer = ({ postId }) => {
   // 필요 state 값
   const post = useSelector((state) => state.post.post);
   const loading = useSelector((state) => state.loading['post/GET_POST']);
+  const user = useSelector((state) => state.user?.user);
+  const likes = useSelector((state) => state.like?.likes);
+
+  const [likeCount, setLikeCount] = useState(0);
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -22,7 +27,12 @@ const PostContainer = ({ postId }) => {
     return () => dispatch(initPost());
   }, [postId, getPost, dispatch, boardName]);
 
-  return <Post post={post} loading={loading}></Post>;
+  useEffect(() => {
+    console.log('likes 정보 갱신됨');
+    setLikeCount(likes?.filter((like) => like.likable_id.toString() === postId && like.likable_type === 'post').length);
+  }, [likes]);
+
+  return <Post post={post} likeCount={likeCount} loading={loading}></Post>;
 };
 
 export default PostContainer;
