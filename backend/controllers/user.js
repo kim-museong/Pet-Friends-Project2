@@ -253,6 +253,7 @@ exports.saveMemo = async (req, res, next) => {
         UserId: id,
       });
       console.log('등록 성공!');
+      return res.status(200);
     } catch (e) {
       console.log(e);
     }
@@ -303,15 +304,27 @@ exports.memo = async (req, res, next) => {
 };
 
 exports.memoUpdate = async (req, res, next) => {
-  const { userId, content } = req.body;
+  const { id, content } = req.body;
+
   try {
-    const updatedMemo = await Memo.update({ content: content }, { where: { UserId: userId } });
+    const updatedMemo = await Memo.update({ content: content }, { where: { id: id } });
 
     if (updatedMemo[0] === 0) {
       return res.status(404).json({ message: '메모를 찾을 수 없습니다.' });
     }
+    return res.json(updatedMemo);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: '서버 오류로 인해 메모를 업데이트하지 못했습니다.' });
+  }
+};
 
-    return res.json({ message: '메모가 업데이트되었습니다.' });
+exports.memoDelete = async (req, res, next) => {
+  const { id } = req.body;
+  console.log(id);
+  try {
+    await Memo.destroy({ where: { id: id } });
+    return res.json({ message: '메모가 삭제되었습니다.' });
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: '서버 오류로 인해 메모를 업데이트하지 못했습니다.' });

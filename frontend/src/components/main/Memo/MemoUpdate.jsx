@@ -55,16 +55,15 @@ const Content = styled.textarea`
   font-size: 20px;
 `;
 
-const MemoUpdate = ({ onChange, textareaHegiht, content, back }) => {
-  console.log(content);
+const MemoUpdate = ({ onChange, textareaHegiht, content, back, onClick }) => {
   return (
     <>
       <WriteBox>
         <Title>
-          <duv className="back" onClick={back}>
+          <div className="back" onClick={back}>
             <AiOutlineCloseCircle />
-          </duv>
-          <button>수정</button>
+          </div>
+          <button onClick={onClick}>수정</button>
         </Title>
         <Content
           name="content"

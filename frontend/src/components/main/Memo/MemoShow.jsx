@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { HiOutlineBackspace, HiOutlineTrash } from 'react-icons/hi';
 import { MdEditNote } from 'react-icons/md';
 import palette from '../../../lib/styles/palette';
+import { formattedTime } from '../../../lib/main/memo';
 
 const Title = styled.div`
   padding: 10px 20px;
@@ -48,7 +49,21 @@ const Main = styled.div`
   }
 `;
 
-const MemoShow = ({ memo, user, back, formattedTime, update }) => {
+const Loading = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(256, 256, 256, 0.7);
+  text-align: center;
+  border-radius: 0;
+  img {
+    margin-top: 18rem;
+  }
+`;
+
+const MemoShow = ({ memo, user, back, update, loading, delBtn }) => {
   const { nickname } = user || '';
   return (
     <>
@@ -62,7 +77,7 @@ const MemoShow = ({ memo, user, back, formattedTime, update }) => {
               <MdEditNote onClick={update} />
             </div>
             <div>
-              <HiOutlineTrash />
+              <HiOutlineTrash onClick={delBtn} />
             </div>
           </FlexBox>
         </FlexBox>
@@ -70,10 +85,17 @@ const MemoShow = ({ memo, user, back, formattedTime, update }) => {
       <Main>
         <div className="date">
           <span className="nick">{nickname}</span>
-          <span>{formattedTime(memo.createdAt)}</span>
+          <span>{memo && formattedTime(memo?.createdAt)}</span>
         </div>
-        <div className="content">{memo.content}</div>
+        <div className="content">{!loading && memo?.content}</div>
       </Main>
+      {loading && (
+        <>
+          <Loading>
+            <img style={{ width: '50px' }} src="../../../../images/spin.gif" alt="로딩중" />
+          </Loading>
+        </>
+      )}
     </>
   );
 };

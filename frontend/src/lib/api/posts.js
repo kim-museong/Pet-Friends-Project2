@@ -24,10 +24,16 @@ export const getMemo = ({ id, userId }) => {
   return client.post('/user/memo', { id, userId });
 };
 
-export const memoUpdate = () => {
-  return client.post('/user/memoUpdate');
+export const memoUpdate = ({ id, content }) => {
+  console.log(content);
+  return client.post('/user/memoUpdate', { id, content });
 };
 
-export const memoDelete = () => {
-  return client.post('/user/memoDelete');
+export const memoDelete = ({ id }) => {
+  console.log(id);
+  return client.post('/user/memoDelete', { id });
+};
+
+export const memoWrite = ({ id, content }) => {
+  return client.post('/user/saveMemo', { id, content });
 };

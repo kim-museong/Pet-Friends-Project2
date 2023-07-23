@@ -11,9 +11,11 @@ const MAIN_INIT = 'main/MAIN_INIT';
 const SEARCH_INIT = 'main/SEARCH_INIT';
 const MEMO_UPDATE = 'main/MEMO_UPDATE';
 const MEMO_DELETE = 'main/MEMO_DELETE';
+const MEMO_WRITE = 'main/MEMO_WRITE';
+const MEMO_BRING = 'main/MEMO_BRING';
 
-const [GET_MEMO, GET_MEMO_SUCCESS, GET_MEMO_FAILURE] = createRequestActionTypes('/main/GET_MEMO');
-const [GET_MEMOS, GET_MEMOS_SUCCESS, GET_MEMOS_FAILURE] = createRequestActionTypes('/main/GET_MEMOS');
+const [GET_MEMO, GET_MEMO_SUCCESS, GET_MEMO_FAILURE] = createRequestActionTypes('main/GET_MEMO');
+const [GET_MEMOS, GET_MEMOS_SUCCESS, GET_MEMOS_FAILURE] = createRequestActionTypes('main/GET_MEMOS');
 
 const [GET_POPULARPOST, GET_POPULARPOST_SUCCESS, GET_POPULARPOST_FAILURE] =
   createRequestActionTypes('main/GET_POPULARPOST');
@@ -49,24 +51,32 @@ export const getCardAsync = createAction(GET_CARD_POSTS, ({ sortType, boardName,
   limit,
 }));
 
+export const initForm = createAction(MAIN_INIT, (form) => form);
+
+//  memo
 export const getMemoAsync = createAction(GET_MEMO, ({ id, userId }) => ({ id, userId }));
 export const getMemosAsync = createAction(GET_MEMOS, ({ id, search }) => ({ id, search }));
 export const changeMemo = createAction(ONCHAMGE_MEMO, ({ name, value }) => ({ name, value }));
 export const showMemo = createAction(SHOW_MEMO);
-export const initForm = createAction(MAIN_INIT, (form) => form);
 export const searchInit = createAction(SEARCH_INIT);
-export const memoUpdate = createAction(MEMO_UPDATE, ({ userId, content }) => ({ userId, content }));
-export const memoDelete = createAction(MEMO_DELETE, ({ userId, content }) => ({ userId, content }));
+export const memoUpdate = createAction(MEMO_UPDATE, ({ id, content }) => ({ id, content }));
+export const memoDelete = createAction(MEMO_DELETE, ({ id }) => ({
+  id,
+}));
+export const memoWrite = createAction(MEMO_WRITE, ({ id, content }) => ({ id, content }));
+export const memoBring = createAction(MEMO_BRING, (content) => content);
 
 // define saga
 const getMainPostsSaga = createRequestSaga(GET_MAIN_POSTS, postsAPI.getPosts);
 const getPopularPostsSaga = createRequestSaga(GET_POPULARPOST, postsAPI.getPosts);
 const getCardPostsSaga = createRequestSaga(GET_CARD_POSTS, postsAPI.getPosts);
 const getInfoSaga = createRequestSaga(GET_INFO, postsAPI.getPosts);
+
 const getMemosSage = createRequestSaga(GET_MEMOS, postsAPI.getMemos);
 const getMemoSaga = createRequestSaga(GET_MEMO, postsAPI.getMemo);
 const memoUpdateSaga = createRequestSaga(MEMO_UPDATE, postsAPI.memoUpdate);
 const memoDeleteSaga = createRequestSaga(MEMO_DELETE, postsAPI.memoDelete);
+const memoWriteSaga = createRequestSaga(MEMO_WRITE, postsAPI.memoWrite);
 
 export function* mainSaga() {
   yield takeLatest(GET_MAIN_POSTS, getMainPostsSaga);
@@ -77,6 +87,7 @@ export function* mainSaga() {
   yield takeLatest(GET_MEMO, getMemoSaga);
   yield takeLatest(MEMO_UPDATE, memoUpdateSaga);
   yield takeLatest(MEMO_DELETE, memoDeleteSaga);
+  yield takeLatest(MEMO_WRITE, memoWriteSaga);
 }
 
 // init
@@ -86,12 +97,12 @@ const initialState = {
   posts: null,
   cardPosts: null,
   error: null,
-  memo: {
-    memo: '',
-    memos: '',
+  memoValue: {
+    memo: null,
+    memos: null,
     show: false,
-    content: '',
-    search: '',
+    content: null,
+    search: null,
   },
 };
 
@@ -100,16 +111,16 @@ const main = handleActions(
   {
     [ONCHAMGE_MEMO]: (state, { payload: { name, value } }) => ({
       ...state,
-      memo: {
-        ...state.memo,
+      memoValue: {
+        ...state.memoValue,
         [name]: value,
       },
     }),
     [SHOW_MEMO]: (state) => ({
       ...state,
-      memo: {
-        ...state.memo,
-        show: !state.memo.show,
+      memoValue: {
+        ...state.Memo,
+        show: !state.memoValue.show,
       },
     }),
     [MAIN_INIT]: (state, { payload: form }) => ({
@@ -118,36 +129,50 @@ const main = handleActions(
     }),
     [SEARCH_INIT]: (state) => ({
       ...state,
-      memo: {
-        ...state.memo,
-        search: '',
+      memoValue: {
+        ...state.memoValue,
+        search: null,
+      },
+    }),
+    [MEMO_WRITE]: (state, { payload: data }) => ({
+      ...state,
+      memoValue: {
+        ...state.memoValue,
+        memo: data,
+      },
+    }),
+    [MEMO_BRING]: (state, { payload: content }) => ({
+      ...state,
+      memoValue: {
+        ...state.memoValue,
+        content,
       },
     }),
     [GET_MEMOS_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      memo: {
-        ...state.memo,
+      memoValue: {
+        ...state.memoValue,
         memos: data,
       },
     }),
     [GET_MEMOS_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      memo: {
-        ...state.memo,
+      memoValue: {
+        ...state.memoValue,
         memos: null,
       },
     }),
     [GET_MEMO_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      memo: {
-        ...state.memo,
+      memoValue: {
+        ...state.memoValue,
         memo: data,
       },
     }),
     [GET_MEMO_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      memo: {
-        ...state.memo,
+      memoValue: {
+        ...state.memoValue,
         memo: null,
       },
     }),

@@ -3,6 +3,7 @@ import palette from '../../../lib/styles/palette';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { HiOutlineBackspace } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import { formattedTime } from '../../../lib/main/memo';
 
 const Title = styled.div`
   display: flex;
@@ -104,7 +105,21 @@ const NotMemo = styled.div`
   }
 `;
 
-const MemoSearch = ({ search, memos, user, changeDate, onChange, searchClear, searchEnter, back }) => {
+const Loading = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(256, 256, 256, 0.7);
+  text-align: center;
+  border-radius: 0;
+  img {
+    margin-top: 18rem;
+  }
+`;
+
+const MemoSearch = ({ search, memos, user, onChange, searchClear, searchEnter, back, loading }) => {
   const { nickname } = user || '';
   return (
     <>
@@ -127,15 +142,24 @@ const MemoSearch = ({ search, memos, user, changeDate, onChange, searchClear, se
         </>
       </Title>
 
-      {memos?.map((memo, index) => (
-        <Posts key={index} to={`/memo/${nickname}/${memo.id}`}>
-          <div className="title">{memo.content}</div>
-          <div className="date">{changeDate(memo.createdAt)}</div>
-        </Posts>
-      ))}
-      {memos?.length === 0 && (
+      {memos &&
+        memos?.map((memo, index) => (
+          <Posts key={index} to={`/memo/${nickname}/${memo.id}`}>
+            <div className="title">{memo.content}</div>
+            <div className="date">{formattedTime(memo.createdAt)}</div>
+          </Posts>
+        ))}
+      {memos === null && (
         <>
           <NotMemo>검색결과가 없습니다.</NotMemo>
+        </>
+      )}
+
+      {loading && (
+        <>
+          <Loading>
+            <img style={{ width: '50px' }} src="../../../../images/spin.gif" alt="로딩중" />
+          </Loading>
         </>
       )}
     </>

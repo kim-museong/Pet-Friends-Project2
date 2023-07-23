@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { PiPencilSimpleLineDuotone } from 'react-icons/pi';
 import { BiArrowToTop, BiSearch } from 'react-icons/bi';
+import { CiMemoPad } from 'react-icons/ci';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import palette from '../../../lib/styles/palette';
+import { formattedTime } from '../../../lib/main/memo';
 
 const Title = styled.div`
   padding: 20px 30px;
@@ -32,7 +34,7 @@ const Title = styled.div`
 
   .close {
     position: absolute;
-    top: 83px;
+    top: 80px;
     right: 40px;
     color: ${palette.border};
 
@@ -53,6 +55,19 @@ const Title = styled.div`
     margin-top: 20px;
     outline: none;
   }
+`;
+
+const MemoCount = styled.div`
+  padding: 20px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: ${palette.mainColor};
+  text-align: center;
+`;
+
+const Main = styled.div`
+  padding: 5px 10px;
+  margin-bottom: 50px;
 `;
 
 const WriteBtn = styled(Link)`
@@ -88,6 +103,7 @@ const ScrollBtn = styled(WriteBtn)`
 const Posts = styled(Link)`
   display: block;
   padding: 20px 30px;
+  border: 1px solid ${palette.border};
   border-radius: 0;
   color: black;
   cursor: pointer;
@@ -103,7 +119,7 @@ const Posts = styled(Link)`
   }
 
   & + & {
-    border-top: 1px solid ${palette.border};
+    margin-top: 5px;
   }
 
   &:nth-child(even) {
@@ -111,7 +127,34 @@ const Posts = styled(Link)`
   }
 `;
 
-const Memo = ({ user, memos, top, show, search, showSearch, formattedTime, onChange, searchClear, searchEnter }) => {
+const NotMemos = styled.div`
+  text-align: center;
+  color: ${palette.border};
+  margin-top: 8rem;
+
+  svg {
+    font-size: 100px;
+    margin-bottom: 10px;
+    color: ${palette.mainColor};
+    opacity: 0.2;
+  }
+`;
+
+const Loading = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(256, 256, 256, 0.7);
+  text-align: center;
+  border-radius: 0;
+  img {
+    margin-top: 18rem;
+  }
+`;
+
+const Memo = ({ user, memos, top, show, search, loading, showSearch, onChange, searchClear, searchEnter }) => {
   const { nickname } = user || '';
   return (
     <>
@@ -136,15 +179,31 @@ const Memo = ({ user, memos, top, show, search, showSearch, formattedTime, onCha
           </>
         )}
       </Title>
+      <MemoCount>전체메모 {memos?.length}</MemoCount>
+      <Main>
+        {memos &&
+          memos?.map((memo, index) => (
+            <Posts key={index} to={`/memo/${nickname}/${memo.id}`}>
+              <div className="title">{memo.content}</div>
+              <div className="date">{formattedTime(memo?.createdAt)}</div>
+            </Posts>
+          ))}
+        {memos?.length === 0 && (
+          <NotMemos>
+            <CiMemoPad />
+            <div>메모가 없습니다.</div>
+            <div>필요한 내용을 간단하게 적고 정리해보세요.</div>
+          </NotMemos>
+        )}
+      </Main>
 
-      {memos &&
-        memos?.map((memo, index) => (
-          <Posts key={index} to={`/memo/${nickname}/${memo.id}`}>
-            <div className="title">{memo.content}</div>
-            <div className="date">{formattedTime(memo.createdAt)}</div>
-          </Posts>
-        ))}
-
+      {loading && (
+        <>
+          <Loading>
+            <img style={{ width: '50px' }} src="../../../../images/spin.gif" alt="로딩중" />
+          </Loading>
+        </>
+      )}
       <WriteBtn to="/memo/write">
         <PiPencilSimpleLineDuotone />
       </WriteBtn>

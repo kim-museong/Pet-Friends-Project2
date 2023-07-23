@@ -22,6 +22,7 @@ import MemoContainer from './containers/main/Memo/MemoContainer';
 import MemoWriteContainer from './containers/main/Memo/MemoWriteContainer';
 import MemoSearchContainer from './containers/main/Memo/MemoSearchContainer';
 import MemoShowContainer from './containers/main/Memo/MemoShowContainer';
+import MemoUpdateContainer from './containers/main/Memo/MemoUpdateContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -82,7 +83,7 @@ const App = () => {
         <Route path="/memo/:search" element={<MemoSearchContainer />} />
         <Route path="/memo/write" element={<MemoWriteContainer />} />
         <Route path="/memo/:nickname/:id" element={<MemoShowContainer />} />
-        <Route path="/memo/:id/update" element={<MemoWriteContainer />} />
+        <Route path="/memo/:id/update" element={<MemoUpdateContainer />} />
       </Routes>
     </>
   );

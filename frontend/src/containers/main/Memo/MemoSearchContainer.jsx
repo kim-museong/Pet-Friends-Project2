@@ -1,16 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 import MemoSearch from '../../../components/main/Memo/MemoSearch';
 import { useCallback } from 'react';
-import { changeMemo, getMemoAsync, searchInit } from '../../../modules/main';
+import { changeMemo, getMemosAsync, initForm, searchInit } from '../../../modules/main';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const MemoSearchContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { search, memos, user } = useSelector(({ main, user }) => ({
-    search: main.memo.search,
-    memos: main.memo.memos,
+  const { search, memos, user, loading } = useSelector(({ main, user, loading }) => ({
+    search: main.memoValue.search,
+    memos: main.memoValue.memos,
     user: user.user,
+    loading: loading['main/GET_MEMOS'],
   }));
 
   const onChange = useCallback(
@@ -21,26 +23,14 @@ const MemoSearchContainer = () => {
     [dispatch],
   );
 
-  const changeDate = (d) => {
-    const date = new Date(d);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const result = `${year}-${month}-${day}`;
-
-    return result;
-  };
-
   const searchClear = useCallback(() => {
     dispatch(searchInit());
   }, [dispatch]);
 
   const searchEnter = useCallback(
     (e) => {
-      const { id } = user || '';
       if (e.keyCode === 13) {
         navigate(`/memo/${search}`);
-        dispatch(getMemoAsync({ id, search }));
       }
     },
     [dispatch, navigate, search, user],
@@ -50,13 +40,20 @@ const MemoSearchContainer = () => {
     navigate(-1);
   }, [navigate]);
 
+  useEffect(() => {
+    const { id } = user || '';
+    dispatch(initForm('memo'));
+    console.log('가져오기');
+    dispatch(getMemosAsync({ id, search }));
+  }, [dispatch]);
+
   return (
     <>
       <MemoSearch
         search={search}
         memos={memos}
         user={user}
-        changeDate={changeDate}
+        loading={loading}
         onChange={onChange}
         searchClear={searchClear}
         searchEnter={searchEnter}

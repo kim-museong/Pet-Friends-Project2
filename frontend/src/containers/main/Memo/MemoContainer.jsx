@@ -8,9 +8,13 @@ const MemoContainer = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const memos = useSelector((state) => state.main.memo.memos);
-  const user = useSelector((state) => state.user.user);
-  const search = useSelector((state) => state.main.memo.search);
+  const { memos, user, search, loading } = useSelector(({ main, user, loading }) => ({
+    memos: main.memoValue.memos,
+    user: user.user,
+    search: main.memoValue.search,
+    loading: loading['main/GET_MEMOS'],
+  }));
+
   const { id } = user || '';
 
   const top = useCallback(() => {
@@ -60,9 +64,9 @@ const MemoContainer = () => {
   );
 
   useEffect(() => {
-    dispatch(initForm('memos'));
+    dispatch(initForm('memoValue'));
     dispatch(getMemosAsync({ id: id }));
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <>
@@ -72,6 +76,7 @@ const MemoContainer = () => {
         top={top}
         show={show}
         search={search}
+        loading={loading}
         showSearch={showSearch}
         formattedTime={formattedTime}
         onChange={onChange}
