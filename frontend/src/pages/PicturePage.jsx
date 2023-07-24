@@ -9,9 +9,9 @@ const PicturePage = () => {
   return (
     <>
       {/* <SearchOptionMenuContainer></SearchOptionMenuContainer> */}
-      <SortOptionMenuContainer></SortOptionMenuContainer>
+      {/* <SortOptionMenuContainer></SortOptionMenuContainer> */}
       <PictureButtonContainer></PictureButtonContainer>
-      <PictureListContainer></PictureListContainer>
+      {/* <PictureListContainer></PictureListContainer> */}
     </>
   );
 };

@@ -21,7 +21,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const WriteActionButton = ({ title, content, post, postError, boardName, onSubmit, onUpdate, isEdit }) => {
+const WriteActionButton = ({ boardType, title, content, post, postError, boardName, onSubmit, onUpdate, isEdit }) => {
   const navigate = useNavigate();
 
   const modalRef = useRef(null);
@@ -34,40 +34,75 @@ const WriteActionButton = ({ title, content, post, postError, boardName, onSubmi
     onConfirm: null,
     onCancel: null,
   });
+  const hasImgTag = content.includes('<img');
 
   // 글쓰기 버튼 클릭
   const onSubmitClick = () => {
     // 글쓰기 버튼 정상 동작
-    if (title.trim() && content.trim()) {
-      if (isEdit) {
-        setModalData({
-          title: '게시글 수정',
-          description: '입력하신 내용으로 게시글을 수정하시겠습니까?',
-          confirmText: '수정',
-          cancelText: '취소',
-          onConfirm: onModalUpdateClick,
-          onCancel: onModalCancelClick,
-        });
+    if (boardType === 'post') {
+      if (title.trim() && content.trim()) {
+        if (isEdit) {
+          setModalData({
+            title: '게시글 수정',
+            description: '입력하신 내용으로 게시글을 수정하시겠습니까?',
+            confirmText: '수정',
+            cancelText: '취소',
+            onConfirm: onModalUpdateClick,
+            onCancel: onModalCancelClick,
+          });
+        } else {
+          setModalData({
+            title: '게시글 작성',
+            description: '입력하신 내용으로 게시글을 작성하시겠습니까?',
+            confirmText: '글쓰기',
+            cancelText: '취소',
+            onConfirm: onModalSubmitClick,
+            onCancel: onModalCancelClick,
+          });
+        }
       } else {
+        // 경고 : title or content null
         setModalData({
-          title: '게시글 작성',
-          description: '입력하신 내용으로 게시글을 작성하시겠습니까?',
-          confirmText: '글쓰기',
-          cancelText: '취소',
-          onConfirm: onModalSubmitClick,
-          onCancel: onModalCancelClick,
+          title: '필수 정보 입력',
+          description: '제목 또는 본문을 마저 입력해주세요.',
+          confirmText: '확인',
+          cancelText: '',
+          onConfirm: onModalCancelClick,
+          onCancel: null,
         });
       }
-    } else {
-      // 경고 : title or content null
-      setModalData({
-        title: '필수 정보 입력',
-        description: '제목 또는 본문을 마저 입력해주세요.',
-        confirmText: '확인',
-        cancelText: '',
-        onConfirm: onModalCancelClick,
-        onCancel: null,
-      });
+    } else if (boardType === 'picture') {
+      if (content.trim() && hasImgTag) {
+        if (isEdit) {
+          setModalData({
+            title: '게시글 수정',
+            description: '입력하신 내용으로 게시글을 수정하시겠습니까?',
+            confirmText: '수정',
+            cancelText: '취소',
+            onConfirm: onModalUpdateClick,
+            onCancel: onModalCancelClick,
+          });
+        } else {
+          setModalData({
+            title: '게시글 작성',
+            description: '입력하신 내용으로 게시글을 작성하시겠습니까?',
+            confirmText: '글쓰기',
+            cancelText: '취소',
+            onConfirm: onModalSubmitClick,
+            onCancel: onModalCancelClick,
+          });
+        }
+      } else if (!hasImgTag) {
+        // 경고 : <img /> not inclueded
+        setModalData({
+          title: '이미지 누락',
+          description: '사진 게시판에는 반드시 이미지를 등록하셔야합니다.',
+          confirmText: '확인',
+          cancelText: '',
+          onConfirm: onModalCancelClick,
+          onCancel: null,
+        });
+      }
     }
     setVisible(true);
   };

@@ -39,9 +39,10 @@ export const storeOriginPost = createAction(STORE_ORIGIN_POST, ({ post, boardNam
   console.log(post);
   return post;
 });
-export const createPost = createAction(CREATE_POST, ({ boardName, title, content, tags }) => ({
+export const createPost = createAction(CREATE_POST, ({ boardName, title, imgUrl, content, tags }) => ({
   boardName,
   title,
+  imgUrl,
   content,
   tags,
 }));

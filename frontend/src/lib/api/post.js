@@ -11,8 +11,8 @@ export const getPost = ({ postId, boardName }) => {
 export const createPost = ({ boardName, title = null, imgUrl = null, content = null, tags = [] }) => {
   return client.post(`/board/${boardName}/posts`, {
     title,
-    content,
     imgUrl,
+    content,
     tags,
   });
 };

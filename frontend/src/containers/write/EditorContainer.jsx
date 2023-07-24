@@ -4,7 +4,7 @@ import Editor from '../../components/write/Editor';
 import { changeInput, initInput } from '../../modules/write';
 import { useSelector } from '../../../node_modules/react-redux/es/exports';
 
-const EditorContainer = () => {
+const EditorContainer = ({ boardType }) => {
   const title = useSelector((state) => state.write.title);
   const content = useSelector((state) => state.write.content);
   const postId = useSelector((state) => state.write.originPostId);
@@ -23,7 +23,15 @@ const EditorContainer = () => {
   // 제목 변경
   // 본문 변경
 
-  return <Editor onChangeField={onChangeField} title={title} content={content} postId={postId}></Editor>;
+  return (
+    <Editor
+      onChangeField={onChangeField}
+      title={title}
+      content={content}
+      postId={postId}
+      boardType={boardType}
+    ></Editor>
+  );
 };
 
 export default EditorContainer;
