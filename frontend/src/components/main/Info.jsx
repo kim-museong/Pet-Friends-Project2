@@ -63,7 +63,7 @@ const InfoBox = styled.div`
 
 const NotInfo = styled.div`
   width: 100%;
-  padding: 20%;
+  padding: 90px;
   text-align: center;
   color: ${palette.border};
   font-size: 20px;
@@ -89,7 +89,7 @@ const Info = () => {
 
   useEffect(() => {
     dispatch(getInfoAsync({ boardName: 'info', limit: '4' }));
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

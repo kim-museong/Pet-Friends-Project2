@@ -38,23 +38,25 @@ const SelectBtn = styled.div`
   }
 `;
 
-const FindPwdSecond = ({ selectedRadio, radioChange }) => {
+const FindPwdSecond = ({ selectedRadio, radioChange, theme, email }) => {
   return (
     <>
-      <FindPwdInputBox>
-        <div className="selectBox right">
-          <SelectBtn>
-            <input
-              type="radio"
-              name="findPwd"
-              value="email"
-              checked={selectedRadio === 'email'}
-              onChange={radioChange}
-            />
-            회원정보에 등록한 이메일주소
-          </SelectBtn>
-          {selectedRadio === 'email' && <FindEmail />}
-        </div>
+      <FindPwdInputBox theme={String(theme)}>
+        {email && (
+          <div className="selectBox right">
+            <SelectBtn>
+              <input
+                type="radio"
+                name="findPwd"
+                value="email"
+                checked={selectedRadio === 'email'}
+                onChange={radioChange}
+              />
+              회원정보에 등록한 이메일주소
+            </SelectBtn>
+            {selectedRadio === 'email' && <FindEmail />}
+          </div>
+        )}
 
         <div className="selectBox left">
           <SelectBtn>

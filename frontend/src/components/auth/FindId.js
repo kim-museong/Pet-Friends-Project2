@@ -53,7 +53,7 @@ const FindId = ({
           </FindInputBox>
         ) : (
           <div>
-            <FindInputBox>
+            <FindInputBox theme={String(theme)}>
               <div>
                 <p style={{ color: 'rgb(160,160,160)', fontSize: '14px' }}>
                   ・ 회원가입 시 입력한 이름와 입력한 이름이 같아야 합니다.

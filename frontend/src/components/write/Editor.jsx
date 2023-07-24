@@ -5,7 +5,7 @@ import palette from '../../lib/styles/palette';
 
 const CKEditorBlock = styled.div`
   margin-top: 5rem;
-  /* border: 1px solid red; */
+
   input {
     width: 100%;
     border-radius: 0;

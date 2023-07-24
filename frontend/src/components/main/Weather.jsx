@@ -6,7 +6,7 @@ const WeatherBox = styled.div`
   box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   margin-top: 20px;
-  padding: 20px 40px;
+  padding: 10px;
   height: 222px;
 
   hr {
@@ -28,6 +28,8 @@ const FlexBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 3px 20px;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
 
   .title {
     font-size: 24px;
@@ -38,7 +40,7 @@ const WeatherDetailBox = styled.div`
   text-align: center;
 
   .weather {
-    margin: 20px 0 10px;
+    margin: 0;
     font-weight: bold;
     font-size: 20px;
   }
@@ -82,11 +84,10 @@ const Weather = ({ lat, lon, weather, theme }) => {
   return (
     <>
       <WeatherBox theme={String(theme)}>
-        <FlexBox>
+        <FlexBox theme={String(theme)}>
           <p className="title">날씨</p> <p>{weather && weather.name}</p>
         </FlexBox>
 
-        <hr />
         <FlexBox style={{ justifyContent: 'center' }}>
           <WeatherStatusBox>
             <WeatherImg>

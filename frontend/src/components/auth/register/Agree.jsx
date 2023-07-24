@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import { MdArrowForwardIos } from 'react-icons/md';
@@ -64,7 +63,7 @@ const AgreeBox = styled.div`
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #fff;
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
     border: 1px solid ${palette.mainColor};
     border-radius: 50%;
     cursor: pointer;
@@ -73,7 +72,7 @@ const AgreeBox = styled.div`
     width: 30px;
   }
   input[type='checkbox']::after {
-    border: solid #fff;
+    border: solid ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : 'white')};
     border-width: 0 3px 3px 0;
     content: '';
     display: none;
@@ -85,8 +84,8 @@ const AgreeBox = styled.div`
     width: 15%;
   }
   input[type='checkbox']:checked {
-    background: rgb(255, 140, 0);
-    border: rgb(255, 140, 0);
+    background: ${palette.mainColor};
+    border: ${palette.mainColor};
   }
   input[type='checkbox']:checked::after {
     display: block;
@@ -122,28 +121,28 @@ const ButtonBox = styled.div`
   width: 100%;
   height: 140px;
   bottom: 0;
-  background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30' : 'white')};
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30)' : 'white')};
 `;
 
 const Space = styled.div`
   height: 150px;
-  background: white;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30)' : 'white')};
 `;
 
 const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
-  const { all, tos, privacy, location, benefit } = agree;
+  const { all, tos, privacy, location, benefit } = agree || '';
 
   return (
     <>
       <MainBox>
-        <AgreeBox>
+        <AgreeBox theme={String(theme)}>
           <input type="checkbox" name="all" onChange={allAgreeCheck} checked={all} />
           <Title>
             <div style={{ marginLeft: '12px', fontSize: '20px' }}>전체동의하기</div>
           </Title>
         </AgreeBox>
         <div className="info">위치정보이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다.</div>
-        <AgreeBox>
+        <AgreeBox theme={String(theme)}>
           <input type="checkbox" name="tos" onChange={onCheck} checked={tos} />
           <Title>
             <div className="sub">[필수]</div> <div>이용약관 동의</div>
@@ -187,7 +186,7 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             있습니다.
           </p>
         </Detail>
-        <AgreeBox>
+        <AgreeBox theme={String(theme)}>
           <input type="checkbox" name="privacy" onChange={onCheck} checked={privacy} />
           <Title>
             <div className="sub">[필수]</div> <div>개인정보 동의</div>
@@ -226,7 +225,7 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             파기 절차 및 방법은 정책에 따라 다를 수 있습니다.
           </p>
         </Detail>
-        <AgreeBox>
+        <AgreeBox theme={String(theme)}>
           <input type="checkbox" name="location" onChange={onCheck} checked={location} />
           <Title>
             <div className="sub">[선택]</div> <div>위치정보 동의</div>
@@ -267,7 +266,7 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             동의를 철회하는 경우 위치기반 서비스의 일부 기능 사용에 제약이 있을 수 있습니다.
           </p>
         </Detail>
-        <AgreeBox>
+        <AgreeBox theme={String(theme)}>
           <input type="checkbox" name="benefit" onChange={onCheck} checked={benefit} />
           <Title>
             <div className="sub">[선택]</div> <div>이벤트・혜택 정보 수신</div>
@@ -300,7 +299,7 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             가능하며, 동의를 철회하는 경우 이벤트 및 혜택 정보 수신에 제약이 있을 수 있습니다.
           </p>
         </Detail>
-        <Space />
+        <Space theme={String(theme)} />
         <ButtonBox theme={String(theme)}>
           <button onClick={onConfirm} disabled={!tos || !privacy}>
             다음

@@ -16,11 +16,11 @@ const StatusBox = styled.div`
   margin: 5px auto 30px;
 `;
 
-const FindPwdThird = ({ onSubmitPwd, findPwd, onChange, error }) => {
+const FindPwdThird = ({ onSubmitPwd, findPwd, onChange, error, theme }) => {
   const { password, passwordConfirm } = findPwd;
   const { passwordError, passwordConfirmError } = error;
   return (
-    <ChangePwd>
+    <ChangePwd theme={String(theme)}>
       <div>새비밀번호 입력</div>
       <form onSubmit={onSubmitPwd}>
         <div>

@@ -5,21 +5,23 @@ import palette from '../../lib/styles/palette';
 const TagBoxBlock = styled.div`
   width: 100%;
   border-top: 1px solid ${palette.gray[2]};
-  padding-top: 2rem;
+  padding: 0px;
 
   h4 {
-    color: ${palette.gray[8]}
+    color: ${palette.gray[8]};
     margin-top: 0;
     margin-bottom: 0.5rem;
   }
 `;
 
 const TagForm = styled.form`
-  border-radius: 4px;
   overflow: hidden;
   display: flex;
-  width: 256px;
-  border: 1px solid ${palette.gray[9]}; /* 스타일 초기화 */
+  border: 1px solid ${palette.border};
+  border-radius: 0;
+  margin-top: 5px;
+  padding: 10px 30px;
+
   input,
   button {
     outline: none;
@@ -34,10 +36,9 @@ const TagForm = styled.form`
   }
   button {
     cursor: pointer;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding: 5px 40px;
     border: none;
-    background: ${palette.gray[8]};
+    background: ${palette.mainColor};
     color: white;
     font-weight: bold;
     &:hover {
@@ -48,7 +49,9 @@ const TagForm = styled.form`
 
 const Tag = styled.div`
   margin-right: 0.5rem;
-  color: ${palette.gray[6]};
+  color: white;
+  padding: 10px 20px;
+  background: ${palette.mainColor};
   cursor: pointer;
   &:hover {
     opacity: 0.5;
@@ -116,7 +119,6 @@ const TagBox = ({ tags, onChangeTags }) => {
 
   return (
     <TagBoxBlock>
-      <h4>태그</h4>
       <TagForm onSubmit={onSubmit}>
         <input placeholder="태그를 입력하세요" value={input} onChange={onChange} />
         <button type="submit">추가</button>

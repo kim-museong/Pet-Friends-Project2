@@ -6,10 +6,11 @@ import { changeInput, changeError, nextStep } from '../../modules/find';
 
 const FindPwdThirdContainer = () => {
   const dispatch = useDispatch();
-  const { findPwd, findUser, error } = useSelector(({ find }) => ({
+  const { findPwd, findUser, error, theme } = useSelector(({ find, theme }) => ({
     findPwd: find.findPwd,
     findUser: find.findPwd.findUser,
     error: find.findPwd.error,
+    theme: theme.theme,
   }));
 
   const [errorKeyMap, setErrorKeyMap] = useState({
@@ -85,7 +86,7 @@ const FindPwdThirdContainer = () => {
 
   return (
     <>
-      <FindPwdThird onSubmitPwd={onSubmitPwd} onChange={onChange} findPwd={findPwd} error={error} />
+      <FindPwdThird onSubmitPwd={onSubmitPwd} onChange={onChange} findPwd={findPwd} error={error} theme={theme} />
     </>
   );
 };

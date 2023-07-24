@@ -12,7 +12,6 @@ const RecoverCredentialsPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const type = searchParams.get('type');
   const step = useSelector((state) => state.find.findPwd.step);
-  console.log(type, step);
 
   return (
     <>
