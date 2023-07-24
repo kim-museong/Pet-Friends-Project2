@@ -30,6 +30,12 @@ exports.readPosts = (req, res, next) => {
   } = req.query;
   const { boardName } = req.params;
 
+  // console.log('------------------------------------------------------');
+  // console.log(
+  //   `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
+  // );
+  // console.log('------------------------------------------------------');
+
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
   const sortOptions = {
     newest: { column: 'createdAt', order: 'DESC' },
@@ -61,10 +67,10 @@ exports.readPosts = (req, res, next) => {
         model: Content,
         attributes: ['content'],
       },
-      {
-        model: Like,
-        attributes: ['UserId', 'PostId'],
-      },
+      // {
+      //   model: Like,
+      //   attributes: ['UserId', 'PostId'],
+      // },
       {
         model: Hashtag,
       },
@@ -120,19 +126,42 @@ exports.readPosts = (req, res, next) => {
     };
   }
 
-  Post.findAll(querySQL)
-    .then((data) => {
-      const formattedData = {
-        postCount: data.length,
-        posts: data.map((post) => post.dataValues),
-      };
-      // 필요한 정보만 가공해서 주도록 수정
-      // 쿼리문에서 attributes 변경으로 해결
+  const formattedData = {
+    postCount: 0,
+    posts: null,
+  };
+  const countQuerySQL = { ...querySQL };
+  delete countQuerySQL.limit;
+
+  Promise.all([Post.findAll(querySQL), Post.count(countQuerySQL)])
+    .then(([data, postCount]) => {
+      formattedData.posts = data.map((post) => post.dataValues);
+      formattedData.postCount = postCount;
       res.json(formattedData);
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      console.error(error);
     });
+
+  // Post.findAll(querySQL)
+  //   .then((data) => {
+  //     formattedData = {
+  //       // postCount: data.length,
+  //       posts: data.map((post) => post.dataValues),
+  //     };
+  //     // 필요한 정보만 가공해서 주도록 수정
+  //     // 쿼리문에서 attributes 변경으로 해결
+  //     // res.json(formattedData);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
+  // Post.count(countQuerySQL).then((postCount) => {
+  //   formattedData = {
+  //     ...formattedData,
+  //     postCount: postCount,
+  //   };
+  // });
 };
 
 ////////////////////////////////////////////////////////////

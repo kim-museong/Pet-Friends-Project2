@@ -97,25 +97,27 @@ const ActionButton = ({ onDelete, onLike, handleUnlikeClick, post, user, boardNa
 
   return (
     <>
-      {user && post && user.id === post.post.UserId ? (
-        <ActionButtonBlock>
-          {!isLiked() ? (
-            <StyledButton onClick={handleLikeClick}>추천</StyledButton>
-          ) : (
-            <StyledButton onClick={handleUnlikeClick}>추천해제</StyledButton>
-          )}
-          <StyledButton onClick={onEditPost}>{' 수정 '}</StyledButton>
-          <StyledButton onClick={onDeleteClick}>{' 삭제 '}</StyledButton>
-        </ActionButtonBlock>
-      ) : (
-        <ActionButtonBlock>
-          {!isLiked() ? (
-            <StyledButton onClick={handleLikeClick}>추천</StyledButton>
-          ) : (
-            <StyledButton onClick={handleUnlikeClick}>추천해제</StyledButton>
-          )}
-        </ActionButtonBlock>
-      )}
+      {user ? (
+        user.id === post?.post.UserId ? (
+          <ActionButtonBlock>
+            {!isLiked() ? (
+              <StyledButton onClick={handleLikeClick}>추천</StyledButton>
+            ) : (
+              <StyledButton onClick={handleUnlikeClick}>추천해제</StyledButton>
+            )}
+            <StyledButton onClick={onEditPost}>{' 수정 '}</StyledButton>
+            <StyledButton onClick={onDeleteClick}>{' 삭제 '}</StyledButton>
+          </ActionButtonBlock>
+        ) : (
+          <ActionButtonBlock>
+            {!isLiked() ? (
+              <StyledButton onClick={handleLikeClick}>추천</StyledButton>
+            ) : (
+              <StyledButton onClick={handleUnlikeClick}>추천해제</StyledButton>
+            )}
+          </ActionButtonBlock>
+        )
+      ) : null}
       <AlertModal
         modalRef={modalRef}
         visible={visible}
