@@ -2,6 +2,7 @@ const { User, Post, Content, Pet, Attendance, Memo } = require('../models');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const cron = require('node-cron');
+const { Op } = require('sequelize');
 
 //출석일자 저장
 exports.attendance = async (req, res, next) => {
@@ -252,6 +253,7 @@ exports.saveMemo = async (req, res, next) => {
         UserId: id,
       });
       console.log('등록 성공!');
+      return res.status(200);
     } catch (e) {
       console.log(e);
     }
@@ -261,16 +263,70 @@ exports.saveMemo = async (req, res, next) => {
   }
 };
 
+exports.memos = async (req, res, next) => {
+  const { id, search } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: '로그인 필요' });
+  }
+
+  try {
+    let response;
+
+    if (search !== undefined) {
+      response = await Memo.findAll({
+        where: {
+          UserId: id,
+          content: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+      });
+    } else {
+      response = await Memo.findAll({ where: { UserId: id } });
+    }
+
+    return res.json(response);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: '서버에러' });
+  }
+};
+
 exports.memo = async (req, res, next) => {
+  const { id, userId } = req.body;
+  try {
+    const response = await Memo.findOne({ where: { id: id, UserId: userId } });
+    return res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.memoUpdate = async (req, res, next) => {
+  const { id, content } = req.body;
+
+  try {
+    const updatedMemo = await Memo.update({ content: content }, { where: { id: id } });
+
+    if (updatedMemo[0] === 0) {
+      return res.status(404).json({ message: '메모를 찾을 수 없습니다.' });
+    }
+    return res.json(updatedMemo);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: '서버 오류로 인해 메모를 업데이트하지 못했습니다.' });
+  }
+};
+
+exports.memoDelete = async (req, res, next) => {
   const { id } = req.body;
   console.log(id);
-  if (id) {
-    try {
-      const response = await Memo.findAll({ where: { UserId: id } });
-      console.log(res.data);
-      return res.json(response);
-    } catch (e) {
-      console.log(e);
-    }
+  try {
+    await Memo.destroy({ where: { id: id } });
+    return res.json({ message: '메모가 삭제되었습니다.' });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: '서버 오류로 인해 메모를 업데이트하지 못했습니다.' });
   }
 };

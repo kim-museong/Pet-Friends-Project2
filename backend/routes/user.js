@@ -9,7 +9,10 @@ const {
   changePwd,
   userIdConfirm,
   saveMemo,
+  memos,
   memo,
+  memoUpdate,
+  memoDelete,
 } = require('../controllers/user');
 const router = express.Router();
 
@@ -24,7 +27,10 @@ router.post('/findPwdEmail', findPwdEmail);
 router.post('/findPwdPhone', findPwdPhone);
 router.post('/changePwd', changePwd);
 
-router.post('/saveMemo', saveMemo);
+router.post('/memos', memos);
 router.post('/memo', memo);
+router.post('/saveMemo', saveMemo);
+router.post('/memoUpdate', memoUpdate);
+router.post('/memoDelete', memoDelete);
 
 module.exports = router;

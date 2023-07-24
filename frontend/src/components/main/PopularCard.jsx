@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
 const PopularCardBox = styled.div`
-  height: 500px;
+  height: 893px;
   padding: 20px;
   margin-top: 20px;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
 
   div {
     overflow: hidden;
@@ -39,15 +40,15 @@ const PictureItemBlock = styled.div`
 `;
 
 const NotPicture = styled.div`
-  margin-top: 20%;
+  margin-top: 50%;
   color: ${palette.border};
   font-size: 20px;
 `;
 
-const PopularCard = ({ posts }) => {
+const PopularCard = ({ posts, theme }) => {
   return (
     <>
-      <PopularCardBox>
+      <PopularCardBox theme={String(theme)}>
         <div className="title">
           <h2>인기 사진</h2>
           <Link to="/picture" className="add-list">

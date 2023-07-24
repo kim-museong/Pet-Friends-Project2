@@ -9,7 +9,7 @@ const NewTickerBox = styled.div`
   width: 100%;
   margin-top: 20px;
   padding: 10px;
-  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
 `;
 
@@ -69,15 +69,13 @@ const NewsTicker = () => {
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
 
-  console.log(posts);
-
   useEffect(() => {
     dispatch(getMainAsync({ boardName: 'notice', limit: '5' }));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const rollingElement = rollingRef.current;
-    if (rollingElement) {
+    if (posts) {
       const interval = setInterval(() => {
         const firstChild = rollingElement.firstElementChild;
         rollingElement.style.transitionDuration = '400ms';

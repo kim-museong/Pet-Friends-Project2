@@ -45,7 +45,7 @@ const SaveUserIdBox = styled.div`
     appearance: none;
     background: #fff;
     border: 1px solid ${palette.mainColor};
-    border-radius: 4px;
+    border-radius: 50%;
     cursor: pointer;
     height: 25px;
     outline: 0;
@@ -53,19 +53,19 @@ const SaveUserIdBox = styled.div`
   }
   input[type='checkbox']::after {
     border: solid #fff;
-    border-width: 0 4px 4px 0;
+    border-width: 0 2px 2px 0;
     content: '';
     display: none;
     height: 40%;
-    left: 34%;
+    left: 38%;
     position: relative;
-    top: 15%;
+    top: 22%;
     transform: rotate(45deg);
     width: 15%;
   }
   input[type='checkbox']:checked {
-    background: rgb(255, 140, 0);
-    border: rgb(255, 140, 0);
+    background: ${palette.mainColor};
+    border: ${palette.mainColor};
   }
   input[type='checkbox']:checked::after {
     display: block;

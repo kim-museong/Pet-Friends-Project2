@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 
 const CarouselBox = styled.div`
-  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
 
   h3 {

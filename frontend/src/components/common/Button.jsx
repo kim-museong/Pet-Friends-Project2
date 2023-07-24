@@ -27,7 +27,7 @@ const buttonStyle = css`
   ${(props) =>
     props.cyan &&
     css`
-      background: rgb(255, 140, 0);
+      background: ${palette.mainColor};
       &:hover {
         background: ${palette.gray[8]};
       }
