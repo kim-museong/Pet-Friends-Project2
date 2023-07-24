@@ -39,17 +39,18 @@ export const storeOriginPost = createAction(STORE_ORIGIN_POST, ({ post, boardNam
   console.log(post);
   return post;
 });
-export const createPost = createAction(CREATE_POST, ({ boardName, title, imgUrl, content, tags }) => ({
+export const createPost = createAction(CREATE_POST, ({ boardName, title, imgUrls, content, tags }) => ({
   boardName,
   title,
-  imgUrl,
+  imgUrls,
   content,
   tags,
 }));
-export const updatePost = createAction(UPDATE_POST, ({ boardName, originPostId, title, content, tags }) => ({
+export const updatePost = createAction(UPDATE_POST, ({ boardName, originPostId, title, imgUrls, content, tags }) => ({
   boardName,
   postId: originPostId,
   title,
+  imgUrls,
   content,
   tags,
 }));

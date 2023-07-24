@@ -327,7 +327,7 @@ exports.readPost = async (req, res, next) => {
 ////////////////////////////////////////////////////////////
 exports.createPost = async (req, res, next) => {
   const { boardName } = req.params;
-  const { title = null, imgUrl = null, filteredContent, tags: hashtags = [] } = req.body;
+  const { title = null, imgUrls = [], filteredContent = '', tags: hashtags = [] } = req.body;
 
   const transaction = await sequelize.transaction();
 
@@ -375,7 +375,7 @@ exports.createPost = async (req, res, next) => {
       } else if (newPost && boardName == 'picture') {
         await PictureDetail.create(
           {
-            imgUrl,
+            imgUrl: imgUrls[0],
             PostId: newPost.id,
           },
           { transaction },

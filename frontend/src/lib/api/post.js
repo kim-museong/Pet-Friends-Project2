@@ -8,10 +8,10 @@ export const getPost = ({ postId, boardName }) => {
 };
 
 // create post
-export const createPost = ({ boardName, title = null, imgUrl = null, content = null, tags = [] }) => {
+export const createPost = ({ boardName, title = null, imgUrls = [], content = '', tags = [] }) => {
   return client.post(`/board/${boardName}/posts`, {
     title,
-    imgUrl,
+    imgUrls,
     content,
     tags,
   });
@@ -23,9 +23,10 @@ export const deletePost = ({ boardName, postId }) => {
 };
 
 // update post
-export const updatePost = ({ boardName, postId, title, content, tags }) => {
+export const updatePost = ({ boardName, postId, title, imgUrls, content, tags }) => {
   return client.put(`/board/${boardName}/posts/${postId}`, {
     title,
+    imgUrls,
     content,
     tags,
   });

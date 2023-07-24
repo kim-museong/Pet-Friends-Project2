@@ -28,7 +28,7 @@ const PictureItem = ({ post, loading }) => {
     <>
       <Wrapper>
         <Link to={`/picture/${post.id}`}>
-          <PictureItemBlock imgurl={post && post.imgUrl}></PictureItemBlock>
+          <PictureItemBlock imgurl={post && post.PictureDetail.imgUrl}></PictureItemBlock>
         </Link>
       </Wrapper>
     </>
