@@ -15,7 +15,7 @@ const WriteActionButtonBlock = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-  height: 2.125rem;
+  padding: 10px 30px;
   & + & {
     margin-left: 0.5rem;
   }
