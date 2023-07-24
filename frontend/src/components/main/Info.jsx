@@ -63,10 +63,11 @@ const InfoBox = styled.div`
 
 const NotInfo = styled.div`
   width: 100%;
+  padding: 20%;
   text-align: center;
-  margin-top: 70px;
   color: ${palette.border};
   font-size: 20px;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
 `;
 
 const Info = () => {
@@ -106,7 +107,7 @@ const Info = () => {
           ))}
           {info?.length === 0 && (
             <>
-              <NotInfo>
+              <NotInfo theme={String(theme)}>
                 <div>정보글이 없습니다.</div>
               </NotInfo>
             </>

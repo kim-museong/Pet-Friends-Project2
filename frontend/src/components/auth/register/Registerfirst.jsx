@@ -96,7 +96,7 @@ const ExplanationBox = styled.div`
   top: -67px;
   left: 180px;
   width: 364px;
-  box-shadow: 0px 0px 2px black;
+  box-shadow: 0px 0px 1px black;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   font-size: 14px;

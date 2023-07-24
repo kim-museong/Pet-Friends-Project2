@@ -153,7 +153,7 @@ const ExplanationBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 350px;
-  box-shadow: 0px 0px 2px black;
+  box-shadow: 0px 0px 1px black;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   text-align: left;

@@ -30,7 +30,7 @@ const MemoWriteContainer = () => {
     } else {
       console.log('글 작성 필');
     }
-  }, [dispatch, navigate, content]);
+  }, [user, content, dispatch, navigate]);
 
   const back = () => {
     console.log('뒤로가기');

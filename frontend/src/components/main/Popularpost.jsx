@@ -13,12 +13,14 @@ const PostsBox = styled.div`
 const PopularpostBox = styled.div`
   width: 100%;
   height: 370px;
-  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
   padding: 15px 20px 0;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45, 45, 45)' : '')};
 
   ol {
-    margin: 20px 0;
+    margin: 12px 0;
+    padding: 10px;
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
   }
 `;
 
@@ -43,8 +45,8 @@ const Postlist = styled.li`
     text-align: center;
     font-weight: bold;
     padding-top: 2px;
-    padding-right: 1px;
     margin-right: 10px;
+    text-align: center;
     color: white;
   }
 
