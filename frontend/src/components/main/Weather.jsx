@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { WiCloudy, WiRain, WiDaySunny } from 'react-icons/wi';
 import palette from '../../lib/styles/palette';
-import theme from '../../modules/theme';
 
 const WeatherBox = styled.div`
-  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   margin-top: 20px;
   padding: 20px 40px;
@@ -71,7 +70,7 @@ const Weather = ({ lat, lon, weather, theme }) => {
 
   if (weather === '' || lat === null || lon === null) {
     return (
-      <WeatherBox>
+      <WeatherBox theme={String(theme)}>
         <NotWeather>
           날씨 불러오는 중...
           <p>*위치정보 허용이 안 되어있으면 못 불러옵니다.</p>

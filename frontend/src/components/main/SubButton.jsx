@@ -48,7 +48,7 @@ const SubBtn = styled.div`
   width: 110px;
   height: 110px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
-  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 2px 1px ${palette.border}`)};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
   margin: 0 auto;
 
   &:hover {
@@ -61,7 +61,7 @@ const SubButton = () => {
 
   const memoClick = useCallback(() => {
     const popupUrl = `/memo`;
-    const popupOptions = 'width=400,height=500,scrollbars=yes,resizable=yes';
+    const popupOptions = 'width=500,height=600,scrollbars=yes,resizable=yes';
     window.open(popupUrl, '메모', popupOptions);
   }, []);
 
