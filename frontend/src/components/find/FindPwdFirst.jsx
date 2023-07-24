@@ -27,8 +27,8 @@ const MainBox = styled(FindIdBox)`
   }
 `;
 
-const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
-  const { userIdError, notUserError } = error;
+const FindPwdFirst = ({ onChange, onConfirm, error, findPwd, theme }) => {
+  const { userIdError, notUserError } = error || '';
   const { userId } = findPwd || {};
 
   return (
@@ -37,7 +37,7 @@ const FindPwdFirst = ({ onChange, onConfirm, error, findPwd }) => {
         <div>
           <h3>비밀번호를 재설정할 아이디를 입력해 주세요.</h3>
         </div>
-        <FindInputBox>
+        <FindInputBox theme={String(theme)}>
           <input
             autoComplete="userId"
             name="userId"

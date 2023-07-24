@@ -10,7 +10,7 @@ const buttonStyle = css`
   color: white;
   outline: none;
   cursor: pointer;
-  background: rgb(255, 140, 0);
+  background: ${palette.mainColor};
   &:hover {
     background: ${palette.gray[6]};
   }
@@ -27,7 +27,7 @@ const buttonStyle = css`
   ${(props) =>
     props.cyan &&
     css`
-      background: rgb(255, 140, 0);
+      background: ${palette.mainColor};
       &:hover {
         background: ${palette.gray[8]};
       }

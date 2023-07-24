@@ -281,9 +281,13 @@ exports.memos = async (req, res, next) => {
             [Op.like]: `%${search}%`,
           },
         },
+        order: [['createdAt', 'DESC']],
       });
     } else {
-      response = await Memo.findAll({ where: { UserId: id } });
+      response = await Memo.findAll({
+        where: { UserId: id },
+        order: [['createdAt', 'DESC']],
+      });
     }
 
     return res.json(response);

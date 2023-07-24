@@ -27,9 +27,17 @@ export const FindInputBox = styled.div`
     width: 80%;
     padding: 15px 22px 13px;
     border: 1px solid ${palette.border};
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : '')};
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
     outline: none;
     margin-top: 10px;
     font-size: 18px;
+  }
+
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : 'white')}inset;
+    box-shadow: 0 0 0 1000px ${({ theme }) => (theme === 'true' ? 'rgb(40,40,40)' : 'white')} inset;
+    -webkit-text-fill-color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')} !important;
   }
 
   button {

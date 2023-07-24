@@ -91,6 +91,10 @@ const CertificationBox = styled.div`
   align-items: center;
   width: 80%;
   margin: 0 auto;
+
+  input {
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+  }
 `;
 
 const InfoBox = styled.div`
@@ -361,7 +365,7 @@ const FindEmail = () => {
             </ExplanationBox>
           </InfoBox>
 
-          <CertificationBox>
+          <CertificationBox theme={String(theme)}>
             <input
               className={`certification ${timeOut || confirmFail ? 'certificationError' : ''}`}
               autoComplete="certification"

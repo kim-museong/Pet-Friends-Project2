@@ -14,10 +14,11 @@ const NewTickerBox = styled.div`
 `;
 
 const ShowBox = styled.div`
-  width: 300px;
   height: 35px;
   margin: 0 auto;
+  padding: 0 10px;
   overflow: hidden;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
 
   .rolling {
     padding-top: 2px;
@@ -94,7 +95,7 @@ const NewsTicker = () => {
   return (
     <>
       <NewTickerBox theme={String(theme)}>
-        <ShowBox>
+        <ShowBox theme={String(theme)}>
           <div className="rolling" ref={rollingRef}>
             {posts?.map((post, index) => (
               <div key={index} className="notice">

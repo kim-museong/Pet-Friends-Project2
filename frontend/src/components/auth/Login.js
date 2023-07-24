@@ -43,29 +43,29 @@ const SaveUserIdBox = styled.div`
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #fff;
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
     border: 1px solid ${palette.mainColor};
-    border-radius: 4px;
+    border-radius: 50%;
     cursor: pointer;
     height: 25px;
     outline: 0;
     width: 25px;
   }
   input[type='checkbox']::after {
-    border: solid #fff;
-    border-width: 0 4px 4px 0;
+    border: solid ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : 'white')};
+    border-width: 0 3px 3px 0;
     content: '';
     display: none;
     height: 40%;
-    left: 34%;
+    left: 37%;
     position: relative;
-    top: 15%;
+    top: 22%;
     transform: rotate(45deg);
     width: 15%;
   }
   input[type='checkbox']:checked {
-    background: rgb(255, 140, 0);
-    border: rgb(255, 140, 0);
+    background: ${palette.mainColor};
+    border: ${palette.mainColor};
   }
   input[type='checkbox']:checked::after {
     display: block;
@@ -89,7 +89,7 @@ const LoginBox = styled.div`
 
 const ErrorBox = styled.div`
   height: 30px;
-  font-size: 20px;
+  font-size: 16px;
   color: red;
   margin: 35px auto 20px !important;
 
@@ -156,7 +156,7 @@ const Login = ({
               <ShowPwdBox onClick={onShowPwd}>{showPwd ? <MdVisibility /> : <MdVisibilityOff />}</ShowPwdBox>
             </InputStyle>
 
-            <SaveUserIdBox>
+            <SaveUserIdBox theme={String(theme)}>
               <input ref={checkBoxRef} type="checkbox" checked={isChecked} onChange={onSaveUserId} />
               <div onClick={checkBoxSelect}>아이디 저장</div>
             </SaveUserIdBox>

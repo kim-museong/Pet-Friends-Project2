@@ -16,9 +16,10 @@ const FindPwdFirstContainer = () => {
 
   // ------------ 리덕스 -------------------
   const dispatch = useDispatch();
-  const { findPwd, error } = useSelector(({ find }) => ({
+  const { findPwd, error, theme } = useSelector(({ find, theme }) => ({
     findPwd: find.findPwd,
     error: find.findPwd.error,
+    theme: theme.theme,
   }));
 
   // ------------- 유효성 검사 함수 ----------------------------
@@ -82,7 +83,7 @@ const FindPwdFirstContainer = () => {
 
   return (
     <>
-      <FindPwdFirst onChange={onChange} onConfirm={onConfirm} error={error} findPwd={findPwd} />
+      <FindPwdFirst onChange={onChange} onConfirm={onConfirm} error={error} findPwd={findPwd} theme={theme} />
     </>
   );
 };

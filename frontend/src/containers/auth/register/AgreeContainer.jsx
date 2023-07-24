@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
-import Agree from '../../../components/auth/register/Agree';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAgree, allCheck, nextStep, initializeForm } from '../../../modules/auth';
+import Agree from '../../../components/auth/register/Agree';
 
 const AgreeContainer = () => {
   const dispatch = useDispatch();

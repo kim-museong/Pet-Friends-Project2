@@ -87,7 +87,10 @@ const App = () => {
             <Route path="/attendance" element={<AttendancePage />} />
             {/* 메모장 */}
             <Route path="/memo" element={<MemoContainer />} />
+            <Route path="/memo/:search" element={<MemoSearchContainer />} />
             <Route path="/memo/write" element={<MemoWriteContainer />} />
+            <Route path="/memo/:nickname/:id" element={<MemoShowContainer />} />
+            <Route path="/memo/:id/update" element={<MemoUpdateContainer />} />
           </Route>
         </Route>
 
@@ -109,12 +112,6 @@ const App = () => {
 
         <Route path="/attendance" element={<AttendancePage />} />
 
-        {/* 메모장 */}
-        <Route path="/memo" element={<MemoContainer />} />
-        <Route path="/memo/:search" element={<MemoSearchContainer />} />
-        <Route path="/memo/write" element={<MemoWriteContainer />} />
-        <Route path="/memo/:nickname/:id" element={<MemoShowContainer />} />
-        <Route path="/memo/:id/update" element={<MemoUpdateContainer />} />
         {/* 권한 부족 알림 페이지 */}
         <Route path="/permission" element={<Permission />}></Route>
       </Routes>

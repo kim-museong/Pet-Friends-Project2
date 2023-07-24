@@ -34,7 +34,7 @@ const RandomMain = styled.div`
     width: 300px;
     height: 300px;
     color: ${palette.border};
-    background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
+    background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
     svg {
       margin-top: 50px;
       font-size: 150px;

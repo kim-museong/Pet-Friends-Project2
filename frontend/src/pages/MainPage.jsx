@@ -27,6 +27,7 @@ const MainBox = styled.div`
 `;
 
 const SideBox = styled.div`
+  width: 400px;
   display: inline-block;
 `;
 
