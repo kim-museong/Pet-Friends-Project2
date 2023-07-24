@@ -1,3 +1,5 @@
+const util = require('util');
+
 const {
   Post,
   User,
@@ -9,6 +11,8 @@ const {
   PostHashtag,
   Reply,
   CommunityDetail,
+  InfoDetail,
+  NoticeDetail,
   PictureDetail,
 } = require('../models');
 const { Op } = require('sequelize');
@@ -30,11 +34,12 @@ exports.readPosts = (req, res, next) => {
   } = req.query;
   const { boardName } = req.params;
 
-  // console.log('------------------------------------------------------');
-  // console.log(
-  //   `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
-  // );
-  // console.log('------------------------------------------------------');
+  console.log('------------------------------------------------------');
+  console.log(
+    `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
+  );
+  console.log(boardName);
+  console.log('------------------------------------------------------');
 
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
   const sortOptions = {
@@ -80,13 +85,32 @@ exports.readPosts = (req, res, next) => {
     limit: parseInt(limit),
   };
 
-  // 게시판 종류에 따라 querySQL 추가
-  if (boardName === 'community' || boardName === 'info' || boardName === 'notice') {
-    querySQL.include.push({
-      model: CommunityDetail,
-      attributes: ['title'],
-    });
-  } else if (boardName === 'picture') {
+  // 게시판 종류에 따라 querySQL&postDetail 추가
+  let postDetail;
+  switch (boardName) {
+    case 'community':
+      querySQL.include.push({
+        model: CommunityDetail,
+        attributes: ['title'],
+      });
+      postDetail = '$CommunityDetail.title$';
+      break;
+    case 'information':
+      querySQL.include.push({
+        model: InfoDetail,
+        attributes: ['title'],
+      });
+      postDetail = '$InfoDetail.title$';
+      break;
+    case 'notice':
+      querySQL.include.push({
+        model: NoticeDetail,
+        attributes: ['title'],
+      });
+      postDetail = '$NoticeDetail.title$';
+      break;
+  }
+  if (boardName === 'picture') {
     querySQL.include.push({
       model: PictureDetail,
       attributes: ['imgUrl'],
@@ -106,17 +130,14 @@ exports.readPosts = (req, res, next) => {
   // category : 제목+내용
   if (searchCategory === 'titleDetail' && searchKeyword !== '') {
     querySQL.where = {
-      [Op.or]: [
-        { '$CommunityDetail.title$': { [Op.like]: `%${title}%` } },
-        { '$Content.content$': { [Op.like]: `%${content}%` } },
-      ],
+      [Op.or]: [{ [postDetail]: { [Op.like]: `%${title}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
     };
     querySQL.subQuery = false;
 
     // category : 제목
   } else if (searchCategory === 'title' && searchKeyword !== '') {
     // querySQL.where = { title: { [Op.like]: `%${title}%` } };
-    querySQL.where = { '$CommunityDetail.title$': { [Op.like]: `%${title}%` } };
+    querySQL.where = { [postDetail]: { [Op.like]: `%${title}%` } };
     querySQL.subQuery = false;
 
     // category : 닉네임
@@ -125,6 +146,10 @@ exports.readPosts = (req, res, next) => {
       nickname: nickname,
     };
   }
+
+  console.log('------------------------------------------------------');
+  console.log(util.inspect(querySQL, { depth: null }));
+  console.log('------------------------------------------------------');
 
   const formattedData = {
     postCount: 0,
@@ -135,6 +160,9 @@ exports.readPosts = (req, res, next) => {
 
   Promise.all([Post.findAll(querySQL), Post.count(countQuerySQL)])
     .then(([data, postCount]) => {
+      console.log('---------------------------3--------------------------');
+      console.log(data);
+      console.log('---------------------------3--------------------------');
       formattedData.posts = data.map((post) => post.dataValues);
       formattedData.postCount = postCount;
       res.json(formattedData);
@@ -173,6 +201,10 @@ exports.readPost = async (req, res, next) => {
   const { postId } = req.params;
   const { boardName } = req.query;
 
+  console.log('-------------------------------------------------------');
+  console.log('boardName : ', boardName);
+  console.log('-------------------------------------------------------');
+
   try {
     // 게시판에 따라 다른 쿼리문
     const querySQL = {
@@ -201,17 +233,39 @@ exports.readPost = async (req, res, next) => {
       where: { id: postId },
       transaction,
     };
-    if (boardName === 'community') {
-      querySQL.include.push({
-        model: CommunityDetail,
-        attributes: ['title'],
-      });
-    } else if (boardName === 'picture') {
+
+    // 게시판 종류에 따라 querySQL&postDetail 추가
+    let postDetail;
+    switch (boardName) {
+      case 'community':
+        querySQL.include.push({
+          model: CommunityDetail,
+          attributes: ['title'],
+        });
+        postDetail = '$CommunityDetail.title$';
+        break;
+      case 'information':
+        querySQL.include.push({
+          model: InfoDetail,
+          attributes: ['title'],
+        });
+        postDetail = '$InfoDetail.title$';
+        break;
+      case 'notice':
+        querySQL.include.push({
+          model: NoticeDetail,
+          attributes: ['title'],
+        });
+        postDetail = '$NoticeDetail.title$';
+        break;
+    }
+    if (boardName === 'picture') {
       querySQL.include.push({
         model: PictureDetail,
         attributes: ['imgUrl'],
       });
     }
+
     // 해시태그 정보 가져옴
     const postWithHashtag = await Post.findByPk(postId, {
       include: {
@@ -302,7 +356,23 @@ exports.createPost = async (req, res, next) => {
           },
           { transaction },
         );
-      } else if (new Post() && boardName == 'picture') {
+      } else if (newPost && boardName == 'information') {
+        await InfoDetail.create(
+          {
+            title,
+            PostId: newPost.id,
+          },
+          { transaction },
+        );
+      } else if (newPost && boardName == 'notice') {
+        await NoticeDetail.create(
+          {
+            title,
+            PostId: newPost.id,
+          },
+          { transaction },
+        );
+      } else if (newPost && boardName == 'picture') {
         await PictureDetail.create(
           {
             imgUrl,

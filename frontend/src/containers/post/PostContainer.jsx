@@ -32,7 +32,7 @@ const PostContainer = ({ postId }) => {
     setLikeCount(likes?.filter((like) => like.likable_id.toString() === postId && like.likable_type === 'post').length);
   }, [likes]);
 
-  return <Post post={post} likeCount={likeCount} loading={loading}></Post>;
+  return <Post post={post} likeCount={likeCount} boardName={boardName} loading={loading}></Post>;
 };
 
 export default PostContainer;

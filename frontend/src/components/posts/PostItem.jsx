@@ -25,11 +25,21 @@ const PostItem = ({ post, boardName, loading }) => {
     <>
       <Wrapper>
         <Link to={`/${boardName}/${post.id}`}>
-          <PostItemBlock>
-            <StyledSpan>{`타이틀 : ${post.CommunityDetail.title}`}</StyledSpan>
-            <StyledSpan>{`작성일 : ${post.createdAt}`}</StyledSpan>
-            <StyledSpan>{`추천수 : ${post.likeCount}`}</StyledSpan>
-          </PostItemBlock>
+          {post && (
+            <PostItemBlock>
+              {boardName === 'community' ? (
+                <StyledSpan>{`타이틀 : ${post.CommunityDetail.title}`}</StyledSpan>
+              ) : boardName === 'information' ? (
+                <StyledSpan>{`타이틀 : ${post.InfoDetail.title}`}</StyledSpan>
+              ) : boardName === 'notice' ? (
+                <StyledSpan>{`타이틀 : ${post.NoticeDetail.title}`}</StyledSpan>
+              ) : (
+                '존재하지 않는 게시판'
+              )}
+              <StyledSpan>{`작성일 : ${post.createdAt}`}</StyledSpan>
+              <StyledSpan>{`추천수 : ${post.likeCount}`}</StyledSpan>
+            </PostItemBlock>
+          )}
         </Link>
       </Wrapper>
     </>

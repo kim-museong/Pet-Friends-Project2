@@ -40,7 +40,7 @@ const ActionButton = ({ onDelete, onLike, handleUnlikeClick, post, user, boardNa
 
   // 수정 버튼 클릭
   const onEditPost = () => {
-    dispatch(storeOriginPost(post));
+    dispatch(storeOriginPost({ post, boardName }));
     navigate('/editor/post', { state: { boardName } });
   };
 

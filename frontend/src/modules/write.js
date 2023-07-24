@@ -22,7 +22,23 @@ const UPDATE_POST_FAILURE = 'write/UPDATE_POST_FAILURE';
 // action creator
 export const changeInput = createAction(CHANGE_INPUT, (key, value) => ({ key, value }));
 export const initInput = createAction(INIT_INPUT);
-export const storeOriginPost = createAction(STORE_ORIGIN_POST, (post) => post);
+export const storeOriginPost = createAction(STORE_ORIGIN_POST, ({ post, boardName }) => {
+  switch (boardName) {
+    case 'community':
+      post.title = post.post.CommunityDetail.title;
+      break;
+    case 'information':
+      post.title = post.post.InfoDetail.title;
+      break;
+    case 'notice':
+      post.title = post.post.NoticeDetail.title;
+      break;
+    default:
+      break;
+  }
+  console.log(post);
+  return post;
+});
 export const createPost = createAction(CREATE_POST, ({ boardName, title, content, tags }) => ({
   boardName,
   title,
@@ -65,7 +81,8 @@ const write = handleActions(
     [INIT_INPUT]: () => initialState,
     [STORE_ORIGIN_POST]: (state, { payload: post }) => ({
       ...state,
-      title: post.post.CommunityDetail.title,
+      // title: post.post.CommunityDetail.title,
+      title: post.title,
       content: post.post.Content.content,
       tags: post.hashtags,
       originPostId: post.post.id,
