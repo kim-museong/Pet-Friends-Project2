@@ -14,6 +14,7 @@ import main, { mainSaga } from './main';
 import searchOption from './searchOption';
 import comment, { commentSaga } from './comment';
 import like, { likeSaga } from './like';
+import api, { apiSaga } from './api';
 
 const rootReducer = combineReducers({
   posts,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   searchOption,
   comment,
   like,
+  api,
 });
 
 // redux-persist로 새로고침시 state 유지
@@ -49,6 +51,7 @@ export function* rootSaga() {
     writeSaga(),
     commentSaga(),
     likeSaga(),
+    apiSaga(),
   ]);
 }
 
