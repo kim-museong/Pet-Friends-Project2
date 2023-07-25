@@ -47,6 +47,8 @@ exports.readPosts = (req, res, next) => {
     oldest: { column: 'createdAt', order: 'ASC' },
     highestViews: { column: 'view', order: 'DESC' },
     lowestViews: { column: 'view', order: 'ASC' },
+    highestLikes: { column: 'likeCount', order: 'DESC' },
+    lowestLikes: { column: 'likeCount', order: 'ASC' },
   };
   const searchOptions = {
     titleDetail: { title: searchKeyword, content: searchKeyword, nickname: '' },
