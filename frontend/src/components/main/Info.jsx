@@ -3,21 +3,49 @@ import palette from '../../lib/styles/palette';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInfoAsync } from '../../modules/main';
+import { MdChevronRight } from 'react-icons/md';
+import { CgComment } from 'react-icons/cg';
 const DomParser = require('dom-parser');
 
 const MainBox = styled.div`
   width: 100%;
   height: 344px;
-  margin-top: 20px;
+  margin-top: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
+  box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
   padding: 20px 40px;
 `;
 
 const Title = styled.div`
-  margin-bottom: 20px;
-  padding: 5px 30px 10px;
-  font-size: 20px;
-  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+
+  .more {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 10px;
+    color: rgb(50, 50, 50);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  svg {
+    margin-right: 5px;
+    color: ${palette.mainColor};
+  }
+
+  .subTitle {
+    font-size: 16px;
+  }
+
+  .title {
+    font-weight: bold;
+  }
 `;
 
 const Content = styled.div`
@@ -63,7 +91,8 @@ const InfoBox = styled.div`
 
 const NotInfo = styled.div`
   width: 100%;
-  padding: 90px;
+  height: 344px;
+  margin-top: 25%;
   text-align: center;
   color: ${palette.border};
   font-size: 20px;
@@ -93,8 +122,20 @@ const Info = () => {
 
   return (
     <>
+      <Title>
+        <div style={{ display: 'flex' }}>
+          <CgComment />
+          <div>
+            <span className="subTitle">알아두면 유용한 반려동물 지식 , </span>
+            <span className="title">정보글</span>
+          </div>
+        </div>
+        <div className="more">
+          <div>더보기</div>
+          <MdChevronRight />
+        </div>
+      </Title>
       <MainBox theme={String(theme)}>
-        <Title>정보글</Title>
         <Content>
           {info?.map((post) => (
             <InfoBox key={post.id}>

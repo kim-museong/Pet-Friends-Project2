@@ -99,12 +99,12 @@ const NotPost = styled.div`
   color: ${palette.border};
 `;
 
-const Popularpost = ({ pupularPosts, theme }) => {
+const HeightViewpost = ({ pupularPosts, theme }) => {
   return (
     <PostsBox>
       <PopularpostBox theme={String(theme)}>
         <ListBox theme={String(theme)}>
-          <h3>인기 게시물</h3>
+          <h3>최근 게시물</h3>
 
           <Link to="/community" className="add-list">
             더보기
@@ -134,4 +134,4 @@ const Popularpost = ({ pupularPosts, theme }) => {
   );
 };
 
-export default Popularpost;
+export default HeightViewpost;

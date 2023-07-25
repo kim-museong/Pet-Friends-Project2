@@ -11,7 +11,8 @@ import { useDispatch } from '../../node_modules/react-redux/es/exports';
 import { initialize } from '../modules/find';
 import { initializeForm } from '../modules/auth';
 import NewsTicker from '../components/main/NewsTicker';
-import RandomContainer from '../containers/main/RandomContainer';
+import SubButton from '../components/main/SubButton';
+import HeightViewPostContainer from '../containers/main/HeightViewPostContainer';
 
 const ContainBox = styled.div`
   width: 90%;
@@ -45,6 +46,7 @@ const MainPage = () => {
         {/*--------------- 메인 -------------- */}
         <MainBox>
           <AutoPlayMethods />
+          <SubButton />
           <MeunlistsContainer />
         </MainBox>
         {/* -------------- 사이드 ------------- */}
@@ -53,7 +55,7 @@ const MainPage = () => {
           <WeatherContainer />
           <NewsTicker />
           <PopularpostContainer />
-          <RandomContainer />
+          <HeightViewPostContainer />
         </SideBox>
       </ContainBox>
       <Footer />
