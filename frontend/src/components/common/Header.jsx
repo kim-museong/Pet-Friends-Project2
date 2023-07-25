@@ -3,6 +3,8 @@ import Responsive from './Responsive';
 import { Link, useLocation } from 'react-router-dom';
 import Button from './Button';
 import { MdAccountCircle } from 'react-icons/md';
+import { resetSearch } from '../../modules/searchOption';
+import { useDispatch } from 'react-redux';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -61,7 +63,13 @@ const Profile = styled.div`
 `;
 
 const Header = ({ user, onLogout, theme }) => {
+  const dispatch = useDispatch();
   const location = useLocation();
+
+  const onClick = () => {
+    // search option reset
+    dispatch(resetSearch());
+  };
   return (
     <>
       <HeaderBlock theme={String(theme)}>
@@ -71,10 +79,18 @@ const Header = ({ user, onLogout, theme }) => {
           </Link>
           <MenuList>
             <Link to="/">홈</Link>
-            <Link to="/notice">공지사항</Link>
-            <Link to="/information">정보글</Link>
-            <Link to="/picture">사진</Link>
-            <Link to="/community">커뮤니티</Link>
+            <Link to="/notice" onClick={() => onClick()}>
+              공지사항
+            </Link>
+            <Link to="/information" onClick={() => onClick()}>
+              정보글
+            </Link>
+            <Link to="/picture" onClick={() => onClick()}>
+              사진
+            </Link>
+            <Link to="/community" onClick={() => onClick()}>
+              커뮤니티
+            </Link>
             {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
           </MenuList>
           <div className="right">

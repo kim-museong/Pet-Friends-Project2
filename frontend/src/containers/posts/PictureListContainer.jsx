@@ -44,7 +44,6 @@ const PictureListContainer = () => {
     return () => {
       console.log('postlistContainer 빠져나감');
       dispatch(unloadPosts());
-      dispatch(resetSearch());
     };
   }, [dispatch]);
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import KakaoMap from '../api/KakaoMap';
+import Overlay from '../common/Overlay';
 import Responsive from '../common/Responsive';
 import PostItem from './PostItem';
 
@@ -14,11 +16,12 @@ const PostListBlock = styled(Responsive)`
 const PostList = ({ posts, boardName, loading }) => {
   return (
     <>
-      {/* 로딩중... 부분 추후 loading spiiner 이미지로 대체 */}
-      {loading && <PostListBlock>{'로딩중.......'}</PostListBlock>}
+      {/* 로딩중...  로딩시간이 너무 짧아서 깜빡거리기만 하기 때문에 아예 빼는것도 고려 */}
+      {/* {loading && <Overlay></Overlay>} */}
       {!loading && (
         <PostListBlock>
           {posts && posts.map((post) => <PostItem key={post.id} post={post} boardName={boardName}></PostItem>)}
+          <KakaoMap></KakaoMap>
         </PostListBlock>
       )}
     </>

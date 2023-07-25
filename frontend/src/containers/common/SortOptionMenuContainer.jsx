@@ -1,9 +1,9 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import SortOptionMenu from '../../components/common/SortOptionMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync } from '../../modules/posts';
 import { useLocation } from 'react-router-dom';
-import { selectPageNumber, selectSortType } from '../../modules/searchOption';
+import { resetSearch, selectPageNumber, selectSortType } from '../../modules/searchOption';
 
 const SortOptionMenuContainer = () => {
   const location = useLocation();

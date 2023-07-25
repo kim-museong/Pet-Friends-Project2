@@ -3,13 +3,8 @@ import PostList from '../../components/posts/PostList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync, unloadPosts } from '../../modules/posts';
 import { useLocation } from 'react-router-dom';
-import {
-  resetSearch,
-  selectPageNumber,
-  selectSearchOptions,
-  selectSortType,
-  selectTag,
-} from '../../modules/searchOption';
+import { selectPageNumber, selectSearchOptions, selectSortType, selectTag } from '../../modules/searchOption';
+import Overlay from '../../components/common/Overlay';
 
 const PostListContainer = () => {
   const location = useLocation();
@@ -74,11 +69,14 @@ const PostListContainer = () => {
     return () => {
       console.log('postlistContainer 빠져나감');
       dispatch(unloadPosts());
-      dispatch(resetSearch());
     };
   }, [dispatch]);
 
-  return <PostList posts={posts} boardName={boardName} loading={loading}></PostList>;
+  return (
+    <>
+      <PostList posts={posts} boardName={boardName} loading={loading}></PostList>
+    </>
+  );
 };
 
 export default PostListContainer;
