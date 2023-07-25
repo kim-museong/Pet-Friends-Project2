@@ -112,7 +112,7 @@ const Editor = ({ onChangeField, title, content, postId, boardType }) => {
         </CKEditorBlock>
       ) : (
         // picture editor
-        <CKEditorBlock>
+        <CKEditorBlock theme={String(theme)}>
           <CKEditor
             editor={ClassicEditor}
             config={{
