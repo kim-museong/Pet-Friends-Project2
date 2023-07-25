@@ -36,6 +36,7 @@ import MemoWriteContainer from './containers/main/Memo/MemoWriteContainer';
 import MemoSearchContainer from './containers/main/Memo/MemoSearchContainer';
 import MemoShowContainer from './containers/main/Memo/MemoShowContainer';
 import MemoUpdateContainer from './containers/main/Memo/MemoUpdateContainer';
+import RandomContainer from './containers/main/RandomContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -91,6 +92,8 @@ const App = () => {
             <Route path="/memo/write" element={<MemoWriteContainer />} />
             <Route path="/memo/:nickname/:id" element={<MemoShowContainer />} />
             <Route path="/memo/:id/update" element={<MemoUpdateContainer />} />
+            {/* 랜덤사진 */}
+            <Route path="/random" element={<RandomContainer />} />
           </Route>
         </Route>
 
