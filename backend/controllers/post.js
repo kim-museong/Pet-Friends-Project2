@@ -509,10 +509,10 @@ exports.deletePost = async (req, res, next) => {
 ////////////////////// update post /////////////////////////
 ////////////////////////////////////////////////////////////
 exports.updatePost = async (req, res, next) => {
-  const transaction = await sequelize.transaction();
-
   const { boardName, postId } = req.params;
-  const { title = null, imgUrl = null, filteredContent, tags: newHashtags = [] } = req.body;
+  const { title = null, imgUrls = [], filteredContent, tags: newHashtags = [] } = req.body;
+
+  const transaction = await sequelize.transaction();
 
   try {
     // old post 저장
@@ -555,10 +555,30 @@ exports.updatePost = async (req, res, next) => {
           transaction,
         },
       );
+    } else if (boardName === 'information') {
+      await InfoDetail.update(
+        {
+          title,
+        },
+        {
+          where: { PostId: postId },
+          transaction,
+        },
+      );
+    } else if (boardName === 'notice') {
+      await NoticeDetail.update(
+        {
+          title,
+        },
+        {
+          where: { PostId: postId },
+          transaction,
+        },
+      );
     } else if (boardName === 'picture') {
       await PictureDetail.update(
         {
-          imgUrl,
+          imgUrl: imgUrls[0],
         },
         {
           where: { PostId: postId },

@@ -41,7 +41,11 @@ const ActionButton = ({ onDelete, onLike, handleUnlikeClick, post, user, boardNa
   // 수정 버튼 클릭
   const onEditPost = () => {
     dispatch(storeOriginPost({ post, boardName }));
-    navigate('/editor/post', { state: { boardName } });
+    if (boardName === 'community' || boardName === 'information' || boardName === 'notice') {
+      navigate(`/editor/post`, { state: { boardName } });
+    } else if (boardName === 'picture') {
+      navigate(`/editor/picture`, { state: { boardName } });
+    }
   };
 
   // 삭제 버튼 클릭

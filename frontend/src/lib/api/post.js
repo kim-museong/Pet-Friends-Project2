@@ -24,6 +24,9 @@ export const deletePost = ({ boardName, postId }) => {
 
 // update post
 export const updatePost = ({ boardName, postId, title, imgUrls, content, tags }) => {
+  console.log(
+    `boardName = ${boardName}, postId = ${postId}, title = ${title}, imgUrls = ${imgUrls}, content = ${content}, tags = ${tags}`,
+  );
   return client.put(`/board/${boardName}/posts/${postId}`, {
     title,
     imgUrls,

@@ -5,7 +5,7 @@ import { changeInput, initInput } from '../../modules/write';
 import { useSelector } from '../../../node_modules/react-redux/es/exports';
 
 const EditorContainer = ({ boardType }) => {
-  const title = useSelector((state) => state.write.title);
+  const title = useSelector((state) => state.write.title) || '';
   const content = useSelector((state) => state.write.content);
   const postId = useSelector((state) => state.write.originPostId);
 

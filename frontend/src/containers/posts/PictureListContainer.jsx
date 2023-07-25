@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import PictureList from '../../components/posts/PictureList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostsAsync } from '../../modules/posts';
+import { getPostsAsync, unloadPosts } from '../../modules/posts';
 import { useLocation } from 'react-router-dom';
+import { resetSearch } from '../../modules/searchOption';
 
 const INIT_PICTURE_COUNT = 15;
 const LOAD_PICTURE_COUNT = 6;
@@ -38,6 +39,14 @@ const PictureListContainer = () => {
     console.log('사진 리스트 불러옵니다');
     getPosts({ sortType, tag, boardName, limit: limit.current });
   }, [getPosts, sortType]);
+
+  useEffect(() => {
+    return () => {
+      console.log('postlistContainer 빠져나감');
+      dispatch(unloadPosts());
+      dispatch(resetSearch());
+    };
+  }, [dispatch]);
 
   // fetch additional pictureList on scroll to bottom
   useEffect(() => {

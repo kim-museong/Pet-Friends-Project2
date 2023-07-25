@@ -1,6 +1,5 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import Responsive from '../common/Responsive';
 
 const PostBlock = styled.div`
   border: 1px solid tomato;
@@ -12,7 +11,6 @@ const PostBlock = styled.div`
 `;
 
 const Post = ({ post, likeCount, boardName, loading }) => {
-  console.log(post);
   return (
     <PostBlock>
       {post && (

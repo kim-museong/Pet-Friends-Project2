@@ -16,23 +16,22 @@ const WriteActionButtonContainer = ({ boardType }) => {
 
   const dispatch = useDispatch();
 
-  const extractImageURL = useCallback(
-    (content) => {
-      const regex = /<img[^>]+src="([^">]+)"/g;
-      const matches = [];
-      let match;
-      while ((match = regex.exec(content)) !== null) {
-        matches.push(match[1]);
-      }
-      return matches;
-    },
-    [content],
-  );
+  const extractImageURL = useCallback((content) => {
+    const regex = /<img[^>]+src="([^">]+)"/g;
+    const matches = [];
+    let match;
+    while ((match = regex.exec(content)) !== null) {
+      matches.push(match[1]);
+    }
+    return matches;
+  }, []);
 
   const onSubmit = () => {
+    console.log(extractImageURL(content));
     dispatch(createPost({ boardName, title, imgUrls: extractImageURL(content), content, tags }));
   };
   const onUpdate = () => {
+    console.log(extractImageURL(content));
     dispatch(updatePost({ boardName, originPostId, title, imgUrls: extractImageURL(content), content, tags }));
   };
   return (
