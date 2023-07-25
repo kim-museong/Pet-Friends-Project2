@@ -37,11 +37,16 @@ import MemoSearchContainer from './containers/main/Memo/MemoSearchContainer';
 import MemoShowContainer from './containers/main/Memo/MemoShowContainer';
 import MemoUpdateContainer from './containers/main/Memo/MemoUpdateContainer';
 import RandomContainer from './containers/main/RandomContainer';
+import HeaderContainer from './containers/common/HeaderContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
-    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(30,30,30)')};
+  }
+
+  a {
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50,50,50)')};
   }
 
 `;
@@ -59,6 +64,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle theme={String(theme)} />
+      <HeaderContainer />
       <Setting />
       <Routes>
         {/* 로그인 하지 않았을 때 접근 가능 */}

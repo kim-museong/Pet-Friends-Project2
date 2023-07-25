@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { MdChevronRight } from 'react-icons/md';
 import palette from '../../lib/styles/palette';
 import { TbPictureInPicture } from 'react-icons/tb';
+import { Link } from 'react-router-dom';
 
 const Title = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ const Title = styled.div`
     align-items: center;
     font-size: 12px;
     margin-top: 10px;
-    color: rgb(50, 50, 50);
+    color: ${({ theme }) => (theme === 'true' ? `white` : 'rgb(50, 50, 50)')};
 
     svg {
       margin-right: 5px;
@@ -44,6 +45,7 @@ const Title = styled.div`
 `;
 
 const PopularCardBox = styled.div`
+  height: 500px;
   margin-top: 10px;
   padding: 20px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
@@ -59,7 +61,7 @@ const PopularCardBox = styled.div`
 
 const PictureItemBlock = styled.div`
   display: flex;
-  border: 1px solid green;
+  border: ${({ theme }) => (theme === 'true' ? '' : `1px solid ${palette.border}`)};
   width: 32.77%;
   height: 150px;
   // ↓ 나중에 수정
@@ -68,21 +70,23 @@ const PictureItemBlock = styled.div`
     css`
       background-image: url('${imgurl}');
       background-size: cover;
+      background-repeat: no-repeat;
       background-position: center;
     `}
   cursor: pointer;
 `;
 
 const NotPicture = styled.div`
-  margin-top: 50%;
+  margin-top: 25%;
   color: ${palette.border};
   font-size: 20px;
+  justify-content: center;
 `;
 
 const PopularCard = ({ posts, theme }) => {
   return (
-    <>
-      <Title>
+    <div>
+      <Title theme={String(theme)}>
         <div style={{ display: 'flex' }}>
           <TbPictureInPicture />
           <div>
@@ -91,24 +95,36 @@ const PopularCard = ({ posts, theme }) => {
           </div>
         </div>
         <div className="more">
-          <div>더보기</div>
+          <Link to="/picture">더보기</Link>
           <MdChevronRight />
         </div>
       </Title>
 
       <PopularCardBox theme={String(theme)}>
-        <div>
-          {posts?.map((post) => (
-            <PictureItemBlock key={post.id} post={post} imgurl={post && post.imgUrl}></PictureItemBlock>
-          ))}
-          {posts?.length === 0 && (
-            <NotPicture>
-              <div>사진이 없습니다. 예쁜 동물들 사진을 공유해주세요!</div>
-            </NotPicture>
-          )}
-        </div>
+        {posts === null || posts?.length === 0 ? (
+          <>
+            {posts === null && (
+              <NotPicture>
+                <div>사진이 없습니다. 예쁜 동물들 사진을 공유해주세요!</div>
+              </NotPicture>
+            )}
+          </>
+        ) : (
+          <>
+            <div>
+              {posts?.map((post) => (
+                <PictureItemBlock
+                  key={post.id}
+                  post={post}
+                  imgurl={post && post.PictureDetail.imgUrl}
+                  theme={String(theme)}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </PopularCardBox>
-    </>
+    </div>
   );
 };
 

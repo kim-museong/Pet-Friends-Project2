@@ -4,11 +4,12 @@ import palette from '../../lib/styles/palette';
 import { FaStamp } from 'react-icons/fa';
 import { GiCardRandom } from 'react-icons/gi';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SubBtnBox = styled.div`
   display: flex;
   justify-content: space-evenly;
-  margin: 20px 0 40px;
+  margin: 30px 0 40px;
   cursor: pointer;
 
   .btn {
@@ -57,33 +58,36 @@ const SubBtn = styled.div`
 
 const SubButton = () => {
   const theme = useSelector((state) => state.theme.theme);
+  const user = useSelector((state) => state.user.user);
+  const navigator = useNavigate();
 
-  const memoClick = useCallback(() => {
-    const popupUrl = `/memo`;
-    const popupOptions = 'width=500,height=600,scrollbars=yes,resizable=yes';
-    window.open(popupUrl, '메모', popupOptions);
-  }, []);
-
-  const randomClick = useCallback(() => {
-    const randomUrl = `/random`;
-    const randomOptions = 'width=500,height=600,scrollbars=yes,resizable=yes';
-    window.open(randomUrl, '랜덤사진', randomOptions);
-  }, []);
+  const onClick = useCallback(
+    (type) => {
+      if (user) {
+        const url = `/${type}`;
+        const Options = 'width=500,height=600,scrollbars=yes,resizable=yes';
+        window.open(url, '', Options);
+      } else {
+        navigator(`/${type}`);
+      }
+    },
+    [user, navigator],
+  );
 
   return (
     <>
       <SubBtnBox theme={String(theme)}>
-        <SubBtn theme={String(theme)} className="btn">
+        <SubBtn theme={String(theme)} className="btn" onClick={() => onClick('stamp')}>
           <FaStamp />
           <div>출석체크</div>
         </SubBtn>
         <SubBtn theme={String(theme)}></SubBtn>
         <SubBtn theme={String(theme)}></SubBtn>
-        <SubBtn theme={String(theme)} className="btn" onClick={randomClick}>
+        <SubBtn theme={String(theme)} className="btn" onClick={() => onClick('random')}>
           <GiCardRandom />
           <div>랜덤사진</div>
         </SubBtn>
-        <SubBtn theme={String(theme)} className="memo" onClick={memoClick}>
+        <SubBtn theme={String(theme)} className="memo" onClick={() => onClick('memo')}>
           <div className="memoTitle">메모</div>
           <div className="line"></div>
           <div className="line"></div>

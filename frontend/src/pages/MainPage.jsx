@@ -16,7 +16,7 @@ import HeightViewPostContainer from '../containers/main/HeightViewPostContainer'
 
 const ContainBox = styled.div`
   width: 90%;
-  margin: 50px auto 20px;
+  margin: 0 auto 20px;
   display: flex;
   justify-content: center;
 `;
@@ -41,7 +41,6 @@ const MainPage = () => {
   }, [dispatch]);
   return (
     <>
-      <HeaderContainer />
       <ContainBox>
         {/*--------------- 메인 -------------- */}
         <MainBox>
