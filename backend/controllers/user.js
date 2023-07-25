@@ -121,7 +121,7 @@ exports.getPost = async (req, res, next) => {
 exports.findId = async (req, res, next) => {
   const { nickname } = req.body;
   try {
-    const userId = await User.findOne({ where: { nickname }, attributes: ['userId'] });
+    const userId = await User.findOne({ where: { nickname }, attributes: ['userId', 'email'] });
     if (userId === null) {
       res.status(200).json();
       return;
@@ -181,6 +181,7 @@ exports.findPwdEmail = async (req, res, next) => {
 
       // await transporter.sendMail(mailOptions);
       // console.log("이메일이 성공적으로 전송되었습니다.");
+      console.log(generatedCode);
       res.status(200).json(generatedCode);
     } catch (error) {
       console.log(error);

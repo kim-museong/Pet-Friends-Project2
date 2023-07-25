@@ -274,7 +274,8 @@ const FindPhone = () => {
 
   const sendPhone = async (e) => {
     e.preventDefault();
-    const { phone } = findPwd;
+    const { phone } = findPwd || '';
+    const userPhoneNum = user.phone || '';
     validation('phone', phone);
     if (phone) {
       try {
@@ -283,9 +284,12 @@ const FindPhone = () => {
         setTimer(180);
         setTimeOut(false);
         setSnedSuccess(messages.sendSuccess);
-        dispatch(checkPhone(phone));
         setTimerExpired(true);
         timeStart();
+        if (userPhoneNum === phone) {
+          dispatch(checkPhone(phone));
+          return;
+        }
       } catch (e) {
         console.log(e);
       }
