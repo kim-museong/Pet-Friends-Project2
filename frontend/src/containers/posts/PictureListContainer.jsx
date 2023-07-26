@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync, unloadPosts } from '../../modules/posts';
 import { useLocation } from 'react-router-dom';
 import { resetSearch } from '../../modules/searchOption';
+import { getLikes } from '../../modules/like';
 
 const INIT_PICTURE_COUNT = 15;
 const LOAD_PICTURE_COUNT = 6;
@@ -34,6 +35,13 @@ const PictureListContainer = () => {
       dispatch(getPostsAsync({ sortType, tag, boardName, limit })),
     [dispatch],
   );
+
+  useEffect(() => {
+    if (user) {
+      console.log('getLikes 요청 보냄', user);
+      dispatch(getLikes({ userId: user?.id }));
+    }
+  }, [posts]);
 
   // useEffect
   // fetch pictureList on mount

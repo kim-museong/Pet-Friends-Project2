@@ -95,6 +95,8 @@ exports.getLikes = async (req, res, next) => {
   const { userId = null } = req.params;
   const { postId = null } = req.query;
 
+  console.log(userId, postId);
+
   const transaction = await sequelize.transaction();
 
   try {
@@ -106,6 +108,20 @@ exports.getLikes = async (req, res, next) => {
           where: {
             UserId: userId,
             PostId: postId,
+          },
+          transaction,
+        },
+      );
+      // transaction commit
+      await transaction.commit();
+
+      return res.status(200).json(likes);
+    } else if (userId !== null && postId === null) {
+      const likes = await Like.findAll(
+        {},
+        {
+          where: {
+            UserId: userId,
           },
           transaction,
         },

@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { IoHeartSharp, IoHeartOutline } from 'react-icons/io5';
 import { FiEdit3, FiX } from 'react-icons/fi';
 import palette from '../../lib/styles/palette';
+import { addLike, getLikes } from '../../modules/like';
+import { useDispatch } from 'react-redux';
 
 const PictureItemBlock = styled.div`
   display: flex;
@@ -32,20 +34,24 @@ const PictureItemBlock = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
+  width: 100%;
+  height: 15%;
+  border-radius: 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   margin-top: auto;
-  margin-bottom: 0.25rem;
-  margin-right: 0.25rem;
   color: ${palette.mainColor};
+  background: rgba(1, 149, 168, 0.2);
   & > * {
     margin-left: 5px;
   }
 `;
 const IoHeartSharpBlock = styled(IoHeartSharp)`
-  width: 20px;
-  height: 20px;
+  border-radius: 0;
+  width: 25px;
+  height: 25px;
   margin-left: 5px;
   transition: transform 0.3s ease;
 
@@ -54,8 +60,9 @@ const IoHeartSharpBlock = styled(IoHeartSharp)`
   }
 `;
 const IoHeartOutlineBlock = styled(IoHeartOutline)`
-  width: 20px;
-  height: 20px;
+  border-radius: 0;
+  width: 25px;
+  height: 25px;
   margin-left: 5px;
   transition: transform 0.3s ease;
 
@@ -65,8 +72,9 @@ const IoHeartOutlineBlock = styled(IoHeartOutline)`
 `;
 
 const FiEdit3Block = styled(FiEdit3)`
-  width: 20px;
-  height: 20px;
+  border-radius: 0;
+  width: 25px;
+  height: 25px;
   margin-left: 5px;
   transition: transform 0.3s ease;
 
@@ -75,8 +83,9 @@ const FiEdit3Block = styled(FiEdit3)`
   }
 `;
 const FiXBlock = styled(FiX)`
-  width: 20px;
-  height: 20px;
+  border-radius: 0;
+  width: 25px;
+  height: 25px;
   margin-left: 5px;
   transition: transform 0.3s ease;
 
@@ -89,16 +98,27 @@ const Wrapper = styled.div`
   margin: 15px;
 `;
 
-const handleIconClick = (event) => {
-  event.preventDefault();
-  console.log(`${event.target.dataset.icon} 클릭됨`);
-};
-
 const PictureItem = ({ post, user, likes, loading }) => {
-  console.log(user.id, post.id);
+  const dispatch = useDispatch();
+
+  const handleIconClick = (event) => {
+    event.preventDefault();
+    console.log(`${event.target.dataset.icon} 클릭됨`);
+    dispatch(
+      addLike({
+        userId: user.id,
+        postId: post.id,
+        targetType: 'post',
+        targetId: post.id,
+      }),
+    );
+    // TODO : likes 늦게 갱신 되는거 해결
+    dispatch(getLikes({ userId: user?.id }));
+  };
   const isLiked = () => {
-    return likes?.some(
-      (like) => like.UserId === user.id && like.likable_type === 'post' && like.likable_id.toString() === post.id,
+    return (
+      likes &&
+      likes.some((like) => like.UserId === user.id && like.likable_type === 'post' && like.likable_id === post.id)
     );
   };
 
@@ -109,15 +129,14 @@ const PictureItem = ({ post, user, likes, loading }) => {
           <PictureItemBlock imgurl={post && post.PictureDetail.imgUrl}>
             {user && (
               <ButtonWrapper>
-                {isLiked().toString()}
-                {isLiked() ? (
+                {likes && isLiked() ? (
                   <IoHeartSharpBlock data-icon="fullLikeIcon" onClick={handleIconClick} />
                 ) : (
                   <IoHeartOutlineBlock data-icon="emptyLikeIcon" onClick={handleIconClick} />
                 )}
                 {user.id === post.UserId && (
                   <>
-                    <FiEdit3Block data-icon="editIcon" nClick={handleIconClick} />
+                    <FiEdit3Block data-icon="editIcon" onClick={handleIconClick} />
                     <FiXBlock data-icon="deleteIcon" onClick={handleIconClick} />
                   </>
                 )}
