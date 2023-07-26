@@ -11,11 +11,18 @@ import { unloadPosts } from '../../modules/posts';
 
 const HeaderBox = styled.div`
   .logo {
-    width: 70%;
+    width: 200px;
+    height: 50px;
     margin: 20px auto;
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 2px;
+  }
+
+  img {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
   }
 `;
 
@@ -119,7 +126,9 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
       {isHeaderVisible && (
         <HeaderBox>
           <div className="logo">
-            <Link to="/">펫프렌즈</Link>
+            <Link to="/">
+              <img src="../../images/petFriendsLogo.png" />
+            </Link>
           </div>
 
           <HeaderBlock theme={String(theme)}>
@@ -158,7 +167,9 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
                   {isScrolled && (
                     <>
                       <div className="logo" style={{ width: 'auto', margin: '0' }}>
-                        <Link to="/">펫프렌즈</Link>
+                        <Link to="/">
+                          <img src="../../images/petFriendsLogo.png" />
+                        </Link>
                       </div>
                     </>
                   )}

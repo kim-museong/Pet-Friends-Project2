@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { FindIdBox, FindInputBox, Footer } from '../../lib/styles/find';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
+import FindPhone from '../common/find/FindPhone';
 
 const StatusBox = styled.div`
   height: 45px;
@@ -107,6 +108,11 @@ const FindId = ({
               </div>
             )}
           </>
+        )}
+        {findType === 'phone' && (
+          <div style={{ width: '50%', margin: '0 auto' }}>
+            <FindPhone />
+          </div>
         )}
         <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>
