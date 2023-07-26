@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHospitalList, updateHospitalList } from '../../modules/api';
-import axios from 'axios';
 import './kakaoMap.css';
 
 const { kakao } = window;
@@ -17,12 +16,11 @@ const KakaoMap = ({ user }) => {
   const kakaoMapRef = useRef();
   const [coords, setCoords] = useState(null);
   const [map, setMap] = useState(null);
-  const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
 
   // Geocoder : 주소 -> 좌표 변환
-  const geocoder = new kakao.maps.services.Geocoder();
+  const geocoder = useMemo(() => new kakao.maps.services.Geocoder(), []);
 
   useEffect(() => {
     // defaultAddress || user.address2
@@ -36,7 +34,7 @@ const KakaoMap = ({ user }) => {
 
     // 동물병원 목록 요청
     dispatch(getHospitalList());
-  }, []);
+  }, [dispatch, geocoder]);
 
   useEffect(() => {
     if (coords) {
@@ -54,7 +52,7 @@ const KakaoMap = ({ user }) => {
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
       }
     }
-  }, [coords]);
+  }, [coords, map]);
 
   useEffect(() => {
     if (hospitalList) {
@@ -87,17 +85,17 @@ const KakaoMap = ({ user }) => {
           '<div class="wrap">' +
           '    <div class="info">' +
           '        <div class="title">' +
-          `            카카오 스페이스닷원${hospital.id}` +
-          '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+          `            ${hospital.company_name}` +
           '        </div>' +
           '        <div class="body">' +
           '            <div class="img">' +
-          '                <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png" width="73" height="70">' +
+          '                <img src="" width="73" height="70" alt="병원사진">' +
           '           </div>' +
           '            <div class="desc">' +
-          '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' +
-          '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' +
-          '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' +
+          `                <div class="ellipsis">${hospital.location}</div>` +
+          `                     <br/>` +
+          `                <div class="subinfo ellipsis">(등록일)${hospital.report_date}</div>` +
+          `                <div class="subinfo ellipsis">(등록번호)${hospital.registration_number}</div>` +
           '            </div>' +
           '        </div>' +
           '    </div>' +
@@ -118,11 +116,7 @@ const KakaoMap = ({ user }) => {
         });
       });
     }
-  }, [hospitalList]);
-
-  function closeOverlay() {
-    console.log('x버튼 클릭됨');
-  }
+  }, [dispatch, geocoder, hospitalList, map]);
 
   return <>{<MapBlock ref={kakaoMapRef}></MapBlock>}</>;
 };

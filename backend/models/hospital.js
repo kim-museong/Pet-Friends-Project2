@@ -26,11 +26,11 @@ class Hospital extends Sequelize.Model {
         },
         latitude: {
           type: Sequelize.DECIMAL(9, 6),
-          allowNull: false,
+          allowNull: true,
         },
         longitude: {
           type: Sequelize.DECIMAL(9, 6),
-          allowNull: false,
+          allowNull: true,
         },
       },
       {
