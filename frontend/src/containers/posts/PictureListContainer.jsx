@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PictureList from '../../components/posts/PictureList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync, unloadPosts } from '../../modules/posts';
@@ -19,11 +19,13 @@ const PictureListContainer = () => {
   // 1. sortType : state에서 꺼냄.
   // 2. boardId or boardName : 특정 컴포넌트 내부이므로 수동으로 지정.
   // 3. limit : 화면의 사이즈와 사진div 크기에 따라서 유동적으로 결정.
+  const user = useSelector((state) => state.user.user);
   const posts = useSelector((state) => state.posts.posts);
   const sortType = useSelector((state) => state.searchOption.sortType) || 'newest';
   const tag = useSelector((state) => state.searchOption.tag);
   const loading = useSelector((state) => state.loading['posts/GET_POSTS']);
   const boardName = location.pathname.split('/')[1] || 'picture';
+  const likes = useSelector((state) => state.like.likes);
 
   const dispatch = useDispatch();
 
@@ -78,7 +80,7 @@ const PictureListContainer = () => {
     };
   }, [getPosts, posts, sortType]);
 
-  return <PictureList posts={posts} loading={loading}></PictureList>;
+  return <PictureList posts={posts} user={user} likes={likes} loading={loading}></PictureList>;
 };
 
 export default React.memo(PictureListContainer);

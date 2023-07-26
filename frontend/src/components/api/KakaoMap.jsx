@@ -56,12 +56,12 @@ const KakaoMap = ({ user }) => {
 
   useEffect(() => {
     if (hospitalList) {
-      console.log('동물 병원 리스트 갱신됨', hospitalList);
+      // console.log('동물 병원 리스트 갱신됨', hospitalList);
       hospitalList.map((hospital, index) => {
         // 동물 병원 좌표 정보 없으면 주소값을 기반으로 생성해서 db에 좌표 업데이트
         if (hospital.latitude === null) {
           geocoder.addressSearch(hospital.location, function (result, status) {
-            console.log(`동물병원 ${hospital.location}의 좌표 업데이트(${result[0].y}, ${result[0].x})`);
+            // console.log(`동물병원 ${hospital.location}의 좌표 업데이트(${result[0].y}, ${result[0].x})`);
             if (status === kakao.maps.services.Status.OK) {
               dispatch(
                 updateHospitalList({
