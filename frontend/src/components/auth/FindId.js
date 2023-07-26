@@ -28,8 +28,10 @@ const FindId = ({
   showBox,
   getUserId,
   onCancel,
-
+  masked,
   confirmFail,
+  findType,
+  changeRadio,
 }) => {
   const { nickname } = findId;
   const { nicknameError } = error;
@@ -42,43 +44,69 @@ const FindId = ({
           <Link to="/">Logo</Link>
           <h1>아이디 찾기</h1>
         </div>
+        <div>
+          <input
+            id="nickname"
+            type="radio"
+            name="findId"
+            value="nickname"
+            checked={findType === 'nickname'}
+            onChange={changeRadio}
+          />
+          <label htmlFor="nickname">닉네임</label>
+        </div>
+        <div>
+          <input
+            id="phone"
+            type="radio"
+            name="findId"
+            value="phone"
+            checked={findType === 'phone'}
+            onChange={changeRadio}
+          />
+          <label htmlFor="phone">폰번호</label>
+        </div>
 
-        {showBox ? (
-          <FindInputBox>
-            <ShowBox>
-              <div className="title">아이디</div>
-              <ShowBox>{userId}</ShowBox>
-              <button onClick={onCancel}>확인</button>
-            </ShowBox>
-          </FindInputBox>
-        ) : (
-          <div>
-            <FindInputBox theme={String(theme)}>
+        {findType === 'nickname' && (
+          <>
+            {showBox ? (
+              <FindInputBox>
+                <ShowBox>
+                  <div className="title">아이디</div>
+                  <ShowBox>{masked(userId)}</ShowBox>
+                  <button onClick={onCancel}>확인</button>
+                </ShowBox>
+              </FindInputBox>
+            ) : (
               <div>
-                <p style={{ color: 'rgb(160,160,160)', fontSize: '14px' }}>
-                  ・ 회원가입 시 입력한 이름와 입력한 이름이 같아야 합니다.
-                </p>
-                <div>
-                  <input
-                    className={nicknameError && 'nicknameError'}
-                    autoComplete="nickname"
-                    name="nickname"
-                    onChange={onChange}
-                    value={nickname}
-                    placeholder="이름을 입력해주세요."
-                  />
-                  <button className="confirm" onClick={onConfirm}>
-                    확인
-                  </button>
+                <FindInputBox theme={String(theme)}>
+                  <div>
+                    <p style={{ color: 'rgb(160,160,160)', fontSize: '14px' }}>
+                      ・ 회원가입 시 입력한 이름와 입력한 이름이 같아야 합니다.
+                    </p>
+                    <div>
+                      <input
+                        className={nicknameError && 'nicknameError'}
+                        autoComplete="nickname"
+                        name="nickname"
+                        onChange={onChange}
+                        value={nickname}
+                        placeholder="이름을 입력해주세요."
+                      />
+                      <button className="confirm" onClick={onConfirm}>
+                        확인
+                      </button>
 
-                  <StatusBox>
-                    <div className="error">{nicknameError && nicknameError}</div>
-                    <div className="error">{confirmFail && confirmFail}</div>
-                  </StatusBox>
-                </div>
+                      <StatusBox>
+                        <div className="error">{nicknameError && nicknameError}</div>
+                        <div className="error">{confirmFail && confirmFail}</div>
+                      </StatusBox>
+                    </div>
+                  </div>
+                </FindInputBox>
               </div>
-            </FindInputBox>
-          </div>
+            )}
+          </>
         )}
         <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>

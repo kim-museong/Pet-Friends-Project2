@@ -11,7 +11,7 @@ import { unloadPosts } from '../../modules/posts';
 
 const HeaderBox = styled.div`
   .logo {
-    width: 65%;
+    width: 70%;
     margin: 20px auto;
     font-size: 1.5rem;
     font-weight: bold;
@@ -45,9 +45,10 @@ const HeaderBlock = styled.div`
 `;
 
 const Wrapper = styled(Responsive)`
-  width: 50%;
+  width: 70%;
   height: 3.5rem;
   display: flex;
+  justify-content: ${({ isScrolled }) => (isScrolled === 'true' ? 'space-between' : 'center')} !important;
   align-items: center;
   justify-content: left;
   padding: 0;
@@ -66,17 +67,18 @@ const MenuList = styled.div`
   font-weight: bold;
 
   a {
-    padding: 5px 10px;
+    padding: 5px 5px 10px;
     margin: 0 20px;
-    border-radius: 0;
+    border-radius: 0px;
 
     &:hover {
-      border-bottom: 2px solid ${palette.mainColor};
+      color: ${palette.mainColor};
     }
   }
 
   .check {
-    border-bottom: 2px solid ${palette.mainColor};
+    color: ${palette.mainColor};
+    border-bottom: 3px solid ${palette.mainColor};
   }
 `;
 
@@ -90,7 +92,8 @@ const UserInfo = styled.div`
 `;
 
 const Profile = styled.div`
-  font-size: 32px;
+  display: flex;
+  font-size: 16px;
   margin: 9px 10px 0 0;
   cursor: pointer;
 `;
@@ -120,7 +123,7 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
           </div>
 
           <HeaderBlock theme={String(theme)}>
-            <Wrapper>
+            <Wrapper isScrolled={String(isScrolled)}>
               <MenuList>
                 <Link to="/notice" className={location.pathname === '/notice' && 'check'} onClick={() => onClick()}>
                   공지사항
@@ -144,26 +147,6 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
                 </Link>
                 {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
               </MenuList>
-              <div className="right">
-                {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
-                {location.pathname !== '/' && (
-                  <>
-                    {user ? (
-                      <>
-                        <Profile>
-                          <MdAccountCircle />
-                        </Profile>
-                        <UserInfo>{user.userId} 님</UserInfo>
-                        <Button onClick={onLogout}>로그아웃</Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button to="/auth/login">로그인</Button>
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
             </Wrapper>
           </HeaderBlock>
           <Spacer />
@@ -171,7 +154,14 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
           <FixBox>
             <div className={isScrolled ? 'fix' : ''}>
               <HeaderBlock theme={String(theme)}>
-                <Wrapper>
+                <Wrapper isScrolled={String(isScrolled)}>
+                  {isScrolled && (
+                    <>
+                      <div className="logo" style={{ width: 'auto', margin: '0' }}>
+                        <Link to="/">펫프렌즈</Link>
+                      </div>
+                    </>
+                  )}
                   <MenuList>
                     <Link to="/notice" className={location.pathname === '/notice' && 'check'} onClick={() => onClick()}>
                       공지사항
@@ -201,21 +191,17 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
                   </MenuList>
                   <div className="right">
                     {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
-                    {location.pathname !== '/' && (
+                    {user ? (
                       <>
-                        {user ? (
-                          <>
-                            <Profile>
-                              <MdAccountCircle />
-                            </Profile>
-                            <UserInfo>{user.userId} 님</UserInfo>
-                            <Button onClick={onLogout}>로그아웃</Button>
-                          </>
-                        ) : (
-                          <>
-                            <Button to="/auth/login">로그인</Button>
-                          </>
-                        )}
+                        <Profile>
+                          <MdAccountCircle />
+                        </Profile>
+                        <UserInfo>{user.userId} 님</UserInfo>
+                        <Button onClick={onLogout}>로그아웃</Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button to="/auth/login">로그인</Button>
                       </>
                     )}
                   </div>

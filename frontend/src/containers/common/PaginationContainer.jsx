@@ -7,17 +7,21 @@ import { getPostsAsync } from '../../modules/posts';
 
 const PaginationContainer = () => {
   const location = useLocation();
-
-  const searchCategory = useSelector((state) => state.searchOption.searchCategory);
-  const searchKeyword = useSelector((state) => state.searchOption.searchKeyword);
-  const sortType = useSelector((state) => state.searchOption.sortType);
-  const tag = useSelector((state) => state.searchOption.tag);
   const boardName = location.pathname.split('/')[1];
-  const postCount = useSelector((state) => state.posts.postCount);
-  const currPageNum = useSelector((state) => state.searchOption.pageNumber);
+  const { searchCategory, searchKeyword, sortType, tag, postCount, currPageNum, theme } = useSelector(
+    ({ searchOption, posts, theme }) => ({
+      searchCategory: searchOption.searchCategory,
+      searchKeyword: searchOption.searchKeyword,
+      sortType: searchOption.sortType,
+      tag: searchOption.tag,
+      postCount: posts.postCount,
+      currPageNum: searchOption.pageNumber,
+      theme: theme.theme,
+    }),
+  );
 
   const limit = useRef(10);
-
+  const [selcetPage, setSelectPage] = useState(1);
   const [firstPageNum, setFirstPageNum] = useState(1);
   const [lastPageNum, setLastPageNum] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -50,26 +54,27 @@ const PaginationContainer = () => {
 
   // 페이지네이션 아이콘 버튼 동작 설정
   const handleClick = useCallback(
-    (buttonText) => {
-      let pageNumber = parseInt(buttonText);
-      switch (buttonText) {
-        case '<<':
+    (type, key) => {
+      let pageNumber = parseInt(type);
+      switch (type) {
+        case 'first':
           pageNumber = currPageNum > 10 ? currPageNum - 10 : 1;
           break;
-        case '<':
+        case 'prev':
           pageNumber = currPageNum > 1 ? currPageNum - 1 : 1;
           break;
-        case '>':
+        case 'next':
           pageNumber = currPageNum < totalPage ? currPageNum + 1 : totalPage;
           break;
-        case '>>':
+        case 'last':
           pageNumber = currPageNum + 9 < totalPage ? currPageNum + 10 : totalPage;
           break;
         default:
-          pageNumber = buttonText;
+          pageNumber = type;
           break;
       }
       dispatch(selectPageNumber(pageNumber));
+      setSelectPage(key);
       dispatch(
         getPostsAsync({
           searchCategory,
@@ -92,6 +97,8 @@ const PaginationContainer = () => {
       handleClick={handleClick}
       currPageNum={currPageNum}
       totalPage={totalPage}
+      theme={theme}
+      selcetPage={selcetPage}
     ></Pagination>
   );
 };

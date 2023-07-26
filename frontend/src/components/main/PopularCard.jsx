@@ -30,17 +30,18 @@ const Title = styled.div`
   }
 
   svg {
-    margin-right: 5px;
+    margin-right: 10px;
     color: ${palette.mainColor};
-    font-size: 24px;
+    font-size: 30px;
   }
 
   .subTitle {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .title {
     font-weight: bold;
+    font-size: 20px;
   }
 `;
 
