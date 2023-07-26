@@ -5,6 +5,32 @@ import Button from './Button';
 import { MdAccountCircle } from 'react-icons/md';
 import palette from '../../lib/styles/palette';
 
+const HeaderBox = styled.div`
+  .logo {
+    width: 65%;
+    margin: 20px auto;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+`;
+
+const FixBox = styled.div`
+  width: 100%;
+  position: absolute;
+  top: -20%;
+
+  .fix {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: red;
+    border-radius: 0;
+  }
+`;
+
 const HeaderBlock = styled.div`
   width: 100%;
   font-size: 18px;
@@ -22,11 +48,6 @@ const Wrapper = styled(Responsive)`
   justify-content: left;
   padding: 0;
 
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-  }
   .right {
     display: flex;
     align-items: center;
@@ -70,23 +91,24 @@ const Profile = styled.div`
   cursor: pointer;
 `;
 
-const Header = ({ user, onLogout, theme }) => {
+const Header = ({ user, onLogout, theme, isScrolled }) => {
   const location = useLocation();
 
   const isHeaderVisible =
     !location.pathname.includes('/memo') &&
     !location.pathname.includes('/auth/') &&
     !location.pathname.includes('/random') &&
+    !location.pathname.includes('editor') &&
     !location.pathname.includes('/admin/');
 
   return (
     <>
       {isHeaderVisible && (
-        <>
-          <Link to="/" className="logo">
-            펫프렌즈
-          </Link>
-          <Spacer />
+        <HeaderBox>
+          <div className="logo">
+            <Link to="/">펫프렌즈</Link>
+          </div>
+
           <HeaderBlock theme={String(theme)}>
             <Wrapper>
               <MenuList>
@@ -127,7 +149,51 @@ const Header = ({ user, onLogout, theme }) => {
             </Wrapper>
           </HeaderBlock>
           <Spacer />
-        </>
+
+          <FixBox>
+            <div className={isScrolled ? 'fix' : ''}>
+              <HeaderBlock theme={String(theme)}>
+                <Wrapper>
+                  <MenuList>
+                    <Link to="/notice" className={location.pathname === '/notice' && 'check'}>
+                      공지사항
+                    </Link>
+                    <Link to="/information" className={location.pathname === '/information' && 'check'}>
+                      정보글
+                    </Link>
+                    <Link to="/picture" className={location.pathname === '/picture' && 'check'}>
+                      사진
+                    </Link>
+                    <Link to="/community" className={location.pathname === '/community' && 'check'}>
+                      커뮤니티
+                    </Link>
+                    {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
+                  </MenuList>
+                  <div className="right">
+                    {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
+                    {location.pathname !== '/' && (
+                      <>
+                        {user ? (
+                          <>
+                            <Profile>
+                              <MdAccountCircle />
+                            </Profile>
+                            <UserInfo>{user.userId} 님</UserInfo>
+                            <Button onClick={onLogout}>로그아웃</Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button to="/auth/login">로그인</Button>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </Wrapper>
+              </HeaderBlock>
+            </div>
+          </FixBox>
+        </HeaderBox>
       )}
     </>
   );

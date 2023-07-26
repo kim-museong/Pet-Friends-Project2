@@ -77,7 +77,7 @@ const PictureItemBlock = styled.div`
 `;
 
 const NotPicture = styled.div`
-  margin-top: 25%;
+  margin-top: 13rem;
   color: ${palette.border};
   font-size: 20px;
   justify-content: center;

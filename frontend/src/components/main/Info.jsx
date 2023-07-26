@@ -138,7 +138,7 @@ const InfoContent = styled.div`
 const NotInfo = styled.div`
   color: ${palette.border};
   font-size: 20px;
-  margin-top: 15%;
+  margin-top: 8rem;
   margin-left: 40%;
 `;
 
