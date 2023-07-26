@@ -20,6 +20,9 @@ const [GET_MEMOS, GET_MEMOS_SUCCESS, GET_MEMOS_FAILURE] = createRequestActionTyp
 const [GET_POPULARPOST, GET_POPULARPOST_SUCCESS, GET_POPULARPOST_FAILURE] =
   createRequestActionTypes('main/GET_POPULARPOST');
 
+const [GET_LIKES_POST, GET_LIKES_POST_SUCCESS, GET_LIKES_POST_FAILURE] =
+  createRequestActionTypes('main/GET_LIKES_POST');
+
 const [GET_MAIN_POSTS, GET_MAIN_POSTS_SUCCESS, GET_MAIN_POSTS_FAILURE] =
   createRequestActionTypes('main/GET_MAIN_POSTS');
 
@@ -39,8 +42,12 @@ export const getPopularAsync = createAction(GET_POPULARPOST, ({ sortType, boardN
   limit,
 }));
 
-export const getInfoAsync = createAction(GET_INFO, ({ sortType, boardName, limit }) => ({
-  sortType,
+export const getLikeAsync = createAction(GET_LIKES_POST, ({ boardName, limit }) => ({
+  boardName,
+  limit,
+}));
+
+export const getInfoAsync = createAction(GET_INFO, ({ boardName, limit }) => ({
   boardName,
   limit,
 }));
@@ -69,6 +76,7 @@ export const memoBring = createAction(MEMO_BRING, (content) => content);
 // define saga
 const getMainPostsSaga = createRequestSaga(GET_MAIN_POSTS, postsAPI.getPosts);
 const getPopularPostsSaga = createRequestSaga(GET_POPULARPOST, postsAPI.getPosts);
+const getLikePostsSaga = createRequestSaga(GET_LIKES_POST, postsAPI.getPosts);
 const getCardPostsSaga = createRequestSaga(GET_CARD_POSTS, postsAPI.getPosts);
 const getInfoSaga = createRequestSaga(GET_INFO, postsAPI.getPosts);
 
@@ -81,6 +89,7 @@ const memoWriteSaga = createRequestSaga(MEMO_WRITE, postsAPI.memoWrite);
 export function* mainSaga() {
   yield takeLatest(GET_MAIN_POSTS, getMainPostsSaga);
   yield takeLatest(GET_POPULARPOST, getPopularPostsSaga);
+  yield takeLatest(GET_LIKES_POST, getLikePostsSaga);
   yield takeLatest(GET_CARD_POSTS, getCardPostsSaga);
   yield takeLatest(GET_INFO, getInfoSaga);
   yield takeLatest(GET_MEMOS, getMemosSage);
@@ -95,6 +104,7 @@ const initialState = {
   popularPost: null,
   info: null,
   posts: null,
+  like: null,
   cardPosts: null,
   error: null,
   memoValue: {
@@ -201,6 +211,14 @@ const main = handleActions(
       ...state,
       popularPost: null,
       error: error,
+    }),
+    [GET_LIKES_POST_SUCCESS]: (state, { payload: data }) => ({
+      ...state,
+      like: data.posts,
+    }),
+    [GET_LIKES_POST_FAILURE]: (state) => ({
+      ...state,
+      like: null,
     }),
     [GET_CARD_POSTS_SUCCESS]: (state, { payload: data }) => ({
       ...state,

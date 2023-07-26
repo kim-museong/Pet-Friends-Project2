@@ -39,6 +39,7 @@ const SelectBtn = styled.div`
 `;
 
 const FindPwdSecond = ({ selectedRadio, radioChange, theme, email }) => {
+  console.log(email);
   return (
     <>
       <FindPwdInputBox theme={String(theme)}>

@@ -99,7 +99,7 @@ const NotPost = styled.div`
   color: ${palette.border};
 `;
 
-const Popularpost = ({ pupularPosts, theme }) => {
+const Popularpost = ({ like, theme }) => {
   return (
     <PostsBox>
       <PopularpostBox theme={String(theme)}>
@@ -111,24 +111,30 @@ const Popularpost = ({ pupularPosts, theme }) => {
             <MdChevronRight />
           </Link>
         </ListBox>
-        <ol>
-          {pupularPosts?.map((post, index) => (
-            <Postlist key={post.id} theme={String(theme)}>
-              <div style={{ display: 'flex' }}>
-                <div className="postNumber">{index + 1}</div>
-                <div className="postInfo">
-                  <span className="title">{post.CommunityDetail?.title}</span>
-                </div>
-              </div>
-              <div className="likeCount">{post.likeCount}</div>
-            </Postlist>
-          ))}
-          {pupularPosts?.length === 0 && (
-            <>
-              <NotPost>게시물이 없습니다.</NotPost>
-            </>
-          )}
-        </ol>
+        {like === null || like?.length === 0 ? (
+          <>
+            {' '}
+            <NotPost>게시물이 없습니다.</NotPost>
+          </>
+        ) : (
+          <>
+            <ol>
+              {like?.map((post, index) => (
+                <Postlist key={post.id} theme={String(theme)}>
+                  <div style={{ display: 'flex' }}>
+                    <div className="postNumber">{index + 1}</div>
+                    <div className="postInfo">
+                      <Link to={`/${post.Board.name}/${post.id}`} className="title">
+                        {post.CommunityDetail?.title}
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="likeCount">{post.likeCount}</div>
+                </Postlist>
+              ))}
+            </ol>
+          </>
+        )}
       </PopularpostBox>
     </PostsBox>
   );

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { getMainAsync } from '../../modules/main';
+import { Link } from 'react-router-dom';
 
 const NewTickerBox = styled.div`
   width: 100%;
@@ -28,6 +29,7 @@ const ShowBox = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      padding-bottom: 2px;
 
       &:hover {
         text-decoration: underline;
@@ -51,10 +53,6 @@ const ShowBox = styled.div`
     align-items: center;
     padding: 2px 5px;
     margin-bottom: 10px;
-
-    div {
-      padding-bottom: 2px;
-    }
   }
 `;
 
@@ -97,17 +95,22 @@ const NewsTicker = () => {
       <NewTickerBox theme={String(theme)}>
         <ShowBox theme={String(theme)}>
           <div className="rolling" ref={rollingRef}>
-            {posts?.map((post, index) => (
-              <div key={index} className="notice">
-                <span className="mark">공지사항</span>
-                <div className="title">{post.CommunityDetail?.title}</div>
-              </div>
-            ))}
-            {posts?.length === 0 && (
+            {posts === null || posts?.length === 0 ? (
               <>
                 <NotNotic>
                   <div>공지사항이 없습니다.</div>
                 </NotNotic>
+              </>
+            ) : (
+              <>
+                {posts?.map((post, index) => (
+                  <div key={index} className="notice">
+                    <span className="mark">공지사항</span>
+                    <Link to={`/${post.Board.name}/${post.id}`} className="title">
+                      {post.NoticeDetail?.title}
+                    </Link>
+                  </div>
+                ))}
               </>
             )}
           </div>
