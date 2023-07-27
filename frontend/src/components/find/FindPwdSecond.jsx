@@ -1,78 +1,109 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FindInputBox } from '../../lib/styles/find';
 import FindEmail from '../common/find/FindEmail';
 import FindPhone from '../common/find/FindPhone';
+import palette from '../../lib/styles/palette';
 
 const FindPwdInputBox = styled(FindInputBox)`
   text-align: center;
   width: 100%;
   margin: 50px auto 0;
-  display: flex;
-  justify-content: center;
 
   .selectBox {
     width: 40%;
-    padding: 20px 10px;
+    margin: 0 auto;
   }
-
-  .right {
-    padding-left: 100px;
-  }
-
-  .left {
-    padding-right: 100px;
-  }
+`;
+const activeButtonStyles = css`
+  color: ${palette.mainColor};
+  border-bottom: 2px solid ${palette.mainColor};
 `;
 
 const SelectBtn = styled.div`
   display: flex;
-
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
   font-weight: bold;
 
+  div {
+    border-radius: 0;
+    padding-bottom: 3px;
+    ${({ active }) => active && activeButtonStyles}
+  }
+
   input {
     width: 30px;
     margin: 20px 0;
+    display: none;
+  }
+
+  label {
+    padding-bottom: 5px;
+
+    &:hover {
+      color: ${palette.mainColor};
+    }
+  }
+
+  div + div {
+    margin: 0 10px;
+  }
+
+  input,
+  label {
+    cursor: pointer;
+  }
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  justify-content: center;
+  div + div {
+    margin-left: 50px;
   }
 `;
 
 const FindPwdSecond = ({ selectedRadio, radioChange, theme, email }) => {
-  console.log(email);
+  console.log(selectedRadio === 'phone');
   return (
     <>
       <FindPwdInputBox theme={String(theme)}>
-        {email && (
-          <div className="selectBox right">
-            <SelectBtn>
+        <FlexBox>
+          <SelectBtn active={selectedRadio === 'phone'}>
+            <div>
               <input
+                id="findPwdPhone"
                 type="radio"
                 name="findPwd"
-                value="email"
-                checked={selectedRadio === 'email'}
+                value="phone"
+                checked={selectedRadio === 'phone'}
                 onChange={radioChange}
               />
-              회원정보에 등록한 이메일주소
-            </SelectBtn>
-            {selectedRadio === 'email' && <FindEmail />}
-          </div>
-        )}
-
-        <div className="selectBox left">
-          <SelectBtn>
-            <input
-              type="radio"
-              name="findPwd"
-              value="phone"
-              checked={selectedRadio === 'phone'}
-              onChange={radioChange}
-            />
-            회원정보에 등록한 핸드폰번호
+              <label htmlFor="findPwdPhone">핸드폰번호</label>
+            </div>
           </SelectBtn>
+          {email && (
+            <>
+              <SelectBtn active={selectedRadio === 'email'}>
+                <div>
+                  <input
+                    id="findPwdEmail"
+                    type="radio"
+                    name="findPwd"
+                    value="email"
+                    checked={selectedRadio === 'email'}
+                    onChange={radioChange}
+                  />
+                  <label htmlFor="findPwdEmail">이메일주소</label>
+                </div>
+              </SelectBtn>
+            </>
+          )}
+        </FlexBox>
 
-          {selectedRadio === 'phone' && <FindPhone />}
-        </div>
+        {email && <div className="selectBox right">{selectedRadio === 'email' && <FindEmail />}</div>}
+        <div className="selectBox left">{selectedRadio === 'phone' && <FindPhone />}</div>
       </FindPwdInputBox>
     </>
   );

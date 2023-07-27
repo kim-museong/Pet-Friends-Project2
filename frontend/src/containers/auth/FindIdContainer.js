@@ -10,6 +10,7 @@ const FindIdContainer = () => {
   const [getUserId, setGetUserId] = useState('');
   const [showBox, setShowBox] = useState(false);
   const [confirmFail, setConfirmFailure] = useState(null);
+  const [findType, setFindType] = useState('nickname');
   const [errorKeyMap, setErrorKeyMap] = useState({
     nickname: 'nicknameError',
     email: 'emailError',
@@ -27,6 +28,7 @@ const FindIdContainer = () => {
 
   const errorMessages = {
     nickname: '・ 이름: 이름을 입력해주세요.',
+    notNickname: '・ 이름: 이름이 다르거나 없는 이름입니다.',
   };
 
   // ------------ 아이디 뒤에 별붙이기 -----------------
@@ -70,16 +72,25 @@ const FindIdContainer = () => {
     if (nickname) {
       try {
         const res = await axios.post('/user/findId', { nickname: nickname });
-        if (res.data) {
-          setGetUserId(res.data);
-          setConfirmFailure(null);
-          console.log('성공');
-          setShowBox(true);
+        console.log(res.data === '');
+        if (res.data === '') {
+          dispatch(changeError({ form: 'findId', key: 'nicknameError', value: errorMessages.notNickname }));
+          return;
         }
+        setGetUserId(res.data);
+        setConfirmFailure(null);
+        console.log('성공');
+        setShowBox(true);
       } catch (e) {
         console.log(e);
       }
     }
+  };
+
+  const changeRadio = (e) => {
+    setFindType(e.target.value);
+    console.log(findType);
+    console.log(e.target.value);
   };
 
   const onCancel = () => {
@@ -105,6 +116,9 @@ const FindIdContainer = () => {
         getUserId={getUserId}
         onCancel={onCancel}
         confirmFail={confirmFail}
+        masked={masked}
+        findType={findType}
+        changeRadio={changeRadio}
       />
     </>
   );

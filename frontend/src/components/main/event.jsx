@@ -28,8 +28,17 @@ const CarouselBox = styled.div`
   .attend {
     background-image: url('../../../images/attend.png');
     background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 50% 50%; /* 이미지를 가로로 50% 위치로 이동 */
+    background-size: 27%;
+    background-position: 50% 41%; /* 이미지를 가로로 50% 위치로 이동 */
+    background-color: ${palette.mainColor};
+    cursor: pointer;
+  }
+
+  .second {
+    background-image: url('../../../images/second.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 50% 63%; /* 이미지를 가로로 50% 위치로 이동 */
     cursor: pointer;
   }
 `;
@@ -52,19 +61,9 @@ export const Event = ({ sliderRef, settings, theme }) => {
           </h3>
         </div>
         <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
-        <div>
-          <h3>5</h3>
-        </div>
-        <div>
-          <h3>6</h3>
+          <h3 className="second">
+            <a href="https://www.seoul.co.kr/news/newsView.php?id=20220510500030&wlog_tag3=daum">출처</a>
+          </h3>
         </div>
       </Slider>
     </CarouselBox>

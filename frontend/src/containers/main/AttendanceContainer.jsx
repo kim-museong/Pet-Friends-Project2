@@ -9,13 +9,13 @@ const AttendanceContainer = () => {
   const [attendanceDates, setAttendanceDates] = useState('');
   // 출석 날짜 배열 (DB에서 가져온 데이터라고 가정)
 
-  const getAttendance = async () => {
+  const getAttendance = useCallback(async () => {
     if (!user) {
       return;
     }
     const response = await axios.post('/user/getAttendance', { id: user.id });
     setAttendanceDates(response.data);
-  };
+  }, [user]);
 
   const renderStamp = useCallback(
     (date) => {
@@ -30,7 +30,7 @@ const AttendanceContainer = () => {
         return attendanceDateString === dateString;
       });
       if (hasStamp) {
-        return <img style={{ width: '40px' }} src="/images/stamp.png" alt="stamp" />;
+        return <img src="/images/stamp.png" alt="stamp" />;
       }
 
       return null;
@@ -40,11 +40,11 @@ const AttendanceContainer = () => {
 
   useEffect(() => {
     getAttendance();
-  }, []);
+  }, [getAttendance]);
 
   return (
     <>
-      <Attendance theme={theme} renderStamp={renderStamp} />
+      <Attendance theme={theme} renderStamp={renderStamp} user={user} />
     </>
   );
 };

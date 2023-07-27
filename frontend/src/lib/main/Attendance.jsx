@@ -112,20 +112,6 @@ const Attendance = () => {
     }
   }, [user]);
 
-  const handleCheckIn = async () => {
-    if (!user) {
-      console.log('로그인을 해야함');
-      setCancel(false);
-      return;
-    } else {
-      const { userId, id } = user;
-      console.log('출석');
-      const response = await axios.post('/user/attendance', { userId, id });
-      console.log(response);
-      confirm();
-    }
-  };
-
   const onCancel = () => {
     setCancel(true);
   };
@@ -163,8 +149,8 @@ const Attendance = () => {
         ) : (
           <p>출석을 해주세요.</p>
         )}
-        <button className="attend" onClick={handleCheckIn} disabled={isConfirm}></button>
-        <button className="attendBtn" disabled={isConfirm} onClick={handleCheckIn}>
+        <button className="attend" disabled={isConfirm}></button>
+        <button className="attendBtn" disabled={isConfirm}>
           출석하기
         </button>
       </AttendanceBox>

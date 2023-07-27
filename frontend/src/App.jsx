@@ -100,6 +100,8 @@ const App = () => {
             <Route path="/memo/:id/update" element={<MemoUpdateContainer />} />
             {/* 랜덤사진 */}
             <Route path="/random" element={<RandomContainer />} />
+            {/* 출석페이지 */}
+            <Route path="/attendance" element={<AttendancePage />} />
           </Route>
         </Route>
 
@@ -118,8 +120,6 @@ const App = () => {
         <Route path="/community/:postId" element={<PostDetailPage />}></Route>
         {/* Not Found 페이지 */}
         <Route path="*" element={<NotFoundPage />}></Route>
-
-        <Route path="/attendance" element={<AttendancePage />} />
 
         {/* 권한 부족 알림 페이지 */}
         <Route path="/permission" element={<Permission />}></Route>
