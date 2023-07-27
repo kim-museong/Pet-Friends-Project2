@@ -26,7 +26,7 @@ const RandomDog = () => {
 
   return (
     <MediaBlock>
-      {!loading && (
+      {!loading && dogPicture && (
         <>
           {dogPicture.url.endsWith('.mp4') ? (
             <Video controls autoPlay muted loop>
