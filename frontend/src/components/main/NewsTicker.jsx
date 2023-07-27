@@ -77,21 +77,24 @@ const NewsTicker = () => {
 
   useEffect(() => {
     const rollingElement = rollingRef.current;
-    if (rollingElement) {
+    if (rollingElement && rollingElement.firstElementChild) {
       const interval = setInterval(() => {
         const firstChild = rollingElement.firstElementChild;
         rollingElement.style.transitionDuration = '400ms';
         rollingElement.style.marginTop = '-41px';
         setTimeout(() => {
           rollingElement.removeAttribute('style');
+          const clonedFirstChild = firstChild.cloneNode(true);
           ReactDOM.unstable_batchedUpdates(() => {
-            rollingElement.appendChild(firstChild);
+            rollingElement.appendChild(clonedFirstChild);
+            rollingElement.removeChild(firstChild);
           });
         }, 400);
       }, 4000);
       return () => clearInterval(interval);
     }
   }, [posts]);
+
 
   return (
     <>

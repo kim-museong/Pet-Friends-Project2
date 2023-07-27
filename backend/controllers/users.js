@@ -19,7 +19,8 @@ exports.getUsers = async (req, res, next) => {
   const { column, order } = sortOptions[sortType] || sortOptions.newest;
 
   try {
-    // 1. get users
+
+
     let users = await User.findAll({
       include: [
         {

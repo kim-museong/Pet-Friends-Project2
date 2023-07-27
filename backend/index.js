@@ -12,6 +12,9 @@ const session = require('express-session');
 ////////////////// init //////////////////////
 //////////////////////////////////////////////
 const app = express();
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
 
 // port set
 app.set('port', 8001);
