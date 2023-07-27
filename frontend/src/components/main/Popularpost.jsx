@@ -54,6 +54,7 @@ const Postlist = styled.li`
   .title {
     display: inline-block;
     width: 150px;
+    padding: 1px 3px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

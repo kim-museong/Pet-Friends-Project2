@@ -4,7 +4,7 @@ import palette from '../../lib/styles/palette';
 import { MdArrowForwardIos } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { useDispatch } from '../../../node_modules/react-redux/es/exports';
-import { changeStep, initNumber, initialize } from '../../modules/find';
+import { changeStep, initNumber } from '../../modules/find';
 import { useCallback } from 'react';
 
 const StepBox = styled.div`
@@ -30,14 +30,23 @@ const StepBox = styled.div`
 
 const StepBar = styled.div`
   width: 550px;
-  margin: 15px auto 0;
+  margin: 15px auto 80px;
   border-bottom: 1px solid rgb(150, 150, 150);
 `;
 
 const TitleBox = styled.div`
   margin-top: 40px;
   text-align: center;
-  font-size: 30px;
+
+  a {
+    display: inline-block;
+    width: 200px;
+    height: 100px;
+    background-image: url('../../images/petFriendsLogo.png');
+    background-repeat: no-repeat;
+    background-position: 50% 57%;
+    background-size: 150%;
+  }
 `;
 
 const PasswordStep = () => {
@@ -57,7 +66,7 @@ const PasswordStep = () => {
   return (
     <>
       <TitleBox>
-        <Link to="/">Logo</Link>
+        <Link to="/"></Link>
       </TitleBox>
       <StepBox>
         <span className={step >= 1 ? 'userId' : ''} onClick={() => prevChangeStep(1)}>

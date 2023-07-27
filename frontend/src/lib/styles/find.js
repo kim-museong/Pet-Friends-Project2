@@ -3,7 +3,7 @@ import palette from '../../lib/styles/palette';
 
 export const FindIdBox = styled.div`
   width: 80%;
-  margin: 5% auto;
+  margin: 0 auto;
   border-radius: 5px;
   text-align: center;
   overflow: hidden;

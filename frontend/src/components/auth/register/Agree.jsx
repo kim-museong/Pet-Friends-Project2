@@ -27,7 +27,7 @@ const MainBox = styled.div`
     }
   }
 
-  .info {
+  .infos {
     width: 450px;
     margin: 0 auto 50px;
     padding: 5px;
@@ -141,7 +141,7 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             <div style={{ marginLeft: '12px', fontSize: '20px' }}>전체동의하기</div>
           </Title>
         </AgreeBox>
-        <div className="info">위치정보이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다.</div>
+        <div className="infos">위치정보이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다.</div>
         <AgreeBox theme={String(theme)}>
           <input type="checkbox" name="tos" onChange={onCheck} checked={tos} />
           <Title>

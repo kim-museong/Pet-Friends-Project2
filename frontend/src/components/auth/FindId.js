@@ -4,6 +4,21 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import FindPhone from '../common/find/FindPhone';
 
+const FindIdBlock = styled(FindIdBox)`
+  .title {
+    a {
+      margin: 3rem 0 0;
+      display: inline-block;
+      width: 200px;
+      height: 100px;
+      background-image: url('../../images/petFriendsLogo.png');
+      background-repeat: no-repeat;
+      background-position: 50% 57%;
+      background-size: 150%;
+    }
+  }
+`;
+
 const StatusBox = styled.div`
   height: 45px;
   margin-bottom: 20px;
@@ -40,9 +55,9 @@ const FindId = ({
 
   return (
     <>
-      <FindIdBox>
-        <div style={{ marginTop: '10%' }}>
-          <Link to="/">Logo</Link>
+      <FindIdBlock>
+        <div className="title">
+          <Link to="/"></Link>
           <h1>아이디 찾기</h1>
         </div>
         <div>
@@ -118,7 +133,7 @@ const FindId = ({
           <Link to="/auth/login">로그인</Link>
           <Link to="/auth/credentials?type=findPwd">비밀번호 찾기</Link>
         </Footer>
-      </FindIdBox>
+      </FindIdBlock>
     </>
   );
 };

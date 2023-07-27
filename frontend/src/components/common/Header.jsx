@@ -3,6 +3,7 @@ import Responsive from './Responsive';
 import { Link, useLocation } from 'react-router-dom';
 import Button from './Button';
 import { MdAccountCircle } from 'react-icons/md';
+import { SiInstagram, SiFacebook, SiGithub } from 'react-icons/si';
 import palette from '../../lib/styles/palette';
 import { resetSearch } from '../../modules/searchOption';
 import { useDispatch } from 'react-redux';
@@ -11,18 +12,50 @@ import { unloadPosts } from '../../modules/posts';
 
 const HeaderBox = styled.div`
   .logo {
-    width: 200px;
-    height: 50px;
-    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    margin: 0 auto 5px;
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 2px;
+    overflow: hidden;
+
+    a {
+      display: inline-block;
+      width: 200px;
+      height: 100px;
+      background-image: url('../../images/petFriendsLogo.png');
+      background-repeat: no-repeat;
+      background-position: 50% 57%;
+      background-size: 150%;
+    }
   }
 
-  img {
-    width: 200px;
-    height: auto;
-    object-fit: contain;
+  .fixedLogo {
+    a {
+      display: inline-block;
+      width: 200px;
+      height: 100px;
+      background-image: url('');
+      background-repeat: no-repeat;
+      background-position: 50% 57%;
+      background-size: 150%;
+    }
+  }
+`;
+
+const Soical = styled.div`
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 30px;
+    margin-top: 60px;
+    margin-right: 10px;
+    color: ${palette.mainColor};
+    cursor: pointer;
   }
 `;
 
@@ -71,8 +104,6 @@ const Wrapper = styled(Responsive)`
 `;
 
 const MenuList = styled.div`
-  font-weight: bold;
-
   a {
     padding: 5px 5px 10px;
     margin: 0 20px;
@@ -85,7 +116,7 @@ const MenuList = styled.div`
 
   .check {
     color: ${palette.mainColor};
-    border-bottom: 3px solid ${palette.mainColor};
+    border-bottom: 2px solid ${palette.mainColor};
   }
 `;
 
@@ -118,6 +149,7 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
     !location.pathname.includes('/memo') &&
     !location.pathname.includes('/auth/') &&
     !location.pathname.includes('/random') &&
+    !location.pathname.includes('/attendance') &&
     !location.pathname.includes('editor') &&
     !location.pathname.includes('/admin/');
 
@@ -126,9 +158,11 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
       {isHeaderVisible && (
         <HeaderBox>
           <div className="logo">
-            <Link to="/">
-              <img src="../../images/petFriendsLogo.png" />
-            </Link>
+            <Link to="/"></Link>
+            <Soical>
+              <SiInstagram />
+              <SiFacebook />
+            </Soical>
           </div>
 
           <HeaderBlock theme={String(theme)}>
@@ -166,10 +200,8 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
                 <Wrapper isScrolled={String(isScrolled)}>
                   {isScrolled && (
                     <>
-                      <div className="logo" style={{ width: 'auto', margin: '0' }}>
-                        <Link to="/">
-                          <img src="../../images/petFriendsLogo.png" />
-                        </Link>
+                      <div className="fixedLogo" style={{ width: 'auto', margin: '0' }}>
+                        <Link to="/"></Link>
                       </div>
                     </>
                   )}
