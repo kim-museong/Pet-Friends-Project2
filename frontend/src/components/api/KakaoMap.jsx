@@ -7,8 +7,9 @@ import './kakaoMap.css';
 const { kakao } = window;
 
 const MapBlock = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 1000px;
+  height: 1000px;
+  margin: 0 auto;
 `;
 
 const KakaoMap = ({ user }) => {

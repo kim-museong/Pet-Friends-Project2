@@ -14,12 +14,13 @@ const PaginationBlock = styled.div`
   display: flex;
   justify-content: center;
   padding: 10px;
-  margin: 50px 0;
+  margin-top: 10px;
 `;
 
 const StyledButton = styled(Button)`
   width: 50px;
-  border: ${({ theme }) => (theme === 'true' ? '1px solid rgb(30,30,30)' : `1px solid ${palette.border}`)};
+  background: inherit;
+  color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   border-radius: 4px;
 
   svg {
@@ -32,7 +33,13 @@ const StyledButton = styled(Button)`
     margin-left: 3px;
   }
 
+  &:hover {
+    background: inherit;
+    color: ${palette.mainColor};
+  }
+
   &:disabled {
+    background: inherit;
     opacity: 0.5; // TODO : 테스트용. 동작 확인되면 0으로 바꿔서 아예 안보이게.
     cursor: default;
   }
@@ -43,6 +50,7 @@ const StyledButton = styled(Button)`
 const activeButtonStyles = css`
   ${StyledButton};
   opacity: 1;
+  color: ${palette.mainColor};
 `;
 
 const PageButton = ({ handleClick, buttonText, disabled, theme, key, type }) => {
@@ -54,6 +62,7 @@ const PageButton = ({ handleClick, buttonText, disabled, theme, key, type }) => 
 };
 
 const Pagination = ({ firstPageNum, lastPageNum, handleClick, currPageNum, totalPage, theme, selcetPage }) => {
+  console.log(selcetPage === 1);
   return (
     <PaginationBlock theme={String(theme)}>
       <PageButton

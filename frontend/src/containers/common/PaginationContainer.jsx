@@ -20,7 +20,7 @@ const PaginationContainer = () => {
     }),
   );
 
-  const limit = useRef(10);
+  const limit = useRef(9);
   const [selcetPage, setSelectPage] = useState(1);
   const [firstPageNum, setFirstPageNum] = useState(1);
   const [lastPageNum, setLastPageNum] = useState(1);

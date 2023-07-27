@@ -4,16 +4,22 @@ import SortOptionMenuContainer from '../containers/common/SortOptionMenuContaine
 import PostButtonContainer from '../containers/posts/PostButtonContainer';
 import PostListContainer from '../containers/posts/PostListContainer';
 import PaginationContainer from '../containers/common/PaginationContainer';
-import ApiContainer from '../containers/api/ApiContainer';
+import styled from 'styled-components';
+
+const Space = styled.div`
+  width: 100%;
+  height: 50px;
+`;
 
 const InformationPage = () => {
   return (
     <>
       <SearchOptionMenuContainer></SearchOptionMenuContainer>
       <SortOptionMenuContainer></SortOptionMenuContainer>
-      <ApiContainer />
+      <PaginationContainer />
       <PostButtonContainer></PostButtonContainer>
       <PostListContainer></PostListContainer>
+      <Space />
       <PaginationContainer />
     </>
   );

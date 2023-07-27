@@ -37,10 +37,10 @@ const HeaderBox = styled.div`
       display: inline-block;
       width: 200px;
       height: 100px;
-      background-image: url('');
+      background-image: url('../../images/petFriendsFixedLogo.png');
       background-repeat: no-repeat;
       background-position: 50% 57%;
-      background-size: 150%;
+      background-size: 70%;
     }
   }
 `;
@@ -150,6 +150,7 @@ const Header = ({ user, onLogout, theme, isScrolled }) => {
     !location.pathname.includes('/auth/') &&
     !location.pathname.includes('/random') &&
     !location.pathname.includes('/attendance') &&
+    !location.pathname.includes('/hospital') &&
     !location.pathname.includes('editor') &&
     !location.pathname.includes('/admin/');
 

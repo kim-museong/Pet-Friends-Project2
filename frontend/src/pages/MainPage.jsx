@@ -57,7 +57,6 @@ const MainPage = () => {
           <HeightViewPostContainer />
         </SideBox>
       </ContainBox>
-      <Footer />
     </>
   );
 };

@@ -5,6 +5,7 @@ import { FaStamp } from 'react-icons/fa';
 import { BsTable } from 'react-icons/bs';
 import { CiMemoPad } from 'react-icons/ci';
 import { GiCardRandom } from 'react-icons/gi';
+import { LiaHospital } from 'react-icons/lia';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -137,6 +138,10 @@ const SubButton = () => {
         <SubBtn theme={String(theme)} className="btn" onClick={() => onClick('memo')}>
           <CiMemoPad />
           <div>메모장</div>
+        </SubBtn>
+        <SubBtn theme={String(theme)} className="btn" onClick={() => onClick('hospital')}>
+          <LiaHospital />
+          <div>동물병원</div>
         </SubBtn>
       </SubBtnBox>
     </>
