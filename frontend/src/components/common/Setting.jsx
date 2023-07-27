@@ -138,6 +138,7 @@ const Setting = () => {
     !location.pathname.includes('/auth/') &&
     !location.pathname.includes('/random') &&
     !location.pathname.includes('/attendance') &&
+    !location.pathname.includes('/hospital') &&
     !location.pathname.includes('/admin/');
 
   return (

@@ -38,6 +38,8 @@ import MemoShowContainer from './containers/main/Memo/MemoShowContainer';
 import MemoUpdateContainer from './containers/main/Memo/MemoUpdateContainer';
 import RandomContainer from './containers/main/RandomContainer';
 import HeaderContainer from './containers/common/HeaderContainer';
+import KakaoMap from './components/api/KakaoMap';
+import Footer from './lib/main/Footer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -102,6 +104,8 @@ const App = () => {
             <Route path="/random" element={<RandomContainer />} />
             {/* 출석페이지 */}
             <Route path="/attendance" element={<AttendancePage />} />
+            {/* 동물병원 */}
+            <Route path="/hospital" element={<KakaoMap />} />
           </Route>
         </Route>
 
@@ -166,6 +170,7 @@ const App = () => {
           </ThemeProvider>
         </ColorModeContext.Provider>
       )}
+      <Footer />
     </>
   );
 };
