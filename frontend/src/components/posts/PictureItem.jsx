@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { IoHeartSharp, IoHeartOutline } from 'react-icons/io5';
 import { FiEdit3, FiX } from 'react-icons/fi';
 import palette from '../../lib/styles/palette';
-import { addLike, getLikes } from '../../modules/like';
+import { addLike, deleteLike, getLikes } from '../../modules/like';
 import { useDispatch } from 'react-redux';
+import { storeOriginPost } from '../../modules/write';
+import { deletePost } from '../../lib/api/post';
+import { getPostsAsync } from '../../modules/posts';
 
 const PictureItemBlock = styled.div`
   display: flex;
@@ -45,14 +48,14 @@ const ButtonWrapper = styled.div`
   color: ${palette.mainColor};
   background: rgba(1, 149, 168, 0.2);
   & > * {
-    margin-left: 5px;
+    margin-right: 5px;
   }
 `;
 const IoHeartSharpBlock = styled(IoHeartSharp)`
   border-radius: 0;
   width: 25px;
   height: 25px;
-  margin-left: 5px;
+  margin-right: 5px;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -63,7 +66,7 @@ const IoHeartOutlineBlock = styled(IoHeartOutline)`
   border-radius: 0;
   width: 25px;
   height: 25px;
-  margin-left: 5px;
+  margin-right: 5px;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -75,7 +78,7 @@ const FiEdit3Block = styled(FiEdit3)`
   border-radius: 0;
   width: 25px;
   height: 25px;
-  margin-left: 5px;
+  margin-right: 5px;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -86,7 +89,7 @@ const FiXBlock = styled(FiX)`
   border-radius: 0;
   width: 25px;
   height: 25px;
-  margin-left: 5px;
+  margin-right: 5px;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -100,20 +103,60 @@ const Wrapper = styled.div`
 
 const PictureItem = ({ post, user, likes, loading }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const findDataIcon = (element) => {
+    while (element) {
+      if (element.dataset.icon) {
+        return element.dataset.icon;
+      }
+      element = element.parentElement;
+    }
+    return null;
+  };
 
   const handleIconClick = (event) => {
     event.preventDefault();
-    console.log(`${event.target.dataset.icon} 클릭됨`);
-    dispatch(
-      addLike({
-        userId: user.id,
-        postId: post.id,
-        targetType: 'post',
-        targetId: post.id,
-      }),
-    );
-    // TODO : likes 늦게 갱신 되는거 해결
-    dispatch(getLikes({ userId: user?.id }));
+    const dataIcon = findDataIcon(event.target);
+    console.log(dataIcon);
+    console.log(`${dataIcon} 클릭됨`);
+    switch (dataIcon) {
+      case 'fullLikeIcon':
+        dispatch(
+          deleteLike({
+            userId: user.id,
+            targetType: 'post',
+            targetId: post.id,
+            postId: post.id,
+          }),
+        );
+        break;
+      case 'emptyLikeIcon':
+        dispatch(
+          addLike({
+            userId: user.id,
+            postId: post.id,
+            targetType: 'post',
+            targetId: post.id,
+          }),
+        );
+        break;
+      case 'editIcon':
+        dispatch(storeOriginPost({ post, boardName: 'picture' }));
+        navigate(`/editor/picture`, { state: { boardName: 'picture' } });
+        break;
+      case 'deleteIcon':
+        deletePost({ boardName: 'picture', postId: post.id })
+          .then(() => {
+            dispatch(getPostsAsync({ sortType: 'newest', tag: [], boardName: 'picture', limit: 10 }));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        break;
+      default:
+        break;
+    }
   };
   const isLiked = () => {
     return (

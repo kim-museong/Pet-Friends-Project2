@@ -11,7 +11,7 @@ export const getPosts = ({
   limit = 10,
 }) => {
   console.log(
-    `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, boardName : ${boardName}, limit : ${limit}`,
+    `test => searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, boardName : ${boardName}, limit : ${limit}`,
   );
   return client.get(`/board/${boardName}/posts`, {
     params: { searchCategory, searchKeyword, sortType, currPageNum, tag, limit },
