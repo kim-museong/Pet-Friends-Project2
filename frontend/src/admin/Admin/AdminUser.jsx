@@ -32,19 +32,7 @@ const AdminUser = () => {
       field: 'rank',
       headerName: '등급',
       flex: 1,
-      renderCell: (params) => (
-        <>
-          {params.row.rank}
-          <IconButton onClick={() => handleRankChange(params.row, 'up')} size="small">
-            <ArrowUpwardIcon />
-          </IconButton>
-          <IconButton onClick={() => handleRankChange(params.row, 'down')} size="small">
-            <ArrowDownwardIcon />
-          </IconButton>
-        </>
-      ),
     },
-    { field: 'address2', headerName: '주소', flex: 1 },
     {
       field: 'createdAt',
       headerName: '가입일자',
@@ -208,7 +196,6 @@ const AdminUser = () => {
             <MenuItem value="nickname">닉네임</MenuItem>
             <MenuItem value="userId">회원 아이디</MenuItem>
             <MenuItem value="rank">등급</MenuItem>
-            <MenuItem value="address2">주소</MenuItem>
             <MenuItem value="createdAt">가입일자</MenuItem>
           </Select>
           <InputBase

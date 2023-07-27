@@ -31,7 +31,6 @@ const BestUsers = () => {
     { field: 'nickname', headerName: '닉네임', flex: 1 },
     { field: 'userId', headerName: '회원 아이디', flex: 1 },
     { field: 'rank', headerName: '등급', flex: 1 },
-    { field: 'address2', headerName: '주소', flex: 1 },
     { field: 'createdAt', headerName: '가입일자', flex: 1 },
     { field: 'postCount', headerName: '글 개수', flex: 1 },
   ];

@@ -6,6 +6,7 @@ import axios from 'axios';
 import InputBase from '@mui/material/InputBase';
 import PostDetailsDialog from '../components/PostDetailsDialog';
 import { tokens } from '../theme';
+import { deletePost } from '../../lib/api/post';
 
 const AdminPost = () => {
   const theme = useTheme();
@@ -23,15 +24,37 @@ const AdminPost = () => {
     fetchPosts();
   }, []);
 
-  const fetchPosts = () => {
-    axios
-      .get('/board/community/posts')
-      .then((response) => {
-        setPosts(response.data.posts);
-      })
-      .catch((error) => {
-        console.error('게시글 정보를 가져오지 못했습니다:', error);
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get('/board/community/posts');
+      const fetchedPosts = response.data.posts;
+
+      // Fetch user details for each post
+      const fetchUserPromises = fetchedPosts.map((post) => {
+        if (post.UserId !== null) {
+          return axios.get(`/users/${post.UserId}`);
+        }
+        return null;
       });
+
+      const userResponses = await Promise.all(fetchUserPromises);
+
+      const postsWithUser = fetchedPosts.map((post, index) => {
+        const userResponse = userResponses[index];
+        if (userResponse) {
+          return {
+            ...post,
+            title: post.CommunityDetail.title,
+            nickname: userResponse.data.nickname,
+          };
+        }
+        return post;
+      });
+
+      setPosts(postsWithUser);
+    } catch (error) {
+      console.error('게시글 정보를 가져오지 못했습니다:', error);
+    }
   };
 
   const handleViewPost = (postId) => {
@@ -45,24 +68,23 @@ const AdminPost = () => {
     setDialogOpen(false);
   };
 
-  const handleDeletePost = () => {
+  const handleDeletePost = async (postId) => {
     if (!selectedPost) return;
 
     const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
 
     if (confirmDelete) {
-      axios
-        .delete(`/api/posts/${selectedPost.id}`)
-        .then(() => {
-          // 삭제된 게시물을 게시물 목록에서 제거
-          setPosts((prevPosts) => prevPosts.filter((post) => post.id !== selectedPost.id));
+      try {
+        await deletePost({ boardName: 'community', postId }); // Replace 'community' with the appropriate board name
 
-          // 다이얼로그 닫기
-          handleCloseDialog();
-        })
-        .catch((error) => {
-          console.error('게시물 삭제에 실패했습니다:', error);
-        });
+        // Remove the deleted post from the posts state
+        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== selectedPost.id));
+
+        // Close the dialog
+        handleCloseDialog();
+      } catch (error) {
+        console.error('게시물 삭제에 실패했습니다:', error);
+      }
     }
   };
 

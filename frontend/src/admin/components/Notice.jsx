@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { tokens } from '../theme';
 
 const NoticePost = () => {
@@ -23,10 +22,36 @@ const NoticePost = () => {
         const posts = response.data.posts;
         posts.map((post) => (post.nickname = post.User.nickname));
         setPosts(posts);
+        fetchPostDetails(posts); // Call fetchPostDetails after setting posts state
       })
       .catch((error) => {
         console.error('게시글 정보를 가져오지 못했습니다:', error);
       });
+  };
+
+  const fetchPostDetails = async (posts) => {
+    const fetchUserPromises = posts.map((post) => {
+      if (post.UserId !== null) {
+        return axios.get(`/users/${post.UserId}`);
+      }
+      return null;
+    });
+
+    const userResponses = await Promise.all(fetchUserPromises);
+
+    const postsWithDetails = posts.map((post, index) => {
+      const userResponse = userResponses[index];
+      if (userResponse) {
+        return {
+          ...post,
+          nickname: userResponse.data.nickname,
+          title: post.CommunityDetail ? post.CommunityDetail.title : '',
+        };
+      }
+      return post;
+    });
+
+    setPosts(postsWithDetails);
   };
 
   const columns = [
