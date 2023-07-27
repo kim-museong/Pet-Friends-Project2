@@ -53,59 +53,103 @@ const activeButtonStyles = css`
   color: ${palette.mainColor};
 `;
 
-const PageButton = ({ handleClick, buttonText, disabled, theme, key, type }) => {
+const PageButton = ({ handleClick, buttonText, disabled, type }) => {
   return (
-    <StyledButton theme={String(theme)} disabled={disabled} onClick={() => handleClick(type, key)} key={key}>
+    <StyledButton disabled={disabled} onClick={() => handleClick(buttonText, type)}>
       {buttonText}
     </StyledButton>
   );
 };
 
-const Pagination = ({ firstPageNum, lastPageNum, handleClick, currPageNum, totalPage, theme, selcetPage }) => {
-  console.log(selcetPage === 1);
+const Pagination = ({ firstPageNum, lastPageNum, handleClick, currPageNum, totalPage }) => {
   return (
-    <PaginationBlock theme={String(theme)}>
+    <PaginationBlock>
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === 1}
         handleClick={handleClick}
         buttonText={<MdKeyboardDoubleArrowLeft />}
-        type="first"
+        type={'<<'}
       ></PageButton>
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === 1}
         handleClick={handleClick}
         buttonText={<MdKeyboardArrowLeft />}
-        type="prev"
+        type={'<'}
       ></PageButton>
       {Array(lastPageNum - firstPageNum + 1)
         .fill()
         .map((_, index) => (
-          <PageButton
-            theme={String(theme)}
-            active={selcetPage === index}
-            key={index}
-            handleClick={handleClick}
-            buttonText={firstPageNum + index}
-          ></PageButton>
+          <PageButton key={index} handleClick={handleClick} buttonText={firstPageNum + index}></PageButton>
         ))}
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === totalPage}
         handleClick={handleClick}
         buttonText={<MdKeyboardArrowRight />}
-        type="next"
+        type={'>'}
       ></PageButton>
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === totalPage}
         handleClick={handleClick}
         buttonText={<MdKeyboardDoubleArrowRight />}
-        type="last"
+        type={'>>'}
       ></PageButton>
     </PaginationBlock>
   );
 };
 
 export default Pagination;
+
+// const PageButton = ({ handleClick, buttonText, disabled, theme, key, type }) => {
+//   return (
+//     <StyledButton theme={String(theme)} disabled={disabled} onClick={() => handleClick(type, key)}>
+//       {buttonText}
+//     </StyledButton>
+//   );
+// };
+
+// const Pagination = ({ firstPageNum, lastPageNum, handleClick, currPageNum, totalPage, theme }) => {
+//   return (
+//     <PaginationBlock theme={String(theme)}>
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === 1}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardDoubleArrowLeft />}
+//         type="first"
+//       ></PageButton>
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === 1}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardArrowLeft />}
+//         type="prev"
+//       ></PageButton>
+//       {Array(lastPageNum - firstPageNum + 1)
+//         .fill()
+//         .map((_, index) => (
+//           <PageButton
+//             key={firstPageNum + index}
+//             handleClick={handleClick}
+//             buttonText={firstPageNum + index}
+//             theme={String(theme)}
+//           ></PageButton>
+//         ))}
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === totalPage}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardArrowRight />}
+//         type="next"
+//       ></PageButton>
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === totalPage}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardDoubleArrowRight />}
+//         type="last"
+//       ></PageButton>
+//     </PaginationBlock>
+//   );
+// };
+
+// export default Pagination;
