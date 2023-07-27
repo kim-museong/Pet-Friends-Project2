@@ -75,7 +75,7 @@ const AdminPost = () => {
 
     if (confirmDelete) {
       try {
-        await deletePost({ boardName: 'community', postId }); // Replace 'community' with the appropriate board name
+        await deletePost(`/board/community/posts/${postId}`);
 
         // Remove the deleted post from the posts state
         setPosts((prevPosts) => prevPosts.filter((post) => post.id !== selectedPost.id));
