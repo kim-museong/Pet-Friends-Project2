@@ -49,10 +49,13 @@ const initialState = {
   findId: {
     nickname: '',
     phone: '',
+    certification: '',
     certificationNumber: '',
     error: {
       nicknameError: null,
       emailError: null,
+      errorPhone: null,
+      errorConfirm: null,
     },
   },
   findPwd: {
