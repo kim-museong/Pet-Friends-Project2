@@ -3,8 +3,7 @@ import PostList from '../../components/posts/PostList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync, unloadPosts } from '../../modules/posts';
 import { useLocation } from 'react-router-dom';
-import { selectPageNumber, selectSearchOptions, selectSortType, selectTag } from '../../modules/searchOption';
-import Overlay from '../../components/common/Overlay';
+import { selectPageNumber, selectSearchOptions, selectSortType } from '../../modules/searchOption';
 
 const PostListContainer = () => {
   const location = useLocation();

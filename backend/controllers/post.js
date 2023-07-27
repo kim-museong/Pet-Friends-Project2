@@ -34,12 +34,12 @@ exports.readPosts = (req, res, next) => {
   } = req.query;
   const { boardName } = req.params;
 
-  console.log('------------------------------------------------------');
-  console.log(
-    `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
-  );
-  console.log(boardName);
-  console.log('------------------------------------------------------');
+  // console.log('------------------------------------------------------');
+  // console.log(
+  //   `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
+  // );
+  // console.log(boardName);
+  // console.log('------------------------------------------------------');
 
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
   const sortOptions = {
@@ -149,9 +149,9 @@ exports.readPosts = (req, res, next) => {
     };
   }
 
-  console.log('------------------------------------------------------');
-  console.log(util.inspect(querySQL, { depth: null }));
-  console.log('------------------------------------------------------');
+  // console.log('------------------------------------------------------');
+  // console.log(util.inspect(querySQL, { depth: null }));
+  // console.log('------------------------------------------------------');
 
   const formattedData = {
     postCount: 0,
@@ -162,9 +162,9 @@ exports.readPosts = (req, res, next) => {
 
   Promise.all([Post.findAll(querySQL), Post.count(countQuerySQL)])
     .then(([data, postCount]) => {
-      console.log('---------------------------3--------------------------');
-      console.log(data);
-      console.log('---------------------------3--------------------------');
+      // console.log('---------------------------3--------------------------');
+      // console.log(data);
+      // console.log('---------------------------3--------------------------');
       formattedData.posts = data.map((post) => post.dataValues);
       formattedData.postCount = postCount;
       res.json(formattedData);

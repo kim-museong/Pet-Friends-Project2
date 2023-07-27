@@ -95,6 +95,8 @@ exports.getLikes = async (req, res, next) => {
   const { userId = null } = req.params;
   const { postId = null } = req.query;
 
+  console.log(userId, postId);
+
   const transaction = await sequelize.transaction();
 
   try {
@@ -106,6 +108,20 @@ exports.getLikes = async (req, res, next) => {
           where: {
             UserId: userId,
             PostId: postId,
+          },
+          transaction,
+        },
+      );
+      // transaction commit
+      await transaction.commit();
+
+      return res.status(200).json(likes);
+    } else if (userId !== null && postId === null) {
+      const likes = await Like.findAll(
+        {},
+        {
+          where: {
+            UserId: userId,
           },
           transaction,
         },
@@ -203,8 +219,10 @@ exports.deleteLike = async (req, res, next) => {
 ////////////////////////////////////////////////////////
 exports.addLikeTEST = async (req, res, next) => {
   const { userId } = req.params;
-  const { postId, targetType, targetId } = req.body;
-  console.log(userId, postId, targetType, targetId);
+  const { postId = null, targetType, targetId } = req.body;
+  console.log('---------------------------------------------------------');
+  console.log('add like TEST', userId, postId, targetType, targetId);
+  console.log('---------------------------------------------------------');
 
   const transaction = await sequelize.transaction();
 
@@ -235,19 +253,30 @@ exports.addLikeTEST = async (req, res, next) => {
       await Reply.increment('likeCount', query);
     }
     // 3. get likes
-    const likes = await Like.findAll({
-      where: {
-        PostId: postId,
-      },
-      transaction,
-    });
+    if (userId !== null && postId !== null) {
+      const likes = await Like.findAll({
+        // where: {
+        //   PostId: postId,
+        // },
+        transaction,
+      });
+      // transaction commit
+      await transaction.commit();
 
-    // transaction commit
-    await transaction.commit();
+      console.log(`유저 ${userId}의 ${targetId}번 ${targetType} 추천 성공`);
+      console.log(likes);
+      res.status(200).json(likes);
+    } else if (userId !== null && postId === null) {
+      const likes = await Like.findAll({
+        transaction,
+      });
+      // transaction commit
+      await transaction.commit();
 
-    console.log(`유저 ${userId}의 ${targetId}번 ${targetType} 추천 성공`);
-    console.log(likes);
-    res.status(200).json(likes);
+      console.log(`유저 ${userId}의 ${targetId}번 ${targetType} 추천 성공`);
+      console.log(likes);
+      res.status(200).json(likes);
+    }
   } catch (error) {
     // transaction rollback
     await transaction.rollback();
@@ -295,9 +324,9 @@ exports.deleteLikeTEST = async (req, res, next) => {
     }
     // 3. get likes
     const likes = await Like.findAll({
-      where: {
-        PostId: postId,
-      },
+      // where: {
+      //   PostId: postId,
+      // },
       transaction,
     });
 

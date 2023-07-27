@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import KakaoMap from '../api/KakaoMap';
+import RandomDog from '../api/RandomDog';
 import Overlay from '../common/Overlay';
 import Responsive from '../common/Responsive';
 import PostItem from './PostItem';
@@ -20,8 +21,13 @@ const PostList = ({ posts, boardName, loading }) => {
       {/* {loading && <Overlay></Overlay>} */}
       {!loading && (
         <PostListBlock>
+          {boardName === 'information' && (
+            <>
+              <RandomDog />
+              <KakaoMap />
+            </>
+          )}
           {posts && posts.map((post) => <PostItem key={post.id} post={post} boardName={boardName}></PostItem>)}
-          <KakaoMap></KakaoMap>
         </PostListBlock>
       )}
     </>

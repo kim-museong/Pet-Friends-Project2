@@ -12,3 +12,8 @@ export const updateHospitalList = ({ hospitalId, latitude, longitude }) => {
     longitude,
   });
 };
+
+// get random dog picture
+export const getRandomDogPicture = () => {
+  return client.get('/api/randomDogPicture');
+};
