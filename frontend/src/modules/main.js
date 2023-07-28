@@ -42,7 +42,8 @@ export const getPopularAsync = createAction(GET_POPULARPOST, ({ sortType, boardN
   limit,
 }));
 
-export const getLikeAsync = createAction(GET_LIKES_POST, ({ boardName, limit }) => ({
+export const getLikeAsync = createAction(GET_LIKES_POST, ({ sortType, boardName, limit }) => ({
+  sortType,
   boardName,
   limit,
 }));

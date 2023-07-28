@@ -26,7 +26,7 @@ const PostButton = ({ boardName, user }) => {
       <ButtonBox>
         {boardName === 'notice' ? (
           <Link to="/editor/post" state={{ boardName }}>
-            {user && user.rank === 'admin' && <WriteBtn>글쓰기</WriteBtn>}
+            {user && <WriteBtn>글쓰기</WriteBtn>}
           </Link>
         ) : (
           <Link to="/editor/post" state={{ boardName }}>
