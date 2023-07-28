@@ -17,8 +17,8 @@ const PostDetailPage = () => {
   return (
     <Responsive>
       {boardName === 'picture' ? <PictureContainer postId={postId} /> : <PostContainer postId={postId} />}
-      <TagContainer />
       <ActionButtonContainer />
+
       <CommentInputContainer></CommentInputContainer>
       <CommentListContainer></CommentListContainer>
     </Responsive>

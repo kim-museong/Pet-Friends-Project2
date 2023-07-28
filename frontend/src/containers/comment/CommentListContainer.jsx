@@ -7,9 +7,11 @@ import { getLikes } from '../../modules/like';
 const CommentListContainer = () => {
   console.log('CommentListContainer 렌더링');
   const postId = useSelector((state) => state.post.post?.post.id);
+  const postUser = useSelector((state) => state.post.post?.post.User.id);
   const comments = useSelector((state) => state.comment.comments);
   const user = useSelector((state) => state.user?.user);
   const likes = useSelector((state) => state.like.likes);
+  const theme = useSelector((state) => state.theme.theme);
 
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const latestComment = useRef(null);
@@ -84,6 +86,8 @@ const CommentListContainer = () => {
     <CommentList
       comments={comments}
       loggedInUser={user}
+      user={user}
+      postUser={postUser}
       selectedCommentId={selectedCommentId}
       handleDeleteClick={handleDeleteClick}
       handleReplyClick={handleReplyClick}
@@ -92,6 +96,7 @@ const CommentListContainer = () => {
       setSelectedCommentId={setSelectedCommentId}
       latestComment={latestComment}
       isLiked={isLiked}
+      theme={theme}
     ></CommentList>
   );
 };

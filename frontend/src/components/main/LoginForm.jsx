@@ -6,6 +6,7 @@ import palette from '../../lib/styles/palette';
 
 const UserInfo = styled.div`
   font-weight: 800;
+  margin-bottom: 10px;
 `;
 
 const Profile = styled.div`
@@ -52,7 +53,9 @@ const LoginFormBox = styled.div`
 const IsLoginFormBox = styled.div`
   height: 180px;
   box-shadow: ${({ theme }) => (theme === 'true' ? '' : `0 0 0 1px ${palette.border}`)};
-  padding: 20px 40px;
+  padding: 30px;
+  padding-left: 0;
+  padding-right: 100px;
   position: relative;
   text-align: center;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};

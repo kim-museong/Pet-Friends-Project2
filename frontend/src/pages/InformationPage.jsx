@@ -5,6 +5,7 @@ import PostButtonContainer from '../containers/posts/PostButtonContainer';
 import PostListContainer from '../containers/posts/PostListContainer';
 import PaginationContainer from '../containers/common/PaginationContainer';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet-async';
 
 const Space = styled.div`
   width: 100%;
@@ -14,6 +15,9 @@ const Space = styled.div`
 const InformationPage = () => {
   return (
     <>
+      <Helmet>
+        <title>펫프렌즈 - 정보글</title>
+      </Helmet>
       <SearchOptionMenuContainer></SearchOptionMenuContainer>
       <SortOptionMenuContainer></SortOptionMenuContainer>
       <PaginationContainer />

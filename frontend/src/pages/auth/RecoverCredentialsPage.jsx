@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import PasswordStep from '../../components/common/PasswordStep';
 import FindPwdThirdContainer from '../../containers/find/FindPwdThirdContainer';
 import FindPwdFinishContainer from '../../containers/find/FindPwdFinishContainer';
+import { Helmet } from 'react-helmet-async';
 
 const RecoverCredentialsPage = () => {
   const location = useLocation();
@@ -17,6 +18,9 @@ const RecoverCredentialsPage = () => {
     <>
       {type === 'findPwd' && (
         <>
+          <Helmet>
+            <title>펫프렌즈 - 비밀번호찾기</title>
+          </Helmet>
           {step !== 4 && <PasswordStep />}
           {step === 1 && <FindPwdFirstContainer />}
           {step === 2 && <FindPwdSecondContainer />}
@@ -24,7 +28,14 @@ const RecoverCredentialsPage = () => {
           {step === 4 && <FindPwdFinishContainer />}
         </>
       )}
-      {type === 'findId' && <FindIdContainer />}
+      {type === 'findId' && (
+        <>
+          <Helmet>
+            <title>펫프렌즈 - 아이디찾기</title>
+          </Helmet>
+          <FindIdContainer />
+        </>
+      )}
     </>
   );
 };

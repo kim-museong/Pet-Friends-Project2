@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Memo from '../../../components/main/Memo/Memo';
 import { changeMemo, searchInit, getMemosAsync, initForm } from '../../../modules/main';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const MemoContainer = () => {
   const [show, setShow] = useState(false);
@@ -70,6 +71,9 @@ const MemoContainer = () => {
 
   return (
     <>
+      <Helmet>
+        <title>메모장</title>
+      </Helmet>
       <Memo
         user={user}
         memos={memos}

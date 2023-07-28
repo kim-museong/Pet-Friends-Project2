@@ -23,12 +23,12 @@ const HeaderBox = styled.div`
 
     a {
       display: inline-block;
-      width: 200px;
+      width: 209px;
       height: 100px;
       background-image: url('../../images/petFriendsLogo.png');
       background-repeat: no-repeat;
-      background-position: 50% 57%;
-      background-size: 150%;
+      background-position: 50% 44%;
+      background-size: 172%;
     }
   }
 
@@ -39,8 +39,8 @@ const HeaderBox = styled.div`
       height: 100px;
       background-image: url('../../images/petFriendsFixedLogo.png');
       background-repeat: no-repeat;
-      background-position: 50% 57%;
-      background-size: 70%;
+      background-position: 50% 39%;
+      background-size: 103%;
     }
   }
 `;
