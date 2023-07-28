@@ -9,15 +9,11 @@ const PostDetailsDialog = ({ post, boardName, open, onClose, onDelete }) => {
   useEffect(() => {
     const fetchContent = async (postId) => {
       try {
-        const response = await axios.get(`/board/${boardName}/posts/${postId}`);
-        // Assuming the response contains 'content' field with post content
+        const response = await axios.get(`/board/community/posts/${postId}`);
         setContent(response.data.content);
       } catch (error) {
         console.error('Failed to fetch post content:', error);
         setContent('포스트 내용을 불러올 수 없습니다.');
-        console.log('에러 응답 데이터:', error.response.data);
-        console.log('에러 응답 상태:', error.response.status);
-        console.log('에러 응답 헤더:', error.response.headers);// Set a default message if there's an error
       }
     };
 

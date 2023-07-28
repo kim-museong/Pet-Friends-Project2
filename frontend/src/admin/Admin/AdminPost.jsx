@@ -283,36 +283,6 @@ const AdminPost = () => {
                     onDelete={handleDeletePost}
                 />
             )}
-            <div>
-                <input
-                    type="text"
-                    placeholder="제목을 입력하세요"
-                    value={title}
-                    onChange={handleTitleChange}
-                    style={{
-                        marginBottom: '1rem',
-                        padding: '0.5rem',
-                        fontSize: '1rem',
-                        border: '1px solid #ccc',
-                        borderRadius: '4px',
-                    }}
-                />
-                <ReactQuill value={content} onChange={handleContentChange} />
-                <button
-                    onClick={handleSave}
-                    style={{
-                        marginLeft: '8px',
-                        padding: '6px 12px',
-                        background: primary.main,
-                        color: common.white,
-                        borderRadius: '4px',
-                        border: 'none',
-                        cursor: 'pointer',
-                    }}
-                >
-                    작성 완료
-                </button>
-            </div>
         </Box>
     );
 };
