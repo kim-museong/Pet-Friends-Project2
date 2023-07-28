@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FindIdBox, FindInputBox, Footer } from '../../lib/styles/find';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MdInfo, MdAlarm } from 'react-icons/md';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
@@ -122,14 +122,68 @@ const ExplanationBox = styled.div`
 `;
 
 const ShowBox = styled.div`
+  background: white;
+  width: 550px;
+  height: 500px;
+  top: 25%;
+  left: 35%;
+  position: absolute;
   padding: 20px;
   margin: 20px;
   border: 1px solid ${palette.border};
 
   .title {
-    margin: 30px auto;
+    margin: 80px auto;
     font-size: 20px;
   }
+
+  div {
+    margin-bottom: 40px;
+  }
+`;
+
+const LogoBox = styled.div`
+  .logo {
+    background-image: url('../../../images/petFriendsLogo.png');
+    display: inline-block;
+    width: 200px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 150%;
+  }
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  justify-content: center;
+
+  input {
+    width: 30px;
+    margin: 20px 0;
+    display: none;
+  }
+
+  label {
+    padding-bottom: 5px;
+    cursor: pointer;
+    &:hover {
+      color: ${palette.mainColor};
+    }
+  }
+`;
+
+const activeButtonStyles = css`
+  color: ${palette.mainColor};
+  border-bottom: 2px solid ${palette.mainColor};
+`;
+
+const RadioBox = styled.div`
+  width: 60px;
+  border-radius: 0;
+  padding-bottom: 3px;
+  ${({ active }) => active && activeButtonStyles}
+  margin: 0 20px;
 `;
 
 const FindId = ({
@@ -173,32 +227,34 @@ const FindId = ({
   return (
     <>
       <FindIdBox>
-        <div style={{ marginTop: '10%' }}>
-          <Link to="/"></Link>
+        <LogoBox style={{ marginTop: '10%' }}>
+          <Link to="/" className="logo"></Link>
           <h1>아이디 찾기</h1>
-        </div>
-        <div>
-          <input
-            id="nickname"
-            type="radio"
-            name="findId"
-            value="nickname"
-            checked={findType === 'nickname'}
-            onChange={changeRadio}
-          />
-          <label htmlFor="nickname">닉네임</label>
-        </div>
-        <div>
-          <input
-            id="phone"
-            type="radio"
-            name="findId"
-            value="phone"
-            checked={findType === 'phone'}
-            onChange={changeRadio}
-          />
-          <label htmlFor="phone">폰번호</label>
-        </div>
+        </LogoBox>
+        <FlexBox>
+          <RadioBox active={findType === 'nickname'}>
+            <input
+              id="nickname"
+              type="radio"
+              name="findId"
+              value="nickname"
+              checked={findType === 'nickname'}
+              onChange={changeRadio}
+            />
+            <label htmlFor="nickname">닉네임</label>
+          </RadioBox>
+          <RadioBox active={findType === 'phone'}>
+            <input
+              id="phone"
+              type="radio"
+              name="findId"
+              value="phone"
+              checked={findType === 'phone'}
+              onChange={changeRadio}
+            />
+            <label htmlFor="phone">폰번호</label>
+          </RadioBox>
+        </FlexBox>
 
         {findType === 'nickname' && (
           <div>
@@ -291,7 +347,7 @@ const FindId = ({
           <FindInputBox>
             <ShowBox>
               <div className="title">아이디</div>
-              <ShowBox>{masked(userId)}</ShowBox>
+              <div>{masked(userId)}</div>
               <button onClick={onCancel}>확인</button>
             </ShowBox>
           </FindInputBox>
