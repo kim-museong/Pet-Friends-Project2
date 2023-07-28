@@ -12,9 +12,6 @@ const session = require('express-session');
 ////////////////// init //////////////////////
 //////////////////////////////////////////////
 const app = express();
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
-
 
 // port set
 app.set('port', 8001);
@@ -28,13 +25,13 @@ passportConfig();
 
 // sequelize
 sequelize
-  .sync({ force: false }) // sequelize db-model sync(true -> recreate)
-  .then(() => {
-    console.log('데이터베이스 연결 성공');
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+    .sync({ force: false }) // sequelize db-model sync(true -> recreate)
+    .then(() => {
+        console.log('데이터베이스 연결 성공');
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
 app.use(morgan('dev')); // 배포시 dev 수정 해야함
 app.use(express.static(path.join(__dirname, 'public'))); // static 경로 설정
@@ -53,15 +50,15 @@ app.use(express.urlencoded({ extended: false }));
 // cookie-parser, session 설정
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
-  session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-    },
-  }),
+    session({
+        resave: false,
+        saveUninitialized: false,
+        secret: process.env.COOKIE_SECRET,
+        cookie: {
+            httpOnly: true,
+            secure: false,
+        },
+    }),
 );
 
 // passport 설정
@@ -76,20 +73,20 @@ app.use(require('./routes'));
 
 // router not found
 app.use((req, res, next) => {
-  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-  error.status = 404;
-  next(error);
+    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+    error.status = 404;
+    next(error);
 });
 
 // error handler
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
-  res.status(err.status || 500);
-  res.json('server error');
+    res.locals.message = err.message;
+    res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
+    res.status(err.status || 500);
+    res.json('server error');
 });
 
 // port listen
 app.listen(app.get('port'), () => {
-  console.log(app.get('port'), '번 포트에서 대기중');
+    console.log(app.get('port'), '번 포트에서 대기중');
 });

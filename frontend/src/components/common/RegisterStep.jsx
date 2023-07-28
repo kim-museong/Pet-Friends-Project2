@@ -1,10 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { styled } from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { MdArrowForwardIos } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import { useDispatch } from '../../../node_modules/react-redux/es/exports';
-
 import { useCallback } from 'react';
 import { changeStep } from '../../modules/auth';
 

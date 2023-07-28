@@ -57,7 +57,7 @@ const ErrorBox = styled.div`
   }
 `;
 
-const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut, sendPhone }) => {
+const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut }) => {
   const [showPwd, setShowPwd] = useState(false);
   const [showPwdCf, setShowPwdCf] = useState(false);
 

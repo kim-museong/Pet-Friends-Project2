@@ -18,7 +18,6 @@ import './App.css';
 import Setting from './components/common/Setting';
 import WritePage from './pages/WritePage';
 import AttendancePage from './pages/AttendancePage';
-import MemoContainer from './containers/main/MemoContainer';
 import AdminPost from './admin/Admin/AdminPost';
 import AdminUser from './admin/Admin/AdminUser';
 import Calendar from './admin/Admin/Calender';
@@ -29,15 +28,25 @@ import { CssBaseline, ThemeProvider, Box } from '@mui/material';
 import { useMode, ColorModeContext } from './admin/theme';
 import Sidebar from './admin/Bar/Sidebar';
 import Topbar from './admin/Bar/Topbar';
-import MemoWriteContainer from './containers/main/MemoWriteContainer';
 import { PrivateRoute } from './lib/PrivateRoute';
 import AuthorityRoute from './lib/AuthorityRoute';
 import Permission from './components/auth/Permission';
+import MemoContainer from './containers/main/Memo/MemoContainer';
+import MemoWriteContainer from './containers/main/Memo/MemoWriteContainer';
+import MemoSearchContainer from './containers/main/Memo/MemoSearchContainer';
+import MemoShowContainer from './containers/main/Memo/MemoShowContainer';
+import MemoUpdateContainer from './containers/main/Memo/MemoUpdateContainer';
+import RandomContainer from './containers/main/RandomContainer';
+import HeaderContainer from './containers/common/HeaderContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
-    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(30,30,30)')};
+  }
+
+  a {
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50,50,50)')};
   }
 
 `;
@@ -55,6 +64,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle theme={String(theme)} />
+      <HeaderContainer />
       <Setting />
       <Routes>
         {/* 로그인 하지 않았을 때 접근 가능 */}
@@ -84,7 +94,12 @@ const App = () => {
             <Route path="/attendance" element={<AttendancePage />} />
             {/* 메모장 */}
             <Route path="/memo" element={<MemoContainer />} />
+            <Route path="/memo/:search" element={<MemoSearchContainer />} />
             <Route path="/memo/write" element={<MemoWriteContainer />} />
+            <Route path="/memo/:nickname/:id" element={<MemoShowContainer />} />
+            <Route path="/memo/:id/update" element={<MemoUpdateContainer />} />
+            {/* 랜덤사진 */}
+            <Route path="/random" element={<RandomContainer />} />
           </Route>
         </Route>
 
@@ -103,6 +118,9 @@ const App = () => {
         <Route path="/community/:postId" element={<PostDetailPage />}></Route>
         {/* Not Found 페이지 */}
         <Route path="*" element={<NotFoundPage />}></Route>
+
+        <Route path="/attendance" element={<AttendancePage />} />
+
         {/* 권한 부족 알림 페이지 */}
         <Route path="/permission" element={<Permission />}></Route>
       </Routes>

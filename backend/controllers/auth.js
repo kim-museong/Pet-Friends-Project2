@@ -150,6 +150,7 @@ exports.sendPhone = async (req, res, next) => {
   //     },
   //   );
   //   console.log('SMS 전송 성공:', response.data);
+  console.log(generateAuthNumber);
   res.status(200).json(generateAuthNumber.toString());
   // } catch (error) {
   //   console.error('SMS 전송 실패:', error.response.data);

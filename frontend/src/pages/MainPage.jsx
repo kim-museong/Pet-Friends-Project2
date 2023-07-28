@@ -11,11 +11,12 @@ import { useDispatch } from '../../node_modules/react-redux/es/exports';
 import { initialize } from '../modules/find';
 import { initializeForm } from '../modules/auth';
 import NewsTicker from '../components/main/NewsTicker';
-import RandomContainer from '../containers/main/RandomContainer';
+import SubButton from '../components/main/SubButton';
+import HeightViewPostContainer from '../containers/main/HeightViewPostContainer';
 
 const ContainBox = styled.div`
   width: 90%;
-  margin: 50px auto 20px;
+  margin: 0 auto 20px;
   display: flex;
   justify-content: center;
 `;
@@ -27,6 +28,7 @@ const MainBox = styled.div`
 `;
 
 const SideBox = styled.div`
+  width: 400px;
   display: inline-block;
 `;
 
@@ -39,11 +41,11 @@ const MainPage = () => {
   }, [dispatch]);
   return (
     <>
-      <HeaderContainer />
       <ContainBox>
         {/*--------------- 메인 -------------- */}
         <MainBox>
           <AutoPlayMethods />
+          <SubButton />
           <MeunlistsContainer />
         </MainBox>
         {/* -------------- 사이드 ------------- */}
@@ -52,7 +54,7 @@ const MainPage = () => {
           <WeatherContainer />
           <NewsTicker />
           <PopularpostContainer />
-          <RandomContainer />
+          <HeightViewPostContainer />
         </SideBox>
       </ContainBox>
       <Footer />

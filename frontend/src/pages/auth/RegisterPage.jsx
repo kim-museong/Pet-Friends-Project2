@@ -1,4 +1,4 @@
-import { useSelector } from '../../../node_modules/react-redux/es/exports';
+import { useSelector } from 'react-redux';
 import RegisterStep from '../../components/common/RegisterStep';
 import AgreeContainer from '../../containers/auth/register/AgreeContainer';
 import RegisterContainer from '../../containers/auth/register/RegisterContainer';
@@ -9,9 +9,9 @@ const RegisterPage = () => {
   return (
     <>
       <RegisterStep />
-      {step === 1 && <AgreeContainer />}
-      {step === 2 && <RegisterfirstContainer />}
       {step === 3 && <RegisterContainer />}
+      {step === 2 && <RegisterfirstContainer />}
+      {step === 1 && <AgreeContainer />}
     </>
   );
 };

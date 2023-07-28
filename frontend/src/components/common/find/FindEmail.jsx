@@ -91,6 +91,10 @@ const CertificationBox = styled.div`
   align-items: center;
   width: 80%;
   margin: 0 auto;
+
+  input {
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+  }
 `;
 
 const InfoBox = styled.div`
@@ -278,7 +282,9 @@ const FindEmail = () => {
   //------------- 이메일 전송 함수 ---------------------
 
   const findEmail = async () => {
-    const { email, nickname } = findPwd;
+    const { email, nickname } = findPwd || '';
+    const userNick = user.nickname || '';
+    const userEmail = user.email || '';
     validation('email', email);
     validation('nickname', nickname);
     if (email && nickname) {
@@ -288,9 +294,13 @@ const FindEmail = () => {
         setTimer(180);
         setTimeOut(false);
         setSnedSuccess(messages.sendSuccess);
-        dispatch(checkEmail({ email, nickname }));
         setTimerExpired(true);
         timeStart();
+        if (email == userEmail && nickname == userNick) {
+          const { email, nickname } = findPwd || '';
+          dispatch(checkEmail({ email, nickname }));
+          return;
+        }
       } catch (e) {
         console.log(e);
       }
@@ -361,7 +371,7 @@ const FindEmail = () => {
             </ExplanationBox>
           </InfoBox>
 
-          <CertificationBox>
+          <CertificationBox theme={String(theme)}>
             <input
               className={`certification ${timeOut || confirmFail ? 'certificationError' : ''}`}
               autoComplete="certification"

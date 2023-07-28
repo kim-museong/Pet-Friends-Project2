@@ -9,7 +9,6 @@ const PostContainer = ({ postId }) => {
   // 필요 state 값
   const post = useSelector((state) => state.post.post);
   const loading = useSelector((state) => state.loading['post/GET_POST']);
-  const user = useSelector((state) => state.user?.user);
   const likes = useSelector((state) => state.like?.likes);
 
   const [likeCount, setLikeCount] = useState(0);
@@ -30,9 +29,9 @@ const PostContainer = ({ postId }) => {
   useEffect(() => {
     console.log('likes 정보 갱신됨');
     setLikeCount(likes?.filter((like) => like.likable_id.toString() === postId && like.likable_type === 'post').length);
-  }, [likes]);
+  }, [likes, postId]);
 
-  return <Post post={post} likeCount={likeCount} loading={loading}></Post>;
+  return <Post post={post} likeCount={likeCount} boardName={boardName} loading={loading}></Post>;
 };
 
 export default PostContainer;

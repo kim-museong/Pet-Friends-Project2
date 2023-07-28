@@ -23,7 +23,7 @@ const WeatherContainer = () => {
     // } catch (e) {
     //   console.log(e);
     // }
-  }, []);
+  }, [lat, lon]);
 
   useEffect(() => {
     if (navigator.geolocation) {

@@ -11,6 +11,8 @@ const GET_POSTS = 'posts/GET_POSTS';
 const GET_POSTS_SUCCESS = 'posts/GET_POSTS_SUCCESS';
 const GET_POSTS_FAILURE = 'posts/GET_POSTS_FAILURE';
 
+const UNLOAD_POSTS = 'posts/UNLOAD_POSTS';
+
 // action creator
 export const getPostsAsync = createAction(
   GET_POSTS,
@@ -32,6 +34,7 @@ export const getPostsAsync = createAction(
     limit,
   }),
 );
+export const unloadPosts = createAction(UNLOAD_POSTS);
 
 // define saga
 const getPostsSaga = createRequestSaga(GET_POSTS, postsAPI.getPosts);
@@ -57,6 +60,7 @@ const posts = handleActions(
       ...state,
       // error handle 필요함
     }),
+    [UNLOAD_POSTS]: (state) => initialState,
   },
   initialState,
 );

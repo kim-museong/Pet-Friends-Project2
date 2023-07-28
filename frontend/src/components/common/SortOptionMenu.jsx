@@ -27,6 +27,12 @@ const SortOptionMenu = ({ handleSortClick, searchCategory, searchKeyword }) => {
       <StyledButton onClick={() => handleSortClick(searchCategory, searchKeyword, 'lowestViews')}>
         낮은조회수
       </StyledButton>
+      <StyledButton onClick={() => handleSortClick(searchCategory, searchKeyword, 'highestLikes')}>
+        추천높은순
+      </StyledButton>
+      <StyledButton onClick={() => handleSortClick(searchCategory, searchKeyword, 'lowestLikes')}>
+        추천낮은순
+      </StyledButton>
     </SortOptionMenuBlock>
   );
 };

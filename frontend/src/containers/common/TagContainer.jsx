@@ -32,7 +32,7 @@ const TagContainer = () => {
       }),
     );
 
-    navigate('/community');
+    navigate(`/${boardName}`);
   };
 
   return <Tag hashtags={hashtags} handleTagClick={handleTagClick}></Tag>;

@@ -3,31 +3,55 @@ import Responsive from './Responsive';
 import { Link, useLocation } from 'react-router-dom';
 import Button from './Button';
 import { MdAccountCircle } from 'react-icons/md';
+import palette from '../../lib/styles/palette';
+import { resetSearch } from '../../modules/searchOption';
+import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+import { unloadPosts } from '../../modules/posts';
 
-const HeaderBlock = styled.div`
-  position: fixed;
-  width: 100%;
-  font-size: 18px;
-  padding: 5px 0;
-  background: ${({ theme }) => (theme === 'true' ? 'rgb(30, 30, 30)' : 'white')};
-  box-shadow: 0 0 2px 1px ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
-  border-radius: 0;
-  z-index: 5;
-  a {
-    color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50,50,50)')};
-  }
-`;
-
-const Wrapper = styled(Responsive)`
-  height: 3.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const HeaderBox = styled.div`
   .logo {
+    width: 65%;
+    margin: 20px auto;
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 2px;
   }
+`;
+
+const FixBox = styled.div`
+  width: 100%;
+  position: absolute;
+  top: -20%;
+
+  .fix {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: red;
+    border-radius: 0;
+  }
+`;
+
+const HeaderBlock = styled.div`
+  width: 100%;
+  font-size: 18px;
+  background: ${({ theme }) => (theme === 'true' ? 'rgb(45, 45, 45)' : 'white')};
+  box-shadow: 0 0 0 1px ${palette.border};
+  border-radius: 0;
+  z-index: 5;
+`;
+
+const Wrapper = styled(Responsive)`
+  width: 50%;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 0;
+
   .right {
     display: flex;
     align-items: center;
@@ -40,13 +64,24 @@ const Wrapper = styled(Responsive)`
 
 const MenuList = styled.div`
   font-weight: bold;
-  a + a {
-    margin-left: 20px;
+
+  a {
+    padding: 5px 10px;
+    margin: 0 20px;
+    border-radius: 0;
+
+    &:hover {
+      border-bottom: 2px solid ${palette.mainColor};
+    }
+  }
+
+  .check {
+    border-bottom: 2px solid ${palette.mainColor};
   }
 `;
 
 const Spacer = styled.div`
-  height: 4rem;
+  height: 2rem;
 `;
 
 const UserInfo = styled.div`
@@ -60,46 +95,136 @@ const Profile = styled.div`
   cursor: pointer;
 `;
 
-const Header = ({ user, onLogout, theme }) => {
+const Header = ({ user, onLogout, theme, isScrolled }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const onClick = useCallback(() => {
+    dispatch(resetSearch());
+    dispatch(unloadPosts());
+  }, [dispatch]);
+
+  const isHeaderVisible =
+    !location.pathname.includes('/memo') &&
+    !location.pathname.includes('/auth/') &&
+    !location.pathname.includes('/random') &&
+    !location.pathname.includes('editor') &&
+    !location.pathname.includes('/admin/');
+
   return (
     <>
-      <HeaderBlock theme={String(theme)}>
-        <Wrapper>
-          <Link to="/" className="logo">
-            REACTERS
-          </Link>
-          <MenuList>
-            <Link to="/">홈</Link>
-            <Link to="/notice">공지사항</Link>
-            <Link to="/information">정보글</Link>
-            <Link to="/picture">사진</Link>
-            <Link to="/community">커뮤니티</Link>
-            {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
-          </MenuList>
-          <div className="right">
-            {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
-            {location.pathname !== '/' && location.pathname !== '/petShop' && (
-              <>
-                {user ? (
+      {isHeaderVisible && (
+        <HeaderBox>
+          <div className="logo">
+            <Link to="/">펫프렌즈</Link>
+          </div>
+
+          <HeaderBlock theme={String(theme)}>
+            <Wrapper>
+              <MenuList>
+                <Link to="/notice" className={location.pathname === '/notice' && 'check'} onClick={() => onClick()}>
+                  공지사항
+                </Link>
+                <Link
+                  to="/information"
+                  className={location.pathname === '/information' && 'check'}
+                  onClick={() => onClick()}
+                >
+                  정보글
+                </Link>
+                <Link to="/picture" className={location.pathname === '/picture' && 'check'} onClick={() => onClick()}>
+                  사진
+                </Link>
+                <Link
+                  to="/community"
+                  className={location.pathname === '/community' && 'check'}
+                  onClick={() => onClick()}
+                >
+                  커뮤니티
+                </Link>
+                {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
+              </MenuList>
+              <div className="right">
+                {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
+                {location.pathname !== '/' && (
                   <>
-                    <Profile>
-                      <MdAccountCircle />
-                    </Profile>
-                    <UserInfo>{user.userId} 님</UserInfo>
-                    <Button onClick={onLogout}>로그아웃</Button>
-                  </>
-                ) : (
-                  <>
-                    <Button to="/auth/login">로그인</Button>
+                    {user ? (
+                      <>
+                        <Profile>
+                          <MdAccountCircle />
+                        </Profile>
+                        <UserInfo>{user.userId} 님</UserInfo>
+                        <Button onClick={onLogout}>로그아웃</Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button to="/auth/login">로그인</Button>
+                      </>
+                    )}
                   </>
                 )}
-              </>
-            )}
-          </div>
-        </Wrapper>
-      </HeaderBlock>
-      <Spacer />
+              </div>
+            </Wrapper>
+          </HeaderBlock>
+          <Spacer />
+
+          <FixBox>
+            <div className={isScrolled ? 'fix' : ''}>
+              <HeaderBlock theme={String(theme)}>
+                <Wrapper>
+                  <MenuList>
+                    <Link to="/notice" className={location.pathname === '/notice' && 'check'} onClick={() => onClick()}>
+                      공지사항
+                    </Link>
+                    <Link
+                      to="/information"
+                      className={location.pathname === '/information' && 'check'}
+                      onClick={() => onClick()}
+                    >
+                      정보글
+                    </Link>
+                    <Link
+                      to="/picture"
+                      className={location.pathname === '/picture' && 'check'}
+                      onClick={() => onClick()}
+                    >
+                      사진
+                    </Link>
+                    <Link
+                      to="/community"
+                      className={location.pathname === '/community' && 'check'}
+                      onClick={() => onClick()}
+                    >
+                      커뮤니티
+                    </Link>
+                    {/* 마이페이지, 관리자페이지, 로그인(회원가입) 추가 */}
+                  </MenuList>
+                  <div className="right">
+                    {/* 홈페이지에서는 헤더부분 로그인버튼 안보이기*/}
+                    {location.pathname !== '/' && (
+                      <>
+                        {user ? (
+                          <>
+                            <Profile>
+                              <MdAccountCircle />
+                            </Profile>
+                            <UserInfo>{user.userId} 님</UserInfo>
+                            <Button onClick={onLogout}>로그아웃</Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button to="/auth/login">로그인</Button>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </Wrapper>
+              </HeaderBlock>
+            </div>
+          </FixBox>
+        </HeaderBox>
+      )}
     </>
   );
 };

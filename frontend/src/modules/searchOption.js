@@ -9,6 +9,8 @@ const SELECT_SORT_TYPE = 'searchOption/SELECT_SORT_TYPE';
 const SELECT_PAGE_NUMBER = 'searchOption/CHANGE_PAGE_NUMBER';
 const SELECT_TAG = 'searchOption/SELECT_TAG';
 
+const RESET_SEARCH = 'searchOption/RESET_SEARCH';
+
 // action creator
 export const selectSearchOptions = createAction(SELECT_SEARCH_OPTIONS, ({ searchCategory, searchKeyword }) => ({
   searchCategory,
@@ -17,6 +19,7 @@ export const selectSearchOptions = createAction(SELECT_SEARCH_OPTIONS, ({ search
 export const selectSortType = createAction(SELECT_SORT_TYPE, (sortType) => sortType);
 export const selectPageNumber = createAction(SELECT_PAGE_NUMBER, (pageNumber) => pageNumber);
 export const selectTag = createAction(SELECT_TAG, (tag) => tag);
+export const resetSearch = createAction(RESET_SEARCH);
 
 // init
 const initialState = {
@@ -47,6 +50,7 @@ const searchOption = handleActions(
       ...state,
       tag,
     }),
+    [RESET_SEARCH]: (state) => initialState,
   },
   initialState,
 );

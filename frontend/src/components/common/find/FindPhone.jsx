@@ -91,6 +91,10 @@ const CertificationBox = styled.div`
   align-items: center;
   width: 80%;
   margin: 0 auto;
+
+  input {
+    color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+  }
 `;
 
 const InfoBox = styled.div`
@@ -118,7 +122,7 @@ const ExplanationBox = styled.div`
   top: -67px;
   left: 180px;
   width: 364px;
-  box-shadow: 0px 0px 2px black;
+  box-shadow: 0px 0px 1px black;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   font-size: 14px;
@@ -136,7 +140,7 @@ const ExplanationBox = styled.div`
     height: 10px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
     border-radius: 0 2px;
-    box-shadow: -1px 1px rgb(150, 150, 150);
+    box-shadow: ${({ theme }) => (theme === 'true' ? '' : '-1px 1px rgb(150, 150, 150)')};
     transform: rotate(315deg);
     z-index: 2;
   }
@@ -270,7 +274,8 @@ const FindPhone = () => {
 
   const sendPhone = async (e) => {
     e.preventDefault();
-    const { phone } = findPwd;
+    const { phone } = findPwd || '';
+    const userPhoneNum = user.phone || '';
     validation('phone', phone);
     if (phone) {
       try {
@@ -279,9 +284,12 @@ const FindPhone = () => {
         setTimer(180);
         setTimeOut(false);
         setSnedSuccess(messages.sendSuccess);
-        dispatch(checkPhone(phone));
         setTimerExpired(true);
         timeStart();
+        if (userPhoneNum === phone) {
+          dispatch(checkPhone(phone));
+          return;
+        }
       } catch (e) {
         console.log(e);
       }
@@ -341,7 +349,7 @@ const FindPhone = () => {
             </ExplanationBox>
           </InfoBox>
 
-          <CertificationBox>
+          <CertificationBox theme={String(theme)}>
             <input
               className={`certification ${timeOut || confirmFail ? 'certificationError' : ''}`}
               autoComplete="certification"

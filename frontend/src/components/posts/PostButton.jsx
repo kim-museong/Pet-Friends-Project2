@@ -4,9 +4,17 @@ import Button from '../common/Button';
 
 const PostButton = ({ boardName, user }) => {
   return (
-    <Link to="/editor/post" state={{ boardName }}>
-      {user && <Button>글쓰기</Button>}
-    </Link>
+    <>
+      {boardName === 'notice' ? (
+        <Link to="/editor/post" state={{ boardName }}>
+          {user && user.rank === 'admin' && <Button>글쓰기</Button>}
+        </Link>
+      ) : (
+        <Link to="/editor/post" state={{ boardName }}>
+          {user && <Button>글쓰기</Button>}
+        </Link>
+      )}
+    </>
   );
 };
 

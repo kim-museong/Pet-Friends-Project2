@@ -96,7 +96,7 @@ const ExplanationBox = styled.div`
   top: -67px;
   left: 180px;
   width: 364px;
-  box-shadow: 0px 0px 2px black;
+  box-shadow: 0px 0px 2px 1px ${palette.border};
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   font-size: 14px;
@@ -114,7 +114,7 @@ const ExplanationBox = styled.div`
     height: 10px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
     border-radius: 0 2px;
-    box-shadow: -1px 1px rgb(150, 150, 150);
+    box-shadow: -1px 1px ${palette.border};
     transform: rotate(315deg);
     z-index: 2;
   }

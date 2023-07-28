@@ -1,3 +1,5 @@
+const util = require('util');
+
 const {
   Post,
   User,
@@ -9,6 +11,8 @@ const {
   PostHashtag,
   Reply,
   CommunityDetail,
+  InfoDetail,
+  NoticeDetail,
   PictureDetail,
 } = require('../models');
 const { Op } = require('sequelize');
@@ -30,12 +34,21 @@ exports.readPosts = (req, res, next) => {
   } = req.query;
   const { boardName } = req.params;
 
+  // console.log('------------------------------------------------------');
+  // console.log(
+  //   `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
+  // );
+  // console.log(boardName);
+  // console.log('------------------------------------------------------');
+
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
   const sortOptions = {
     newest: { column: 'createdAt', order: 'DESC' },
     oldest: { column: 'createdAt', order: 'ASC' },
     highestViews: { column: 'view', order: 'DESC' },
     lowestViews: { column: 'view', order: 'ASC' },
+    highestLikes: { column: 'likeCount', order: 'DESC' },
+    lowestLikes: { column: 'likeCount', order: 'ASC' },
   };
   const searchOptions = {
     titleDetail: { title: searchKeyword, content: searchKeyword, nickname: '' },
@@ -61,10 +74,10 @@ exports.readPosts = (req, res, next) => {
         model: Content,
         attributes: ['content'],
       },
-      {
-        model: Like,
-        attributes: ['UserId', 'PostId'],
-      },
+      // {
+      //   model: Like,
+      //   attributes: ['UserId', 'PostId'],
+      // },
       {
         model: Hashtag,
       },
@@ -74,13 +87,32 @@ exports.readPosts = (req, res, next) => {
     limit: parseInt(limit),
   };
 
-  // 게시판 종류에 따라 querySQL 추가
-  if (boardName === 'community' || boardName === 'info' || boardName === 'notice') {
-    querySQL.include.push({
-      model: CommunityDetail,
-      attributes: ['title'],
-    });
-  } else if (boardName === 'picture') {
+  // 게시판 종류에 따라 querySQL&postDetail 추가
+  let postDetail;
+  switch (boardName) {
+    case 'community':
+      querySQL.include.push({
+        model: CommunityDetail,
+        attributes: ['title'],
+      });
+      postDetail = '$CommunityDetail.title$';
+      break;
+    case 'information':
+      querySQL.include.push({
+        model: InfoDetail,
+        attributes: ['title'],
+      });
+      postDetail = '$InfoDetail.title$';
+      break;
+    case 'notice':
+      querySQL.include.push({
+        model: NoticeDetail,
+        attributes: ['title'],
+      });
+      postDetail = '$NoticeDetail.title$';
+      break;
+  }
+  if (boardName === 'picture') {
     querySQL.include.push({
       model: PictureDetail,
       attributes: ['imgUrl'],
@@ -100,17 +132,14 @@ exports.readPosts = (req, res, next) => {
   // category : 제목+내용
   if (searchCategory === 'titleDetail' && searchKeyword !== '') {
     querySQL.where = {
-      [Op.or]: [
-        { '$CommunityDetail.title$': { [Op.like]: `%${title}%` } },
-        { '$Content.content$': { [Op.like]: `%${content}%` } },
-      ],
+      [Op.or]: [{ [postDetail]: { [Op.like]: `%${title}%` } }, { '$Content.content$': { [Op.like]: `%${content}%` } }],
     };
     querySQL.subQuery = false;
 
     // category : 제목
   } else if (searchCategory === 'title' && searchKeyword !== '') {
     // querySQL.where = { title: { [Op.like]: `%${title}%` } };
-    querySQL.where = { '$CommunityDetail.title$': { [Op.like]: `%${title}%` } };
+    querySQL.where = { [postDetail]: { [Op.like]: `%${title}%` } };
     querySQL.subQuery = false;
 
     // category : 닉네임
@@ -120,19 +149,49 @@ exports.readPosts = (req, res, next) => {
     };
   }
 
-  Post.findAll(querySQL)
-    .then((data) => {
-      const formattedData = {
-        postCount: data.length,
-        posts: data.map((post) => post.dataValues),
-      };
-      // 필요한 정보만 가공해서 주도록 수정
-      // 쿼리문에서 attributes 변경으로 해결
+  // console.log('------------------------------------------------------');
+  // console.log(util.inspect(querySQL, { depth: null }));
+  // console.log('------------------------------------------------------');
+
+  const formattedData = {
+    postCount: 0,
+    posts: null,
+  };
+  const countQuerySQL = { ...querySQL };
+  delete countQuerySQL.limit;
+
+  Promise.all([Post.findAll(querySQL), Post.count(countQuerySQL)])
+    .then(([data, postCount]) => {
+      // console.log('---------------------------3--------------------------');
+      // console.log(data);
+      // console.log('---------------------------3--------------------------');
+      formattedData.posts = data.map((post) => post.dataValues);
+      formattedData.postCount = postCount;
       res.json(formattedData);
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      console.error(error);
     });
+
+  // Post.findAll(querySQL)
+  //   .then((data) => {
+  //     formattedData = {
+  //       // postCount: data.length,
+  //       posts: data.map((post) => post.dataValues),
+  //     };
+  //     // 필요한 정보만 가공해서 주도록 수정
+  //     // 쿼리문에서 attributes 변경으로 해결
+  //     // res.json(formattedData);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
+  // Post.count(countQuerySQL).then((postCount) => {
+  //   formattedData = {
+  //     ...formattedData,
+  //     postCount: postCount,
+  //   };
+  // });
 };
 
 ////////////////////////////////////////////////////////////
@@ -143,6 +202,10 @@ exports.readPost = async (req, res, next) => {
 
   const { postId } = req.params;
   const { boardName } = req.query;
+
+  console.log('-------------------------------------------------------');
+  console.log('boardName : ', boardName);
+  console.log('-------------------------------------------------------');
 
   try {
     // 게시판에 따라 다른 쿼리문
@@ -172,17 +235,39 @@ exports.readPost = async (req, res, next) => {
       where: { id: postId },
       transaction,
     };
-    if (boardName === 'community') {
-      querySQL.include.push({
-        model: CommunityDetail,
-        attributes: ['title'],
-      });
-    } else if (boardName === 'picture') {
+
+    // 게시판 종류에 따라 querySQL&postDetail 추가
+    let postDetail;
+    switch (boardName) {
+      case 'community':
+        querySQL.include.push({
+          model: CommunityDetail,
+          attributes: ['title'],
+        });
+        postDetail = '$CommunityDetail.title$';
+        break;
+      case 'information':
+        querySQL.include.push({
+          model: InfoDetail,
+          attributes: ['title'],
+        });
+        postDetail = '$InfoDetail.title$';
+        break;
+      case 'notice':
+        querySQL.include.push({
+          model: NoticeDetail,
+          attributes: ['title'],
+        });
+        postDetail = '$NoticeDetail.title$';
+        break;
+    }
+    if (boardName === 'picture') {
       querySQL.include.push({
         model: PictureDetail,
         attributes: ['imgUrl'],
       });
     }
+
     // 해시태그 정보 가져옴
     const postWithHashtag = await Post.findByPk(postId, {
       include: {
@@ -244,7 +329,7 @@ exports.readPost = async (req, res, next) => {
 ////////////////////////////////////////////////////////////
 exports.createPost = async (req, res, next) => {
   const { boardName } = req.params;
-  const { title = null, imgUrl = null, filteredContent, tags: hashtags = [] } = req.body;
+  const { title = null, imgUrls = [], filteredContent = '', tags: hashtags = [] } = req.body;
 
   const transaction = await sequelize.transaction();
 
@@ -273,10 +358,26 @@ exports.createPost = async (req, res, next) => {
           },
           { transaction },
         );
-      } else if (new Post() && boardName == 'picture') {
+      } else if (newPost && boardName == 'information') {
+        await InfoDetail.create(
+          {
+            title,
+            PostId: newPost.id,
+          },
+          { transaction },
+        );
+      } else if (newPost && boardName == 'notice') {
+        await NoticeDetail.create(
+          {
+            title,
+            PostId: newPost.id,
+          },
+          { transaction },
+        );
+      } else if (newPost && boardName == 'picture') {
         await PictureDetail.create(
           {
-            imgUrl,
+            imgUrl: imgUrls[0],
             PostId: newPost.id,
           },
           { transaction },
@@ -410,10 +511,10 @@ exports.deletePost = async (req, res, next) => {
 ////////////////////// update post /////////////////////////
 ////////////////////////////////////////////////////////////
 exports.updatePost = async (req, res, next) => {
-  const transaction = await sequelize.transaction();
-
   const { boardName, postId } = req.params;
-  const { title = null, imgUrl = null, filteredContent, tags: newHashtags = [] } = req.body;
+  const { title = null, imgUrls = [], filteredContent, tags: newHashtags = [] } = req.body;
+
+  const transaction = await sequelize.transaction();
 
   try {
     // old post 저장
@@ -456,10 +557,30 @@ exports.updatePost = async (req, res, next) => {
           transaction,
         },
       );
+    } else if (boardName === 'information') {
+      await InfoDetail.update(
+        {
+          title,
+        },
+        {
+          where: { PostId: postId },
+          transaction,
+        },
+      );
+    } else if (boardName === 'notice') {
+      await NoticeDetail.update(
+        {
+          title,
+        },
+        {
+          where: { PostId: postId },
+          transaction,
+        },
+      );
     } else if (boardName === 'picture') {
       await PictureDetail.update(
         {
-          imgUrl,
+          imgUrl: imgUrls[0],
         },
         {
           where: { PostId: postId },
