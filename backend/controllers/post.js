@@ -81,6 +81,14 @@ exports.readPosts = (req, res, next) => {
       {
         model: Hashtag,
       },
+      {
+        model: Comment,
+        include: [
+          {
+            model: Reply,
+          },
+        ],
+      },
     ],
     offset: offset,
     order: [[column, order]],
