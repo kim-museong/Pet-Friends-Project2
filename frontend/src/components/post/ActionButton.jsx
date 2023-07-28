@@ -7,9 +7,9 @@ import { storeOriginPost } from '../../modules/write';
 import { useDispatch } from 'react-redux';
 
 const ActionButtonBlock = styled.div`
- 
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+  margin: 10px 0;
+  padding: 10px;
+
   button + button {
     margin-left: 0.5rem;
   }
@@ -18,6 +18,7 @@ const ActionButtonBlock = styled.div`
 `;
 
 const StyledButton = styled(Button)`
+  width: 100px;
   height: 2.125rem;
   & + & {
     margin-left: 0.5rem;

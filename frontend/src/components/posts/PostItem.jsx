@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AiOutlineEye, AiOutlineComment, AiFillHeart } from 'react-icons/ai';
+import palette from '../../lib/styles/palette';
+import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
 
 const Wrapper = styled.div`
   width: 100%;
-  margin: 15px;
+  margin: 15px 0;
+  padding: 20px 10px;
+  border-bottom: 1px solid ${palette.border};
+  border-radius: 0;
+  cursor: pointer;
 `;
 const FirstBox = styled.div`
-  display: flex;
   width: 100%;
-  align-items: center;
-  justify-content: left;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
   font-weight: bold;
   color: ${({ theme }) => (theme === 'true' ? 'white' : 'rgb(50,50,50)')};
   & div:first-child {
@@ -29,80 +32,111 @@ const FirstBox = styled.div`
     white-space: nowrap;
   }
 `;
-const SecondBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #111;
-  & :nth-child(2) {
-    font-size: 20px;
-  }
-`;
+const SecondBox = styled.div``;
+
 const ThirdBox = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  & :first-child {
-    font-size: 22px;
-    padding: 0 20px;
-    margin: 10px;
-    color: rgb(179, 132, 255);
-  }
-  & :nth-child(2) {
-    font-size: 16px;
-    padding: 0px 20px;
-    border-left: 1px solid rgb(192, 192, 192);
-  }
-  & :nth-child(3) {
-    padding: 0 20px;
-    box-sizing: content-box;
-  }
-  & :nth-child(4) {
-    padding: 0 20px;
-    box-sizing: content-box;
-  }
-  & :nth-child(5) {
-    padding: 0 20px;
-    box-sizing: content-box;
-  }
+  justify-content: space-between;
 `;
 const StyledSpan = styled.span`
   font-size: 25px;
 `;
 
+const LikeView = styled.div`
+  width: 80px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-right: 30px;
+
+  div {
+    margin-right: 10px;
+  }
+
+  svg {
+    color: ${palette.mainColor};
+  }
+`;
+
+const NickDate = styled.div`
+  display: flex;
+  align-items: center;
+
+  div {
+    font-size: 14px;
+    color: rgb(100, 100, 100);
+    margin-left: 10px;
+  }
+
+  div + div::before {
+    content: '|';
+    padding: 0 5px;
+  }
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 20px;
+    margin-right: 5px;
+    padding-bottom: 1px;
+  }
+`;
+
 const PostItem = ({ post, boardName }) => {
   const theme = useSelector((state) => state.theme.theme);
   const totalCommentCount = post.Comments.reduce((acc, comment) => acc + comment.Replies.length + 1, 0);
+  const nav = useNavigate();
   const date = new Date(post.createdAt);
   const showDate = `${date.getFullYear()}-${
     date.getMonth() + 1
   }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
 
+  const onClick = useCallback(() => {
+    nav(`/${boardName}/${post.id}`);
+  }, []);
+
   return (
     <>
-      <Wrapper>
-        <Link to={`/${boardName}/${post.id}`}>
+      <Wrapper onClick={onClick}>
+        <div>
           {post && (
             <FirstBox theme={String(theme)}>
               {boardName === 'community' ? (
-                <StyledSpan>{`Title : ${post.CommunityDetail.title}`}</StyledSpan>
+                <StyledSpan>{`${post.CommunityDetail.title}`}</StyledSpan>
               ) : boardName === 'information' ? (
-                <StyledSpan>{`Title : ${post.InfoDetail.title}`}</StyledSpan>
+                <StyledSpan>{` ${post.InfoDetail.title}`}</StyledSpan>
               ) : boardName === 'notice' ? (
-                <StyledSpan>{`Title : ${post.NoticeDetail.title}`}</StyledSpan>
+                <StyledSpan>{`${post.NoticeDetail.title}`}</StyledSpan>
               ) : (
                 '존재하지 않는 게시판'
               )}
             </FirstBox>
           )}
-        </Link>
+        </div>
         <SecondBox>
           <ThirdBox>
-            <div>{post.User.nickname}</div>
-            <div>{showDate}</div>
-            <AiOutlineEye style={{ color: 'rgb(255, 140, 0)' }} /> {post.view}
-            <AiFillHeart style={{ color: 'rgb(255, 140, 0)' }} />
-            {post && post.likeCount}
+            <LikeView>
+              <FlexBox>
+                <AiFillHeart />
+                {post && post.likeCount}
+              </FlexBox>
+              <FlexBox>
+                <AiOutlineEye /> {post.view}
+              </FlexBox>
+              <FlexBox>
+                <AiOutlineComment />
+                {totalCommentCount}
+              </FlexBox>
+            </LikeView>
+
+            <NickDate>
+              <div>{post.User.nickname}</div>
+              <div>{showDate}</div>
+            </NickDate>
           </ThirdBox>
         </SecondBox>
       </Wrapper>

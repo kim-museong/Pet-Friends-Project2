@@ -5,14 +5,13 @@ import AutoPlayMethods from '../containers/main/eventContainer';
 import PopularpostContainer from '../containers/main/PopularpostContainer';
 import MeunlistsContainer from '../containers/main/MeunlistsContainer';
 import WeatherContainer from '../containers/main/WeatherContainer';
-import HeaderContainer from '../containers/common/HeaderContainer';
-import Footer from '../lib/main/Footer';
 import { useDispatch } from '../../node_modules/react-redux/es/exports';
 import { initialize } from '../modules/find';
 import { initializeForm } from '../modules/auth';
 import NewsTicker from '../components/main/NewsTicker';
 import SubButton from '../components/main/SubButton';
 import HeightViewPostContainer from '../containers/main/HeightViewPostContainer';
+import { Helmet } from 'react-helmet-async';
 
 const ContainBox = styled.div`
   width: 90%;
@@ -41,6 +40,9 @@ const MainPage = () => {
   }, [dispatch]);
   return (
     <>
+      <Helmet>
+        <title>펫프렌즈</title>
+      </Helmet>
       <ContainBox>
         {/*--------------- 메인 -------------- */}
         <MainBox>

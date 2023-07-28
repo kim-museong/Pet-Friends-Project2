@@ -142,7 +142,7 @@ export const Attendance = ({ renderStamp, theme, user }) => {
           </div>
           <div>{user.isAttendance ? '오늘 출석체크를 했습니다.' : '출석체크를 해주세요.'}</div>
           <div>
-            출석횟수: <span> {user?.attend.length}</span>번
+            출석횟수: <span> {user?.attend?.length}</span>번
           </div>
         </UserBox>
 
