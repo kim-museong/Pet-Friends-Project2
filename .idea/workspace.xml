@@ -5,79 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1681da71-26c3-480d-9f48-ada7635080fa" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/public/images/466281_232394_4722.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/images/petFriendsLogo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/images/second.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/api/RandomDog.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/like.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/like.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Mypage/PostList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Mypage/PostList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Mypage/PostListItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Mypage/PostListItem.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Mypage/UserActivity.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Mypage/UserActivity.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Mypage/UserInformation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Mypage/UserInformation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/Admin/AdminPost.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/Admin/AdminPost.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/Admin/AdminUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/Admin/AdminUser.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/Admin/HavePet.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/Admin/HavePet.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/Bar/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/Bar/Sidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/components/AllUsers.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/components/AllUsers.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/components/BestUsers.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/components/BestUsers.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/components/Notice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/components/Notice.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/admin/components/PostDetailsDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/components/PostDetailsDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/admin/components/Write.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/admin/components/Write.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/FindId.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/FindId.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/register/Agree.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/register/Agree.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Pagination.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Pagination.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/PasswordStep.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/PasswordStep.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/RegisterStep.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/RegisterStep.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/SearchOptionMenu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/SearchOptionMenu.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Setting.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Setting.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/SortOptionMenu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/SortOptionMenu.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/find/FindEmail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/find/FindEmail.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/find/FindPhone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/find/FindPhone.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/find/FindPwdSecond.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/find/FindPwdSecond.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/Attendance.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/Attendance.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/HeightViewpost.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/HeightViewpost.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/Info.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/Info.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/PopularCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/PopularCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/Popularpost.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/Popularpost.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/SubButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/SubButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/event.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/event.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/post/ActionButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/post/ActionButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/post/Post.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/post/Post.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/posts/PictureItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/posts/PictureItem.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/posts/PostItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/posts/PostItem.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/posts/PostList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/posts/PostList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/write/WriteActionButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/write/WriteActionButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/auth/FindIdContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/auth/FindIdContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/auth/register/RegisterContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/auth/register/RegisterContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/common/PaginationContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/common/PaginationContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/common/SearchOptionMenuContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/common/SearchOptionMenuContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/common/SortOptionMenuContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/common/SortOptionMenuContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/main/AttendanceContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/main/AttendanceContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/main/WeatherContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/main/WeatherContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/main/eventContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/main/eventContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/posts/PictureListContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/posts/PictureListContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/containers/posts/PostListContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/containers/posts/PostListContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/css.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/lib/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lib/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/lib/api/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lib/api/posts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/lib/main/Attendance.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lib/main/Attendance.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/lib/styles/find.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/lib/styles/find.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/modules/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/modules/find.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/find.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/modules/write.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/write.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/CommunityPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/CommunityPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/InformationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/InformationPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/MyPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MyPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/NoticePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/NoticePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +70,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/backend/controllers/post.js</url>
           <line>25</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
