@@ -44,7 +44,7 @@ const TitleBox = styled.div`
     height: 100px;
     background-image: url('../../images/petFriendsLogo.png');
     background-repeat: no-repeat;
-    background-position: 50% 57%;
+    background-position: 50% 50%;
     background-size: 150%;
   }
 `;

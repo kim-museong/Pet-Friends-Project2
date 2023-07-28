@@ -19,7 +19,7 @@ const AuthFormBlock = styled.div`
     background-image: url('../../images/petFriendsLogo.png');
     background-repeat: no-repeat;
     background-size: 25%;
-    background-position: 50% 60%;
+    background-position: 50% 50%;
     overflow: hidden;
   }
 

@@ -8,14 +8,17 @@ const CommentInputContainer = ({ commentId = null, isReply = false, setSelectedC
   const user = useSelector((state) => state.user.user);
   const content = useSelector((state) => state.comment.commentInput);
   const postId = useSelector((state) => state.post.post?.post.id);
-
+  const theme = useSelector((state) => state.theme.theme);
   const textareaEl = useRef(null);
-
   const dispatch = useDispatch();
 
   const handleCommentChange = (event) => {
-    dispatch(changeCommentInput(event.target.value));
+    const { value } = event.target;
+    textareaEl.current.style.height = 'auto';
+    textareaEl.current.style.height = textareaEl.current.scrollHeight + 'px';
+    dispatch(changeCommentInput(value));
   };
+
   const handleClick = (event) => {
     event.preventDefault();
     if (!isReply) {
@@ -39,6 +42,7 @@ const CommentInputContainer = ({ commentId = null, isReply = false, setSelectedC
       handleCommentChange={handleCommentChange}
       handleClick={handleClick}
       textareaEl={textareaEl}
+      theme={theme}
     ></CommentInput>
   );
 };

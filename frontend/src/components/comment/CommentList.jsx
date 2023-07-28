@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { BsArrowReturnRight } from 'react-icons/bs';
 import styled, { css, keyframes } from 'styled-components';
 import CommentInputContainer from '../../containers/comment/CommentInputContainer';
+import palette from '../../lib/styles/palette';
+import { formattedTime } from '../../lib/main/memo';
+import { AiFillHeart } from 'react-icons/ai';
 
 const fadeIn = keyframes`
   from {
@@ -18,15 +20,17 @@ const CommentListBlock = styled.div`
 `;
 
 const CommentBlock = styled.div`
-  border: 1px solid grey;
+  border: 1px solid ${palette.border};
   margin: 0.5rem;
+  padding: 10px;
   position: relative;
+
   animation: ${fadeIn} 0.5s ease-in-out;
-  ${(props) =>
-    props.reply === 'true' &&
+  ${({ reply, theme }) =>
+    reply === 'true' &&
     css`
-      margin: 0px;
-      margin-left: 5rem;
+      margin-left: 4rem;
+      background: ${theme === 'true' ? 'rgb(45, 45, 45)' : 'rgb(245, 245, 245)'};
     `};
 `;
 
@@ -38,20 +42,33 @@ const CommentHeader = styled.div`
 `;
 
 const CommentContent = styled.div`
-  /* border: 1px solid red; */
-  display: flex;
-  align-items: center;
-  padding: 1.5rem;
+  padding: 0 1.5rem;
+  margin: 0 0 10px;
   word-break: break-all; /* 자동 줄바꿈을 위해 추가 */
 `;
 
 const CommentNickname = styled.span`
+  display: flex;
+  align-items: center;
   font-weight: bold;
   margin-right: 1rem;
 `;
 
+const PostUser = styled.div`
+  font-size: 10px;
+  padding: 3px 7px;
+  border: 1px solid ${palette.mainColor};
+  color: ${palette.mainColor};
+  margin-left: 5px;
+  margin-top: 3px;
+`;
+
 const CommentCreatedAt = styled.span`
-  margin-right: 1rem;
+  .date {
+    font-size: 14px;
+    color: rgb(100, 100, 100);
+    margin-right: 20px;
+  }
 `;
 
 const CommentDeleteButton = styled.button`
@@ -63,29 +80,34 @@ const CommentDeleteButton = styled.button`
 
 const CommentButton = styled.button`
   background-color: transparent;
-  border: 1px solid black;
+  border: none;
   border-radius: 10px;
-  padding: 0.5rem;
+  color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+  margin-right: 15px;
   cursor: pointer;
   & + & {
     margin-left: 0.25rem;
   }
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
-const CommentButtonWrapper = styled.div`
-  margin-left: auto;
+const CommentButtonWrapper = styled.span`
   background-color: transparent;
-  border: 1px solid black;
   border-radius: 10px;
   padding: 0.5rem;
 `;
 
-const ArrowIcon = styled(BsArrowReturnRight)`
-  position: absolute;
-  top: 50%;
-  left: -4rem;
-  transform: translateY(-50%);
-  font-size: 3rem;
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    color: ${palette.mainColor};
+    margin-right: 5px;
+    margin-top: 5px;
+  }
 `;
 
 // comment/reply Component
@@ -101,7 +123,10 @@ const Comment = ({
   setSelectedCommentId,
   latestComment,
   isLiked,
+  postUser,
+  theme,
 }) => {
+  console.log(postUser === comment.User.id);
   // scroll to new comment/reply
   useEffect(() => {
     if (latestComment.current && selectedCommentId === '') {
@@ -116,16 +141,14 @@ const Comment = ({
     return null;
   }
   return (
-    <CommentBlock reply={isReply.toString()} ref={latestComment}>
-      {/* reply icon */}
-      {isReply && <ArrowIcon />}
-
+    <CommentBlock reply={isReply.toString()} ref={latestComment} theme={String(theme)}>
       {/* comment description + delete button */}
       <CommentHeader>
         <div>
-          <CommentNickname>{comment.User.nickname}</CommentNickname>
-          <CommentCreatedAt>{comment.createdAt}</CommentCreatedAt>
-          <CommentCreatedAt>{`추천수 : ${comment.likeCount}`}</CommentCreatedAt>
+          <CommentNickname>
+            <div> {comment.User.nickname}</div>
+            <div>{postUser === comment.UserId && <PostUser>작성자</PostUser>}</div>
+          </CommentNickname>
         </div>
         {loggedInUser && loggedInUser.id === comment.UserId && !comment.deletedAt && (
           <CommentDeleteButton
@@ -135,25 +158,51 @@ const Comment = ({
           </CommentDeleteButton>
         )}
       </CommentHeader>
-
       {/* comment content + reply button */}
       <CommentContent>
         {comment.deletedAt ? <span>{'삭제된 댓글입니다'}</span> : <span>{comment.content}</span>}
-        {loggedInUser && !comment.deletedAt && (
-          <CommentButtonWrapper>
-            {isLiked(isReply, comment.id, loggedInUser?.id) ? (
-              <CommentButton
-                onClick={() => handleUnlikeClick(loggedInUser.id, isReply ? 'reply' : 'comment', comment.id)}
-              >
-                추천해제
-              </CommentButton>
-            ) : (
-              <CommentButton onClick={() => handleLikeClick(comment.id, isReply, loggedInUser.id)}>추천</CommentButton>
-            )}
-            <CommentButton onClick={() => handleReplyClick(isReply, comment.id)}>대댓글</CommentButton>
-          </CommentButtonWrapper>
-        )}
       </CommentContent>
+      <div style={{ margin: '0 20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {!comment.deletedAt && (
+            <CommentCreatedAt>
+              <>
+                <FlexBox>
+                  <div>
+                    <AiFillHeart />
+                  </div>
+                  <div> {comment.likeCount}</div>
+                </FlexBox>
+              </>
+            </CommentCreatedAt>
+          )}
+          {loggedInUser && !comment.deletedAt && (
+            <CommentButtonWrapper>
+              {isLiked(isReply, comment.id, loggedInUser?.id) ? (
+                <CommentButton
+                  theme={String(theme)}
+                  onClick={() => handleUnlikeClick(loggedInUser.id, isReply ? 'reply' : 'comment', comment.id)}
+                >
+                  추천해제
+                </CommentButton>
+              ) : (
+                <CommentButton
+                  theme={String(theme)}
+                  onClick={() => handleLikeClick(comment.id, isReply, loggedInUser.id)}
+                >
+                  추천
+                </CommentButton>
+              )}
+            </CommentButtonWrapper>
+          )}
+          <CommentCreatedAt>
+            <span className="date">{formattedTime(comment.createdAt)}</span>
+          </CommentCreatedAt>
+          <CommentButton theme={String(theme)} onClick={() => handleReplyClick(isReply, comment.id)}>
+            {!comment.deletedAt && '답글쓰기'}
+          </CommentButton>
+        </div>
+      </div>
 
       {/* comment input */}
       {selectedCommentId === comment.id && (
@@ -178,6 +227,8 @@ const Comment = ({
           setSelectedCommentId={setSelectedCommentId}
           latestComment={latestComment}
           isLiked={isLiked}
+          postUser={postUser}
+          theme={theme}
         ></CommentList>
       )}
     </CommentBlock>
@@ -197,6 +248,9 @@ const CommentList = ({
   setSelectedCommentId,
   latestComment,
   isLiked,
+  user,
+  postUser,
+  theme,
 }) => {
   return (
     <CommentListBlock>
@@ -216,6 +270,9 @@ const CommentList = ({
             setSelectedCommentId={setSelectedCommentId}
             latestComment={latestComment}
             isLiked={isLiked}
+            user={user}
+            postUser={postUser}
+            theme={theme}
           ></Comment>
         ))}
     </CommentListBlock>

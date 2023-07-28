@@ -119,16 +119,24 @@ exports.getPost = async (req, res, next) => {
 };
 
 exports.findId = async (req, res, next) => {
-  const { nickname } = req.body;
+  const { nickname, phone } = req.body;
   try {
-    const userId = await User.findOne({ where: { nickname }, attributes: ['userId', 'email'] });
-    if (userId === null) {
-      res.status(200).json();
-      return;
+    if (nickname) {
+      const userId = await User.findOne({ where: { nickname }, attributes: ['userId', 'email'] });
+      if (userId === null) {
+        res.status(200).json();
+        return;
+      }
+      res.status(200).json(userId);
+    } else if (phone) {
+      const userId = await User.findOne({ where: { phone }, attributes: ['userId', 'email'] });
+      if (userId === null) {
+        res.status(200).json();
+        return;
+      }
+      res.status(200).json(userId);
     }
-
     console.log('이메일 성공적 전송');
-    res.status(200).json(userId);
   } catch (error) {
     console.log(error);
   }

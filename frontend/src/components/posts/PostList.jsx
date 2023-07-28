@@ -7,6 +7,8 @@ import PostItem from './PostItem';
 import InfoItem from './InfoItem';
 
 const PostListBlock = styled(Responsive)`
+  width: 50%;
+  margin: 20px auto;
   margin-top: 3rem;
   display: flex;
   flex-wrap: wrap;
@@ -15,7 +17,6 @@ const PostListBlock = styled(Responsive)`
 
 const InfoListBlock = styled.div`
   width: 60%;
-
   margin: 20px auto;
   display: flex;
   flex-wrap: wrap;

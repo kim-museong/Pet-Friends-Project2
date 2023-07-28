@@ -5,14 +5,16 @@ import { getRandomDogPicture } from '../../modules/api';
 
 const MediaBlock = styled.div`
   width: 30vw;
+  margin: 0 auto;
+  text-align: center;
 `;
 
 const Image = styled.img`
-  width: 100%;
+  width: 300px;
 `;
 
 const Video = styled.video`
-  width: 100%;
+  width: 300px;
 `;
 
 const RandomDog = () => {
