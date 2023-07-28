@@ -2,25 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import axios from 'axios';
 
-const PostDetailsDialog = ({ post, boardName, open, onClose, onDelete }) => {
+const PostDetailsDialog = ({ post, boardName, open, onClose, onDelete, content, postDetail }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [content, setContent] = useState('');
+  const [fetchedContent, setFetchedContent] = useState('');
 
   useEffect(() => {
     const fetchContent = async (postId) => {
       try {
-        const response = await axios.get(`/board/community/posts/${postId}`);
-        setContent(response.data.content);
+        const response = await axios.get(postDetail); // Replace 'postDetail' with the actual URL from the frontend
+        setFetchedContent(response.data.content);
       } catch (error) {
         console.error('Failed to fetch post content:', error);
-        setContent('포스트 내용을 불러올 수 없습니다.');
+        setFetchedContent('1111111111111111111');
       }
     };
 
     if (post && post.id) {
       fetchContent(post.id);
     }
-  }, [post, boardName]);
+  }, [post, boardName, postDetail]);
+
 
   const handleClose = () => {
     onClose();
@@ -30,10 +31,16 @@ const PostDetailsDialog = ({ post, boardName, open, onClose, onDelete }) => {
     setConfirmDelete(true);
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(post.id);
-    onClose();
+  const handleConfirmDelete = async () => {
+    try {
+      await axios.delete(`/board/community/posts/${post.id}`);
+      onDelete(post.id);
+      onClose();
+    } catch (error) {
+      console.error('게시물 삭제에 실패했습니다:', error);
+    }
   };
+
 
   const handleCancelDelete = () => {
     setConfirmDelete(false);

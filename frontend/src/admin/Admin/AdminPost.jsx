@@ -84,12 +84,13 @@ const AdminPost = () => {
             console.error('Failed to fetch post content:', error);
             setSelectedPost((prevPost) => ({
                 ...prevPost,
-                content: '포스트 내용을 불러올 수 없습니다.',
+                content: 'aaaaaaaaaaaaaaaaaaaaaaa',
             }));
         }
 
         setDialogOpen(true);
     };
+
 
     const handleCloseDialog = () => {
         setSelectedPost(null);
@@ -179,46 +180,7 @@ const AdminPost = () => {
         },
     ];
 
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value);
-    };
 
-    const handleContentChange = (value) => {
-        setContent(value);
-    };
-
-    const handleSave = () => {
-        console.log('Title:', title);
-        console.log('Content:', content);
-
-        if (window.confirm('공지사항을 등록하시겠습니까?')) {
-            // 데이터 저장 요청을 백엔드 서버로 보냄
-            fetch('/api/posts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    title: title,
-                    content: content,
-                    boardId: 1,
-                    UserId: 3,
-                }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log('Post saved successfully!', data);
-                    alert('공지사항이 등록되었습니다.');
-                    // 등록 후 제목과 내용 초기화
-                    setTitle('');
-                    setContent('');
-                })
-                .catch((error) => {
-                    console.error('Error saving post:', error);
-                    alert('공지사항 등록에 실패했습니다.');
-                });
-        }
-    };
 
     return (
         <Box m="20px">
@@ -281,7 +243,11 @@ const AdminPost = () => {
                     open={dialogOpen}
                     onClose={handleCloseDialog}
                     onDelete={handleDeletePost}
+                    content={selectedPost.content}
+                    postDetail={selectedPost.postDetail}
+
                 />
+
             )}
         </Box>
     );
