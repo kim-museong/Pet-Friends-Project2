@@ -12,9 +12,15 @@ const AuthFormBlock = styled.div`
   margin: 10% auto 0;
 
   .logo {
-    font-size: 50px;
-    margin-bottom: 50px;
+    display: block;
+    width: 100%;
+    height: 150px;
     color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
+    background-image: url('../../images/petFriendsLogo.png');
+    background-repeat: no-repeat;
+    background-size: 25%;
+    background-position: 50% 60%;
+    overflow: hidden;
   }
 
   form {
@@ -120,9 +126,7 @@ const Login = ({
   return (
     <>
       <AuthFormBlock theme={String(theme)}>
-        <Link to="/" className="logo">
-          Logo
-        </Link>
+        <Link to="/" className="logo"></Link>
         <LoginBox>
           <form onSubmit={onSubmit}>
             <InputStyle theme={String(theme)}>

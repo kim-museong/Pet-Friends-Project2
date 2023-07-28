@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 import { MdInfo, MdAlarm } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeError, changeInput, checkEmail, checkPhone, nextStep } from '../../../modules/find';
+import { changeError, changeInput, checkPhone, nextStep } from '../../../modules/find';
 import { FindInputBox } from '../../../lib/styles/find';
 import { formatTime } from '../../../lib/main/time';
 
@@ -19,17 +19,8 @@ const FindPwdInputBox = styled(FindInputBox)`
   width: 100%;
   margin: 50px auto 0;
 
-  .selectBox {
-    width: 40%;
-    padding: 20px 10px;
-  }
-
-  .right {
-    padding-left: 100px;
-  }
-
-  .left {
-    padding-right: 100px;
+  .userPhone {
+    margin-bottom: 60px;
   }
 `;
 
@@ -122,7 +113,8 @@ const ExplanationBox = styled.div`
   top: -67px;
   left: 180px;
   width: 364px;
-  box-shadow: 0px 0px 1px black;
+  box-shadow: 0px 0px 2px 1px ${palette.border};
+  border-radius: 4px;
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
   font-size: 14px;
@@ -140,7 +132,7 @@ const ExplanationBox = styled.div`
     height: 10px;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
     border-radius: 0 2px;
-    box-shadow: ${({ theme }) => (theme === 'true' ? '' : '-1px 1px rgb(150, 150, 150)')};
+    box-shadow: ${({ theme }) => (theme === 'true' ? '' : `-1px 1px ${palette.border}`)};
     transform: rotate(315deg);
     z-index: 2;
   }
@@ -316,7 +308,7 @@ const FindPhone = () => {
   return (
     <>
       <FindPwdInputBox>
-        <div> {phone && maskNumber(phone)} </div>
+        <div className="userPhone">등록된 번호: {phone && maskNumber(phone)} </div>
         <p style={{ fontSize: '14px', color: 'rgb(160,160,160)' }}>
           ・ 본인확인 번호와 입력한 번호 주소가 같아야, 인증번호를 받을 수 있습니다.
         </p>

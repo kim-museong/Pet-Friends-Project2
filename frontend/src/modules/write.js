@@ -26,12 +26,26 @@ export const storeOriginPost = createAction(STORE_ORIGIN_POST, ({ post, boardNam
   switch (boardName) {
     case 'community':
       post.title = post.post.CommunityDetail.title;
+      post.content = post.post.Content.content;
+      post.tags = post.hashtags;
+      post.originPostId = post.post.id;
       break;
     case 'information':
       post.title = post.post.InfoDetail.title;
+      post.content = post.post.Content.content;
+      post.tags = post.hashtags;
+      post.originPostId = post.post.id;
       break;
     case 'notice':
       post.title = post.post.NoticeDetail.title;
+      post.content = post.post.Content.content;
+      post.tags = post.hashtags;
+      post.originPostId = post.post.id;
+      break;
+    case 'picture':
+      post.content = post.Content.content;
+      post.tags = post.Hashtags.map((hashtag) => hashtag.title);
+      post.originPostId = post.id;
       break;
     default:
       break;
@@ -84,10 +98,14 @@ const write = handleActions(
     [STORE_ORIGIN_POST]: (state, { payload: post }) => ({
       ...state,
       // title: post.post.CommunityDetail.title,
+      // title: post.title,
+      // content: post.post.Content.content,
+      // tags: post.hashtags,
+      // originPostId: post.post.id,
       title: post.title,
-      content: post.post.Content.content,
-      tags: post.hashtags,
-      originPostId: post.post.id,
+      content: post.content,
+      tags: post.tags,
+      originPostId: post.originPostId,
     }),
     [CREATE_POST_SUCCESS]: (state, { payload: post }) => ({
       ...state,

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MdChevronRight } from 'react-icons/md';
+import { BsFillPencilFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
@@ -53,6 +54,7 @@ const Postlist = styled.li`
   .title {
     display: inline-block;
     width: 150px;
+    padding: 1px 3px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -77,6 +79,17 @@ const ListBox = styled.div`
 
   a {
     color: ${({ theme }) => (theme === 'true' ? `${palette.border}` : 'rgb(50, 50, 50)')};
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+
+    svg {
+      color: ${palette.mainColor};
+      margin: 0 7px;
+      font-size: 20px;
+    }
   }
 
   .add-list {
@@ -104,8 +117,10 @@ const Popularpost = ({ like, theme }) => {
     <PostsBox>
       <PopularpostBox theme={String(theme)}>
         <ListBox theme={String(theme)}>
-          <h3>인기 게시물</h3>
-
+          <div className="title">
+            <BsFillPencilFill />
+            <h3>인기 게시물</h3>
+          </div>
           <Link to="/community" className="add-list">
             더보기
             <MdChevronRight />
@@ -113,7 +128,6 @@ const Popularpost = ({ like, theme }) => {
         </ListBox>
         {like === null || like?.length === 0 ? (
           <>
-            {' '}
             <NotPost>게시물이 없습니다.</NotPost>
           </>
         ) : (

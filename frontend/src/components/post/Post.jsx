@@ -4,6 +4,7 @@ import Responsive from '../common/Responsive';
 import { AiOutlineEye, AiOutlineComment, AiFillHeart } from 'react-icons/ai';
 
 const PostBlock = styled.div`
+  margin-top: 20px;
   border: 1px solid tomato;
   display: block;
   object-fit: cover;
@@ -12,36 +13,44 @@ const PostBlock = styled.div`
   }
 `;
 
-const TitleCss = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
 const SecondBox = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 17px;
-  & :nth-child(1) {
-    margin-top: 5px;
-    font-size: 16px;
-    padding: 0px 20px;
+border: 1px solid rgb(186, 186, 186);
+display: flex;
+align-items: center;
+font-size: 17px; 
+& :nth-child(1) {
+  margin-top: 5px;
+  font-size: 16px;
+  padding: 5px 20px;  
   }
   & :nth-child(2) {
-    padding: 0 20px;
-    box-sizing: content-box;
+  padding: 0 20px; 
+  box-sizing: content-box; 
   }
+  & :nth-child(3) {
+    padding: 0 20px; 
+    box-sizing: content-box; 
+    }
+    & :nth-child(4) {
+    padding: 0 20px; 
+    box-sizing: content-box; 
+    } 
 `;
 const ThirdBox = styled.div`
-  border: 1px solid rgb(186, 186, 186);
-  padding: 20px;
-  margin-top: 20px;
-  margin-right: 20px;
-  div {
-    overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    height: 200px;
-  }
+padding: 20px;
+margin-top: 20px;
+margin-right: 20px;
+div {
+overflow: hidden;
+display: flex;
+flex-wrap: wrap;
+height: 200px;
+}
+`;
+const StyledSpan = styled.div`
+  font-size: 25px;
+  font-weight:bold;   
+  margin: 10px 20px;     
 `;
 
 const Post = ({ post, likeCount, boardName, loading }) => {

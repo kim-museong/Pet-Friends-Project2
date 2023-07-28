@@ -8,11 +8,16 @@ import { selectPageNumber, selectSearchOptions, selectSortType, selectTag } from
 const SearchOptionMenuContainer = () => {
   const location = useLocation();
 
-  const searchCategory = useSelector((state) => state.searchOption.searchCategory);
-  const searchKeyword = useSelector((state) => state.searchOption.searchKeyword);
-  const sortType = useSelector((state) => state.searchOption.sortType);
-  const pageNumber = useSelector((state) => state.searchOption.pageNumber);
-  const tag = useSelector((state) => state.searchOption.tag);
+  const { searchCategory, searchKeyword, sortType, pageNumber, tag, theme } = useSelector(
+    ({ searchOption, theme }) => ({
+      searchCategory: searchOption.searchCategory,
+      searchKeyword: searchOption.searchKeyword,
+      sortType: searchOption.sortType,
+      pageNumber: searchOption.pageNumber,
+      tag: searchOption.tag,
+      theme: theme.theme,
+    }),
+  );
 
   const boardName = location.pathname.split('/')[1];
   const limit = useRef(10);
@@ -90,6 +95,7 @@ const SearchOptionMenuContainer = () => {
       pageNumber={pageNumber}
       tag={tag}
       inputEl={inputEl}
+      theme={theme}
     ></SearchOptionMenu>
   );
 };

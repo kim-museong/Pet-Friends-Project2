@@ -18,19 +18,6 @@ const FindPwdInputBox = styled(FindInputBox)`
   text-align: center;
   width: 100%;
   margin: 50px auto 0;
-
-  .selectBox {
-    width: 40%;
-    padding: 20px 10px;
-  }
-
-  .right {
-    padding-left: 100px;
-  }
-
-  .left {
-    padding-right: 100px;
-  }
 `;
 
 const TimeBox = styled.div`
@@ -329,7 +316,7 @@ const FindEmail = () => {
   return (
     <>
       <FindPwdInputBox>
-        <div style={{ marginBottom: '30px' }}>{email && maskEmail(email)} </div>
+        <div style={{ marginBottom: '30px' }}>등록된 이메일: {email && maskEmail(email)} </div>
         <p style={{ fontSize: '14px', color: 'rgb(160,160,160)' }}>
           ・ 본인확인 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.
         </p>

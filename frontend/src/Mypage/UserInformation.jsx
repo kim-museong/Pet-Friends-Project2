@@ -13,20 +13,38 @@ const UserInfo = styled.div`
 
 function UserInformation() {
     const [user, setUser] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        fetchUserData();
+        checkAuthentication();
     }, []);
+
+    const checkAuthentication = async () => {
+        try {
+            const response = await axios.get('/api/users/check-auth'); // 로그인 상태를 확인하는 API 엔드포인트
+            const isAuthenticated = response.data.isAuthenticated;
+            setIsAuthenticated(isAuthenticated);
+            if (isAuthenticated) {
+                fetchUserData();
+            }
+        } catch (error) {
+            console.error('로그인 상태를 확인하는데 실패했습니다:', error);
+        }
+    };
 
     const fetchUserData = async () => {
         try {
-            const response = await axios.get('/api/users/3'); // /current
+            const response = await axios.get('/api/users/current'); // 로그인된 사용자 정보를 가져오는 API 엔드포인트
             const userData = response.data;
             setUser(userData);
         } catch (error) {
-            console.log(error);
+            console.error('사용자 정보를 가져오지 못했습니다:', error);
         }
     };
+
+    if (!isAuthenticated) {
+        return null; // 로그인되지 않은 상태라면 아무 내용도 표시하지 않음
+    }
 
     return (
         <UserInfo>

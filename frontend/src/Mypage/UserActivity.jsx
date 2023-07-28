@@ -62,6 +62,7 @@ function UserActivity() {
     const [postCount, setPostCount] = useState(0);
     const [setCommentCount] = useState(0);
     const [showPostList, setShowPostList] = useState(false);
+    const [currentUserId, setCurrentUserId] = useState(null);
 
     const handleShowPostList = () => {
         setShowPostList(!showPostList);
@@ -69,7 +70,7 @@ function UserActivity() {
 
     useEffect(() => {
         // 게시글 수와 댓글 수를 가져오는 API 요청
-        axios.get('/api/users/3/post-count') ///api/users/current/post-count
+        axios.get('/api/users/current/post-count') ///api/users/current/post-count
             .then(response => {
                 const {postCount} = response.data;
                 setPostCount(postCount);
@@ -78,15 +79,7 @@ function UserActivity() {
                 console.error('게시글 수를 가져오지 못했습니다:', error);
             });
 
-        axios.get('/api/users/3/comment-count') ///  api/users/current/comment-count
-            .then(response => {
-                const {commentCount} = response.data;
-                setCommentCount(commentCount);
-            })
-            .catch(error => {
-                console.error('댓글 수를 가져오지 못했습니다:', error);
-            });
-    }, []);
+    }, [currentUserId]);
 
     return (
         <UserActivityContainer>
@@ -113,7 +106,7 @@ function UserActivity() {
                     내가 작성한 글보기
                 </a>
             </div>
-            {showPostList && <PostList userId={3}/>}
+            {showPostList && <PostList userId={currentUserId}/>}
         </UserActivityContainer>
     );
 }

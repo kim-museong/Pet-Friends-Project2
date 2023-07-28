@@ -156,7 +156,12 @@ const WriteActionButton = ({ boardType, title, content, post, postError, boardNa
   useEffect(() => {
     if (post && postError === null) {
       // 글 작성 성공, 이전 페이지로
-      navigate(`/${boardName}/${post.id}`, { replace: true });
+      if (boardName === 'picture') {
+        console.log('boardName이 picture임');
+        navigate(`/${boardName}`, { replace: true });
+      } else {
+        navigate(`/${boardName}/${post.id}`, { replace: true });
+      }
     } else if (postError && post === null) {
       // 서버에서 에러 발생
       // TODO :  postError 메세지의 종류에 따라 다른 description

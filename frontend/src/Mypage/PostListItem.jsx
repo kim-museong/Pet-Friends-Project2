@@ -64,9 +64,10 @@ function PostListItem({ post }) {
 
     const [nickname, setNickname] = useState('');
     const [content, setContent] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // 로그인 여부를 저장하는 상태
 
     useEffect(() => {
-        fetchContent();
+        checkAuthentication();
     }, []);
 
     useEffect(() => {
@@ -82,10 +83,25 @@ function PostListItem({ post }) {
         fetchNickname();
     }, []);
 
+    useEffect(() => {
+        fetchContent();
+    }, []);
+
+    const checkAuthentication = async () => {
+        try {
+            const response = await axios.get('/api/users/check-auth'); // 로그인 상태를 확인하는 API 엔드포인트
+            const isAuthenticated = response.data.isAuthenticated;
+            setIsAuthenticated(isAuthenticated);
+        } catch (error) {
+            console.error('로그인 상태를 확인하는데 실패했습니다:', error);
+        }
+    };
+
     const fetchContent = async () => {
         try {
-            // 게시물의 내용을 가져오는 API 요청
-            const response = await axios.get(`/api/contents/${post.id}?userId=1`);
+            // 로그인 여부에 따라 게시물의 내용을 가져오는 API 요청을 다르게 처리
+            const userId = isAuthenticated ? 'current' : 1;
+            const response = await axios.get(`/api/contents/${post.id}?userId=${userId}`);
             const contentData = response.data;
             setContent(contentData.content);
         } catch (error) {
@@ -102,9 +118,7 @@ function PostListItem({ post }) {
                     </div>
                     <div className="info-box">
                         <div>
-              <span>
-                {nickname}
-              </span>
+                            <span>{nickname}</span>
                             <span>{createdAt}</span>
                         </div>
                     </div>

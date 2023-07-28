@@ -1,3 +1,4 @@
+const axios = require('axios');
 const { Hospital } = require('../models');
 
 ////////////////////////////////////////////////////////////
@@ -41,4 +42,22 @@ exports.updateHospitalList = async (req, res, next) => {
     console.error(error);
     next(error);
   }
+};
+
+//////////////////////////////////////////////////////////////////
+//////////////////// get random dog picture //////////////////////
+//////////////////////////////////////////////////////////////////
+exports.getRandomDogPicture = async (req, res, next) => {
+  console.log('강아지 사진 요청 3');
+  await axios
+    .get('https://random.dog/woof.json')
+    .then((response) => {
+      console.log('===============================================');
+      console.log(response.data);
+      console.log('===============================================');
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };

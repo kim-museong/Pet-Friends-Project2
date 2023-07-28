@@ -2,6 +2,22 @@ import { Link } from 'react-router-dom';
 import { FindIdBox, FindInputBox, Footer } from '../../lib/styles/find';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
+import FindPhone from '../common/find/FindPhone';
+
+const FindIdBlock = styled(FindIdBox)`
+  .title {
+    a {
+      margin: 3rem 0 0;
+      display: inline-block;
+      width: 200px;
+      height: 100px;
+      background-image: url('../../images/petFriendsLogo.png');
+      background-repeat: no-repeat;
+      background-position: 50% 57%;
+      background-size: 150%;
+    }
+  }
+`;
 
 const StatusBox = styled.div`
   height: 45px;
@@ -28,8 +44,10 @@ const FindId = ({
   showBox,
   getUserId,
   onCancel,
-
+  masked,
   confirmFail,
+  findType,
+  changeRadio,
 }) => {
   const { nickname } = findId;
   const { nicknameError } = error;
@@ -37,54 +55,85 @@ const FindId = ({
 
   return (
     <>
-      <FindIdBox>
-        <div style={{ marginTop: '10%' }}>
-          <Link to="/">Logo</Link>
+      <FindIdBlock>
+        <div className="title">
+          <Link to="/"></Link>
           <h1>아이디 찾기</h1>
         </div>
+        <div>
+          <input
+            id="nickname"
+            type="radio"
+            name="findId"
+            value="nickname"
+            checked={findType === 'nickname'}
+            onChange={changeRadio}
+          />
+          <label htmlFor="nickname">닉네임</label>
+        </div>
+        <div>
+          <input
+            id="phone"
+            type="radio"
+            name="findId"
+            value="phone"
+            checked={findType === 'phone'}
+            onChange={changeRadio}
+          />
+          <label htmlFor="phone">폰번호</label>
+        </div>
 
-        {showBox ? (
-          <FindInputBox>
-            <ShowBox>
-              <div className="title">아이디</div>
-              <ShowBox>{userId}</ShowBox>
-              <button onClick={onCancel}>확인</button>
-            </ShowBox>
-          </FindInputBox>
-        ) : (
-          <div>
-            <FindInputBox theme={String(theme)}>
+        {findType === 'nickname' && (
+          <>
+            {showBox ? (
+              <FindInputBox>
+                <ShowBox>
+                  <div className="title">아이디</div>
+                  <ShowBox>{masked(userId)}</ShowBox>
+                  <button onClick={onCancel}>확인</button>
+                </ShowBox>
+              </FindInputBox>
+            ) : (
               <div>
-                <p style={{ color: 'rgb(160,160,160)', fontSize: '14px' }}>
-                  ・ 회원가입 시 입력한 이름와 입력한 이름이 같아야 합니다.
-                </p>
-                <div>
-                  <input
-                    className={nicknameError && 'nicknameError'}
-                    autoComplete="nickname"
-                    name="nickname"
-                    onChange={onChange}
-                    value={nickname}
-                    placeholder="이름을 입력해주세요."
-                  />
-                  <button className="confirm" onClick={onConfirm}>
-                    확인
-                  </button>
+                <FindInputBox theme={String(theme)}>
+                  <div>
+                    <p style={{ color: 'rgb(160,160,160)', fontSize: '14px' }}>
+                      ・ 회원가입 시 입력한 이름와 입력한 이름이 같아야 합니다.
+                    </p>
+                    <div>
+                      <input
+                        className={nicknameError && 'nicknameError'}
+                        autoComplete="nickname"
+                        name="nickname"
+                        onChange={onChange}
+                        value={nickname}
+                        placeholder="이름을 입력해주세요."
+                      />
+                      <button className="confirm" onClick={onConfirm}>
+                        확인
+                      </button>
 
-                  <StatusBox>
-                    <div className="error">{nicknameError && nicknameError}</div>
-                    <div className="error">{confirmFail && confirmFail}</div>
-                  </StatusBox>
-                </div>
+                      <StatusBox>
+                        <div className="error">{nicknameError && nicknameError}</div>
+                        <div className="error">{confirmFail && confirmFail}</div>
+                      </StatusBox>
+                    </div>
+                  </div>
+                </FindInputBox>
               </div>
-            </FindInputBox>
+            )}
+          </>
+        )}
+        {findType === 'phone' && (
+          <div style={{ width: '50%', margin: '0 auto' }}>
+            <FindPhone />
           </div>
         )}
         <Footer theme={String(theme)}>
           <Link to="/auth/login">로그인</Link>
           <Link to="/auth/credentials?type=findPwd">비밀번호 찾기</Link>
         </Footer>
-      </FindIdBox>
+      </FindIdBlock>
     </>
   );
 };
