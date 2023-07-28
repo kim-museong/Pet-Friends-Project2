@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import AlertModal from '../common/AlertModal';
 
 import { IoHeartSharp, IoHeartOutline } from 'react-icons/io5';
 import { FiEdit3, FiX } from 'react-icons/fi';
@@ -101,9 +102,44 @@ const Wrapper = styled.div`
   margin: 15px;
 `;
 
-const PictureItem = ({ post, user, likes, loading }) => {
+const PictureItem = ({ post, user, likes, onUpdate, onDelete, loading }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  const modalRef = useRef(null);
+  const [visible, setVisible] = useState(false); // for model on-off
+  const [modalData, setModalData] = useState({
+    title: '',
+    description: '',
+    confirmText: '확인',
+    cancelText: '취소',
+    onConfirm: null,
+    onCancel: null,
+  });
+
+  // modal창의 수정 버튼
+  const onModalUpdateClick = () => {
+    setVisible(false);
+    onUpdate(post);
+  };
+
+  // modal창의 삭제 버튼
+  const onModalDeleteClick = () => {
+    setVisible(false);
+    onDelete(post);
+  };
+
+  // modal창의 취소 버튼
+  const onModalCancelClick = () => {
+    setVisible(false);
+  };
+
+  // modal창이 떴을 때 클릭 이벤트
+  const onModalOutSideClick = (event) => {
+    // target과 currentTarget이 같을 때 모달창 꺼짐(=모달창 외부 클릭)
+    if (modalRef.current === event.target) {
+      setVisible(false);
+    }
+  };
 
   const findDataIcon = (element) => {
     while (element) {
@@ -142,17 +178,26 @@ const PictureItem = ({ post, user, likes, loading }) => {
         );
         break;
       case 'editIcon':
-        dispatch(storeOriginPost({ post, boardName: 'picture' }));
-        navigate(`/editor/picture`, { state: { boardName: 'picture' } });
+        setModalData({
+          title: '사진 정보 수정',
+          description: '사진 정보를 수정하시겠습니까?',
+          confirmText: '수정',
+          cancelText: '취소',
+          onConfirm: onModalUpdateClick,
+          onCancel: onModalCancelClick,
+        });
+        setVisible(true);
         break;
       case 'deleteIcon':
-        deletePost({ boardName: 'picture', postId: post.id })
-          .then(() => {
-            dispatch(getPostsAsync({ sortType: 'newest', tag: [], boardName: 'picture', limit: 10 }));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        setModalData({
+          title: '사진 정보 삭제',
+          description: '사진 정보를 삭제하시겠습니까?',
+          confirmText: '삭제',
+          cancelText: '취소',
+          onConfirm: onModalDeleteClick,
+          onCancel: onModalCancelClick,
+        });
+        setVisible(true);
         break;
       default:
         break;
@@ -188,6 +233,12 @@ const PictureItem = ({ post, user, likes, loading }) => {
           </PictureItemBlock>
         </Link>
       </Wrapper>
+      <AlertModal
+        modalRef={modalRef}
+        visible={visible}
+        modalData={modalData}
+        onModalOutSideClick={onModalOutSideClick}
+      ></AlertModal>
     </>
   );
 };

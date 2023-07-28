@@ -2,9 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PictureList from '../../components/posts/PictureList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAsync, unloadPosts } from '../../modules/posts';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { resetSearch } from '../../modules/searchOption';
 import { getLikes } from '../../modules/like';
+import { storeOriginPost } from '../../modules/write';
+import { deletePost } from '../../lib/api/post';
 
 const INIT_PICTURE_COUNT = 15;
 const LOAD_PICTURE_COUNT = 6;
@@ -15,6 +17,7 @@ const PictureListContainer = () => {
   let column = useRef(LOAD_PICTURE_COUNT);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   // backend에 요청시 필요 정보
   // 1. sortType : state에서 꺼냄.
@@ -65,8 +68,7 @@ const PictureListContainer = () => {
       // 150은 ItemWidth, 30은 ItemMargin
       // 16은 PictureListBlock Padding
       if (window.innerWidth > 1024) {
-        column.
-            current = Math.floor(1024 / 180);
+        column.current = Math.floor(1024 / 180);
       } else if (window.innerWidth < 768) {
         column.current = Math.floor((window.innerWidth - 16) / 180);
       } else {
@@ -89,7 +91,31 @@ const PictureListContainer = () => {
     };
   }, [getPosts, posts, sortType]);
 
-  return <PictureList posts={posts} user={user} likes={likes} loading={loading}></PictureList>;
+  const onUpdate = (post) => {
+    dispatch(storeOriginPost({ post, boardName: 'picture' }));
+    navigate(`/editor/picture`, { state: { boardName: 'picture' } });
+  };
+
+  const onDelete = (post) => {
+    deletePost({ boardName: 'picture', postId: post.id })
+      .then(() => {
+        dispatch(getPostsAsync({ sortType: 'newest', tag: [], boardName: 'picture', limit: 10 }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return (
+    <PictureList
+      posts={posts}
+      user={user}
+      likes={likes}
+      loading={loading}
+      onUpdate={onUpdate}
+      onDelete={onDelete}
+    ></PictureList>
+  );
 };
 
 export default React.memo(PictureListContainer);
