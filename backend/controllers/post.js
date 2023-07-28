@@ -34,12 +34,12 @@ exports.readPosts = (req, res, next) => {
   } = req.query;
   const { boardName } = req.params;
 
-  // console.log('------------------------------------------------------');
-  // console.log(
-  //   `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
-  // );
-  // console.log(boardName);
-  // console.log('------------------------------------------------------');
+  console.log('------------------------------------------------------');
+  console.log(
+    `searchCategory : ${searchCategory}, searchKeyword : ${searchKeyword}, sortType : ${sortType}, currPageNum : ${currPageNum}, tag : ${tag}, limit : ${limit}`,
+  );
+  console.log(boardName);
+  console.log('------------------------------------------------------');
 
   // 클라이언트에서 받은 query, params SQL 조회용으로 재가공
   const sortOptions = {
@@ -78,9 +78,9 @@ exports.readPosts = (req, res, next) => {
       //   model: Like,
       //   attributes: ['UserId', 'PostId'],
       // },
-      // {
-      //   model: Hashtag,
-      // },
+      {
+        model: Hashtag,
+      },
     ],
     offset: offset,
     order: [[column, order]],
@@ -118,7 +118,9 @@ exports.readPosts = (req, res, next) => {
       attributes: ['imgUrl'],
     });
   }
-
+  console.log('------------------------------------------------------');
+  console.log(util.inspect(querySQL, { depth: null }));
+  console.log('------------------------------------------------------');
   // 조건에 따라 querySQL 추가 옵션 지정
   // 태그가 존재
   if (tag) {
@@ -126,6 +128,9 @@ exports.readPosts = (req, res, next) => {
       title: tag,
     };
   }
+  console.log('------------------------------------------------------');
+  console.log(util.inspect(querySQL, { depth: null }));
+  console.log('------------------------------------------------------');
   // TODO : html 태그가 같이 검색되는 문제. mysql로 쿼리문을 통채로 보내서 해결하던가 검색용 db 따로 만들어야함
   // 검색 Keyword가 존재
 
