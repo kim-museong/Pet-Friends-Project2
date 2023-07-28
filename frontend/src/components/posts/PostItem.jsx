@@ -70,44 +70,35 @@ const StyledSpan = styled.span`
   font-size: 25px;
 `;
 
-const PostItem = ({ post, boardName, loading }) => {
-  const theme = useSelector((state) => state.theme.theme);
-
-  if (!post) {
-    return null;
-  }
-
-  const date = new Date(post.createdAt);
-  const showDate = `${date.getFullYear()}-${
-    date.getMonth() + 1
-  }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+const PostItem = ({ post, boardName }) => { 
+    const date = new Date(post.createdAt); 
+    const showDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+    const theme = useSelector((state) => state.theme.theme);
   return (
     <>
       <Wrapper>
         <Link to={`/${boardName}/${post.id}`}>
-          {post && (
-            <FirstBox theme={String(theme)}>
-              {boardName === 'community' ? (
-                <StyledSpan>{`타이틀 : ${post.CommunityDetail.title}`}</StyledSpan>
-              ) : boardName === 'information' ? (
-                <StyledSpan>{`타이틀 : ${post.InfoDetail.title}`}</StyledSpan>
-              ) : boardName === 'notice' ? (
-                <StyledSpan>{`타이틀 : ${post.NoticeDetail.title}`}</StyledSpan>
-              ) : (
-                '존재하지 않는 게시판'
-              )}
-            </FirstBox>
+          {post && (<FirstBox theme={String(theme)}> 
+    {boardName === 'community' ? (
+        <StyledSpan>{`Title : ${post.CommunityDetail.title}`}</StyledSpan>
+        ) : boardName === 'information' ? (
+        <StyledSpan>{`Title : ${post.InfoDetail.title}`}</StyledSpan>
+        ) : boardName === 'notice' ? (
+        <StyledSpan>{`Title : ${post.NoticeDetail.title}`}</StyledSpan>
+        ) : (
+        '존재하지 않는 게시판'
+        )}
+</FirstBox>
           )}
         </Link>
         <SecondBox>
-          <ThirdBox>
-            <div>{post.User.nickname}</div>
-            <div>{showDate}</div>
-            <AiOutlineEye style={{ color: 'rgb(255, 140, 0)' }} /> {post.view}
-            <AiFillHeart style={{ color: 'rgb(255, 140, 0)' }} />
-            {post && post.likeCount}
-          </ThirdBox>
-        </SecondBox>
+<ThirdBox>
+<div>{post.User.nickname}</div>
+<div>{showDate}</div> 
+<AiOutlineEye style={{ color: 'rgb(255, 140, 0)' }}/> {post.view} 
+<AiFillHeart style={{ color: 'rgb(255, 140, 0)' }}/>{post && post.likeCount}
+</ThirdBox>
+</SecondBox>
       </Wrapper>
     </>
   );

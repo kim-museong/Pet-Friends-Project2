@@ -14,12 +14,13 @@ const PaginationBlock = styled.div`
   display: flex;
   justify-content: center;
   padding: 10px;
-  margin: 50px 0;
+  margin-top: 10px;
 `;
 
 const StyledButton = styled(Button)`
   width: 50px;
-  border: ${({ theme }) => (theme === 'true' ? '1px solid rgb(30,30,30)' : `1px solid ${palette.border}`)};
+  background: inherit;
+  color: ${({ theme }) => (theme === 'true' ? 'white' : 'black')};
   border-radius: 4px;
 
   svg {
@@ -32,7 +33,13 @@ const StyledButton = styled(Button)`
     margin-left: 3px;
   }
 
+  &:hover {
+    background: inherit;
+    color: ${palette.mainColor};
+  }
+
   &:disabled {
+    background: inherit;
     opacity: 0.5; // TODO : 테스트용. 동작 확인되면 0으로 바꿔서 아예 안보이게.
     cursor: default;
   }
@@ -43,60 +50,106 @@ const StyledButton = styled(Button)`
 const activeButtonStyles = css`
   ${StyledButton};
   opacity: 1;
+  color: ${palette.mainColor};
 `;
 
-const PageButton = ({ handleClick, buttonText, disabled, theme, key, type }) => {
+const PageButton = ({ handleClick, buttonText, disabled, type }) => {
   return (
-    <StyledButton theme={String(theme)} disabled={disabled} onClick={() => handleClick(type, key)} key={key}>
+    <StyledButton disabled={disabled} onClick={() => handleClick(buttonText, type)}>
       {buttonText}
     </StyledButton>
   );
 };
 
-const Pagination = ({ firstPageNum, lastPageNum, handleClick, currPageNum, totalPage, theme, selcetPage }) => {
+const Pagination = ({ firstPageNum, lastPageNum, handleClick, currPageNum, totalPage }) => {
   return (
-    <PaginationBlock theme={String(theme)}>
+    <PaginationBlock>
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === 1}
         handleClick={handleClick}
         buttonText={<MdKeyboardDoubleArrowLeft />}
-        type="first"
+        type={'<<'}
       ></PageButton>
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === 1}
         handleClick={handleClick}
         buttonText={<MdKeyboardArrowLeft />}
-        type="prev"
+        type={'<'}
       ></PageButton>
       {Array(lastPageNum - firstPageNum + 1)
         .fill()
         .map((_, index) => (
-          <PageButton
-            theme={String(theme)}
-            active={selcetPage === index}
-            key={index}
-            handleClick={handleClick}
-            buttonText={firstPageNum + index}
-          ></PageButton>
+          <PageButton key={index} handleClick={handleClick} buttonText={firstPageNum + index}></PageButton>
         ))}
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === totalPage}
         handleClick={handleClick}
         buttonText={<MdKeyboardArrowRight />}
-        type="next"
+        type={'>'}
       ></PageButton>
       <PageButton
-        theme={String(theme)}
         disabled={currPageNum === totalPage}
         handleClick={handleClick}
         buttonText={<MdKeyboardDoubleArrowRight />}
-        type="last"
+        type={'>>'}
       ></PageButton>
     </PaginationBlock>
   );
 };
 
 export default Pagination;
+
+// const PageButton = ({ handleClick, buttonText, disabled, theme, key, type }) => {
+//   return (
+//     <StyledButton theme={String(theme)} disabled={disabled} onClick={() => handleClick(type, key)}>
+//       {buttonText}
+//     </StyledButton>
+//   );
+// };
+
+// const Pagination = ({ firstPageNum, lastPageNum, handleClick, currPageNum, totalPage, theme }) => {
+//   return (
+//     <PaginationBlock theme={String(theme)}>
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === 1}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardDoubleArrowLeft />}
+//         type="first"
+//       ></PageButton>
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === 1}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardArrowLeft />}
+//         type="prev"
+//       ></PageButton>
+//       {Array(lastPageNum - firstPageNum + 1)
+//         .fill()
+//         .map((_, index) => (
+//           <PageButton
+//             key={firstPageNum + index}
+//             handleClick={handleClick}
+//             buttonText={firstPageNum + index}
+//             theme={String(theme)}
+//           ></PageButton>
+//         ))}
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === totalPage}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardArrowRight />}
+//         type="next"
+//       ></PageButton>
+//       <PageButton
+//         theme={String(theme)}
+//         disabled={currPageNum === totalPage}
+//         handleClick={handleClick}
+//         buttonText={<MdKeyboardDoubleArrowRight />}
+//         type="last"
+//       ></PageButton>
+//     </PaginationBlock>
+//   );
+// };
+
+// export default Pagination;

@@ -78,9 +78,9 @@ exports.readPosts = (req, res, next) => {
       //   model: Like,
       //   attributes: ['UserId', 'PostId'],
       // },
-      {
-        model: Hashtag,
-      },
+      // {
+      //   model: Hashtag,
+      // },
     ],
     offset: offset,
     order: [[column, order]],
@@ -148,6 +148,9 @@ exports.readPosts = (req, res, next) => {
       nickname: nickname,
     };
   }
+
+  // 중복 제거
+  querySQL.distinct = true;
 
   // console.log('------------------------------------------------------');
   // console.log(util.inspect(querySQL, { depth: null }));

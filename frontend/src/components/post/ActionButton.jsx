@@ -7,7 +7,7 @@ import { storeOriginPost } from '../../modules/write';
 import { useDispatch } from 'react-redux';
 
 const ActionButtonBlock = styled.div`
-  border: 1px solid green;
+ 
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   button + button {
