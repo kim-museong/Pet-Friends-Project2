@@ -65,7 +65,8 @@ const PictureListContainer = () => {
       // 150은 ItemWidth, 30은 ItemMargin
       // 16은 PictureListBlock Padding
       if (window.innerWidth > 1024) {
-        column.current = Math.floor(1024 / 180);
+        column.
+            current = Math.floor(1024 / 180);
       } else if (window.innerWidth < 768) {
         column.current = Math.floor((window.innerWidth - 16) / 180);
       } else {

@@ -29,7 +29,7 @@ const StepBox = styled.div`
 
 const StepBar = styled.div`
   width: 550px;
-  margin: 15px auto 0;
+  margin: 15px auto 30px;
   border-bottom: 1px solid rgb(150, 150, 150);
 `;
 
@@ -37,6 +37,16 @@ const TitleBox = styled.div`
   margin-top: 40px;
   text-align: center;
   font-size: 30px;
+
+  a {
+    display: inline-block;
+    width: 200px;
+    height: 100px;
+    background-image: url('../../images/petFriendsLogo.png');
+    background-repeat: no-repeat;
+    background-position: 50% 57%;
+    background-size: 150%;
+  }
 `;
 
 const RegisterStep = () => {
@@ -53,7 +63,7 @@ const RegisterStep = () => {
   return (
     <>
       <TitleBox>
-        <Link to="/">Logo</Link>
+        <Link to="/"></Link>
       </TitleBox>
       <StepBox>
         <span className={step >= 1 ? 'userId' : ''} onClick={() => prevChangeStep(1)}>

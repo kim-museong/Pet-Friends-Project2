@@ -79,7 +79,8 @@ const PostListContainer = styled.div`
   }
 `;
 
-function PostList({ userId }) {
+
+function PostList() {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 5;
@@ -90,10 +91,15 @@ function PostList({ userId }) {
 
     const fetchPosts = async () => {
         try {
-            // 사용자가 작성한 글 목록을 가져오는 API 요청
-            const response = await axios.get(`/api/posts?userId=${userId}`);
-            const postsData = response.data;
-            setPosts(postsData);
+            const response = await axios.get('/api/users/check-auth'); // 로그인 상태를 확인하는 API 엔드포인트
+            const isAuthenticated = response.data.isAuthenticated;
+            if (isAuthenticated) {
+                const userId = response.data.user.id; // 로그인된 유저의 ID를 가져옴
+                // 로그인된 유저가 작성한 글 목록을 가져오는 API 요청
+                const postsResponse = await axios.get(`/api/posts?userId=${userId}`);
+                const postsData = postsResponse.data;
+                setPosts(postsData);
+            }
         } catch (error) {
             console.log(error);
         }

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const { User, Pet } = require('../models');
+const { User, Pet, Attendance } = require('../models');
 const axios = require('axios');
 const crypto = require('crypto');
 
@@ -69,6 +69,7 @@ exports.login = (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
+
       return res.status(200).send('로그인 성공'); // 로그인 성공 시 응답을 반환합니다.
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
@@ -85,10 +86,15 @@ exports.check = async (req, res, next) => {
   try {
     const foundUser = await User.findOne({
       where: { id: user.id },
-      attributes: ['id', 'userId', 'nickname', 'email', 'rank'], // 가져오고 싶은 컬럼 이름을 배열로 지정합니다.
+      attributes: ['id', 'userId', 'nickname', 'email', 'rank', 'isAttendance'],
     });
 
     if (foundUser) {
+      const attned = await Attendance.findAll({
+        where: { UserId: user.id },
+      });
+
+      foundUser.dataValues.attend = attned;
       res.status(200).json(foundUser);
     } else {
       res.status(404).json({ error: 'User not found' });

@@ -1,187 +1,320 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, useTheme, Select, MenuItem } from '@mui/material';
+import {
+    Box,
+    Typography,
+    useTheme,
+    Select,
+    MenuItem,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import Header from '../components/Header';
 import axios from 'axios';
 import InputBase from '@mui/material/InputBase';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import PostDetailsDialog from '../components/PostDetailsDialog';
 import { tokens } from '../theme';
+import { deletePost } from '../../lib/api/post';
 
 const AdminPost = () => {
-  const theme = useTheme();
-  const { palette } = theme;
-  const { primary, common } = palette;
-  const colors = tokens(theme.palette.mode);
+    const theme = useTheme();
+    const { palette } = theme;
+    const { primary, common } = palette;
+    const colors = tokens(theme.palette.mode);
 
-  const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [searchText, setSearchText] = useState('');
-  const [selectedField, setSelectedField] = useState('all');
+    const [posts, setPosts] = useState([]);
+    const [selectedPost, setSelectedPost] = useState(null);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [selectedField, setSelectedField] = useState('all');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+    useEffect(() => {
+        fetchPosts();
+    }, []);
 
-  const fetchPosts = () => {
-    axios
-      .get('/board/community/posts')
-      .then((response) => {
-        setPosts(response.data.posts);
-      })
-      .catch((error) => {
-        console.error('게시글 정보를 가져오지 못했습니다:', error);
-      });
-  };
+    const fetchPosts = async () => {
+        try {
+            const response = await axios.get('/board/community/posts');
+            const fetchedPosts = response.data.posts;
 
-  const handleViewPost = (postId) => {
-    const selected = posts.find((post) => post.id === postId);
-    setSelectedPost(selected);
-    setDialogOpen(true);
-  };
+            // Fetch user details for each post
+            const fetchUserPromises = fetchedPosts.map((post) => {
+                if (post.UserId !== null) {
+                    return axios.get(`/users/${post.UserId}`);
+                }
+                return null;
+            });
 
-  const handleCloseDialog = () => {
-    setSelectedPost(null);
-    setDialogOpen(false);
-  };
+            const userResponses = await Promise.all(fetchUserPromises);
 
-  const handleDeletePost = () => {
-    if (!selectedPost) return;
+            const postsWithUser = fetchedPosts.map((post, index) => {
+                const userResponse = userResponses[index];
+                if (userResponse) {
+                    return {
+                        ...post,
+                        title: post.CommunityDetail.title,
+                        nickname: userResponse.data.nickname,
+                    };
+                }
+                return post;
+            });
 
-    const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
+            setPosts(postsWithUser);
+        } catch (error) {
+            console.error('게시글 정보를 가져오지 못했습니다:', error);
+        }
+    };
 
-    if (confirmDelete) {
-      axios
-        .delete(`/api/posts/${selectedPost.id}`)
-        .then(() => {
-          // 삭제된 게시물을 게시물 목록에서 제거
-          setPosts((prevPosts) => prevPosts.filter((post) => post.id !== selectedPost.id));
+    const handleViewPost = async (postId) => {
+        const selected = posts.find((post) => post.id === postId);
+        setSelectedPost(selected);
 
-          // 다이얼로그 닫기
-          handleCloseDialog();
-        })
-        .catch((error) => {
-          console.error('게시물 삭제에 실패했습니다:', error);
-        });
-    }
-  };
+        try {
+            const response = await axios.get(`/board/community/posts/${postId}`);
+            const content = response.data.content;
+            setSelectedPost((prevPost) => ({ ...prevPost, content }));
+        } catch (error) {
+            console.error('Failed to fetch post content:', error);
+            setSelectedPost((prevPost) => ({
+                ...prevPost,
+                content: '포스트 내용을 불러올 수 없습니다.',
+            }));
+        }
 
-  const handleSearch = () => {
-    let filteredPosts = posts;
+        setDialogOpen(true);
+    };
 
-    if (selectedField !== 'all') {
-      filteredPosts = posts.filter((post) => post[selectedField].toLowerCase().includes(searchText.toLowerCase()));
-    } else {
-      filteredPosts = posts.filter((post) =>
-        Object.values(post).join(' ').toLowerCase().includes(searchText.toLowerCase()),
-      );
-    }
+    const handleCloseDialog = () => {
+        setSelectedPost(null);
+        setDialogOpen(false);
+    };
 
-    return filteredPosts;
-  };
+    const deletePost = async (postId) => {
+        try {
+            await axios.delete(`/board/community/posts/${postId}`);
+        } catch (error) {
+            throw new Error('게시물 삭제에 실패했습니다:', error);
+        }
+    };
 
-  const handleFieldChange = (event) => {
-    setSelectedField(event.target.value);
-  };
+    const handleDeletePost = async (postId) => {
+        if (!selectedPost) return;
 
-  const filteredPosts = handleSearch();
+        const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
 
-  const columns = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'nickname', headerName: '닉네임', flex: 1 },
-    { field: 'title', headerName: '제목', flex: 1 },
-    { field: 'view', headerName: '조회수', flex: 1 },
-    { field: 'createdAt', headerName: '작성일자', flex: 1 },
-    {
-      field: 'actions',
-      headerName: '',
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => (
-        <button
-          onClick={() => handleViewPost(params.row.id)}
-          style={{
-            marginLeft: '8px',
-            padding: '6px 12px',
-            background: primary.main,
-            color: common.white,
-            borderRadius: '4px',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-        >
-          <Typography variant="body2" style={{ color: common.white }}>
-            글 정보 보기
-          </Typography>
-        </button>
-      ),
-    },
-  ];
+        if (confirmDelete) {
+            try {
+                await deletePost(postId);
 
-  return (
-    <Box m="20px">
-      <Header title="게시글 정보" />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          '& .MuiDataGrid-root': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-cell': {
-            borderBottom: 'none',
-          },
-          '& .name-column--cell': {
-            color: colors.greenAccent[300],
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: 'none',
-          },
-          '& .MuiDataGrid-virtualScroller': {
-            backgroundColor: colors.primary[400],
-          },
-          '& .MuiDataGrid-footerContainer': {
-            borderTop: 'none',
-            backgroundColor: colors.blueAccent[700],
-          },
-          '& .MuiCheckbox-root': {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-          '& .MuiDataGrid-toolbarContainer .MuiButton-text': {
-            color: `${colors.grey[100]} !important`,
-          },
-        }}
-      >
-        <Box mb={2} display="flex">
-          <Select value={selectedField} onChange={handleFieldChange} sx={{ ml: 2 }}>
-            <MenuItem value="all">전체</MenuItem>
-            <MenuItem value="nickname">닉네임</MenuItem>
-            <MenuItem value="title">제목</MenuItem>
-            <MenuItem value="createdAt">작성일자</MenuItem>
-          </Select>
-          <InputBase
-            sx={{ ml: 2, flex: 1 }}
-            placeholder="검색"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          {/*<IconButton type="button" sx={{ p: 1 }}>*/}
-          {/*    <SearchIcon />*/}
-          {/*</IconButton>*/}
+                // Remove the deleted post from the posts state
+                setPosts((prevPosts) => prevPosts.filter((post) => post.id !== selectedPost.id));
+
+                // Close the dialog
+                handleCloseDialog();
+            } catch (error) {
+                console.error('게시물 삭제에 실패했습니다:', error);
+            }
+        }
+    };
+
+
+    const handleSearch = () => {
+        let filteredPosts = posts;
+
+        if (selectedField !== 'all') {
+            filteredPosts = posts.filter((post) =>
+                post[selectedField].toLowerCase().includes(searchText.toLowerCase())
+            );
+        } else {
+            filteredPosts = posts.filter((post) =>
+                Object.values(post).join(' ').toLowerCase().includes(searchText.toLowerCase())
+            );
+        }
+
+        return filteredPosts;
+    };
+
+    const handleFieldChange = (event) => {
+        setSelectedField(event.target.value);
+    };
+
+    const filteredPosts = handleSearch();
+
+    const columns = [
+        { field: 'id', headerName: 'ID' },
+        { field: 'nickname', headerName: '닉네임', flex: 1 },
+        { field: 'title', headerName: '제목', flex: 1 },
+        { field: 'view', headerName: '조회수', flex: 1 },
+        { field: 'createdAt', headerName: '작성일자', flex: 1 },
+        {
+            field: 'actions',
+            headerName: '',
+            flex: 1,
+            sortable: false,
+            renderCell: (params) => (
+                <button
+                    onClick={() => handleViewPost(params.row.id)}
+                    style={{
+                        marginLeft: '8px',
+                        padding: '6px 12px',
+                        background: primary.main,
+                        color: common.white,
+                        borderRadius: '4px',
+                        border: 'none',
+                        cursor: 'pointer',
+                    }}
+                >
+                    <Typography variant="body2" style={{ color: common.white }}>
+                        글 정보 보기
+                    </Typography>
+                </button>
+            ),
+        },
+    ];
+
+    const handleTitleChange = (event) => {
+        setTitle(event.target.value);
+    };
+
+    const handleContentChange = (value) => {
+        setContent(value);
+    };
+
+    const handleSave = () => {
+        console.log('Title:', title);
+        console.log('Content:', content);
+
+        if (window.confirm('공지사항을 등록하시겠습니까?')) {
+            // 데이터 저장 요청을 백엔드 서버로 보냄
+            fetch('/api/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: title,
+                    content: content,
+                    boardId: 1,
+                    UserId: 3,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Post saved successfully!', data);
+                    alert('공지사항이 등록되었습니다.');
+                    // 등록 후 제목과 내용 초기화
+                    setTitle('');
+                    setContent('');
+                })
+                .catch((error) => {
+                    console.error('Error saving post:', error);
+                    alert('공지사항 등록에 실패했습니다.');
+                });
+        }
+    };
+
+    return (
+        <Box m="20px">
+            <Header title="게시글 정보" />
+            <Box
+                m="40px 0 0 0"
+                height="75vh"
+                sx={{
+                    '& .MuiDataGrid-root': {
+                        border: 'none',
+                    },
+                    '& .MuiDataGrid-cell': {
+                        borderBottom: 'none',
+                    },
+                    '& .name-column--cell': {
+                        color: colors.greenAccent[300],
+                    },
+                    '& .MuiDataGrid-columnHeaders': {
+                        backgroundColor: colors.blueAccent[700],
+                        borderBottom: 'none',
+                    },
+                    '& .MuiDataGrid-virtualScroller': {
+                        backgroundColor: colors.primary[400],
+                    },
+                    '& .MuiDataGrid-footerContainer': {
+                        borderTop: 'none',
+                        backgroundColor: colors.blueAccent[700],
+                    },
+                    '& .MuiCheckbox-root': {
+                        color: `${colors.greenAccent[200]} !important`,
+                    },
+                    '& .MuiDataGrid-toolbarContainer .MuiButton-text': {
+                        color: `${colors.grey[100]} !important`,
+                    },
+                }}
+            >
+                <Box mb={2} display="flex">
+                    <Select value={selectedField} onChange={handleFieldChange} sx={{ ml: 2 }}>
+                        <MenuItem value="all">전체</MenuItem>
+                        <MenuItem value="nickname">닉네임</MenuItem>
+                        <MenuItem value="title">제목</MenuItem>
+                        <MenuItem value="createdAt">작성일자</MenuItem>
+                    </Select>
+                    <InputBase
+                        sx={{ ml: 2, flex: 1 }}
+                        placeholder="검색"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                    />
+                    {/*<IconButton type="button" sx={{ p: 1 }}>*/}
+                    {/*    <SearchIcon />*/}
+                    {/*</IconButton>*/}
+                </Box>
+                <DataGrid rows={filteredPosts} columns={columns} />
+            </Box>
+            {selectedPost && (
+                <PostDetailsDialog
+                    boardName="community"
+                    post={selectedPost}
+                    open={dialogOpen}
+                    onClose={handleCloseDialog}
+                    onDelete={handleDeletePost}
+                />
+            )}
+            <div>
+                <input
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                    value={title}
+                    onChange={handleTitleChange}
+                    style={{
+                        marginBottom: '1rem',
+                        padding: '0.5rem',
+                        fontSize: '1rem',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                    }}
+                />
+                <ReactQuill value={content} onChange={handleContentChange} />
+                <button
+                    onClick={handleSave}
+                    style={{
+                        marginLeft: '8px',
+                        padding: '6px 12px',
+                        background: primary.main,
+                        color: common.white,
+                        borderRadius: '4px',
+                        border: 'none',
+                        cursor: 'pointer',
+                    }}
+                >
+                    작성 완료
+                </button>
+            </div>
         </Box>
-        <DataGrid rows={filteredPosts} columns={columns} />
-      </Box>
-      {selectedPost && (
-        <PostDetailsDialog
-          post={selectedPost}
-          open={dialogOpen}
-          onClose={handleCloseDialog}
-          onDelete={handleDeletePost}
-        />
-      )}
-    </Box>
-  );
+    );
 };
 
 export default AdminPost;

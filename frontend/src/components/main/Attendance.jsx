@@ -1,7 +1,6 @@
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-// import '../../css.css';
 import 'react-calendar/dist/Calendar.css';
 
 const AttendanceBackRound = styled.div`
@@ -12,6 +11,7 @@ const AttendanceBackRound = styled.div`
   left: 0;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(35,35,35)' : `${palette.mainColor}`)};
   z-index: -1;
+  border-radius: 0;
 `;
 
 const AttendanceBox = styled.div`
@@ -20,8 +20,9 @@ const AttendanceBox = styled.div`
   margin: 20px auto;
 
   .react-calendar {
-    width: 30%;
-    margin-right: 20px;
+    width: 70%;
+    height: auto;
+    margin: 0 auto;
     background: ${({ theme }) => (theme === 'true' ? 'rgb(60,60,60)' : 'white')};
   }
 
@@ -34,10 +35,15 @@ const AttendanceBox = styled.div`
     button:not(:nth-child(3)) {
       width: 50px;
       height: 50px;
-      border-radius: 50%;
       font-size: 30px;
       color: ${palette.border};
       padding-bottom: 5px;
+
+      @media (max-width: 600px) {
+        width: 30px;
+        height: 30px;
+        font-size: 23px;
+      }
     }
 
     button:nth-child(3) {
@@ -72,10 +78,24 @@ const AttendanceBox = styled.div`
       img {
         margin: 0 auto;
       }
+
+      img {
+        width: 40px;
+
+        @media (max-width: 600px) {
+          width: 25px;
+        }
+      }
     }
 
     .react-calendar__tile--active {
       background: ${({ theme }) => (theme === 'true' ? 'black' : `${palette.mainColor}`)};
+    }
+
+    @media (max-width: 600px) {
+      button {
+        height: 50px;
+      }
     }
   }
 
@@ -90,28 +110,43 @@ const AttendanceBox = styled.div`
 
 const AttendancePoster = styled.div`
   background-image: url('../../../images/attend.png');
-  height: 250px;
+  height: 125px;
   background-repeat: no-repeat;
-  background-size: 300px;
-  background-position: 50% 10%;
+  background-size: 200px;
+  background-position: 50% 50%;
+  margin: 20px auto;
 `;
 
 const UserBox = styled.div`
-  width: 500px;
-  height: 500px;
-  border: 1px solid black;
+  text-align: center;
+  span {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  div {
+    margin-bottom: 5px;
+  }
 `;
 
-export const Attendance = ({ renderStamp, theme }) => {
+export const Attendance = ({ renderStamp, theme, user }) => {
   return (
     <>
-      <AttendanceBackRound theme={String(theme)} />
       <AttendanceBox theme={String(theme)}>
+        <AttendanceBackRound theme={String(theme)} />
         <AttendancePoster />
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Calendar tileContent={({ date }) => renderStamp(date)} />
-          <UserBox></UserBox>
-        </div>
+
+        <UserBox>
+          <div>
+            안녕하세요! <span>{user.nickname}</span> 님
+          </div>
+          <div>{user.isAttendance ? '오늘 출석체크를 했습니다.' : '출석체크를 해주세요.'}</div>
+          <div>
+            출석횟수: <span> {user?.attend.length}</span>번
+          </div>
+        </UserBox>
+
+        <Calendar tileContent={({ date }) => renderStamp(date)} />
       </AttendanceBox>
     </>
   );

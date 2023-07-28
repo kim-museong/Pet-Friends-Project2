@@ -3,7 +3,7 @@ import UserProfile from "../Mypage/UserProfile";
 import styled from "styled-components";
 
 
-const Mypage2 = styled.div`
+const Mypage = styled.div`
   margin: 10% auto;
   max-width: 800px;
   padding: 40px;
@@ -15,9 +15,9 @@ const Mypage2 = styled.div`
 
 function MyPage() {
   return (
-      <Mypage2>
+      <Mypage>
         <UserProfile/>
-      </Mypage2>
+      </Mypage>
   );
 }
 

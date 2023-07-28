@@ -63,6 +63,7 @@ const RegisterContainer = () => {
       errorEmail === null &&
       errorNickname === null
     ) {
+      console.log('회원가입중');
       dispatch(register({ username, password, email, nickname, phone }));
     }
 

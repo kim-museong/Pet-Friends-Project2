@@ -11,10 +11,10 @@ const InformationPage = () => {
     <>
       <SearchOptionMenuContainer></SearchOptionMenuContainer>
       <SortOptionMenuContainer></SortOptionMenuContainer>
-      <PaginationContainer />
       <ApiContainer />
       <PostButtonContainer></PostButtonContainer>
       <PostListContainer></PostListContainer>
+      <PaginationContainer />
     </>
   );
 };

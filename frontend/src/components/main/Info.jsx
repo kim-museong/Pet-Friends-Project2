@@ -31,22 +31,30 @@ const Title = styled.div`
     margin-top: 10px;
     color: ${({ theme }) => (theme === 'true' ? `white` : 'rgb(50, 50, 50)')};
 
+    svg {
+      margin-right: 5px;
+      color: ${palette.mainColor};
+      font-size: 12px;
+    }
+
     &:hover {
       text-decoration: underline;
     }
   }
 
   svg {
-    margin-right: 5px;
-    color: ${palette.mainColor};
+    margin-right: 10px;
+    font-size: 20px;
+    color: rgb(0, 100, 256);
   }
 
   .subTitle {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .title {
     font-weight: bold;
+    font-size: 20px;
   }
 `;
 
@@ -96,7 +104,7 @@ const InfoBox = styled.div`
     text-overflow: ellipsis;
   }
 
-  .info {
+  .infoBox {
     width: 60px;
     border: none;
     background: rgb(0, 100, 256);
@@ -202,7 +210,7 @@ const Info = () => {
                     {imageUrl && <div className="img" style={{ backgroundImage: `url(${imageUrl})` }}></div>}
                     <InfoContent imageUrl={String(imageUrl)}>
                       <div>
-                        <span className="info">정보글</span>
+                        <span className="infoBox">정보글</span>
                         <Link to={`/${post.Board.name}/${post.id}`} className="title">
                           {post.InfoDetail.title}
                         </Link>

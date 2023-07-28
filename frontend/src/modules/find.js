@@ -48,7 +48,7 @@ export const changeStep = createAction(CHANGE_STEP, (number) => number);
 const initialState = {
   findId: {
     nickname: '',
-    email: '',
+    phone: '',
     certificationNumber: '',
     error: {
       nicknameError: null,
