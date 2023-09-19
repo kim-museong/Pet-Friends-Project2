@@ -44,7 +44,8 @@
    00시 마다 서버에 유저테이블에 출석여부를 false로 초기화시키고 버튼 클릭시 ture로 변경 후 출석테이블에 출석날자를 저장하고 버튼이 비활성화되게 만들었습니다.
  - 출석페이지
    서버에 저장된 유저테이블과 연결된 출석테이블에서 createAt의 값을 가져와서 캘린더의 날짜와 동일한 날짜가 있으면 출석이미지를 표시하게 만들었습니다.
-<img scr="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/1533e841-8b2e-4acb-ba53-3a7cde59b5be.png"  width=300 height=200  />
+<img scr="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/f6465cca-9947-4d2f-904d-fdd9a090e2a2.png"  width=300 height=200  />
+
 
  - 랜덤사진
    TheCat과 TheDog의 api를 가져와서 버튼을 누를 때마다 랜덤 사진이 나오게 만들었습니다.
