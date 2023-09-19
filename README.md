@@ -19,10 +19,10 @@
 
 
 ### 👨‍👨‍👦‍👦팀원
-- 조장 배준범:
-- 김무성:
-- 권용수:
-- 장영호:
+- 조장 배준범: 커뮤니티(페이지네이션, 검색등), 사진, api
+- 김무성: 메인, 회원가입&로그인, CSS
+- 권용수: 마이페이지, 관리자페이지
+- 장영호: CSS보조, 데이터수집
 
 
 ---------
@@ -31,6 +31,9 @@
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 
+---------
+
+### 사이트
 
 
 
