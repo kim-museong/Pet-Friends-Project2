@@ -53,9 +53,8 @@
 
  - 메모장
    단순한 crud연습과 유저가 간단한 내용을 적고 저장하고 검색하여 찾을 수 있게 만들었습니다.
-<img scr="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/a9307bd7-5872-4265-a4d6-c02ca9b78624.png"  width=300 height=200  />
-- 
-<img src=""  width=300 height=200  />
+<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/a9307bd7-5872-4265-a4d6-c02ca9b78624.png"  width=300 height=200  />
+
 
 - 로그인페이지
 <img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/62f577f2-5a14-48ab-9054-335e926ffdf0.png" width=600 height=350 />
