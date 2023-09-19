@@ -15,7 +15,7 @@
 - 장영호:
 
 ### 사용기술
-<img alt="Html" src ="https://img.shields.io/badge/JavaScriipt-F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=#F7DF1E"/>
+<img src="https://img.shields.io/badge/javascript-#F7DF1E?style=for-the-badge&logo=javascript&logoColor=white">
 
 
 
