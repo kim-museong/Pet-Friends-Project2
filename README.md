@@ -37,7 +37,7 @@
 
 메인페이지
 <center>
-   <img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047.png" width=100 height=200/>
+   <img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047.png" width=500 height=500/>
 </center>
 
 
