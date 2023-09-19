@@ -36,9 +36,8 @@
 ### 내가 구현한 부분
 
 메인페이지
-<div>
    ![스크린샷(3)](https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047)
-</div>
+
 
 
 
