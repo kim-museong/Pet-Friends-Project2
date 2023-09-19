@@ -35,8 +35,19 @@
 
 ### 내가 구현한 부분
 
-<div>메인페이지</div>
+- 메인페이지
 <img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047.png" width=600 height=350/>
+
+- 서브버튼
+
+- 로그인페이지
+<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/62f577f2-5a14-48ab-9054-335e926ffdf0.png" width=600 height=350 />
+  
+- 회원가입
+<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/d06a116a-81c1-4a8c-aba4-6e6f874c3862.png" width=600 height=350 />
+<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/715ddde8-e52f-4dee-81f9-612f2dca4c8a.png" width=600 height=350 /> 
+
+- 
 
 
 
