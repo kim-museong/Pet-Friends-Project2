@@ -33,7 +33,10 @@
 
 ---------
 
-### 사이트
+### 내가 구현한 부분
+
+메인페이지
+<img scr="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047" width=100px height=100px />
 
 
 
