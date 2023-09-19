@@ -5,7 +5,7 @@
 - 반려동물을 좋아하는 사람들을 위한 커뮤니티사이트
 
 
-### 개발 기간
+### 🕑개발 기간
 - 2023.07.?? ~ 2023.07.28
 
 ### 팀원
@@ -14,7 +14,7 @@
 - 권용수:
 - 장영호:
 
-### 사용기술
+### ⚒사용기술
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 
