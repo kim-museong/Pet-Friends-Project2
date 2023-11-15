@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import Registerfirst from '../../../components/auth/register/Registerfirst';
+import PhoneCertification from '../../../components/auth/register/phoneCertification';
 import { changeField, changeError, checkPhone, initNumber } from '../../../modules/auth';
 import { useState, useCallback } from 'react';
 import { nextStep } from '../../../modules/auth';
@@ -123,7 +123,7 @@ const RegisterfirstContainer = () => {
 
   return (
     <>
-      <Registerfirst
+      <PhoneCertification
         theme={theme}
         form={form}
         error={error}

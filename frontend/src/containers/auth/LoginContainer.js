@@ -50,11 +50,11 @@ const LoginContainer = () => {
     const { username, password } = form;
 
     if (!username) {
-      setError('・아이디: 아이디를 입력해주세요.');
+      setError('아이디를 입력해주세요.');
       return;
     }
     if (!password) {
-      setError('・비밀번호: 비밀번호를 입력해주세요.');
+      setError('비밀번호를 입력해주세요.');
       return;
     }
 

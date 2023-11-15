@@ -1,157 +1,31 @@
-import styled from 'styled-components';
-import palette from '../../../lib/styles/palette';
 import { MdArrowForwardIos } from 'react-icons/md';
-
-const MainBox = styled.div`
-  text-align: center;
-  margin-top: 50px;
-
-  button {
-    width: 500px;
-    margin-top: 20px;
-    padding: 15px 20px;
-    background: ${palette.mainColor};
-    border: none;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-
-    &:hover {
-      background: ${palette.border};
-    }
-
-    &:disabled {
-      background: ${palette.border};
-      cursor: default;
-    }
-  }
-
-  .infos {
-    width: 450px;
-    margin: 0 auto 50px;
-    padding: 5px;
-    text-align: left;
-    font-size: 14px;
-    color: rgb(120, 120, 120);
-  }
-`;
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-
-  svg {
-    margin-top: 6px;
-    margin-left: 5px;
-  }
-  .sub {
-    color: ${palette.mainColor};
-    font-size: 16px;
-    margin: 0 8px 2px;
-  }
-`;
-
-const AgreeBox = styled.div`
-  display: flex;
-  width: 525px;
-  margin: 0 auto 10px;
-
-  input[type='checkbox'] {
-    margin-top: 1px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : '')};
-    border: 1px solid ${palette.mainColor};
-    border-radius: 50%;
-    cursor: pointer;
-    height: 30px;
-    outline: 0;
-    width: 30px;
-  }
-  input[type='checkbox']::after {
-    border: solid ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : 'white')};
-    border-width: 0 3px 3px 0;
-    content: '';
-    display: none;
-    height: 40%;
-    left: 35%;
-    position: relative;
-    top: 19%;
-    transform: rotate(45deg);
-    width: 15%;
-  }
-  input[type='checkbox']:checked {
-    background: ${palette.mainColor};
-    border: ${palette.mainColor};
-  }
-  input[type='checkbox']:checked::after {
-    display: block;
-  }
-`;
-
-const Detail = styled.div`
-  width: 450px;
-  height: 120px;
-  border: 1px solid ${palette.border};
-  margin: 0 auto 30px;
-  padding: 5px 15px;
-  overflow: scroll;
-  text-align: left;
-  font-size: 14px;
-
-  p {
-    color: rgb(120, 120, 120);
-  }
-
-  div {
-    font-weight: bold;
-    margin: 5px 0;
-  }
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const ButtonBox = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 140px;
-  bottom: 0;
-  background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30)' : 'white')};
-`;
-
-const Space = styled.div`
-  height: 150px;
-  background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30)' : 'white')};
-`;
+import * as S from '../../../styles/register/agree.style';
 
 const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
   const { all, tos, privacy, location, benefit } = agree || '';
 
   return (
     <>
-      <MainBox>
-        <AgreeBox theme={String(theme)}>
+      <S.Wrapper>
+        <S.AgreeBox theme={String(theme)}>
           <input type="checkbox" name="all" onChange={allAgreeCheck} checked={all} />
-          <Title>
-            <div style={{ marginLeft: '12px', fontSize: '20px' }}>전체동의하기</div>
-          </Title>
-        </AgreeBox>
-        <div className="infos">위치정보이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다.</div>
-        <AgreeBox theme={String(theme)}>
+          <S.Title>
+            <S.AllCheckBox>전체동의하기</S.AllCheckBox>
+          </S.Title>
+        </S.AgreeBox>
+
+        <S.InfoBox>위치정보이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다.</S.InfoBox>
+
+        <S.AgreeBox theme={String(theme)}>
           <input type="checkbox" name="tos" onChange={onCheck} checked={tos} />
-          <Title>
-            <div className="sub">[필수]</div> <div>이용약관 동의</div>
+          <S.Title>
+            <S.RequiredBox>[필수]</S.RequiredBox> <div>이용약관 동의</div>
             <div>
               <MdArrowForwardIos />
             </div>
-          </Title>
-        </AgreeBox>
-        <Detail>
+          </S.Title>
+        </S.AgreeBox>
+        <S.Detail>
           <div>이용약관</div>
           <div>제1조 </div>
           <p>
@@ -185,17 +59,17 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             일부 또는 전부를 변경, 중단할 수 있습니다. 펫프렌즈는 서비스의 변경, 중단에 대해 회원에게 사전 공지를 할 수
             있습니다.
           </p>
-        </Detail>
-        <AgreeBox theme={String(theme)}>
+        </S.Detail>
+        <S.AgreeBox theme={String(theme)}>
           <input type="checkbox" name="privacy" onChange={onCheck} checked={privacy} />
-          <Title>
-            <div className="sub">[필수]</div> <div>개인정보 동의</div>
+          <S.Title>
+            <S.RequiredBox>[필수]</S.RequiredBox> <div>개인정보 동의</div>
             <div>
               <MdArrowForwardIos />
             </div>
-          </Title>
-        </AgreeBox>
-        <Detail>
+          </S.Title>
+        </S.AgreeBox>
+        <S.Detail>
           <div>개인정보 처리방침</div>
           <div> 1. 개인정보의 처리 목적</div>
           <p>
@@ -224,17 +98,17 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             펫프렌즈은 개인정보 보유기간이 경과하거나 개인정보의 처리 목적이 달성되면 지체 없이 개인정보를 파기합니다.
             파기 절차 및 방법은 정책에 따라 다를 수 있습니다.
           </p>
-        </Detail>
-        <AgreeBox theme={String(theme)}>
+        </S.Detail>
+        <S.AgreeBox theme={String(theme)}>
           <input type="checkbox" name="location" onChange={onCheck} checked={location} />
-          <Title>
-            <div className="sub">[선택]</div> <div>위치정보 동의</div>
+          <S.Title>
+            <S.RequiredBox>[선택]</S.RequiredBox> <div>위치정보 동의</div>
             <div>
               <MdArrowForwardIos />
             </div>
-          </Title>
-        </AgreeBox>
-        <Detail>
+          </S.Title>
+        </S.AgreeBox>
+        <S.Detail>
           <div>위치정보 수집에 대한 동의 </div>
           <p>
             펫프렌즈는 [서비스명] 제공을 위해 회원의 위치정보를 수집할 수 있습니다. 아래와 같은 내용에 동의함으로써
@@ -265,17 +139,17 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             회원은 언제든지 위치정보 수집에 대한 동의를 철회할 수 있습니다. 동의 철회는 서비스 설정에서 이용 가능하며,
             동의를 철회하는 경우 위치기반 서비스의 일부 기능 사용에 제약이 있을 수 있습니다.
           </p>
-        </Detail>
-        <AgreeBox theme={String(theme)}>
+        </S.Detail>
+        <S.AgreeBox theme={String(theme)}>
           <input type="checkbox" name="benefit" onChange={onCheck} checked={benefit} />
-          <Title>
-            <div className="sub">[선택]</div> <div>이벤트・혜택 정보 수신</div>
+          <S.Title>
+            <S.RequiredBox>[선택]</S.RequiredBox> <div>이벤트・혜택 정보 수신</div>
             <div>
               <MdArrowForwardIos />
             </div>
-          </Title>
-        </AgreeBox>
-        <Detail>
+          </S.Title>
+        </S.AgreeBox>
+        <S.Detail>
           <div>이벤트 및 혜택 정보 수신에 대한 동의</div>
           <p>
             펫프렌즈는 회원의 이벤트 및 혜택 정보를 제공하기 위해 아래와 같은 내용에 동의함으로써 이벤트 및 혜택 정보
@@ -298,14 +172,14 @@ const Agree = ({ onConfirm, onCheck, agree, allAgreeCheck, theme }) => {
             회원은 언제든지 이벤트 및 혜택 정보 수신에 대한 동의를 철회할 수 있습니다. 동의 철회는 서비스 설정에서 이용
             가능하며, 동의를 철회하는 경우 이벤트 및 혜택 정보 수신에 제약이 있을 수 있습니다.
           </p>
-        </Detail>
-        <Space theme={String(theme)} />
-        <ButtonBox theme={String(theme)}>
-          <button onClick={onConfirm} disabled={!tos || !privacy}>
+        </S.Detail>
+        <S.Space theme={String(theme)} />
+        <S.ButtonBox theme={String(theme)}>
+          <S.NextBtn onClick={onConfirm} disabled={!tos || !privacy}>
             다음
-          </button>
-        </ButtonBox>
-      </MainBox>
+          </S.NextBtn>
+        </S.ButtonBox>
+      </S.Wrapper>
     </>
   );
 };
