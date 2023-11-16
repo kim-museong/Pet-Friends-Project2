@@ -97,7 +97,7 @@ const LoginContainer = () => {
   useEffect(() => {
     if (authError) {
       console.log('오류 발생', authError);
-      setError('・로그인: 없는 아이디거나 비밀번호가 틀렸습니다.');
+      setError('없는 아이디거나 비밀번호가 틀렸습니다.');
       return;
     }
     if (auth) {

@@ -9,6 +9,13 @@ export const InputContainBox = styled.div`
   margin: 0 auto;
   border: 1px solid ${palette.border};
   overflow: hidden;
+
+  svg {
+    cursor: pointer;
+    font-size: 26px;
+    margin: 5px 15px;
+    color: ${palette.mainColor};
+  }
 `;
 
 export const InputBox = styled.input`
@@ -17,17 +24,17 @@ export const InputBox = styled.input`
   outline: none;
   background: inherit;
   font-size: 16px;
-  padding: 5px 15px 0;
   border-radius: 0;
   color: black;
+  padding: 5px 10px 0 0;
 `;
 
 export const ButtonBox = styled.button`
+  height: 50px;
   border: none;
   background-color: ${palette.mainColor};
   color: white;
   font-weight: bold;
-  height: 50px;
   padding: 10px 20px;
   cursor: pointer;
 

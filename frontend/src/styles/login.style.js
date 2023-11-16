@@ -1,31 +1,23 @@
 import styled from 'styled-components';
 import palette from '../lib/styles/palette';
-import { StyledInput } from '../lib/styles/find';
-import Button from '../components/common/Button';
 import { Link } from 'react-router-dom/';
+import { InputBox, InputContainBox, ButtonBox } from './share.style';
 
-export const AuthFormBlock = styled.div`
-  width: 450px;
-  text-align: center;
-  margin: 70px auto 0;
+export const LoginWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 100px auto 0;
 
-  .logo {
-  }
-
-  form {
-    margin-top: 2rem;
-  }
-
-  div + div {
-    margin-top: 20px;
+  @media all and (min-width: 1024px) {
+    width: 400px;
   }
 
   @media all and (max-width: 767px) {
     width: 100%;
+    padding: 0 20px;
   }
 `;
 
-export const LogoBtnBox = styled.div``;
 export const LogoBtn = styled(Link)`
   display: block;
   margin: 0 auto;
@@ -39,15 +31,18 @@ export const LogoBtn = styled(Link)`
   overflow: hidden;
 `;
 
-export const ButtonWidthMarginTop = styled(Button)`
+export const LoginInputBox = styled(InputContainBox)`
+  margin-bottom: 10px;
+`;
+export const LoginInput = styled(InputBox)``;
+
+export const LoginButton = styled(ButtonBox)`
   width: 100%;
-  height: 60px;
-  font-size: 25px;
+  font-size: 16px;
+  margin-bottom: 10px;
 `;
 
 export const SaveUserIdBox = styled.div`
-  margin: 15px 0 0 10px !important;
-
   display: flex;
   align-items: center;
   -webkit-tap-hightheme-color: rgba(0, 0, 0, 0);
@@ -60,9 +55,9 @@ export const SaveUserIdBox = styled.div`
     border: 1px solid ${palette.mainColor};
     border-radius: 50%;
     cursor: pointer;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     outline: 0;
-    width: 25px;
   }
   input[type='checkbox']::after {
     border: solid ${({ theme }) => (theme === 'true' ? 'rgb(60, 60, 60)' : 'white')};
@@ -86,30 +81,13 @@ export const SaveUserIdBox = styled.div`
 
   div {
     margin-left: 7px;
+    font-size: 12px;
   }
-`;
-
-export const InputStyle = styled(StyledInput)`
-  width: 100%;
-`;
-
-export const LoginBox = styled.div`
-  margin: 20px auto 0;
-  border-radius: 10px;
-  padding: 20px;
 `;
 
 export const ErrorBox = styled.div`
-  height: 30px;
+  text-align: center;
   font-size: 16px;
-  color: red;
-  margin: 35px auto 20px !important;
-
-  div {
-    text-align: left;
-  }
-
-  div + div {
-    margin-top: 2px;
-  }
+  color: rgb(255, 0, 0);
+  margin: 35px auto;
 `;

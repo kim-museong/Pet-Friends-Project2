@@ -89,6 +89,7 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 onChange={onChange}
                 placeholder="아이디"
                 onBlur={focusOut}
+                maxLength={12}
               />
             </StyledInput>
             <StyledInput theme={String(theme)} className={errorPwd && 'errorPwd'}>
