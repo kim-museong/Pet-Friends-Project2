@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
+import { ButtonBox } from '../share.style';
 
 export const Wrapper = styled.div`
   width: 400px;
@@ -34,18 +35,9 @@ export const InputStyle = styled.input`
 
 // -----------------
 
-export const ButtonStyle = styled.button`
-  border: none;
-  border-radius: 5px;
-  background-color: ${palette.mainColor};
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  margin-top: 40px;
-
-  &:hover {
-    background-color: ${palette.gray};
-  }
+export const CertificationButtonBox = styled(ButtonBox)`
+  width: 100%;
+  margin-top: 10px;
 `;
 
 export const StatusBox = styled.div`
