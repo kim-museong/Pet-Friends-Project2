@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import palette from '../lib/styles/palette';
 import { Link } from 'react-router-dom/';
 import { InputBox, InputContainBox, ButtonBox } from './share.style';
+import { Footer } from '../lib/styles/find';
 
 export const LoginWrapper = styled.div`
   display: flex;
@@ -9,6 +10,10 @@ export const LoginWrapper = styled.div`
   margin: 100px auto 0;
 
   @media all and (min-width: 1024px) {
+    width: 400px;
+  }
+
+  @media all and (min-width: 768px) and (max-width: 1023px) {
     width: 400px;
   }
 
@@ -90,4 +95,9 @@ export const ErrorBox = styled.div`
   font-size: 16px;
   color: rgb(255, 0, 0);
   margin: 35px auto;
+`;
+
+export const AnotherLocateBox = styled(Footer)`
+  margin-top: 10px;
+  font-size: 13px;
 `;

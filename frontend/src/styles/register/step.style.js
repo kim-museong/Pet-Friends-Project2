@@ -16,7 +16,7 @@ export const StepBox = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin: 40px auto 10px;
+  margin: 0px auto;
   text-align: center;
   color: rgb(150, 150, 150);
 
@@ -32,18 +32,18 @@ export const StepBox = styled.div`
   }
 
   @media all and (max-width: 767px) {
-    font-size: 13px;
+    font-size: 12px;
     margin: 0 auto;
   }
 `;
 
 export const StepLine = styled.div`
-  margin: 15px auto 30px;
-  border-bottom: 1px solid rgb(150, 150, 150);
+  margin: 10px auto 30px;
+  border-bottom: 1px solid rgb(200, 200, 200);
 `;
 
 export const LogoBox = styled.div`
-  margin-top: 40px;
+  margin-top: 27px;
   text-align: center;
   font-size: 30px;
 `;

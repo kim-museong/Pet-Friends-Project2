@@ -3,8 +3,9 @@ import palette from '../../lib/styles/palette';
 
 export const Wrapper = styled.div`
   text-align: center;
-  margin-top: 50px;
+  margin: 50px auto 0;
   padding: 0 40px;
+  width: 600px;
 
   @media all and (max-width: 767px) {
     width: 100%;
@@ -156,7 +157,7 @@ export const Space = styled.div`
 `;
 
 export const NextBtn = styled.button`
-  width: 100%;
+  width: 600px;
   margin: 20px auto 0;
   padding: 15px 20px;
   background: ${palette.mainColor};
@@ -176,7 +177,7 @@ export const NextBtn = styled.button`
   }
 
   @media all and (max-width: 767px) {
-    width: 70%;
+    width: 100%;
     padding: 8px 20px;
   }
 `;

@@ -1,5 +1,4 @@
 import { MdPerson, MdLock, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { Footer } from '../../lib/styles/find';
 import { Link } from 'react-router-dom';
 import * as S from '../../styles/login.style';
 
@@ -66,11 +65,11 @@ const Login = ({
           </form>
         </div>
 
-        <Footer theme={String(theme)}>
+        <S.AnotherLocateBox theme={String(theme)}>
           <Link to="/auth/credentials?type=findId">아이디찾기</Link>
           <Link to="/auth/credentials?type=findPwd">비밀번호 찾기</Link>
           <Link to="/auth/register">회원가입</Link>
-        </Footer>
+        </S.AnotherLocateBox>
       </S.LoginWrapper>
     </>
   );
