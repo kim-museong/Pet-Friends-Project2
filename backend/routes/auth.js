@@ -7,10 +7,12 @@ const { login, logout, saveReturnTo, check, register, same, sameNick, sendPhone 
 const router = express.Router();
 
 //   /auth/
+router.post('/phone', sendPhone);
 router.post('/register', isNotLoggedIn, register);
+
 router.post('/sameUserId', same);
 router.post('/sameNickname', sameNick);
-router.post('/sendPhone', sendPhone);
+
 router.post('/login', saveReturnTo, isNotLoggedIn, login);
 
 router.get('/check', check);
