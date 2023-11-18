@@ -1,61 +1,7 @@
-import styled from 'styled-components';
-import Button from '../../common/Button';
 import { MdPerson, MdLock, MdVisibility, MdVisibilityOff, MdEmail, MdPhoneAndroid } from 'react-icons/md';
 import { useState } from 'react';
-import { StyledInput } from '../../../lib/styles/find';
 import { ShowPwdBox } from '../../../lib/styles/auth';
-
-const AuthFormBlock = styled.div`
-  text-align: center;
-  margin: 50px auto;
-
-  a {
-    font-size: 50px;
-    margin-bottom: 50px;
-  }
-
-  form {
-    margin-top: 2rem;
-  }
-`;
-
-const ButtonWidthMarginTop = styled(Button)`
-  width: 406px;
-  height: 48px;
-  margin-top: 1rem;
-`;
-
-const RegisterBox = styled.div`
-  width: 600px;
-  margin: 20px auto;
-  padding: 10px;
-
-  p {
-    width: 70%;
-    margin: 0 auto;
-    text-align: left;
-  }
-
-  .message {
-    font-size: 14px;
-    color: rgb(150, 150, 150);
-  }
-`;
-
-const ErrorBox = styled.div`
-  width: 70%;
-  height: 30px;
-  font-size: 14px;
-  color: red;
-  margin: 5px auto;
-  div {
-    text-align: left;
-  }
-
-  div + div {
-    margin-top: 2px;
-  }
-`;
+import * as S from '../../../styles/register/register.style';
 
 const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs, focusOut }) => {
   const [showPwd, setShowPwd] = useState(false);
@@ -73,14 +19,14 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
 
   return (
     <>
-      <AuthFormBlock>
+      <S.RegisterWrapper>
         <form onSubmit={onSubmit}>
-          <RegisterBox>
-            <StyledInput theme={String(theme)} className={errorUserId && 'errorUserId'}>
+          <S.RegisterBox>
+            <S.RegisterInputBox theme={String(theme)} className={errorUserId && 'errorUserId'}>
               <div className="icon" onClick={() => iconClick('username')}>
                 <MdPerson />
               </div>
-              <input
+              <S.RegisterInput
                 autoFocus
                 ref={inputRefs.username}
                 autoComplete="username"
@@ -91,12 +37,13 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 onBlur={focusOut}
                 maxLength={12}
               />
-            </StyledInput>
-            <StyledInput theme={String(theme)} className={errorPwd && 'errorPwd'}>
+            </S.RegisterInputBox>
+
+            <S.RegisterInputBox theme={String(theme)} className={errorPwd && 'errorPwd'}>
               <div className="icon" onClick={() => iconClick('password')}>
                 <MdLock />
               </div>
-              <input
+              <S.RegisterInput
                 ref={inputRefs.password}
                 autoComplete="new-password"
                 name="password"
@@ -107,12 +54,13 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 onBlur={focusOut}
               />
               <ShowPwdBox onClick={onShowPwd}>{showPwd ? <MdVisibility /> : <MdVisibilityOff />}</ShowPwdBox>
-            </StyledInput>
-            <StyledInput theme={String(theme)} className={errorPwdCf && 'errorPwdCf'}>
+            </S.RegisterInputBox>
+
+            <S.RegisterInputBox theme={String(theme)} className={errorPwdCf && 'errorPwdCf'}>
               <div className="icon" onClick={() => iconClick('passwordConfirm')}>
                 <MdLock />
               </div>
-              <input
+              <S.RegisterInput
                 ref={inputRefs.passwordConfirm}
                 autoComplete="new-password"
                 name="passwordConfirm"
@@ -122,19 +70,20 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 placeholder="비밀번호확인"
               />
               <ShowPwdBox onClick={onShowPwdCf}>{showPwdCf ? <MdVisibility /> : <MdVisibilityOff />}</ShowPwdBox>
-            </StyledInput>
-            <ErrorBox>
-              <div>{errorUserId && `・${errorUserId}`}</div>
-              <div>{errorPwd && `・${errorPwd}`}</div>
-            </ErrorBox>
-          </RegisterBox>
+            </S.RegisterInputBox>
 
-          <RegisterBox>
-            <StyledInput theme={String(theme)} className={errorNickname && 'errorNickname'}>
+            <S.ErrorBox>
+              <div>{errorUserId && `${errorUserId}`}</div>
+              <div>{errorPwd && `${errorPwd}`}</div>
+            </S.ErrorBox>
+          </S.RegisterBox>
+
+          <S.RegisterBox>
+            <S.RegisterInputBox theme={String(theme)} className={errorNickname && 'errorNickname'}>
               <div className="icon" onClick={() => iconClick('nickname')}>
                 <MdPerson />
               </div>
-              <input
+              <S.RegisterInput
                 ref={inputRefs.nickname}
                 autoComplete="nickname"
                 name="nickname"
@@ -143,39 +92,39 @@ const Register = ({ form, onChange, onSubmit, error, theme, iconClick, inputRefs
                 placeholder="이름"
                 onBlur={focusOut}
               />
-            </StyledInput>
+            </S.RegisterInputBox>
 
-            <StyledInput theme={String(theme)} className={errorEmail && 'errorEmail'}>
+            <S.RegisterInputBox theme={String(theme)} className={errorEmail && 'errorEmail'}>
               <div className="icon" onClick={() => iconClick('email')}>
                 <MdEmail />
               </div>
-              <input
+              <S.RegisterInput
                 ref={inputRefs.email}
                 autoComplete="email"
                 name="email"
                 value={form.email}
                 onChange={onChange}
-                placeholder="[선택] 비밀번호 분실 시 확인용 이메일"
+                placeholder="[선택] 이메일"
                 onBlur={focusOut}
               />
-            </StyledInput>
+            </S.RegisterInputBox>
 
-            <StyledInput theme={String(theme)}>
+            <S.RegisterInputBox theme={String(theme)}>
               <div className="icon">
                 <MdPhoneAndroid />
               </div>
-              <input placeholder={form.phone} disabled />
-            </StyledInput>
+              <S.RegisterInput placeholder={form.phone} disabled />
+            </S.RegisterInputBox>
 
-            <ErrorBox>
-              <div>{errorNickname && `・${errorNickname}`}</div>
-              <div>{errorEmail && `・${errorEmail}`}</div>
-            </ErrorBox>
-          </RegisterBox>
+            <S.ErrorBox>
+              <div>{errorNickname && `${errorNickname}`}</div>
+              <div>{errorEmail && `${errorEmail}`}</div>
+            </S.ErrorBox>
+          </S.RegisterBox>
 
-          <ButtonWidthMarginTop>회원가입</ButtonWidthMarginTop>
+          <S.ButtonWidthMarginTop>회원가입</S.ButtonWidthMarginTop>
         </form>
-      </AuthFormBlock>
+      </S.RegisterWrapper>
     </>
   );
 };

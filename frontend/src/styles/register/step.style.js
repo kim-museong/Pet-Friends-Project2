@@ -40,12 +40,21 @@ export const StepBox = styled.div`
 export const StepLine = styled.div`
   margin: 10px auto 30px;
   border-bottom: 1px solid rgb(200, 200, 200);
+
+  @media all and (max-width: 767px) {
+    margin: 10px auto 12px;
+    border: none;
+  }
 `;
 
 export const LogoBox = styled.div`
   margin-top: 27px;
   text-align: center;
   font-size: 30px;
+
+  @media all and (max-width: 767px) {
+    margin-top: 50px;
+  }
 `;
 
 export const LogoBtn = styled(Link)`

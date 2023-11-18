@@ -5,7 +5,6 @@ export const login = ({ username, password }) => {
     username,
     password,
   });
-  //중괄호 생략시 return 삭제
 };
 
 export const register = ({ username, password, email, nickname, phone }) => {
@@ -19,7 +18,7 @@ export const register = ({ username, password, email, nickname, phone }) => {
 };
 
 export const phone = (phone) => {
-  return client.post('sendPhone', { phone });
+  return client.post('/auth/phone', { phone });
 };
 
 export const check = () => {

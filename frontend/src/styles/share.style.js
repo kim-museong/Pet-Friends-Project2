@@ -26,7 +26,7 @@ export const InputBox = styled.input`
   font-size: 16px;
   border-radius: 0;
   color: black;
-  padding: 5px 10px 0 0;
+  padding: 2px 10px 0 0;
 `;
 
 export const ButtonBox = styled.button`

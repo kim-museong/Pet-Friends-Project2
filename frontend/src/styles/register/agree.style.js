@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
 
   @media all and (max-width: 767px) {
     width: 100%;
-    margin-top: 0px;
+    margin-top: 50px;
   }
 `;
 
@@ -45,10 +45,6 @@ export const Title = styled.div`
     margin-top: 6px;
     margin-left: 5px;
   }
-
-  @media all and (max-width: 767px) {
-    font-size: 12px;
-  }
 `;
 
 export const RequiredBox = styled.div`
@@ -58,6 +54,7 @@ export const RequiredBox = styled.div`
 
 export const AgreeBox = styled.div`
   display: flex;
+  align-items: center;
   margin: 0 auto 10px;
 
   input[type='checkbox'] {
@@ -143,6 +140,7 @@ export const ButtonBox = styled.div`
   background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30)' : 'white')};
 
   @media all and (max-width: 767px) {
+    position: static;
     height: 100px;
   }
 `;
@@ -152,7 +150,7 @@ export const Space = styled.div`
   background: ${({ theme }) => (theme === 'true' ? 'rgb(30,30,30)' : 'white')};
 
   @media all and (max-width: 767px) {
-    height: 110px;
+    height: 70px;
   }
 `;
 
@@ -178,6 +176,6 @@ export const NextBtn = styled.button`
 
   @media all and (max-width: 767px) {
     width: 100%;
-    padding: 8px 20px;
+    margin: 0 auto;
   }
 `;

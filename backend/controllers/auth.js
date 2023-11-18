@@ -106,7 +106,6 @@ exports.check = async (req, res, next) => {
 };
 
 exports.sendPhone = async (req, res, next) => {
-  console.log('서버');
   // ---- 인풋값 전화번호 ------
   const { phone } = req.body;
 
