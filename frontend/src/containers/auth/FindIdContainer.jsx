@@ -35,13 +35,13 @@ const FindIdContainer = () => {
   // -------------- 에러별 이름과 내용 --------------
 
   const [messages, setMessages] = useState({
-    nickname: '・ 이름: 이름을 입력해주세요.',
-    notNickname: '・ 이름: 이름이 다르거나 없는 이름입니다.',
-    errorPhone: '・ 번호: 번호을 입력해주세요.',
-    phoneRegexError: '・ 번호: 번호형식에 맞게 입력해주세요.',
-    certificationError: '・ 인증: 인증번호를 입력해주세요.',
-    different: '・ 인증: 인증번호가 틀립니다.',
-    sendSuccess: '・ 전송: 이메일이 성공적으로 전송되었습니다.',
+    nickname: '이름을 입력해주세요.',
+    notNickname: '이름이 다르거나 없는 이름입니다.',
+    errorPhone: '번호: 번호을 입력해주세요.',
+    phoneRegexError: '번호: 번호형식에 맞게 입력해주세요.',
+    certificationError: '인증: 인증번호를 입력해주세요.',
+    different: '인증: 인증번호가 틀립니다.',
+    sendSuccess: '전송: 이메일이 성공적으로 전송되었습니다.',
   });
 
   // ------------ 아이디 뒤에 별붙이기 -----------------
