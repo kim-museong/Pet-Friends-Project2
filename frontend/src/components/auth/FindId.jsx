@@ -78,13 +78,18 @@ const FindId = ({
           <S.FindNickWrapper>
             {showBox && (
               <S.ResultBox>
-                <div className="title">아이디</div>
-                <div>{masked(userId)}</div>
+                <h2>아이디 찾기</h2>
+                <S.ResultInfoBox>
+                  * 닉네임으로 아이디를 찾을 경우 부분만 보입니다. 아이디 전체가 필요로 한다면 번호로 찾기를
+                  진행해주세요.
+                </S.ResultInfoBox>
+                <S.ResultValueBox>{masked(userId)}</S.ResultValueBox>
                 <S.FindButton onClick={onCancel}>확인</S.FindButton>
               </S.ResultBox>
             )}
 
-            <S.NickInfoBox>회원가입 시 입력한 이름와 입력한 이름이 같아야 합니다.</S.NickInfoBox>
+            <S.NickInfoBox>회원가입 시 입력한 이름와 입력한 이름이 동일하여야 합니다.</S.NickInfoBox>
+
             <div>
               <S.FindInputBox>
                 <S.FindInput
@@ -99,6 +104,9 @@ const FindId = ({
               <S.FindButton className="confirm" onClick={onConfirm}>
                 확인
               </S.FindButton>
+              <S.ResultInfoBox>
+                * 닉네임으로 아이디를 찾을 경우 부분만 보입니다. 아이디 전체가 필요로 한다면 번호로 찾기를 진행해주세요.
+              </S.ResultInfoBox>
 
               <S.StatusBox>
                 <div>{nicknameError && nicknameError}</div>

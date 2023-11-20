@@ -65,7 +65,7 @@ export const FindCheckLabel = styled.label`
 
 export const FindNickWrapper = styled.div`
   position: relative;
-  margin-top: 70px;
+  margin-top: 30px;
 
   @media all and (max-width: 767px) {
     margin-top: 30px;
@@ -209,20 +209,31 @@ export const ExplanationBox = styled.div`
 export const ResultBox = styled.div`
   width: 350px;
   height: auto;
-  top: 25%;
-  left: 33%;
   position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid ${palette.border};
+  padding: 20px;
+  background: white;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 50px;
+  }
+`;
+
+export const ResultValueBox = styled.div`
+  margin: 10px 0 50px;
   padding: 20px;
   border: 1px solid ${palette.border};
-  background: white;
+`;
 
-  .title {
-    font-size: 20px;
-  }
-
-  div {
-    margin-bottom: 40px;
-  }
+export const ResultInfoBox = styled.div`
+  text-align: left;
+  font-size: 12px;
+  color: rgb(160, 160, 160);
+  margin-top: 10px;
 `;
 
 export const FlexBox = styled.div`
