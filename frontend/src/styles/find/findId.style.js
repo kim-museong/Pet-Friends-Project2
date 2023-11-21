@@ -79,7 +79,9 @@ export const NickInfoBox = styled.div`
   font-size: 12px;
 `;
 
-export const FindInputBox = styled(InputContainBox)``;
+export const FindInputBox = styled(InputContainBox)`
+  position: relative;
+`;
 export const FindInput = styled(InputBox)`
   padding: 0 20px;
 `;
@@ -94,6 +96,10 @@ export const StatusBox = styled.div`
   text-align: center;
   margin: 20px auto;
   color: red;
+
+  .success {
+    color: green;
+  }
 `;
 
 export const TimeBox = styled.div`
@@ -102,10 +108,7 @@ export const TimeBox = styled.div`
   align-items: center;
   width: 30%;
   height: 51px;
-  margin-top: 10px;
-  margin-left: 5px;
   padding: 20px 20px;
-  border: 1px solid ${palette.border};
   font-size: 20px;
 
   color: ${({ timer, timerexpired }) => {
@@ -141,12 +144,6 @@ export const TimeBox = styled.div`
       return `${palette.border}`;
     }
   }};
-
-  svg {
-    font-size: 25px;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
 `;
 
 export const CertificationBox = styled.div`
@@ -159,15 +156,15 @@ export const CertificationBox = styled.div`
 export const InfoBox = styled.div`
   position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  width: 80%;
-  margin: 0 auto;
-  font-size: 16px;
+  margin-bottom: 5px;
+  font-size: 14px;
   color: rgb(140 140, 140);
 
   svg {
     font-size: 16px;
-    margin-left: 3px;
+    margin-right: 3px;
     margin-top: 1px;
   }
 
@@ -178,13 +175,13 @@ export const InfoBox = styled.div`
 
 export const ExplanationBox = styled.div`
   position: absolute;
-  top: -67px;
-  left: 180px;
+  top: -60px;
+  left: 15px;
   width: 364px;
   box-shadow: 0px 0px 2px 1px ${palette.border};
   padding: 10px;
   background: ${({ theme }) => (theme === 'true' ? 'rgb(45,45,45)' : 'white')};
-  font-size: 14px;
+  font-size: 12px;
   text-align: left;
   z-index: 1;
   opacity: 0;
@@ -193,7 +190,7 @@ export const ExplanationBox = styled.div`
 
   .triangle {
     position: absolute;
-    top: 55px;
+    top: 47px;
     left: 64.5px;
     width: 10px;
     height: 10px;
@@ -212,6 +209,7 @@ export const ResultBox = styled.div`
   position: absolute;
   top: 52%;
   left: 50%;
+  z-index: 1;
   transform: translate(-50%, -50%);
   border: 1px solid ${palette.border};
   padding: 20px;
@@ -234,6 +232,12 @@ export const ResultInfoBox = styled.div`
   font-size: 12px;
   color: rgb(160, 160, 160);
   margin-top: 10px;
+`;
+
+export const FindPhoneWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
 `;
 
 export const FlexBox = styled.div`

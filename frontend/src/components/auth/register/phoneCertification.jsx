@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MdInfo, MdAlarm } from 'react-icons/md';
 import * as S from '../../../styles/register/phoneCertification.style';
+import * as SH from '../../../styles/share.style';
 
 const PhoneCertification = ({
   theme,
@@ -66,12 +67,12 @@ const PhoneCertification = ({
           maxLength={7}
           placeholder="인증번호 입력"
         />
-        <S.TimeBox timer={String(timer)} timerexpired={String(timerExpired)}>
+        <SH.TimeBox timer={String(timer)} timerexpired={String(timerExpired)}>
           <div>
             <MdAlarm />
           </div>
           <div>{formatTime(timer)}</div>
-        </S.TimeBox>
+        </SH.TimeBox>
       </S.CertificationInputBox>
 
       <S.CertificationButtonBox onClick={onConfirm}>확인</S.CertificationButtonBox>

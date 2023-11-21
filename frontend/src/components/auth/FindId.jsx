@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { FindIdBox, FindInputBox, Footer } from '../../lib/styles/find';
+import { Footer } from '../../lib/styles/find';
 import { MdInfo, MdAlarm } from 'react-icons/md';
 import { useState } from 'react';
 import * as S from '../../styles/find/findId.style';
+import * as SH from '../../styles/share.style';
 
 const FindId = ({
   findId,
@@ -74,20 +75,28 @@ const FindId = ({
           </S.RadioBox>
         </S.FindSelectBox>
 
-        {findType === 'nickname' && (
-          <S.FindNickWrapper>
-            {showBox && (
-              <S.ResultBox>
-                <h2>아이디 찾기</h2>
+        {showBox && (
+          <S.ResultBox>
+            <h2>아이디 찾기</h2>
+
+            {findType === 'nickname' ? (
+              <>
                 <S.ResultInfoBox>
                   * 닉네임으로 아이디를 찾을 경우 부분만 보입니다. 아이디 전체가 필요로 한다면 번호로 찾기를
                   진행해주세요.
                 </S.ResultInfoBox>
                 <S.ResultValueBox>{masked(userId)}</S.ResultValueBox>
-                <S.FindButton onClick={onCancel}>확인</S.FindButton>
-              </S.ResultBox>
+              </>
+            ) : (
+              <S.ResultValueBox>{userId}</S.ResultValueBox>
             )}
 
+            <S.FindButton onClick={onCancel}>확인</S.FindButton>
+          </S.ResultBox>
+        )}
+
+        {findType === 'nickname' && (
+          <S.FindNickWrapper>
             <S.NickInfoBox>회원가입 시 입력한 이름와 입력한 이름이 동일하여야 합니다.</S.NickInfoBox>
 
             <div>
@@ -117,9 +126,9 @@ const FindId = ({
         )}
         {findType === 'phone' && (
           <>
-            <FindIdBox>
-              <FindInputBox theme={String(theme)}>
-                <input
+            <S.FindPhoneWrapper>
+              <S.FindInputBox theme={String(theme)}>
+                <S.FindInput
                   type="tel"
                   autoComplete="phone"
                   name="phone"
@@ -128,49 +137,50 @@ const FindId = ({
                   placeholder="번호를 입력해주세요. "
                   autoFocus
                 />
+              </S.FindInputBox>
 
-                <S.FindButton className="certificationBtn" onClick={sendPhone}>
-                  {timerExpired ? '다시받기' : '인증번호받기'}
-                </S.FindButton>
+              <S.FindButton className="certificationBtn" onClick={sendPhone}>
+                {timerExpired ? '다시받기' : '인증번호받기'}
+              </S.FindButton>
 
-                <S.StatusBox>
-                  <div className="error">{errorPhone && errorPhone}</div>
-                  <div className="success">{sendSuccess && sendSuccess}</div>
-                </S.StatusBox>
-                <S.InfoBox>
-                  아직도 인증번호을 받지 못하셨나요?
-                  <MdInfo onMouseEnter={onInfoHover} onMouseLeave={onInfoLeave} />
-                  <S.ExplanationBox theme={String(theme)} ishovered={String(isInfoHovered)}>
-                    <div className="triangle"></div>
-                    <div>
-                      인증번호를 받지 못하는 이유는 닉네임과 이메일이 일치하지 않거나 회원가입 시 입력한 이메일과 다를
-                      수 있습니다.
-                    </div>
-                  </S.ExplanationBox>
-                </S.InfoBox>
+              <S.StatusBox>
+                <div>{errorPhone && errorPhone}</div>
+                <div className="success">{sendSuccess && sendSuccess}</div>
+              </S.StatusBox>
 
-                <S.CertificationBox>
-                  <input
-                    className={`certificationNumber ${timeOut ? 'certificationError' : ''}`}
-                    autoComplete="certification"
-                    name="certification"
-                    onChange={onChange}
-                    placeholder="인증번호을 입력하세요."
-                  />
-                  <S.TimeBox timer={String(timer)} timerexpired={String(timerExpired)}>
-                    <div>
-                      <MdAlarm />
-                    </div>
-                    <div>{formatTime(timer)}</div>
-                  </S.TimeBox>
-                </S.CertificationBox>
-                <S.FindButton onClick={onfindPhone}>확인</S.FindButton>
-                <S.StatusBox>
-                  <div className="error">{timeOut && '인증: 인증시간이 초과되었습니다. 다시 시도해주세요.'}</div>
-                  <div className="error"> {errorConfirm && errorConfirm}</div>
-                </S.StatusBox>
-              </FindInputBox>
-            </FindIdBox>
+              <S.InfoBox>
+                <MdInfo onMouseEnter={onInfoHover} onMouseLeave={onInfoLeave} />
+                아직도 인증번호을 받지 못하셨나요?
+                <S.ExplanationBox theme={String(theme)} ishovered={String(isInfoHovered)}>
+                  <div className="triangle"></div>
+                  <div>인증번호를 받지 못하는 이유는 회원가입 시 입력한 번호과 다를 수 있습니다.</div>
+                </S.ExplanationBox>
+              </S.InfoBox>
+
+              <S.FindInputBox>
+                <S.FindInput
+                  className={`certificationNumber ${timeOut ? 'certificationError' : ''}`}
+                  autoComplete="certification"
+                  name="certification"
+                  onChange={onChange}
+                  placeholder="인증번호을 입력하세요."
+                  maxLength={7}
+                />
+
+                <SH.TimeBox timer={String(timer)} timerexpired={String(timerExpired)}>
+                  <div>
+                    <MdAlarm />
+                  </div>
+                  <div>{formatTime(timer)}</div>
+                </SH.TimeBox>
+              </S.FindInputBox>
+              <S.FindButton onClick={onfindPhone}>확인</S.FindButton>
+
+              <S.StatusBox>
+                <div>{timeOut && '인증시간이 초과되었습니다. 다시 시도해주세요.'}</div>
+                <div> {errorConfirm && errorConfirm}</div>
+              </S.StatusBox>
+            </S.FindPhoneWrapper>
           </>
         )}
 
