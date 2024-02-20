@@ -28,16 +28,37 @@
 ---------
 
 ### ⚒사용기술
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white" /> <img src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" /> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white" /> 
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt='javascript_img'> <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"  alt='nodejs_img'> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"  alt='react_img'> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"  alt='mysql_img'> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"  alt='express_img'/> <img src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"  alt='linux_img'/> <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"  alt='yarn_img'/> 
 
+---------
+
+### 미리보기
+<p>* 이미지는 프로젝트발표ppt에서 가져왔습니다. </p>
+<div>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/a488e37e-c58c-4819-a029-1c84f8794ab2" alt="database_img" width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/e01b3d39-549b-4b06-83c6-3e78eda1d87c" alt="adminPage_img" width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/de59b1c0-61ed-4c14-ad6b-baaff0b0a5ca" alt="mainPage_img" width="33%"/>
+</div>
+
+<div>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/d89837a1-8d98-4330-b294-6c19a53a7290" alt='postsPage_img' width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/82ce823e-afae-4ad0-a8e2-4e7d8a9e2f2f" alt='postPage_img' width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/836e49dd-6310-485b-9230-361c19a8acbb" alt="commit_img" width="33%"/>
+</div>
+
+<div>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/85a11565-2c70-49a4-b215-f60337c4b531" alt='editPage_img' width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/f66a9a9d-8401-4d81-9592-fcc760b48c86" alt="infoPage_img" width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/dd13403c-176a-474d-8211-82bedc15b7c4" alt="authPage_img" width="33%" />
+</div>
 
 ---------
 
 ### 내가 구현한 부분
 
 - 메인페이지
-<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047.png" width=600 height=350/>
-<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/7952bed8-1005-4bdb-9945-811189d52fe3.png" width=600 height=350/>
+<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047.png" width=600 height=350  alt='homePage_img1'/>
+<img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/7952bed8-1005-4bdb-9945-811189d52fe3.png" width=600 height=350/  alt='homePage_img2'>
 
 - #### 서브버튼
 <div>
