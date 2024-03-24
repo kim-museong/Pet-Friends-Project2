@@ -35,21 +35,21 @@
 ### 미리보기
 <p>* 이미지는 프로젝트발표ppt에서 가져왔습니다. </p>
 <div>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/a488e37e-c58c-4819-a029-1c84f8794ab2" alt="database_img" width="33%"/>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/e01b3d39-549b-4b06-83c6-3e78eda1d87c" alt="adminPage_img" width="33%"/>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/de59b1c0-61ed-4c14-ad6b-baaff0b0a5ca" alt="mainPage_img" width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/a488e37e-c58c-4819-a029-1c84f8794ab2" alt="database_img" width="32%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/e01b3d39-549b-4b06-83c6-3e78eda1d87c" alt="adminPage_img" width="32%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/de59b1c0-61ed-4c14-ad6b-baaff0b0a5ca" alt="mainPage_img" width="32%"/>
 </div>
 
 <div>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/d89837a1-8d98-4330-b294-6c19a53a7290" alt='postsPage_img' width="33%"/>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/82ce823e-afae-4ad0-a8e2-4e7d8a9e2f2f" alt='postPage_img' width="33%"/>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/836e49dd-6310-485b-9230-361c19a8acbb" alt="commit_img" width="33%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/d89837a1-8d98-4330-b294-6c19a53a7290" alt='postsPage_img' width="32%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/82ce823e-afae-4ad0-a8e2-4e7d8a9e2f2f" alt='postPage_img' width="32%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/836e49dd-6310-485b-9230-361c19a8acbb" alt="commit_img" width="32%"/>
 </div>
 
 <div>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/85a11565-2c70-49a4-b215-f60337c4b531" alt='editPage_img' width="33%"/>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/f66a9a9d-8401-4d81-9592-fcc760b48c86" alt="infoPage_img" width="33%"/>
-   <img src="https://github.com/kim-museong/My-profile/assets/130715054/dd13403c-176a-474d-8211-82bedc15b7c4" alt="authPage_img" width="33%" />
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/85a11565-2c70-49a4-b215-f60337c4b531" alt='editPage_img' width="32%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/f66a9a9d-8401-4d81-9592-fcc760b48c86" alt="infoPage_img" width="32%"/>
+   <img src="https://github.com/kim-museong/My-profile/assets/130715054/dd13403c-176a-474d-8211-82bedc15b7c4" alt="authPage_img" width="32%" />
 </div>
 
 ---------
@@ -57,10 +57,10 @@
 ### 맡은 부분
 
 - CSS
-   <p>전체적인 css부분을 담당하였습니다. 펫커뮤니티이라는 점에서 화사한 분위기가 좋을 것같아 오렌지색상을 선택하였습니다.</p>
+   <p>전체적인 css부분을 담당하였습니다. 펫커뮤니티라는 점에서 화사한 분위기가 좋을 것같아 오렌지색상을 선택하였습니다.</p>
 
 - 메인페이지
-   <p>메인페이지는 유명한 사이트들의 레이아웃을 보고 참고하여 제작하였습니다.</p>
+   <p>메인페이지는 여러 커뮤니티 사이트들의 구조을 보고 참고하여 제작하였습니다.</p>
 <img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/11ccd404-410c-467c-8b8a-433b45e50047.png" width=600 height=350 alt='homePage_img1'/>
 <img src="https://github.com/kim-museong/Pet-Friends-Project2/assets/130715054/7952bed8-1005-4bdb-9945-811189d52fe3.png" width=600 height=350 alt='homePage_img2'>
 
