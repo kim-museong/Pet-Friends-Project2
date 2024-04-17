@@ -35,17 +35,17 @@
 ### ⚒사용기술
 
 - 운영체제<br>
-<img src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt='linux_img'/> 
+<img src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt='linux_img'/><br>
 - 프로그래밍<br>
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt='javascript_img'>
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt='javascript_img'><br>
 - 프론트엔드<br>
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt='react_img'>
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt='react_img'><br>
 - 백엔드<br>
-<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt='nodejs_img'> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white" alt='express_img'/>
+<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt='nodejs_img'> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white" alt='express_img'/><br>
 - 데이터베이스<br>
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt='mysql_img'>
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt='mysql_img'><br>
 - 패키지<br>
-<img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white" alt='yarn_img'/> 
+<img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white" alt='yarn_img'/><br>
 
 ---------
 
